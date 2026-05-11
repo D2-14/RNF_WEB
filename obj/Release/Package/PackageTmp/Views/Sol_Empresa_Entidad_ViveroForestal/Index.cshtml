@@ -1,0 +1,186 @@
+﻿@using RNF_Web.Models;
+@using System.Data.SqlClient;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@model IEnumerable<RNF_Web.Models.Tbl_Sol_Empresa_Entidad_Vivero_Forestal>
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Url.Action("Index", "Sol_Empresa_Entidad_ViveroForestal")
+}
+
+
+
+@{
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_Sol_Solicitud tbl_sol_solicitud = db.Tbl_Sol_Solicitud.Find(Session[Constants.session_Solicitud]);
+    Layout = null;
+    ViewBag.SolicitudId = tbl_sol_solicitud.Solicitud_id;
+    ViewBag.Estado = tbl_sol_solicitud.Estado_id;
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    controllerName = "Sol_Empresa_Entidad";
+    string Nombre_Div = "div_Sol_Permisos_Empresa_Entidad_Vivero_Forestal_Index";
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+    fc_Gral_Sol_Configuracion_Result permisos = db.fc_Gral_Sol_Configuracion(tbl_sol_solicitud.Solicitud_id, controllerName, boolEsInterno).FirstOrDefault();
+
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <div id="@Nombre_Div"></div>
+}
+
+<script>
+
+    function BorrarViveroForestal(SolicitudId, ViveroForestalId)
+    {
+        var url = "@Url.Action("EliminaViveroForestal", "Sol_Empresa_Entidad_ViveroForestal")";
+
+        var data = {
+            SolicitudId: SolicitudId,
+            ViveroForestalId: ViveroForestalId
+        };
+
+        $.post(url, data).done(function (jsonRespuesta) {
+
+            var objJSON = JSON.parse(jsonRespuesta);
+            var Cod_Respuesta = objJSON.CodRespuesta;
+            var Texto_Respuesta = objJSON.strRespuesta;
+
+            $('#section_ViveroForestal').load('/Sol_Empresa_Entidad_ViveroForestal/Index?SolicitudId=@ViewBag.SolicitudId');
+
+        });
+
+    }
+
+    function visualizarPermisos(solicitudid, controllername, esinterno, nombrediv) {
+        var solicitudId = solicitudid;
+        var controllerName = controllername;
+        var esInterno = esinterno;
+
+        var mySolPermisos = document.getElementById(nombrediv);
+        if (mySolPermisos) {
+            $("#" + nombrediv).load("/Gral_SolicitudConfiguracion/PermisosRecibidos?Solicitud_id=" + solicitudId + "&controllerName=" + controllerName + "&EsInterno=" + esInterno);
+        }
+
+    }
+
+
+    $(document).ready(function () {
+        visualizarPermisos('@tbl_sol_solicitud.Solicitud_id', '@controllerName', '@objUs.EsInterno', '@Nombre_Div');
+    });
+
+
+
+</script>
+<div id="section_ViveroForestal">
+
+    <div class="container-fluid">
+        <div style='height: 30px; width: 100%; background-color: #66bb6a; color: white; '>
+            <h4>Datos de Vivero(s) Forestal(es)</h4>
+        </div>
+        <br />
+
+
+        <div class="row">
+            @if ((bool)permisos.Agregar)
+            {
+                <div class="col-xs-5 col-md-5">
+                </div>
+                <div class="col-xs-3 col-md-3">
+                    Click en la imagen para agregar vivero forestal
+                </div>
+                <div class="col-xs-1 col-md-1">
+                    <span class="pull-right">
+                        <img src="~/Content/icons/add_simple.png" onclick="Agregar_ViveroForestal('@ViewBag.SolicitudId')" width="55" height="55" />
+                    </span>
+                </div>
+                <div class="col-xs-1 col-md-1">
+                </div>
+                <div class="col-xs-1 col-md-1">
+                </div>
+            }
+        </div>
+
+        <div class="col-sm-6 col-md-12">
+
+            <table class="table">
+                <tr>
+                    <th>Id</th>
+                    <th>
+                        Nombre Cientifico
+                    </th>
+                    <th>
+                        Produccion Anual Plantas
+                    </th>
+                    <th>
+                        Nombre de la Finca
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Tbl_Gral_Departamento.Departamento)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Tbl_Gral_Municipio.Municipio)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Codigo_RNF)
+                    </th>
+                    <th>
+                        Numero Nota Control
+                    </th>
+
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Vivero_Forestal_id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tbl_Gral_Especie.NombreCientifico)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Produccion_Anual_Plantas)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombre_Finca)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tbl_Gral_Departamento.Departamento)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tbl_Gral_Municipio.Municipio)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Codigo_RNF)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Numero_Nota_Control_Semilla_Certificada)
+                        </td>
+                        <td>
+                            @if ((bool)permisos.Borrar)
+                            {
+                                <img src="~/Content/icons/trash_green.png" onclick="BorrarViveroForestal(@item.Solicitud_id, @item.Vivero_Forestal_id)" width="25" height="25" />
+                            }
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+
+    </div>
+
+
+</div>

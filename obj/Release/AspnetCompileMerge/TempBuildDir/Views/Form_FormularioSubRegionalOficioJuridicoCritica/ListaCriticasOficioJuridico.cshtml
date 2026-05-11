@@ -1,0 +1,48 @@
+﻿@using RNF_Web.Models;
+@model List<Tbl_Gest_EtapaSolicitud_OficioJuridico_Enmienda>
+@{
+
+}
+
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+<table class="table table-striped table-hover" border="0">
+    <thead>
+        <tr>
+            <th scope="col">
+                Descripcion
+            </th>
+            <th scope="col">
+                Observación
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Descripcion
+                </td>
+                <td>
+                    @if ((item.Objecion == null) || (item.Objecion == ""))
+                    {
+                        <input type="text" name="Objecion_@item.Enmienda_id" id="Objecion_@item.Enmienda_id" placeholder="Observación/Objeción de la enmienda" class="form-control" />
+                        <input type="button" value="Guardar cambios" class="btn btn-sm btn-primary" onclick="grabarObservacion(@item.Enmienda_id)" />
+                    }
+                    else
+                    {
+                        @item.Objecion
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

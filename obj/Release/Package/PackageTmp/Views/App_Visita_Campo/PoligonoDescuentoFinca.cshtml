@@ -1,0 +1,286 @@
+﻿@using RNF_Web.Models;
+@model IEnumerable<fc_Reporte_Auditorias_Descuento_RodalPoligonoPlano_Result>
+@{
+    Tbl_API_Sol_Solicitud oSolicitante = ViewBag.oSolicitante;
+    Tbl_API_Sol_Finca oFinca = ViewBag.oFinca;
+}
+<script src="~/Scripts/leaflet/leaflet.js"></script>
+<script src="~/Scripts/leaflet.draw.js"></script>
+<link href="~/Scripts/leaflet/leaflet.css" rel="stylesheet" />
+<script src="~/Content/assets/js/jquery.min.js"></script>
+
+@foreach (var exec in Model.GroupBy(e => e.PROPERTY))
+{
+    foreach (var loc in Model.Where(l => l.PROPERTY == exec.Key).GroupBy(g => g.NO_GRAPHIC))
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                Coor(@loc.Key);
+            });
+        </script>
+    }
+}
+
+
+<style>
+    html {
+        padding: 10px;
+    }
+
+    body {
+        width: 1055px;
+        border: solid;
+        overflow: hidden;
+        outline: 3px solid #000
+    }
+
+    #map {
+        height: 1200px;
+        width: 1055px;
+        background: white;
+        border-top: 1px solid #000;
+        border-bottom: 1px solid #000;
+    }
+
+    .labelstyle {
+        background: transparent;
+        border-style: none;
+        box-shadow: none;
+        font-size: 15px;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Url.Action("PoligonoDescuentoFinca", "App_Visita_Campo")
+}
+
+
+<table class="table" width="100%">
+    <tr>
+        <td width="20%" rowspan="3">
+            &nbsp;&nbsp;
+            <img src="~/Content/images/logoInab_Vertical.png" style="width:55%; height:auto; " />
+        </td>
+        <td width="40%" style="text-align: center">
+            SOLICITUD DE INSCRIPCIÓN/ACTUALIZACIÓN
+        </td>
+        <td width="30%">
+            Código:
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align: center">
+            MAPA DEL ÁREA A REGISTRAR
+        </td>
+        <td>
+            RF-RE-012
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align: center">
+            PROCESO: REGISTRO NACIONAL FORESTAL
+        </td>
+        <td>
+            @oSolicitante.swdatetransfered
+        </td>
+    </tr>
+</table>
+
+
+
+<div id="map"></div>
+<div class="row">
+    <div class="col">
+        <table class="table table-bordered table-sm">
+            <tbody>
+                <tr>
+                    <td>Propietario</td>
+                    <td style="text-align: center">@oSolicitante.Solicitante</td>
+                    <td style="text-align: center" colspan="2" rowspan="5">Firma (huella) propietario o representante legal</td>
+                </tr>
+                <tr>
+                    <td>Dirección de ubicación</td>
+                    <td style="text-align: center">@oFinca.Departamento</td>
+                </tr>
+                <tr>
+                    <td>Categoría de Registro</td>
+                    <td style="text-align: center">@oSolicitante.Categoria</td>
+                </tr>
+                <tr>
+                    <td>Id. de la Finca</td>
+                    <td style="text-align: center">@oFinca.NombreFinca</td>
+                </tr>
+                <tr>
+                    <td>Área Efectiva (ha)</td>
+                    <td style="text-align: center">@oFinca.AreaTotal</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    //MAPA
+    var map;
+    var ajaxRequest;
+    var plotlist;
+    var plotlayers = [];
+    var clear = false;
+    map = new L.Map('map', { zoomControl: false });
+    map.setView(new L.LatLng(16, -90), 7);
+    let contador = 1;
+    let contadormenos = 1;
+    let poly = [];
+    let ViewSet = [];
+    //ESCALA
+    L.control.scale().addTo(map);
+    //ICONO NORTE
+    var north = L.control({ position: "topright" });
+    north.onAdd = function (map) {
+        var div = L.DomUtil.create("div", "info legend");
+        div.innerHTML = '<img src="/Content/icons/FlechaMapa.png" style="max-height: 50px">';
+        return div;
+    }
+    north.addTo(map);
+
+    let vermarca = (lat, lon, label) => {
+        let mk = new L.circleMarker([lat, lon], {
+            fillOpacity: 0,
+            color: 'black',
+            weight: 1
+        }).bindTooltip(label,
+            {
+                permanent: true,
+                direction: 'center',
+                className: 'labelstyle'
+            });
+        mk.addTo(map);
+    }
+
+    let vermapa = () => {
+
+        var group = new L.featureGroup(ViewSet);
+
+        map.fitBounds(group.getBounds(), { padding: [50, 50] });
+
+    }
+
+
+
+    function initmap(data, graph, varColor, property) {
+
+        //poly[contador] = L.polygon([data], { color: varColor }).addTo(map);
+
+
+        poly[contador] = L.polygon([data], {
+            fillOpacity: 0,
+            color: 'black',
+            weight: 1
+        }).addTo(map);
+
+        //map.fitBounds(poly[contador].getBounds());
+
+        vermapa()
+
+        poly[contador].bindTooltip(" " + property, { permanent: true, direction: 'center' }).openTooltip();
+
+        contador++;
+
+    }
+
+    function initmap_(data, graph, varColor, property) {
+
+        poly[contador] = L.polygon([data], {
+            fillOpacity: 0,
+            color: 'black',
+            weight: 1
+        }).addTo(map);
+
+
+
+        poly[contador].bindTooltip(" asdf" + property,
+            {
+                permanent: true,
+                direction: 'center',
+                className: 'labelstyle'
+            }).openTooltip();
+
+
+        vermapa()
+
+        contador++;
+
+    }
+
+   const Coor = (ID_COOR) => {
+            let miResultado = [];
+            let co = ID_COOR;
+
+       fetch("@Url.Content("~/Locacion/ObtenerRodalCoordenadasPlano")")
+            .then(function (res) {
+                return res.json();
+            })
+            .then(function (miJson) {
+                let property = '';
+                let graph = '';
+                let area = '';
+                let reg = '';
+                let strColor = '';
+
+                let start_i = 0;
+                let current_co = -1;
+
+                for (let i = 0; i < miJson.length; i++) {
+                    if (miJson[i].NO_GRAPHIC == co) {
+
+                        if (current_co != co)
+                        {
+                            start_i = i - 1;
+                            current_co = co;
+                        }
+
+                        miResultado.push([miJson[i].LAT, miJson[i].LON])
+                        property = miJson[i].PROPERTY
+                        graph = miJson[i].NO_GRAPHIC
+                        area = miJson[i].AREA
+                        reg = @oAudit.Auditoria_id
+                        strColor = miJson[i].COLOR
+
+                        var marker = L.marker([miJson[i].LAT, miJson[i].LON]);
+
+                        vermarca(miJson[i].LAT, miJson[i].LON, (i - start_i).toString());
+
+                        ViewSet.push(marker);
+
+                    }
+                }
+                initmap(miResultado, graph, strColor, property);
+            })
+
+    }
+
+    //// LINEA
+    //let polylinear = new L.Polyline([[51.51, -0.10], [51.503, -0.10]], {
+    //    color: 'red',
+    //    weight: 3,
+    //    opacity: 0.5,
+    //    smoothFactor: 1
+    //});
+    //polylinear.addTo(map);
+
+
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        alert("Recuerde: Para imprimir presione Ctrl + P  ")
+    });
+</script>

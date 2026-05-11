@@ -1,0 +1,446 @@
+﻿@model IEnumerable<RNF_Web.Models.fc_Reporte_Auditorias_Sel_RodalPoligonoPlanoTecnicoOUsuario_Result>
+@using RNF_Web.Models;
+@using System.Data.SqlClient;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@{
+    Layout = null;
+    LocacionDatosSolicitante_API oDatosSolicitante = ViewBag.LlenarCampos;
+
+    Tbl_Gral_VersionesDocumetoISO VersionesDocumetoISO = ViewBag.VersionesDocumetoISO;
+
+    db_RNFEntities db = new db_RNFEntities();
+    string Guid_id = ViewBag.Guid_id;
+    Tbl_Sol_Solicitud tbl_Sol_Solicitud = db.Tbl_Sol_Solicitud.Where(Obj => Obj.Guid_id == Guid_id).FirstOrDefault();
+    long Finca_id = ViewBag.Finca_id;
+    fc_Sol_Sel_Direccion_Result DireccionSolicitud = new fc_Sol_Sel_Direccion_Result();
+    if (Finca_id == 0)
+    {
+        DireccionSolicitud = (from d in db.fc_Sol_Sel_Direccion(tbl_Sol_Solicitud.Solicitud_id)
+                              select d).FirstOrDefault();
+    }
+    else
+    {
+        Tbl_Sol_Finca tbl_Sol_Finca = (from d in db.Tbl_Sol_Finca
+                                       where d.Solicitud_id == tbl_Sol_Solicitud.Solicitud_id && d.Finca_Id == Finca_id
+                                       select d).FirstOrDefault();
+
+        DireccionSolicitud = (from d in db.fc_Sol_Sel_Direccion(tbl_Sol_Solicitud.Solicitud_id)
+                              where d.NombreFinca == tbl_Sol_Finca.NombreFinca
+                              select d).FirstOrDefault();
+    }
+
+    string Direccion = "";
+    //if (Finca_id != 0)
+    //{
+    //    if (DireccionSolicitud.NombreFinca.Trim() != "")
+    //    {
+    //        Direccion += DireccionSolicitud.NombreFinca + ", ";
+    //    }
+    //}
+    if (DireccionSolicitud.Direccion.Trim() != "")
+    {
+        Direccion += DireccionSolicitud.Direccion + ", ";
+    }
+    if (DireccionSolicitud.Aldea.Trim() != "")
+    {
+        Direccion += DireccionSolicitud.Aldea + ", ";
+    }
+    Direccion += DireccionSolicitud.Municipio + ", ";
+    Direccion += DireccionSolicitud.Departamento;
+
+}
+
+<script src="~/Scripts/leaflet/leaflet.js"></script>
+<script src="~/Scripts/leaflet.draw.js"></script>
+<link href="~/Scripts/leaflet/leaflet.css" rel="stylesheet" />
+<script src="~/Content/assets/js/jquery.min.js"></script>
+
+@foreach (var exec in Model.GroupBy(e => e.PROPERTY))
+{
+    foreach (var loc in Model.Where(l => l.PROPERTY == exec.Key).GroupBy(g => g.NO_GRAPHIC))
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                Coor(@loc.Key);
+            });
+        </script>
+    }
+}
+
+<style>
+    html {
+        padding: 10px;
+    }
+
+    body {
+        width: 1055px;
+        border: solid;
+        outline: 3px solid #000
+    }
+
+    #map {
+        /*height: 1200px;*/
+        height: 1100px;
+        width: 1055px;
+        background: white;
+        border-top: 1px solid #000;
+        border-bottom: 1px solid #000;
+    }
+
+    .labelstyle {
+        background: transparent;
+        border-style: none;
+        box-shadow: none;
+        font-size: 15px;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
+
+
+
+<table class="table" width="100%">
+    <tr>
+        <td width="20%" rowspan="3">
+            &nbsp;&nbsp;
+            <img src="~/Content/images/logoInab_Vertical.png" style="width:55%; height:auto; " />
+        </td>
+        <td width="40%" style="text-align: center">
+            INFORME TÉCNICO
+        </td>
+        <td width="30%">
+            Código
+        </td>
+        <td width="30%">
+            @VersionesDocumetoISO.Codigo
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align: center">
+            MAPA DEL ÁREA A REGISTRAR
+        </td>
+        <td>
+            Versión
+        </td>
+        <td>
+            @VersionesDocumetoISO.Version
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align: center">
+            PROCESO: REGISTRO NACIONAL FORESTAL
+        </td>
+        <td>
+            Fecha de implementación
+        </td>
+        <td>
+            @VersionesDocumetoISO.Fecha
+        </td>
+    </tr>
+</table>
+
+
+
+<div id="map">
+    <br />
+    <table style="font-family: Arial; font-size: 10px">
+        <tr>
+            <th>Finca</th>
+            <th>Rodal</th>
+            <th>Tipo</th>
+            <th>Usuario</th>
+            <th>Técnico</th>
+            <th>Medida</th>
+        </tr>
+        @foreach (fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_Resumen_Result elemento in @ViewBag.listaResumen)
+        {
+            <tr>
+                <th>@elemento.Finca_id</th>
+                <th>@elemento.Rodal_id</th>
+                <th>@elemento.Tipo_de_AreaDescripcion</th>
+                <th>@((elemento.AreaLUsuario??0).ToString("0.000"))</th>
+                <th>@((elemento.AreaLTecnico??0).ToString("0.000"))</th>
+                <th>@elemento.Metrica</th>
+            </tr>
+
+        }
+    </table>
+
+</div>
+
+<div class="row">
+    <div class="col">
+        <table class="table table-bordered table-sm" width="100%">
+            <tbody>
+                <tr>
+                    <td>Propietario(s)</td>
+                    <td style="text-align: center">@oDatosSolicitante.Nombre</td>
+
+                </tr>
+                <tr>
+                    <td>Dirección de ubicación</td>
+                    <td style="text-align: center">@Direccion</td>
+                </tr>
+                <tr>
+                    <td>Categoría de Registro</td>
+                    <td style="text-align: center">@oDatosSolicitante.Registro</td>
+                </tr>
+                <tr>
+                    <td>Id. de la Finca</td>
+                    <td style="text-align: center">
+                        @oDatosSolicitante.Fincas
+                        @if (ViewBag.Rodal_id != 0)
+                        {
+                            <label>    Área : </label>
+                            @Html.Raw(ViewBag.Rodal_id)
+                            if (tbl_Sol_Solicitud.Procedencia_PinpepNew || tbl_Sol_Solicitud.Procedencia_PinpepOld || tbl_Sol_Solicitud.Procedencia_Probosque || tbl_Sol_Solicitud.Procedencia_secorf)
+                            {
+                            }
+                            else
+                            {
+                                @Html.Raw(" de ");
+                                @Html.Raw(ViewBag.CantidadRodales)
+                            }
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Área Efectiva (ha)/ Longitud (m)</td>
+                    <td style="text-align: center">@oDatosSolicitante.AreaEfectiva (ha)/  @oDatosSolicitante.LongitudEfectiva (m)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    //MAPA
+    var map;
+    var ajaxRequest;
+    var plotlist;
+    var plotlayers = [];
+    var clear = false;
+    map = new L.Map('map', { zoomControl: false });
+    map.setView(new L.LatLng(16, -90), 7);
+    let contador = 1;
+    let contadormenos = 1;
+    let poly = [];
+    let ViewSet = [];
+    //ESCALA
+    L.control.scale().addTo(map);
+    //ICONO NORTE
+    var north = L.control({ position: "topright" });
+    north.onAdd = function (map) {
+        var div = L.DomUtil.create("div", "info legend");
+        div.innerHTML = '<img src="/Content/icons/FlechaMapaAuditoria003.png" onclick="location.reload()" style="max-height: 150px">';
+
+        return div;
+    }
+    north.addTo(map);
+
+    let vermarca = (lat, lon, label, varpermanet) => {
+        let mk = new L.circleMarker([lat, lon - 0.00005], {
+            fillOpacity: 0,
+            color: 'transparent',
+            weight: 0
+        }).bindTooltip(label,
+            {
+                permanent: varpermanet,
+                direction: 'center',
+                className: 'labelstyle'
+            });
+        mk.addTo(map);
+    }
+
+
+
+
+    let vermapa = () => {
+
+        var group = new L.featureGroup(ViewSet);
+
+        map.fitBounds(group.getBounds());
+
+    }
+
+
+    function initmap(data, graph, varColor, property, polyOrLine, Tipo_Area) {
+
+
+        vermapa()
+
+
+        console.log(polyOrLine);
+       debugger
+
+
+        var weightProperty = 1;
+        if (property.match('Técnico')) {
+            weightProperty = 3;
+        }
+
+        if (Tipo_Area == 'CP') {
+            //poly[contador] = L.polyline([data], { color: 'red' }).addTo(map);
+            poly[contador] = L.polyline([data], { color: varColor }).addTo(map);
+        }
+
+        if (Tipo_Area == 'AL') {
+            poly[contador] = L.polyline([data], { color: varColor }).addTo(map);
+        }
+
+
+        if ((Tipo_Area == 'R') || (Tipo_Area == 'Desc')) {
+            poly[contador] = L.polygon([data], {
+                fillOpacity: 0,
+                color: varColor,
+                weight: weightProperty
+            }).addTo(map);
+        }
+
+        //if (polyOrLine > 20000) {
+        //    poly[contador] = L.polyline([data], { color: varColor, weight: 2 }).addTo(map);
+        //    if (polyOrLine > 200000) {
+        //        poly[contador] = L.polyline([data], { color: varColor, weight: 2}).addTo(map);
+        //    }
+
+        //} else {
+        //    poly[contador] = L.polygon([data], {
+        //        fillOpacity: 0,
+        //        color: varColor,
+        //        weight: 3
+        //    }).addTo(map);
+
+        //}
+
+        poly[contador].bindTooltip(" " + property, { permanent: true, direction: 'center' }).openTooltip();
+
+        contador++;
+
+    }
+
+
+   const Coor = (ID_COOR) => {
+            let miResultado = [];
+            let co = ID_COOR;
+
+       var data = {
+            Guid_id: '@ViewBag.Guid_id',
+           Tipo_de_Area: '@ViewBag.Tipo_de_Area',
+           Finca_id: '@ViewBag.Finca_id',
+           Rodal_id: '@ViewBag.Rodal_id'
+       };
+
+       fetch("@Url.Content("~/Form_FormularioTecnicoLocation/ObtenerRodalCoordenadasPlanoTecnico")",
+           {
+               method: 'POST',
+               body: JSON.stringify(data),
+               headers: {
+                   'Content-Type':'application/json'
+               }
+           })
+           .then(function (res) {
+                return res.json();
+            })
+            .then(function (miJson) {
+                let property = '';
+                let graph = '';
+                let area = '';
+                let reg = '';
+                let strColor = '';
+                let strTipo = '';
+
+                let start_i = 0;
+                let current_co = -1;
+
+                let CadaCuando = 1;
+
+                if ((miJson.length > 75) && (miJson.length < 500))
+                {
+                     CadaCuando = 1;
+                }
+
+                if ((miJson.length > 500)) {
+                    CadaCuando = 1;
+                }
+
+                if ((miJson.length > 1000)) {
+                    CadaCuando = 1;
+                }
+
+                let polyOrLine
+
+                for (let i = 0; i < miJson.length; i++) {
+
+
+
+                    if (miJson[i].NO_GRAPHIC == co) {
+
+                        polyOrLine = miJson[i].NO_GRAPHIC;
+
+                        if (current_co != co)
+                        {
+                            start_i = i - 1;
+                            current_co = co;
+                        }
+
+                        miResultado.push([miJson[i].LAT, miJson[i].LON])
+                        property = miJson[i].PROPERTY
+                        graph = miJson[i].NO_GRAPHIC
+                        area = miJson[i].AREA
+                        reg = @tbl_Sol_Solicitud.Solicitud_id
+                        strColor = miJson[i].COLOR
+                        strTipo = miJson[i].Tipo_Area
+
+                        var marker = L.marker([miJson[i].LAT, miJson[i].LON]);
+
+
+                        if ((i % CadaCuando) == 0)
+                        {
+                            vermarca(miJson[i].LAT, miJson[i].LON, (i - start_i).toString(), true);
+                        }
+                        else
+                        {
+                            vermarca(miJson[i].LAT, miJson[i].LON, (i - start_i).toString(), false);
+                        }
+
+                        ViewSet.push(marker);
+
+                    }
+                }
+
+
+                initmap(miResultado, graph, strColor, property, polyOrLine, strTipo);
+
+
+
+            })
+
+    }
+
+    ////// LINEA
+    //let polylinear = new L.Polyline([[51.51, -0.10], [51.503, -0.10]], {
+    //    color: 'red',
+    //    weight: 3,
+    //    opacity: 0.5,
+    //    smoothFactor: 1
+    //});
+    //polylinear.addTo(map);
+
+
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        alert("Recuerde: Para imprimir presione Ctrl + P  ")
+    });
+</script>
+

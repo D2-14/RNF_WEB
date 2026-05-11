@@ -1,0 +1,114 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Sol_Rodal_Cultivo>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    Layout = null;
+    ViewBag.Title = "Cultivos SAF";
+    ViewBag.SubTitle = "Listado de Especies";
+    db_RNFEntities db = new db_RNFEntities();
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    Usuario objUs = (Usuario)Session["User"];
+    long solicitud_id = ViewBag.solicitud_id;
+    Tbl_Sol_Solicitud tbl_Sol_Solicitud = db.Tbl_Sol_Solicitud.Find(solicitud_id);
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+    fc_Gral_Sol_Configuracion_Result permisos = db.fc_Gral_Sol_Configuracion(tbl_Sol_Solicitud.Solicitud_id, controllerName, boolEsInterno).FirstOrDefault();
+    decimal volumen_ha = 0, volumen_rodal = 0;
+}
+
+
+
+
+@*@Html.Partial("_PartialPageEncabezado")*@
+
+
+<br />
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            Finca
+        </th>
+        <th>
+            Area Id
+        </th>
+        <th>
+            Tipo de área
+        </th>
+        <th>
+            Especie
+        </th>
+        <th>
+            Nombre común
+        </th>
+        <th>
+            Año de establecimiento
+        </th>
+        <th>
+            Volumen rodal
+        </th>
+        <th>
+            Volumen ha
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        volumen_rodal = (item.Volumen_Rodal ?? 0);
+        volumen_ha = (item.Volumen_ha ?? 0);
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Finca_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rodal_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Sol_Rodal_Tipo.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Gral_Cultivo.Nombre_Tecnico)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Gral_Cultivo.Nombres_Comunes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Anio_Establecimiento)
+            </td>
+            <th>
+                @volumen_rodal.ToString("0.00")
+            </th>
+            <th>
+                @volumen_ha.ToString("0.00")
+            </th>
+
+            <td>
+                @if ((bool)permisos.Borrar)
+                {
+                    <img src="~/Content/icons/trash_green.png" onclick="Borrar_Cultivo(@item.Solicitud_id, @item.Finca_id,@item.Rodal_Id,@item.Tipo_de_Area, @item.Cultivo_id)" width="25" height="25" />
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@*@Html.Partial("_PartialPageEncabezadoCierre")*@
+
+
+
+
+
+

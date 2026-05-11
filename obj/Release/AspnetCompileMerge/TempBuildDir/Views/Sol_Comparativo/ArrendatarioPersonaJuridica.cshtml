@@ -1,0 +1,56 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_RNF_ArrendatarioPersonaJuridica>
+@using RNF_Web.Models;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@{
+    db_RNFEntities db = new db_RNFEntities();
+}
+
+@if (Model.Count() > 0)
+{
+    <h3>Registro Actual</h3>
+    <table class="table">
+        <tr>
+            <th>
+                Tipo
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.No_NIT)
+            </th>
+            <th>
+                Ubicación
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @db.Tbl_Sol_PersonaJuridicaTipo.Find(item.PersonaJuridicaTipo_Id).Descripcion
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.No_NIT)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DireccionEmpresa),
+                    @db.Tbl_Gral_Departamento.Find(item.DepartamentoEmpresa_id).Departamento,
+                    @db.Tbl_Gral_Municipio.Find(item.MunicipioEmpresa_id).Municipio
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+

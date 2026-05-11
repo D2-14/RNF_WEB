@@ -1,0 +1,107 @@
+﻿@using RNF_Web.Models;
+@using System.Data.SqlClient;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@model IEnumerable<RNF_Web.Models.Tbl_Sol_Rodal_Dasometrico_Especie_Formula>
+
+@{
+
+    db_RNFEntities db = new db_RNFEntities();
+
+    ViewBag.Title = "Index";
+
+    EdicionSolicitudGrants objGrant = (EdicionSolicitudGrants)Session[Constants.session_EdicionSolicitudGrants];
+
+    Tbl_Sol_Solicitud tbl_sol_solicitud = db.Tbl_Sol_Solicitud.Find(Session[Constants.session_Solicitud]);
+
+    ViewBag.Edicion = objGrant.boolEditarRodal;
+
+    ViewBag.Estado = tbl_sol_solicitud.Estado_id;
+
+}
+
+
+<div class="container-fluid">
+    <div class="titulo-dos">
+        <h4>Formulas utilizadas</h4>
+    </div>
+
+    @if ((ViewBag.Estado == 0) || (ViewBag.Estado == 4))
+    {
+        <div class="row">
+            <div class="col-xs-5 col-md-5">
+            </div>
+            <div class="col-xs-3 col-md-3">
+                Click para agregar formula utilizada en el cálculo
+            </div>
+            <div class="col-xs-1 col-md-1">
+                <span class="pull-right">
+                    <img src="~/Content/icons/add_simple.png" onclick="Agregar_FormulaDasometrica()" width="55" height="55" />
+                </span>
+            </div>
+            <div class="col-xs-1 col-md-1">
+            </div>
+            <div class="col-xs-1 col-md-1">
+            </div>
+        </div>
+
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+                <h3> ** El estatus actual no permite modificar o editar datos</h3>
+            </div>
+        </div>
+    }
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Tbl_Gral_Especie.Especie_Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tbl_Gral_Especie.NombreCientifico)
+            </th>
+            <th>
+                Formula
+            </th>
+            <th>
+
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tbl_Gral_Especie.Especie_Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tbl_Gral_Especie.NombreCientifico)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.strFormulario)
+                </td>
+                <td>
+                    @if ((ViewBag.Estado == 0) || (ViewBag.Estado == 4))
+                    {
+                        <img src="~/Content/icons/edit-9-xxl.png" onclick="Editar_FormulaDasometrica(@item.RodalDasometricoEspecieFormula_Id, '@item.Especie_id')" width="25" height="25" />
+                    }
+                </td>
+                <td>
+                    @if ((ViewBag.Estado == 0) || (ViewBag.Estado == 4))
+                    {
+                        <img src="~/Content/icons/trash_green.png" onclick="Borrar_FormulaDasometrica(@item.RodalDasometricoEspecieFormula_Id, '@item.Especie_id')" width="25" height="25" />
+                    }
+                </td>
+
+            </tr>
+        }
+
+    </table>
+</div>

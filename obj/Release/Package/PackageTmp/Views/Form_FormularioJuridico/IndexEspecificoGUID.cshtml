@@ -1,0 +1,77 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Sol_DocumentoSubido>
+@using RNF_Web.Models;
+
+@{
+    Layout = null;
+
+    ViewBag.Estado = 1;
+
+}
+
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+
+
+@if (Model.Count() > 0)
+{
+    <div style='height: 70px; width: 100%; background-color: darkgreen; color: white; '>
+        <br />
+        <h5 style="text-align: center;"> Documentos subido</h5>
+    </div>
+    <table class="table">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td width="10"></td>
+                <td width="60"></td>
+                <td width="15"></td>
+                <td width="15"></td>
+
+            </tr>
+            <tr>
+                <td>
+                    Verificado de forma virtual
+                </td>
+                <td>
+
+                    @if (item.Tbl_Sol_DocumentoTipo.ValidacionJuridica == true)
+                    {
+
+                        if (item.DocumentoVerificadoNotario == null)
+                        {
+                            <input type="checkbox" name="verificado" id="verificado" value="@item.DocumentoVerificadoNotario" onclick="cambioestadoverificado('@item.Solicitud_id', '@item.Documento_id', '@item.Tipo_Documento_id', this)" unchecked />
+                        }
+                        else if ((bool)item.DocumentoVerificadoNotario == false)
+                        {
+                            <input type="checkbox" name="verificado" id="verificado" value="@item.DocumentoVerificadoNotario" onclick="cambioestadoverificado('@item.Solicitud_id', '@item.Documento_id', '@item.Tipo_Documento_id', this)" unchecked />
+                        }
+                        else if ((bool)item.DocumentoVerificadoNotario == true)
+                        {
+                            <input type="checkbox" name="verificado" id="verificado" value="@item.DocumentoVerificadoNotario" onclick="cambioestadoverificado('@item.Solicitud_id', '@item.Documento_id', '@item.Tipo_Documento_id', this)" checked />
+                        }
+
+                    }
+                    else
+                    {
+                        <h4> No requiere validación jurídica </h4>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FileName)
+                </td>
+                <td>
+                    <img src="~/Content/icons/ver.png" onclick="Mostrar('@item.Tipo_Documento_id', '@item.FileName')" width="50" />
+                </td>
+
+            </tr>
+        }
+
+    </table>
+}
+

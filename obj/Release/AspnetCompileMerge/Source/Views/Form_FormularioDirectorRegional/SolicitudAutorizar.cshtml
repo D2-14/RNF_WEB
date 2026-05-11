@@ -1,0 +1,335 @@
+﻿@using RNF_Web.Models;
+@model Tbl_Gest_EtapaSolicitud
+
+
+@{
+    Layout = null;
+    ViewBag.Title = "Regiones";
+    ViewBag.SubTitle = "Listado de regiones";
+
+    bool EsInactivacion = ViewBag.EsInactivacion;
+
+    Tbl_Sol_Solicitud tbl_Sol_Solicitud = ViewBag.tbl_Sol_Solicitud;
+    decimal solicitudtipoentero = Math.Truncate(tbl_Sol_Solicitud.SolicitudTipo_id);
+    decimal terminacioninactivacion = 0.04M;
+    decimal TipoGestion = tbl_Sol_Solicitud.SolicitudTipo_id - Math.Truncate(tbl_Sol_Solicitud.SolicitudTipo_id);
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+
+
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw("Form_FormularioDirectorRegional/SolicitudAutorizar")
+}
+
+<script>
+
+    function Cerrar() {
+        window.location.replace("/Main/Index");
+    }
+
+
+
+    function fnc_EnviarRespuesta(varRespuestaid)
+    {
+        varsolicitud_id = '@Model.Solicitud_id';
+        varetapa_id = '@Model.Etapa_id';
+        varetaparuta_id = '@Model.EtapaRuta_id';
+        varcorrelativoetapa_id = '@Model.CorrelativoEtapa_id';
+        varMotivo = $('#Motivo').val();
+        varEtapaSolicitud_GUIDid= '@Model.EtapaSolicitud_GUID_id';
+
+
+        var url = "@Url.Action("ActualizaEtapaRespuestaIndexSolicitud", "Form_FormularioDirectorRegional")";
+
+        var data = { solicitud_id: varsolicitud_id, etapa_id: varetapa_id, etaparuta_id: varetaparuta_id, correlativoetapa_id: varcorrelativoetapa_id, motivo: varMotivo, respuestaid: varRespuestaid, EtapaSolicitud_GUIDid: varEtapaSolicitud_GUIDid };
+        $.post(url, data).done(function (jsonRespuesta) {
+               var objJSON = JSON.parse(jsonRespuesta);
+               var Cod_Respuesta = objJSON.CodRespuesta;
+               var Texto_Respuesta = objJSON.strRespuesta;
+
+
+            if (Cod_Respuesta != 1) {
+                alert(Texto_Respuesta);
+                    $('#lblMeModelodelodelsaje').text(Texto_Respuesta);
+                } else //if (Cod_Respuesta == 1)
+                {
+
+                    window.location.replace("/Gest_EtapaSolicitud/Index");
+
+                }
+
+           }).fail(manejarErrorAjax).always(function () {
+
+               alert('Error no identificado.');
+            });
+            return falsModel;
+
+    }
+
+
+
+
+    function FirmarDocumento() {
+
+        var TdHiddeA = document.getElementById("btnFirmarDocumento");
+        TdHiddeA.style.display = "none";
+
+        varFirmaElectronicaUsuario = $('#FirmaElectronicaUsuario').val();
+        varFirmaElectronicaPassword = $('#FirmaElectronicaPassword').val();
+
+        var data = {
+            Guid_id: $('#Solicitud_Guid_id').val(),
+            Guidetapa_id: $('#EtapaSolicitud_GUID_id').val(),
+            UsuarioFE: varFirmaElectronicaUsuario,
+            PasswordFE: varFirmaElectronicaPassword
+        };
+
+    var url = "@Url.Action("JsonProcesarFirmaElectronica", "Form_FormularioDirectorRegional")";
+        loaderPantalla(true);
+        $.post(url, data).done(function (jsonrespuesta) {
+            loaderPantalla(false);
+            var oJSON = JSON.parse(jsonrespuesta);
+            var NombreDocumento = oJSON.strRespuesta;
+            var CodigoRespuesta = oJSON.CodRespuesta;
+
+
+            if ((CodigoRespuesta == '0') || (CodigoRespuesta == 0))
+            {
+                window.open("/Home/FalloFirmaElectronica?FalloFe=" + NombreDocumento, '_blank');
+            }
+            else
+            {
+                window.open(NombreDocumento, '_blank');
+                fnc_EnviarRespuesta(1);
+            }
+
+        });
+
+    }
+
+
+    function EmitirDocumentoDeInscripcionDeRegistro() {
+        var varSolicitud_Guid_id = $('#Solicitud_Guid_id').val();
+        var varEtapaSolicitud_GUID_id = $('#EtapaSolicitud_GUID_id').val();
+        var varEtapa_id = $('#Etapa_id').val();
+        var Solicitud_id = $('#Solicitud_id').val();
+        var varEtapaRuta_id = $('#EtapaRuta_id').val();
+        var varCorrelativoEtapa_id = $('#CorrelativoEtapa_id').val();
+        loaderPantalla(true);
+        var data = {
+            Solicitud_id: Solicitud_id,
+            Guid_id: varSolicitud_Guid_id,
+            EtapaSolicitudGuid: varEtapaSolicitud_GUID_id,
+            etapa_id: varEtapa_id,
+            etaparuta_id: varEtapaRuta_id,
+            correlativoetapa_id: varCorrelativoEtapa_id
+        }
+
+            var url = "@Url.Action("EmitirDocumentoDeInscripcionDeRegistro", "Form_FormularioDirectorRegional")";
+
+            $.post(url, data).done(function (jsonRespuesta) {
+                loaderPantalla(false);
+                console.log(jsonRespuesta);
+                var objJSON = JSON.parse(jsonRespuesta);
+                console.log(objJSON);
+                var Texto_Respuesta = objJSON.Ubicacion;
+
+                window.open('/Archivos_Generados_Que_Pueden_Borrar/' + Texto_Respuesta, '_blank');
+
+                var TdHiddeA = document.getElementById("btnFirmarDocumento");
+                TdHiddeA.style.display = "block";
+
+            });
+
+
+        }
+
+
+
+    $(document).ready(function () {
+       var solicitudtipo = '@TipoGestion';
+       if (solicitudtipo == 0.04) {
+           console.log('Llega' + solicitudtipo);
+           agregarInactivacionTecnico();
+           activarDiasInactivacion();
+
+           $(document).on('change', '#InactivacionTecnico_Tipo', function () {
+
+               activarDiasInactivacion();
+
+
+           }); // -----Fin de cambio de InactivacionTecnicoTipo
+       }
+
+    });
+
+
+    function agregarInactivacionTecnico() {
+        var Solicitud_id = '@Model.Solicitud_id';
+        var InactivacionTecnico_Tipo_id = document.getElementById("InactivacionTecnico_Tipo").value;
+        var TiempoInactivacion = document.getElementById('TiempoInactivacion').value;
+
+        if (InactivacionTecnico_Tipo_id == 2) {
+            TiempoInactivacion = 0;
+        }
+
+        var data = {
+            Solicitud_id: Solicitud_id,
+            InactivacionTecnico_Tipo_id: InactivacionTecnico_Tipo_id,
+            TiempoInactivacion: TiempoInactivacion
+        }
+
+        console.log(data);
+        var url = '@Url.Action("GeneraInactivacionTecnico", "Form_FormularioTecnicoInactivacion")';
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            var oJSON = RespuestaJSON;
+            var CodRespuesta = oJSON.CodRespuesta;
+            var StrRespuesta = oJSON.StrRespuesta;
+
+            if (CodRespuesta == 1) {
+                //alert("Actualización realizada");
+            } else {
+                alert(StrRespuesta);
+            }
+
+        }).fail(function (RespuestaJSON) {
+            console.log(RespuestaJSON);
+            alert('Error: ' + RespuestaJSON);
+
+        })
+
+
+
+    }
+
+    function tipoDeInactivacion() {
+        var TipoInactivacion_id = document.getElementById('TipoInactivacion_id');
+        //var textoSelected = TipoInactivacion_id.options[TipoInactivacion_id.selectedIndex].text;
+        var Solicitud_id = '@tbl_Sol_Solicitud.Solicitud_id';
+
+        var data = {
+            Solicitud_id: Solicitud_id,
+            TipoInactivacion_id: TipoInactivacion_id.value
+        };
+
+        var url = '@Url.Action("ActualizarTipoInactivacion", controllerName)';
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            var oJSON = RespuestaJSON;
+            console.log(oJSON);
+
+
+        }).fail(function (ErrorJSON) {
+        });
+    }
+
+    function activarDiasInactivacion() {
+
+        var cb_InactivacionTecnico_Tipo = document.getElementById('InactivacionTecnico_Tipo');
+        var cb_TiempoInactivacion = document.getElementById('TiempoInactivacion');
+        var InactivacionTecnico_Tipo = cb_InactivacionTecnico_Tipo.value;
+        var TiempoInactivacion = cb_TiempoInactivacion.value;
+
+        console.log(InactivacionTecnico_Tipo);
+        console.log(TiempoInactivacion);
+
+        if (InactivacionTecnico_Tipo == 2) {
+            cb_TiempoInactivacion.style.display = "none";
+        } else {
+            cb_TiempoInactivacion.style.display = "inline";
+        }
+
+        tipoDeInactivacion();
+
+    }
+
+
+
+
+</script>
+
+@Html.HiddenFor(model => model.Solicitud_id)
+@Html.HiddenFor(model => model.Etapa_id)
+@Html.HiddenFor(model => model.EtapaRuta_id)
+@Html.HiddenFor(model => model.CorrelativoEtapa_id)
+@Html.HiddenFor(model => model.NoResolucion)
+@Html.HiddenFor(model => model.NoInformeTecnico)
+@Html.HiddenFor(model => model.Solicitud_Guid_id)
+@Html.HiddenFor(model => model.EtapaSolicitud_GUID_id)
+
+
+
+<table class="table">
+    <tr>
+        <td width="33%">
+            @if (TipoGestion == (decimal)0.04)
+            {
+                @Html.Raw("Tipo de Inactivación")
+                <br />
+                @Html.DropDownList("InactivacionTecnico_Tipo", null, htmlAttributes: new { @class = "form-select", @onchange = "activarDiasInactivacion()" })
+            }
+        </td>
+        <td width="50%">
+            @if (TipoGestion == (decimal)0.04)
+            {
+                <br />
+                @Html.DropDownList("TiempoInactivacion", null, htmlAttributes: new { @class = "form-select", @onchange = "agregarInactivacionTecnico()" })
+            }
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" width="100%">
+            @if (EsInactivacion)
+            {
+                @Html.Raw("Tipo de Inactivación")
+                <br />
+                @Html.DropDownList("TipoInactivacion_id", null, htmlAttributes: new { @class = "form-select", onchange = "tipoDeInactivacion()" })
+
+            }
+        </td>
+    </tr>
+
+
+
+</table>
+
+
+<table>
+    <tr>
+        <th colspan="2">Datos para la firma electrónica:</th>
+    </tr>
+    <tr>
+        <td><br /></td>
+    </tr>
+    <tr>
+        <td width="20%">Usuario</td>
+        <td width="20%">
+            <input type="text" id="FirmaElectronicaUsuario" name="FirmaElectronicaUsuario" value="" />
+        </td>
+        <td width="20%">Password</td>
+        <td width="20%">
+            <input type="password" id="FirmaElectronicaPassword" name="FirmaElectronicaPassword" value="" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <br />
+        </td>
+    </tr>
+</table>
+
+
+<table>
+    <tr>
+        <td>
+            <input type="button" value="Vista previa" id="ExportarPDF" class="btn btn-success" onclick="EmitirDocumentoDeInscripcionDeRegistro()" />
+        </td>
+        <td>
+            <button class="btn btn-success" id="btnFirmarDocumento" name="btnFirmarDocumento" onclick="FirmarDocumento()" style="display:none;">Firmar Documento</button>
+        </td>
+    </tr>
+</table>

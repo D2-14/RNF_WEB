@@ -1,0 +1,81 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_API_PinpepOld_Expediente>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProyectoId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Expediente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Modalidad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Region)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubRegion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UltimaFaseCertificada)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UltimaAreaCertificada)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Migrado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Solicitud_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DPI_Titular)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProyectoId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Expediente)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Modalidad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Region)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SubRegion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UltimaFaseCertificada)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UltimaAreaCertificada)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Migrado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Solicitud_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DPI_Titular)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Guid_id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Guid_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Guid_id })
+        </td>
+    </tr>
+}
+
+</table>

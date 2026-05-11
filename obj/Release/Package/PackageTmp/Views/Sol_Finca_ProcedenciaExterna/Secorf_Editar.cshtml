@@ -1,0 +1,118 @@
+﻿@using RNF_Web.Models;
+@model RNF_Web.Models.Tbl_Sol_Rodal
+@{
+    Layout = "~/Views/Shared/_LayoutMoreSimple.cshtml";
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<script>
+    function editarSecorfTipoRegistro() {
+        var Solicitud_id = '@Model.Solicitud_id';
+        var Finca_id = '@Model.Finca_id';
+        var Tipo_de_Area = '@Model.Tipo_de_Area';
+        var Rodal_Id = '@Model.Rodal_Id';
+        var cb_Secorf_TipoRegistro_id = document.getElementById("Secorf_TipoRegistro_id");
+        var Secorf_TipoRegistro_id = cb_Secorf_TipoRegistro_id.value;
+
+        var data = {
+            Solicitud_id: Solicitud_id,
+            Finca_id: Finca_id,
+            Tipo_de_Area: Tipo_de_Area,
+            Rodal_Id: Rodal_Id,
+            Secorf_TipoRegistro_id: Secorf_TipoRegistro_id
+        };
+
+        var url = '@Url.Action("Secorf_EditarRodal", "Sol_Finca_ProcedenciaExterna")';
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = jsonRespuesta;
+            var Result = oJSON.Result;
+            var Mensaje = oJSON.Mensaje;
+            alert(Mensaje);
+        }).fail(function () {
+
+        });
+    }
+</script>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Solicitud_id)
+    @Html.HiddenFor(model => model.Finca_id)
+    @Html.HiddenFor(model => model.Tipo_de_Area)
+    @Html.HiddenFor(model => model.Rodal_Id)
+
+    <table class="table table-striped" width="100%">
+        <tr>
+            <td>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Finca_id, "Finca", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-16">
+                        @Html.DisplayFor(model => model.Finca_id, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Rodal_Id, "Rodal", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-16">
+                        @Html.DisplayFor(model => model.Rodal_Id, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Tipo_de_Area, "Tipo de Area", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-16">
+                        @Html.DisplayFor(model => model.Tbl_Sol_Rodal_Tipo.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.GTMX, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-16">
+                        @Html.DisplayFor(model => model.GTMX, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.GTMX, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.GTMY, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-16">
+                        @Html.DisplayFor(model => model.GTMY, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.GTMY, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Secorf_TipoRegistro_id, "Secorf_TipoRegistro_id", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-16">
+                        @Html.DropDownList("Secorf_TipoRegistro_id", null, htmlAttributes: new { @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.Secorf_TipoRegistro_id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" value="Actualizar" class="btn btn-success" onclick="editarSecorfTipoRegistro()" />
+                    </div>
+                </div>
+            </td>
+            <td>
+            </td>
+        </tr>
+    </table>
+
+}

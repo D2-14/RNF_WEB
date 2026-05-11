@@ -1,0 +1,148 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@{
+    ViewBag.Title = "   Home page";
+    Layout = null;
+    db_RNFEntities db = new db_RNFEntities();
+    string Guid_id = ViewBag.Guid_id;
+    Tbl_Sol_Solicitud tbl_Sol_Solicitud = db.Tbl_Sol_Solicitud.Where(Obj => Obj.Guid_id == Guid_id).FirstOrDefault();
+    decimal solicitudtipo = tbl_Sol_Solicitud.SolicitudTipo_id;
+    decimal procedenciainscripcion = 100;
+
+    decimal TipoGestion = tbl_Sol_Solicitud.SolicitudTipo_id - Math.Truncate(tbl_Sol_Solicitud.SolicitudTipo_id);
+
+
+}
+
+<style>
+    body {
+        font-family: Arial;
+    }
+
+    /* Style the tab */
+    .tab {
+        overflow: hidden;
+    }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+        }
+
+            /* Change background color of buttons on hover */
+            .tab button:hover {
+                background-color: #ddd;
+            }
+
+            /* Create an active/current tablink class */
+            .tab button.active {
+                background-color: forestgreen;
+                color: white;
+            }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        -webkit-animation: fadeEffect 1s;
+        animation: fadeEffect 1s;
+    }
+</style>
+
+<div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'Resolucion')" id="defaultOpen">Resolución</button>
+    @if ((solicitudtipo == procedenciainscripcion) && (tbl_Sol_Solicitud.Procedencia_PinpepNew || tbl_Sol_Solicitud.Procedencia_PinpepOld || tbl_Sol_Solicitud.Procedencia_Probosque || tbl_Sol_Solicitud.Procedencia_secorf))
+    {
+    }
+    else
+    {
+
+        if (@TipoGestion != (decimal)0.04)
+        {
+            <button class="tablinks" onclick="openCity(event, 'Analisis')">Análisis técnico</button>
+        }
+    }
+    <button class="tablinks" onclick="openCity(event, 'Historial')">Historial</button>
+
+
+    <button class="btn" rel="tooltip" title="Revisar" onclick="window.open('/Home/SolicitudEtapaView?guid_id=@tbl_Sol_Solicitud.Guid_id&amp;etapaid=0&amp;etaparutaid=0&amp;correlativo=0')">
+        <i><img src="/Content/icons/etapas.png" style="border-radius: 25%; width: 35px; height: auto"></i>
+        <div class="ripple-container"></div>
+    </button>
+
+</div>
+
+<div id="Resolucion" class="tabcontent">
+    <div id="div_ResolucionSubRegional"></div>
+</div>
+
+<div id="Analisis" class="tabcontent">
+    <div id="div_Analisis"></div>
+</div>
+
+<div id="Historial" class="tabcontent">
+    <br />
+    <div id="CurrentHistorial"></div>
+</div>
+
+<script>
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+</script>
+
+
+<script>
+
+
+    $(document).ready(function () {
+        var CurrentHistorial = document.getElementById("CurrentHistorial");
+
+        if (CurrentHistorial) {
+            $("#CurrentHistorial").load("/Gest_EtapaSolicitud/Historial?Guid_id=@ViewBag.Guid_id&Layout=No");
+        }
+
+        var myResolucionSubRegional = document.getElementById("div_ResolucionSubRegional");
+
+        if (myResolucionSubRegional) {
+            $("#div_ResolucionSubRegional").load("/Form_FormularioSubRegional/ResolucionSubRegional?Guid_id=@ViewBag.Guid_id&GuidEtapa_id=@ViewBag.EtapaSolicitudGuid&etapa_id=@ViewBag.etapa_id&etaparuta_id=@ViewBag.etaparuta_id&correlativoetapa_id=@ViewBag.correlativoetapa_id");
+        }
+
+        var myAnalisis = document.getElementById("div_Analisis");
+
+        if (myAnalisis) {
+            $("#div_Analisis").load("/Form_FormularioTecnico/EvaluacionTecnicaFormularioRodalDasometricos?Guid_id=@ViewBag.Guid_id&GuidEtapa_id=@ViewBag.EtapaSolicitudGuid&etapa_id=@ViewBag.etapa_id&etaparuta_id=@ViewBag.etaparuta_id&correlativoetapa_id=@ViewBag.correlativoetapa_id");
+        }
+
+
+    })
+
+
+
+</script>

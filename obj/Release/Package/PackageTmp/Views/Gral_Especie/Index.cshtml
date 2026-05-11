@@ -1,0 +1,399 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Gral_Especie>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    ViewBag.Title = "Especies";
+    ViewBag.SubTitle = "Listado de especies";
+}
+
+
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#btnHideModal").click(function () {
+
+
+            $("#myModal").modal('hide');
+        });
+
+
+        $("#btnHideModal_Close").click(function () {
+
+
+
+            $("#myModal").modal('hide');
+        });
+
+
+        $('#myModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        })
+
+        $("#myModal").on('show.bs.modal', function () {
+            var modal = $(this)
+            modal.find('.modal-title').text(document.getElementById("Titulo").value);
+            modal.find('.modal-body').html(document.getElementById("Pagina").value);
+        });
+
+    });
+
+
+    function NuevaEspecie() {
+        var Source = "/Gral_Especie/Create";
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Agregar especie';
+        $("#myModal").modal("show");
+
+    }
+
+    function encodeHTML(str) {
+        const code = {
+            ' ': '&nbsp;',
+            '¢': '&cent;',
+            '£': '&pound;',
+            '¥': '&yen;',
+            '€': '&euro;',
+            '©': '&copy;',
+            '®': '&reg;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            '&': '&amp;',
+            '\'': '&apos;'
+        };
+        return str.replace(/[\u00A0-\u9999<>\&''""]/gm, (i) => code[i]);
+    }
+
+    function EditarEspecie(especieid) {
+        var Source = encodeHTML("/Gral_Especie/Edit?especieid=" + especieid);
+
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Editar especie';
+        $("#myModal").modal("show");
+
+    }
+
+
+</script>
+
+<script>
+
+
+    function changeArbolFrutal(especieid, arbolfrutal) {
+        var blArbolFrutal;
+        if (arbolfrutal.checked) { blArbolFrutal = true;}
+        else { blArbolFrutal = false;}
+
+         $.ajax({
+                type: 'POST',
+                url: "@(Url.Action("SetArbolFrutal", "Gral_Especie"))",
+                     dataType: 'json',
+             data: { especieid: especieid, arbolfrutal: blArbolFrutal },
+                   success: function (doc) {
+                       alert('Cambio realizado con exito.');
+                    },
+                    error: function (ex) {
+                        alert('Ocurrio un error aqui. ' + ex.status);
+                    }
+
+                });
+
+    }
+
+
+    function changeEstadoId(especieid, estado) {
+        var intestado;
+        if (estado.checked) { intestado = 1; }
+        else { intestado = 0; }
+
+        $.ajax({
+                type: 'POST',
+                url: "@(Url.Action("SetEspecieEstado", "Gral_Especie"))",
+                     dataType: 'json',
+            data: { especieid: especieid, intestado: intestado },
+                   success: function (doc) {
+                       alert('Cambio realizado con exito.');
+                    },
+                    error: function (ex) {
+                        alert('Ocurrio un error aqui. ' + ex.status);
+                    }
+
+                });
+
+    }
+
+
+    function changeConifera(especieid, conifera) {
+        var blconifera;
+        if (conifera.checked) { blconifera = true; }
+        else { blconifera = false; }
+
+
+        if (conifera.checked) {
+            document.querySelector('#Latifoliada_' + especieid).checked = false;
+        }
+        else {
+            document.querySelector('#Latifoliada_' + especieid).checked = true;
+        }
+
+        $.ajax({
+                type: 'POST',
+                url: "@(Url.Action("SetEspecieConifera", "Gral_Especie"))",
+                     dataType: 'json',
+            data: { especieid: especieid, conifera: blconifera },
+                   success: function (doc) {
+                       alert('Cambio realizado con exito.');
+                    },
+                    error: function (ex) {
+                        alert('Ocurrio un error aqui. ' + ex.status);
+                    }
+
+                });
+
+
+    }
+
+
+    function changeLatifoliada(especieid, latifoliada) {
+        var bllatifoliada;
+        if (latifoliada.checked) { bllatifoliada = true; }
+        else { bllatifoliada = false; }
+
+        if (latifoliada.checked) {
+            document.querySelector('#Conifera_' + especieid).checked = false;
+        }
+        else {
+            document.querySelector('#Conifera_' + especieid).checked = true;
+        }
+
+                $.ajax({
+                type: 'POST',
+                url: "@(Url.Action("SetEspecieLatifoliada", "Gral_Especie"))",
+                     dataType: 'json',
+                    data: { especieid: especieid, latifoliada: bllatifoliada },
+                   success: function (doc) {
+                       alert('Cambio realizado con exito.');
+                    },
+                    error: function (ex) {
+                        alert('Ocurrio un error aqui. ' + ex.status);
+                    }
+
+                });
+
+    }
+
+
+
+
+</script>
+
+@Html.Partial("_PartialPageEncabezado")
+
+<br />
+
+<button class="btn-secondary" style="position: absolute; right: 0;" rel="tooltip" title="Agregar" onclick="NuevaEspecie()">
+    <i><img src="~/Content/icons/add_simple.png" style="border-radius: 30%; width: 45px; height: auto" /></i>
+    <div class="ripple-container"></div>
+</button>
+
+<br />
+
+
+<form asp-controller="Gral_Especie" asp-action="Index">
+    <br />
+    <table>
+        <tr>
+            <td>
+                Especie/Nombre :
+            </td>
+            <td>
+                <input type="text" name="strBusqueda" id="strBusqueda" value="@ViewBag.strBusqueda" />
+            </td>
+            <td>
+                <input type="submit" value="Buscar" />
+            </td>
+        </tr>
+    </table>
+    <br />
+</form>
+
+<table class="table">
+    <tr>
+        <th>
+            Código mirasilv
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreCientifico)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombresComunes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Autores)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sinonimos)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Familia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            Arbol frutal
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Conifera)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Latifoliada)
+        </th>
+        <th>
+            Estado
+        </th>
+        <th></th>
+        <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <br />
+                @Html.DisplayFor(modelItem => item.Especie_Id)
+                <br />
+            </td>
+            <td>
+                <br />
+                @Html.DisplayFor(modelItem => item.NombreCientifico)
+                <br />
+            </td>
+            <td>
+                <br />
+                @Html.DisplayFor(modelItem => item.NombresComunes)
+                <br />
+            </td>
+            <td>
+                <br />
+                @Html.DisplayFor(modelItem => item.Autores)
+                <br />
+            </td>
+            <td>
+                <br />
+                @Html.DisplayFor(modelItem => item.Sinonimos)
+                <br />
+            </td>
+            <td>
+                <br />
+                @Html.DisplayFor(modelItem => item.Familia)
+                <br />
+            </td>
+            <td>
+                <br />
+                @Html.DisplayFor(modelItem => item.Id)
+                <br />
+            </td>
+            <td>
+                <br />
+
+                @if (item.ArbolFrutal == true)
+                {
+                    <input type="checkbox" id="ArbolFrutal_@item.Especie_Id" name="ArbolFrutal_@item.Especie_Id" checked onclick="changeArbolFrutal('@item.Especie_Id', this)">
+                }
+                else
+                {
+                    <input type="checkbox" id="ArbolFrutal_@item.Especie_Id" name="ArbolFrutal_@item.Especie_Id" onclick="changeArbolFrutal('@item.Especie_Id', this)">
+                }
+                <br />
+            </td>
+            <td>
+                <br />
+                @if (item.Conifera == true)
+                {
+                    <input type="checkbox" id="Conifera_@item.Especie_Id" name="Conifera_@item.Especie_Id" checked onclick="changeConifera('@item.Especie_Id', this)">
+                }
+                else
+                {
+                    <input type="checkbox" id="Conifera_@item.Especie_Id" name="Conifera_@item.Especie_Id" onclick="changeConifera('@item.Especie_Id', this)">
+                }
+                <br />
+            </td>
+            <td>
+                <br />
+                @if (item.Latifoliada == true)
+                {
+                    <input type="checkbox" id="Latifoliada_@item.Especie_Id" name="Latifoliada_@item.Especie_Id" checked onclick="changeLatifoliada('@item.Especie_Id', this)">
+                }
+                else
+                {
+                    <input type="checkbox" id="Latifoliada_@item.Especie_Id" name="Latifoliada_@item.Especie_Id" onclick="changeLatifoliada('@item.Especie_Id', this)">
+                }
+                <br />
+            </td>
+            <td>
+                <br />
+                @if (item.Estado_id == true)
+                {
+                    <input type="checkbox" id="EstadoId_@item.Especie_Id" name="EstadoId_@item.Especie_Id" checked onclick="changeEstadoId('@item.Especie_Id', this)">
+                }
+                else
+                {
+                    <input type="checkbox" id="EstadoId_@item.Especie_Id" name="EstadoId_@item.Especie_Id" onclick="changeEstadoId('@item.Especie_Id', this)">
+                }
+                <br />
+            </td>
+            <td>
+                <button class="btn-secondary" style="position: absolute; right: 0;" rel="tooltip" title="Editar" onclick="EditarEspecie('@item.Especie_Id')">
+                    <i><img src="~/Content/icons/edit-9-xxl.png" style="border-radius: 30%; width: 30px; height: auto" /></i>
+                    <div class="ripple-container"></div>
+                </button>
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+
+
+<input type="hidden" id="Pagina" name="Pagina" value="">
+<input type="hidden" id="Titulo" name="Titulo" value="">
+<div class="container mt-3">
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" width: 700px;>
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Header</h4>
+                    <button type="button" id="btnHideModal" class="btn btn-default">
+                        X
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>The <strong>show.bs.modal</strong> asdfasdf.</p>
+                </div>
+                <div id="DatosPersonerias">
+                    <br />
+                    <br />
+                    <br />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnHideModal_Close" class="btn btn-default">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

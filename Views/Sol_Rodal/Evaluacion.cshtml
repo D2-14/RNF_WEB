@@ -1,0 +1,28 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+<div class="container-fluid">
+
+    <img src="~/Content/images/bannerregistro.png" width="100%" />
+
+    <h4>Se ha actualizado el rodal</h4>
+    <hr />
+
+    <span>
+        <h1>Registro(s) actualizado(s) con éxito.<hr width="100%" size="1" color="silver"></h1>
+
+        <h2> <i>@ViewBag.Area</i> </h2>
+        <h2> <i>@ViewBag.Region</i> </h2>
+        <h2> <i>@ViewBag.AreaProtegida</i> </h2>
+        <h2> <i>@ViewBag.Centroide</i> </h2>
+        <h2> <i>@ViewBag.Invasion</i> </h2>
+    </span>
+
+</div>
+
+

@@ -1,0 +1,38 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    ViewBag.Title = "Listado de solicitudes";
+    Layout = null;
+    Usuario objUs = ViewBag.Session;
+    long Solicitud_id = ViewBag.Solicitud_id;
+
+
+}
+
+
+<div id="div_Fincas"></div>
+<br />
+
+
+<div id="cultivo"></div>
+
+
+<script>
+    //Se utiliza para llamar las ubicaciones cuando se ha creado una nueva.
+    function RefrescarVista(strVista) {
+        $('#ViewIntecnova').load(strVista)
+        mostrarMenuLateral()
+    }
+
+    $(document).ready(function () {
+        var myFincas = document.getElementById('div_Fincas');
+        if (myFincas) {
+            $('#div_Fincas').load("/ReportePV/Fincas?Solicitud_id=@Solicitud_id")
+        }
+    });
+</script>

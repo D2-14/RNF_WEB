@@ -1,0 +1,231 @@
+﻿@model IEnumerable<RNF_Web.Models.Gest_EtapaSolicitudHistorial>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Url.Action("IndexHistorial", "Gest_EtapaSolicitud")
+}
+
+@{
+    ViewBag.Title = "Etapas del proceso";
+    ViewBag.SubTitle = null;
+}
+
+
+@*<script>
+        function cargarDocumentosAnexo(EtapaSolicitud_GUID_id, Solicitud_Guid_id, Etapa_id, EtapaRuta_id, CorrelativoEtapa_id) {
+            var div_EtapaDocumento = document.getElementById('div_EtapaDocumento_' + EtapaSolicitud_GUID_id);
+            if (div_EtapaDocumento) {
+                $('#div_EtapaDocumento_' + EtapaSolicitud_GUID_id).load('/Gest_EtapaSolicitud_Documento/DocumentoLista?GuidEtapa_id=' + EtapaSolicitud_GUID_id + '&Guid_id=' + Solicitud_Guid_id + '&etapa_id=' + Etapa_id + '&etaparuta_id=' + EtapaRuta_id + '&correlativoetapa_id=' + CorrelativoEtapa_id);
+            }
+    </script>*@
+
+@if (Model.Count() == 0)
+{
+    <h4> El expediente no tiene historial de etapas. </h4>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th width="20%">
+                Número: <br />
+
+            </th>
+            <th width="20%">
+                Fecha de la solicitud: <br />
+            </th>
+            <th width="20%">
+                Tipo de solicitud:<br />
+
+            </th>
+            <th width="20%">
+                Nombres del solicitante:<br />
+            </th>
+            <th width="20%">
+                <br />
+            </th>
+        </tr>
+        <tr>
+            <td>
+                @if (Model.First().Solicitud_NumeroExpediente != null)
+                {
+                    @Model.First().Solicitud_NumeroExpediente
+                }
+                else
+                {
+                    @Model.First().Solicitud_NumeroTemporal
+                }
+            </td>
+            <td>
+                @Model.First().swdateupdated
+            </td>
+            <td>
+                @Model.First().Categoria - <br />@Model.First().SubCategoria
+            </td>
+            <td>
+                @Model.First().Nombres
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <br />
+            </td>
+        </tr>
+    </table>
+
+    <table class="table">
+        <tr>
+
+            <th width="15%">
+                Fecha de la etapa
+            </th>
+            <th width="15%">
+                Nombre de Etapa
+            </th>
+
+            <th width="20%">
+                Estado de Etapa
+            </th>
+            <th width="20%">
+                Respuesta
+            </th>
+            <th width="20%">
+                Responsable
+            </th>
+            <th width="10%">
+                Correos asociados
+            </th>
+            <th width="20%">
+                Documento
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.swdatecreated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre_Etapa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EtapaSolicitudEstado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Respuesta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioAsignado)
+                </td>
+                <td>
+                    @{
+                        db_RNFEntities db = new db_RNFEntities();
+
+                        ViewBag.Mail_history = db.Tbl_Mail_History.Where(Obj => Obj.EtapaSolicitud_GUID_id == item.EtapaSolicitud_GUID_id);
+
+                    }
+
+                    @foreach (var itemMail_history in ViewBag.Mail_history)
+                    {
+                        <a href="/Gest_EtapaSolicitud/email?EtapaSolicitud_Guid_id=@itemMail_history.EtapaSolicitud_GUID_id&tipoDeCorreo=@itemMail_history.TipoDeCorreo" target="_blank">
+                            <img width="25" height="auto" src="~/Content/icons/mail.png" />
+                        </a>
+                        <br />
+                    }
+
+                </td>
+                <td>
+                    @if (((item.Documentos ?? "").Trim() != "") && (item.Documentos != "#"))
+                    {
+                        if (item.Firmado == 1)
+                        {
+                            <button class="btn-secondary" rel="tooltip" title="Ver Documentacion" onclick="activarVisorDeDocumentosFirmado('@item.NombreDocumentoFirmado')">
+                                <i><img src="~/Content/icons/png_documento.png" style="border-radius: 25%; width: 35px; height: auto" /></i>
+                                <div class="ripple-container"></div>
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="btn-secondary" rel="tooltip" title="Ver Documentacion" onclick="window.open('@item.Documentos')">
+                                <i><img src="~/Content/icons/png_documento.png" style="border-radius: 25%; width: 35px; height: auto" /></i>
+                                <div class="ripple-container"></div>
+                            </button>
+                        }
+                    }
+                </td>
+            </tr>
+            if (item.DocumentosEtapa > 0)
+            {
+                <tr>
+                    <td></td>
+                    <td colspan="5">
+                        <div id="div_EtapaDocumento_@item.EtapaSolicitud_GUID_id"></div>
+                        <script>
+                            $(document).ready(function () {
+                                var div_EtapaDocumento = document.getElementById('div_EtapaDocumento_@item.EtapaSolicitud_GUID_id');
+                                if (div_EtapaDocumento) {
+                                    $('#div_EtapaDocumento_@item.EtapaSolicitud_GUID_id').load('/Gest_EtapaSolicitud_Documento/DocumentoEtapaSolicitud?GuidEtapa_id=@item.EtapaSolicitud_GUID_id&Guid_id=@item.Solicitud_Guid_id&etapa_id=@item.Etapa_id&etaparuta_id=@item.EtapaRuta_id&correlativoetapa_id=@item.CorrelativoEtapa_id')
+                                }
+                            });
+                        </script>
+                    </td>
+                </tr>
+            }
+            if ((item.RespuestaJuridica != "") && (item.RespuestaJuridica != null))
+            {
+                <tr>
+                    <td colspan="3"></td>
+                    <td colspan="3" style="background-color:yellow">
+                        @Html.Raw(@item.RespuestaJuridica)
+                    </td>
+                </tr>
+            }
+
+        }
+
+    </table>
+}
+
+
+<input type="hidden" id="Pagina" name="Pagina" value="">
+<input type="hidden" id="Titulo" name="Titulo" value="">
+<div class="container mt-3">
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" width: 700px;>
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Header</h4>
+                    <button type="button" id="btnHideModal" class="btn btn-default">
+                        X
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>The <strong>show.bs.modal</strong> asdfasdf.</p>
+                </div>
+                <div id="DatosPersonerias">
+                    <br />
+                    <br />
+                    <br />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnHideModal_Close" class="btn btn-default">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        loaderPantalla(false);
+
+    });
+</script>
+
+

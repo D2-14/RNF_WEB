@@ -1,0 +1,74 @@
+﻿@using RNF_Web.Models;
+@model List<Tbl_Tecnico_Pregunta>
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+
+@{
+    Layout = null;
+    long Solicitud_id = ViewBag.Solicitud_id;
+    int Categoria_id = ViewBag.Categoria_id;
+    int Sub_Categoria_id = ViewBag.Sub_Categoria_id;
+    int Pregunta_id;
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_Tecnico_PreguntaRespuesta_Evaluacion oEvaluacion;
+}
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+
+<table class="table">
+    <tr>
+        <td>
+            Lineamiento
+        </td>
+        <td>
+            Parametro
+        </td>
+        <td>
+            Observaciones
+        </td>
+    </tr>
+    @for (int i = 0; i < Model.Count(); i++)
+    {
+        Pregunta_id = Model[i].Pregunta_id;
+        oEvaluacion = (from d in db.Tbl_Tecnico_PreguntaRespuesta_Evaluacion where d.Solicitud_id == Solicitud_id && d.Categoria_id == Categoria_id && d.Sub_Categoria_id == Sub_Categoria_id && d.Pregunta_id == Pregunta_id select d).FirstOrDefault();
+
+        <tr>
+            <td>
+                @Model[i].Pregunta_id ) @Model[i].Descripcion
+            </td>
+            <td>
+                <div id="div_Pregunta_@Model[i].Pregunta_id"></div>
+            </td>
+            <td>
+                @if (oEvaluacion != null)
+                {
+                    <textarea id="Observaciones_@Model[i].Pregunta_id" name="Observaciones_@Model[i].Pregunta_id" rows="10" cols="30" placeholder="Agregar Observaciones" onchange="alertaobservaciones_ ('@Model[i].Pregunta_id')">@oEvaluacion.Observaciones</textarea>
+                }
+                else
+                {
+                    <textarea id="Observaciones_@Model[i].Pregunta_id" name="Observaciones_@Model[i].Pregunta_id" rows="10" cols="30" placeholder="Agregar Observaciones" onchange="alertaobservaciones_ ('@Model[i].Pregunta_id')" disabled></textarea>
+                }
+                <script>
+                    $(document).ready(function () {
+                    var myPreguntas = document.getElementById('div_Pregunta_@Model[i].Pregunta_id');
+                    if (myPreguntas) {
+                        $('#div_Pregunta_@Model[i].Pregunta_id').load("/Form_FormularioTecnico/GenerarRespuestas?Solicitud_id=@Solicitud_id&Categoria_id=@Model[i].Categoria_id&Sub_Categoria_id=@Model[i].Sub_Categoria_id&Pregunta_id=@Model[i].Pregunta_id")
+                    }
+                    });
+                </script>
+            </td>
+        </tr>
+    }
+</table>

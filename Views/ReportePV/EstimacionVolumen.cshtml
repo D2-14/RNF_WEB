@@ -1,0 +1,482 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@model List<fc_Sol_Sel_Rodal_ValidacionesDiametrica_Result>
+@{
+    Layout = null;
+    long Solicitud_id = ViewBag.Solicitud_id;
+    long Finca_Id = ViewBag.Finca_Id;
+    int CantidadEspecies = ViewBag.CantidadEspecies;
+    decimal Total_areabasalha, volumenha, volumenrodal, Total_Areabasalm2, Total_Volumenlineam2, SubTotal_Areabasalha, SubTotal_Volumenha, SubTotal_Volumenrodal, SubTotal_Areabasalm2, SubTotal_Volumenlineam2, SubTotal_Densidadha, Total_Densidadha, SubTotal_CantArboles, Total_CantArboles;
+    string varEspecie = "";
+    string varEstimacion = "";
+    long rodalid = 0;
+    Total_areabasalha = 0;
+    volumenha = 0;
+    volumenrodal = 0;
+    int colspantable = 0;
+    volumenha = 0;
+    volumenrodal = 0;
+    Total_Areabasalm2 = 0;
+    Total_Volumenlineam2 = 0;
+    SubTotal_Areabasalha = 0;
+    SubTotal_Volumenha = 0;
+    SubTotal_Volumenrodal = 0;
+    SubTotal_Areabasalm2 = 0;
+    SubTotal_Volumenlineam2 = 0;
+    SubTotal_Densidadha = 0;
+    Total_Densidadha = 0;
+    SubTotal_CantArboles = 0;
+    Total_CantArboles = 0;
+    db_RNFEntities db = new db_RNFEntities();
+
+    Tbl_Sol_Solicitud tbl_Sol_Solicitud = db.Tbl_Sol_Solicitud.Find(Solicitud_id);
+
+    decimal valor = 0;
+
+}
+
+<style>
+    #encabezado {
+        background-color: #92D050;
+    }
+</style>
+
+@*<input type="button" name="Decuentos_y_Poligonos" value="Decuentos y Poligonos" onclick="descargarDatosPoligonosyDescuento()"/>*@
+
+<table class="table table-striped" align="center">
+    @for (int i = 0; i < Model.Count(); i++)
+    {
+        if (Model[i].Tipo_de_Area == 1)
+        {
+            if ((varEstimacion != Model[i].EstimacionPorMedioDe) || (rodalid != Model[i].Rodal_id))
+            {
+                <tr>
+                    <td colspan="2">
+                        <h3>Finca: @Model[i].Finca_id</h3>
+                    </td>
+                    <td colspan="2">
+                        <h3>Rodal: @Model[i].Rodal_id</h3>
+                    </td>
+                    <td colspan="4">
+                        <h3>Area Efectiva: @Model[i].Area_Efectiva_Rodal</h3>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" colspan="7" id="encabezado">
+                        <strong>ESTIMACION DE VOLUMEN POR MEDIO DE @Model[i].EstimacionPorMedioDe.ToUpper()</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="encabezado" width="15">
+                        Especie
+                    </td>
+                    <td id="encabezado" width="15">
+                        Año de Plantación
+                    </td>
+                    <td id="encabezado" width="15">
+                        Clase Diamétrica
+                    </td>
+                    <td id="encabezado" width="15">
+                        Densidad por ha
+                    </td>
+                    <td id="encabezado" width="15">
+                        Altura Promedio (m)
+                    </td>
+                    <td id="encabezado" width="15">
+                        Volumen por ha
+                    </td>
+                    <td id="encabezado" width="15">
+                        Volumen por Rodal
+                    </td>
+                </tr>
+            }
+
+            rodalid = Model[i].Rodal_id;
+            varEstimacion = Model[i].EstimacionPorMedioDe;
+            varEspecie = Model[i].Especie;
+            <tr>
+                <td width="15">
+                    @Model[i].Especie
+                </td>
+                <td width="15">
+                    @Model[i].Anio_Establecimiento
+                </td>
+                <td width="15">
+                    @Model[i].ClaseDiametrica
+                </td>
+                <td width="15">
+                    @{
+                        valor = (decimal)Model[i].Densidad_ha;
+                    }
+                    @valor.ToString("0")
+                </td>
+                <td width="15">
+                    @{
+                        valor = (decimal)Model[i].AlturaPromedio;
+                    }
+                    @valor.ToString("0.00")
+                </td>
+                <td width="15">
+                    @{
+                        valor = (decimal)Model[i].Volumen_ha;
+                    }
+                    @valor.ToString("0.00")
+                </td>
+                <td width="15">
+                    @{
+                        valor = (decimal)Model[i].Volumen_Rodal;
+                    }
+                    @valor.ToString("0.00")
+                </td>
+            </tr>
+            SubTotal_Areabasalm2 += (decimal)Model[i].Area_Basal_MetroCuadrado;
+            SubTotal_Volumenlineam2 += (decimal)Model[i].Volumen_X_Linea;
+
+            SubTotal_Areabasalha += (decimal)Model[i].AreaBasal_ha;
+            SubTotal_Volumenha += (decimal)Model[i].Volumen_ha;
+            SubTotal_Volumenrodal += (decimal)Model[i].Volumen_Rodal;
+
+            SubTotal_Densidadha += (decimal)Model[i].Densidad_ha;
+
+            try
+            {
+
+                if ((varEspecie != Model[i + 1].Especie) || (Model[i].Rodal_id != Model[i + 1].Rodal_id))
+                {
+
+                    <tr>
+                        <td colspan="3">
+                            <strong>SubTotal:</strong>
+                        </td>
+                        <td>
+                            <strong>@SubTotal_Densidadha.ToString("0")</strong>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <strong>@SubTotal_Volumenha.ToString("0.00")</strong>
+                        </td>
+                        <td>
+                            <strong>@SubTotal_Volumenrodal.ToString("0.00")</strong>
+                        </td>
+                    </tr>
+
+                    Total_areabasalha += SubTotal_Areabasalha;
+                    volumenha += SubTotal_Volumenha;
+                    volumenrodal += SubTotal_Volumenrodal;
+                    Total_Densidadha += SubTotal_Densidadha;
+
+                    SubTotal_Areabasalha = 0;
+                    SubTotal_Volumenha = 0;
+                    SubTotal_Volumenrodal = 0;
+                    SubTotal_Areabasalm2 = 0;
+                    SubTotal_Volumenlineam2 = 0;
+                    SubTotal_Densidadha = 0;
+                    SubTotal_CantArboles = 0;
+
+
+                }
+            }
+            catch
+            {
+                <tr>
+                    <td colspan="3">
+                        <strong>SubTotal:</strong>
+                    </td>
+                    <td>
+                        <strong>@SubTotal_Densidadha.ToString("0")</strong>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        <strong>@SubTotal_Volumenha.ToString("0.00")</strong>
+                    </td>
+                    <td>
+                        <strong>@SubTotal_Volumenrodal.ToString("0.00")</strong>
+                    </td>
+                </tr>
+
+                Total_areabasalha += SubTotal_Areabasalha;
+                volumenha += SubTotal_Volumenha;
+                volumenrodal += SubTotal_Volumenrodal;
+                Total_Densidadha += SubTotal_Densidadha;
+
+                SubTotal_Areabasalha = 0;
+                SubTotal_Volumenha = 0;
+                SubTotal_Volumenrodal = 0;
+                SubTotal_Areabasalm2 = 0;
+                SubTotal_Volumenlineam2 = 0;
+                SubTotal_Densidadha = 0;
+                SubTotal_CantArboles = 0;
+
+
+            }
+
+            try
+            {
+                if ((varEstimacion != Model[i + 1].EstimacionPorMedioDe) || (rodalid != Model[i + 1].Rodal_id))
+                {
+
+                    <tr>
+                        <td colspan="3">
+                            <strong>Total:</strong>
+                        </td>
+                        <td>
+                            <strong>@Total_Densidadha.ToString("0")</strong>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <strong>@volumenha.ToString("0.00")</strong>
+                        </td>
+                        <td>
+                            <strong>@volumenrodal.ToString("0.00")</strong>
+                        </td>
+                    </tr>
+
+                    Total_areabasalha = 0;
+                    volumenha = 0;
+                    volumenrodal = 0;
+                    Total_Areabasalm2 = 0;
+                    Total_Volumenlineam2 = 0;
+                    Total_Densidadha = 0;
+                    SubTotal_CantArboles = 0;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                <tr>
+                    <td colspan="3">
+                        <strong>Total:</strong>
+                    </td>
+                    <td>
+                        <strong>@Total_Densidadha.ToString("0")</strong>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        <strong>@volumenha.ToString("0.00")</strong>
+                    </td>
+                    <td>
+                        <strong>@volumenrodal.ToString("0.00")</strong>
+                    </td>
+                </tr>
+
+                Total_areabasalha = 0;
+                volumenha = 0;
+                volumenrodal = 0;
+                Total_Areabasalm2 = 0;
+                Total_Volumenlineam2 = 0;
+                Total_Densidadha = 0;
+                SubTotal_CantArboles = 0;
+
+            }
+        }
+        else if (Model[i].Tipo_de_Area == 2)
+        {
+            if ((varEstimacion != Model[i].EstimacionPorMedioDe) || (rodalid != Model[i].Rodal_id))
+            {
+                <tr>
+                    <td colspan="2">
+                        <h3>Finca: @Model[i].Finca_id</h3>
+                    </td>
+                    <td colspan="2">
+                        <h3>Rodal: @Model[i].Rodal_id</h3>
+                    </td>
+                    <td colspan="4">
+                        <h3>Longitud de Línea: @Model[i].Area_Efectiva_Rodal</h3>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" colspan="6" id="encabezado">
+                        <strong>ESTIMACION DE VOLUMEN POR MEDIO DE @Model[i].EstimacionPorMedioDe.ToUpper()</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="encabezado">
+                        Especie
+                    </td>
+                    <td id="encabezado">
+                        Año de Plantación
+                    </td>
+                    <td id="encabezado">
+                        Cantidad de Árboles
+                    </td>
+                    <td id="encabezado">
+                        Clase Diamétrica
+                    </td>
+                    <td id="encabezado">
+                        Altura Promedio (m)
+                    </td>
+                    <td id="encabezado">
+                        Volumen por línea m²
+                    </td>
+                </tr>
+            }
+
+            rodalid = Model[i].Rodal_id;
+            varEstimacion = Model[i].EstimacionPorMedioDe;
+            varEspecie = Model[i].Especie;
+            <tr>
+                <td>
+                    @Model[i].Especie
+                </td>
+                <td>
+                    @Model[i].Anio_Establecimiento
+                </td>
+                <td>
+                    @((Model[i].Cantidad_Arboles??0).ToString("0"))
+                </td>
+                <td>
+                    @Model[i].ClaseDiametrica
+                </td>
+                <td>
+                    @{
+                        valor = (decimal)Model[i].AlturaPromedio;
+                    }
+                    @valor.ToString("0.00")
+                </td>
+                <td>
+                    @{
+                        valor = (decimal)Model[i].Volumen_X_Linea;
+                    }
+                    @valor.ToString("0.00")
+                </td>
+            </tr>
+
+            SubTotal_Areabasalm2 += (decimal)Model[i].Area_Basal_MetroCuadrado;
+            SubTotal_Volumenlineam2 += (decimal)Model[i].Volumen_X_Linea;
+
+            SubTotal_Areabasalha += (decimal)Model[i].AreaBasal_ha;
+            SubTotal_Volumenha += (decimal)Model[i].Volumen_ha;
+            SubTotal_Volumenrodal += (decimal)Model[i].Volumen_Rodal;
+
+            SubTotal_CantArboles += (decimal)Model[i].Cantidad_Arboles;
+
+            try
+            {
+                if ((varEspecie != Model[i + 1].Especie) || (Model[i].Rodal_id != Model[i + 1].Rodal_id))
+                {
+
+                    <tr>
+                        <td colspan="2">
+                            <strong>SubTotal:</strong>
+                        </td>
+                        <td>
+                            <strong>@SubTotal_CantArboles.ToString("0")</strong>
+                        </td>
+                        <td colspan="2">
+                        </td>
+                        <td>
+                            <strong>@SubTotal_Volumenlineam2.ToString("0.00")</strong>
+                        </td>
+                    </tr>
+
+                    Total_Volumenlineam2 += SubTotal_Volumenlineam2;
+                    Total_Areabasalm2 += SubTotal_Areabasalm2;
+                    Total_CantArboles += SubTotal_CantArboles;
+
+                    SubTotal_Areabasalha = 0;
+                    SubTotal_Volumenha = 0;
+                    SubTotal_Volumenrodal = 0;
+                    SubTotal_Areabasalm2 = 0;
+                    SubTotal_Volumenlineam2 = 0;
+                    SubTotal_CantArboles = 0;
+
+                }
+            }
+            catch
+            {
+                <tr>
+                    <td colspan="2">
+                        <strong>SubTotal:</strong>
+                    </td>
+                    <td>
+                        <strong>@SubTotal_CantArboles.ToString("0")</strong>
+                    </td>
+                    <td colspan="2">
+                    </td>
+                    <td>
+                        <strong>@SubTotal_Volumenlineam2.ToString("0.00")</strong>
+                    </td>
+                </tr>
+
+                Total_Volumenlineam2 += SubTotal_Volumenlineam2;
+                Total_Areabasalm2 += SubTotal_Areabasalm2;
+                Total_CantArboles += SubTotal_CantArboles;
+
+                SubTotal_Areabasalha = 0;
+                SubTotal_Volumenha = 0;
+                SubTotal_Volumenrodal = 0;
+                SubTotal_Areabasalm2 = 0;
+                SubTotal_Volumenlineam2 = 0;
+                SubTotal_CantArboles = 0;
+
+            }
+
+            try
+            {
+                if ((varEstimacion != Model[i + 1].EstimacionPorMedioDe) || (rodalid != Model[i + 1].Rodal_id))
+                {
+
+                    <tr>
+                        <td colspan="2">
+                            <strong>Total:</strong>
+                        </td>
+                        <td>
+                            <strong>@Total_CantArboles.ToString("0")</strong>
+                        </td>
+                        <td colspan="2">
+                        </td>
+                        <td>
+                            <strong>@Total_Volumenlineam2.ToString("0.00")</strong>
+                        </td>
+                    </tr>
+
+                    Total_areabasalha = 0;
+                    volumenha = 0;
+                    volumenrodal = 0;
+                    Total_Areabasalm2 = 0;
+                    Total_Volumenlineam2 = 0;
+                    Total_Densidadha = 0;
+                    Total_CantArboles = 0;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                <tr>
+                    <td colspan="2">
+                        <strong>Total:</strong>
+                    </td>
+                    <td>
+                        <strong>@Total_CantArboles.ToString("0")</strong>
+                    </td>
+                    <td colspan="2">
+                    </td>
+                    <td>
+                        <strong>@Total_Volumenlineam2.ToString("0.00")</strong>
+                    </td>
+                </tr>
+
+                Total_areabasalha = 0;
+                volumenha = 0;
+                volumenrodal = 0;
+                Total_Areabasalm2 = 0;
+                Total_Volumenlineam2 = 0;
+                Total_Densidadha = 0;
+                Total_CantArboles = 0;
+
+            }
+
+        }
+    }
+</table>
+
+

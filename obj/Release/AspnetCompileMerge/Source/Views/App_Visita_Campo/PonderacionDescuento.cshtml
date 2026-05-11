@@ -1,0 +1,40 @@
+﻿@using RNF_Web.Models;
+@model Tbl_Sol_Solicitud
+@{
+}
+
+<script>
+    $(document).ready(function () {
+        $(document).on('change', '#PonderacionEvaluacionTecnicaDeArea_id', function () {
+
+            var url = "@Url.Action("EvaluacionDescuento", "App_Visita_Campo")";
+            var Opcion = $('#PonderacionEvaluacionTecnicaDeArea_id').val();
+            var data = {
+                Guid_id: '@ViewBag.guidid',
+                Opcion: Opcion
+            };
+
+            $.post(url, data).done(function (ListData) {
+
+            }).fail(manejaErrorAjax).always(function () {
+
+            });
+
+        });
+    })
+</script>
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+<div class="row">
+    <div class="form-group">
+        @Html.DropDownList("PonderacionEvaluacionTecnicaDeArea_id", null, htmlAttributes: new { @class = "form-select" })
+        @Html.HiddenFor(m => m.PonderacionEvaluacionTecnicaDeArea_id)
+        @Html.ValidationMessageFor(model => model.PonderacionEvaluacionTecnicaDeArea_id, "", new { @class = "text-danger" })
+    </div>
+</div>

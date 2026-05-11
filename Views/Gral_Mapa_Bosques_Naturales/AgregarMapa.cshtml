@@ -1,0 +1,103 @@
+﻿@using RNF_Web.Models;
+@model List<Tbl_Gral_Mapa_Bosques_Naturales>
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+
+}
+<table align="center" class="table table-striped">
+    <tr>
+        <td>
+            <div class="input-group">
+                <div class="custom-file">
+                    @*<input class="custom-file-input" type="file" name="Archivo" id="Archivo" accept="image/*">*@
+
+                    <label>
+                        @*<img src="~/Content/icons/btnSubirArchivo.png" id="upfile1" style="cursor:pointer" />*@
+                        <label for="Archivo" id="upfileArchivo" class="btn-next-ic">&nbsp;&nbsp;&nbsp;&nbsp;Seleccionar archivo&nbsp;&nbsp;&nbsp;&nbsp;</label>
+
+                        <input type="file" id="Archivo" name="Archivo" style="display:none">
+                    </label>
+                    <label class="custom-file-label">Seleccionar nuevo mapa y presionar el boton << Agregar Mapa >></label>
+
+                </div>
+                <div class="input-group-append">
+                    <input id="btnSendMsg" type="button" value="Agregar Mapa" class="btn btn-primary btn-outlined" />
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <strong>
+                Mapas Registrados en Bosques Naturales
+            </strong>
+        </td>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <a href="@item.Nombre" target="_blank">Ver Mapa @item.Mapa_id</a>
+                <label>
+                    Estado Actual
+                    @if (item.Estado == true)
+                    {
+                        <strong> Activo</strong>
+                    }
+                    else
+                    {
+                        <strong> Inactivo</strong>
+
+                    }
+                </label>
+            </td>
+        </tr>
+    }
+</table>
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script>
+    $("#btnSendMsg").click(function () {
+
+        var Archivoext = document.getElementById("Archivo").value;
+        Archivo = ($("#Archivo"))[0].files[0];
+
+        var dataarchivo = new FormData();
+
+        let adjuntarimagen = () => {
+            console.log("Funcion de adjuntar imagen");
+            console.log(Archivoext);
+            var extension = Archivoext.substr((Archivoext.lastIndexOf(".") + 1 - Archivoext.length));
+            console.log(extension);
+            dataarchivo.append("Archivo", Archivo);
+            $.ajax({
+                url: "AgregarMapa/",
+                type: "POST",
+                data: dataarchivo,
+                contentType: false,
+                processData: false,
+                async: false,
+                success: function (data) {
+                },
+                error: function (data) {
+                }
+            });
+        };
+
+        if (Archivo != null) {
+            adjuntarimagen();
+            document.location.reload(true);
+        } else {
+            alert("Adjunte un mapa para poder proceder");
+        }
+
+    })
+
+</script>

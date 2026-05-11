@@ -1,0 +1,72 @@
+﻿@using RNF_Web.Models;
+@model List<Tbl_Sol_Motosierra_Marca_Modelo>
+@{ 
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_Sol_Solicitud tbl_sol_solicitud = db.Tbl_Sol_Solicitud.Find(Session[Constants.session_Solicitud]);
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string Nombre_Div = "div_Sol_Motosierra_MarcaModelo_Index";
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+    fc_Gral_Sol_Configuracion_Result permisos = db.fc_Gral_Sol_Configuracion(tbl_sol_solicitud.Solicitud_id, controllerName, boolEsInterno).FirstOrDefault();
+}
+
+@if(Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+    <div id="@Nombre_Div"></div>
+}
+
+<table class="table table-striped">
+    <tr>
+        <th>
+            Marca
+        </th>
+        <th>
+            Modelo
+        </th>
+        <th>
+        </th>
+    </tr>
+    @foreach(var item in Model)
+    {
+<tr>
+    <td>
+        @item.Marca
+    </td>
+    <td>
+        @item.Modelo
+    </td>
+    <td>
+        @if ((bool)permisos.Borrar) { 
+            <img src="~/Content/icons/trash_green.png" onclick="eliminarMotosierraMarcaModelo('@item.Solicitud_id','@item.Motosierra_id')" width="25" height="25" />
+        }
+    </td>
+</tr>
+    }
+</table>
+
+<script>
+
+    function visualizarPermisos(solicitudid, controllername, esinterno, nombrediv) {
+        var solicitudId = solicitudid;
+        var controllerName = controllername;
+        var esInterno = esinterno;
+
+        var mySolPermisos = document.getElementById(nombrediv);
+        if (mySolPermisos) {
+            $("#" + nombrediv).load("/Gral_SolicitudConfiguracion/PermisosRecibidos?Solicitud_id=" + solicitudId + "&controllerName=" + controllerName + "&EsInterno=" + esInterno);
+        }
+
+    }
+
+    $(document).ready(function () {
+        visualizarPermisos('@tbl_sol_solicitud.Solicitud_id', '@controllerName', '@objUs.EsInterno', '@Nombre_Div');
+    });
+
+</script>
+
+

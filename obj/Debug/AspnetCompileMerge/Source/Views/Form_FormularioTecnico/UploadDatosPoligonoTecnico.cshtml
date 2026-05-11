@@ -1,0 +1,93 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+<div id="section_ExcelRodal">
+    @model System.Data.DataTable
+    @using System.Data;
+    @using RNF_Web.Models;
+    @using System.Data.SqlClient;
+
+    @{
+
+        string guidid = ViewBag.Guid_id;
+        int etapa_id = ViewBag.etapa_id;
+        decimal etaparuta_id = ViewBag.etaparuta_id;
+        int correlativoetapa_id = ViewBag.correlativoetapa_id;
+        db_RNFEntities db = new db_RNFEntities();
+        Tbl_Sol_Solicitud tbl_sol_solicitud = (from d in db.Tbl_Sol_Solicitud
+                                               where d.Guid_id == guidid
+                                               select d).FirstOrDefault();
+
+        int Estado = (int)tbl_sol_solicitud.Estado_id;
+
+        ViewBag.Title = "   Análisis de polígono ";
+    }
+
+
+    <div style='height: 30px; width: 100%; background-color: green; color: white; '>
+        <h4 class="title">&nbsp;&nbsp;&nbsp;@ViewBag.Title</h4>
+    </div>
+
+    <br />
+
+
+    @using (Html.BeginForm("UploadDatosPoligonoTecnico", "Form_FormularioTecnico", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <form id="uploader">
+                    <h1>@Html.Raw(TempData["MensajeFileDasom"])</h1>
+                    <br />
+                    @if ((Estado != 10) && (Estado != 11))
+                    {
+                        <table>
+                            <tr>
+                                <td>
+                                    @if (ViewBag.Owner == 1)
+                                    {
+                                        <label>
+                                            <img src="~/Content/icons/btnSubirArchivo.png" width="200" height="auto" id="upfile1" style="cursor:pointer" />
+                                            @*<label for="upload" id="upfileupload" class="btn-next-ic">&nbsp;&nbsp;&nbsp;&nbsp;Seleccionar archivo&nbsp;&nbsp;&nbsp;&nbsp;</label>*@
+                                            <input type="file" id="uploadPoligono" name="uploadPoligono" style="display:none">
+                                        </label>
+                                    }
+                                </td>
+                                <td>
+                                    @if (ViewBag.Owner == 1)
+                                    {
+                                        <input type="submit" id="btsubir" class="btn btn-primary btn-outlined" width="100%" value="Subir archivo" />
+                                    }
+                                </td>
+                                <td>
+                                    <input type="hidden" value="@guidid" id="Guid_id" name="Guid_id" />
+                                    <input type="hidden" value="@etapa_id" id="etapa_id" name="etapa_id" />
+                                    <input type="hidden" value="@etaparuta_id" id="etaparuta_id" name="etaparuta_id" />
+                                    <input type="hidden" value="@correlativoetapa_id" id="correlativoetapa_id" name="correlativoetapa_id" />
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                </td>
+                            </tr>
+                        </table>
+
+                    }
+                    <br /><br />
+
+                </form>
+            </div>
+            <div class="col-sm-3"></div>
+        </div>
+
+    }
+
+</div>
+
+<br />
+
+

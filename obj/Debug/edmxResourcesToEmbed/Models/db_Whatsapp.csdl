@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="db_WhatsappModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <ComplexType Name="Fc_Meta_MensajesPendientesAutorizados_Result">
+    <Property Name="Whatsapp_id" Type="Int64" Nullable="false" />
+    <Property Name="DestinoTipo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Destino" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+    <Property Name="Mensaje" Type="String" MaxLength="1500" FixedLength="false" Unicode="false" />
+    <Property Name="estado" Type="Boolean" />
+    <Property Name="swdatecreated" Type="DateTime" />
+    <Property Name="swdateupdated" Type="DateTime" />
+    <Property Name="ProcesoQueLaGenero" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+  </ComplexType>
+  <EntityType Name="Tbl_Meta_Mensajes">
+    <Key>
+      <PropertyRef Name="from" />
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="from" Type="Int64" Nullable="false" />
+    <Property Name="id" Type="Int64" Nullable="false" />
+    <Property Name="timestamp" Type="Int64" />
+    <Property Name="timestamp_dt" Type="DateTime" Precision="3" />
+    <Property Name="type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="body" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+    <Property Name="latitude" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="longitude" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="caption" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+    <Property Name="mime_type" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="sha256" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="id_image" Type="String" MaxLength="1500" FixedLength="false" Unicode="false" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="swupdatedby" Type="Int64" />
+    <Property Name="swdateupdated" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="Tbl_Meta_ParametrosGenerales">
+    <Key>
+      <PropertyRef Name="Entidad_id" />
+    </Key>
+    <Property Name="Entidad_id" Type="Int32" Nullable="false" />
+    <Property Name="Direccion_URL" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="Longitud_Celular" Type="Int32" />
+    <Property Name="Menu" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="MenuVacio" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="VisualizarInformacionDesarrollo" Type="Boolean" Nullable="false" />
+    <Property Name="WhatsappVersion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="WhatsappToken" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="WhatsappID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="WhatsappTelefono" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="WhatsappTextoDefault" Type="String" MaxLength="1500" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Tbl_Meta_ValidarTelefono">
+    <Key>
+      <PropertyRef Name="Telefono_id" />
+    </Key>
+    <Property Name="Telefono_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Verificado" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tbl_Seg_Parametros">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Token" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="InstanceId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Tbl_Whatsapp_Mensajes">
+    <Key>
+      <PropertyRef Name="Whatsapp_id" />
+    </Key>
+    <Property Name="Whatsapp_id" Type="Int64" Nullable="false" />
+    <Property Name="DestinoTipo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Destino" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+    <Property Name="Mensaje" Type="String" MaxLength="1500" FixedLength="false" Unicode="false" />
+    <Property Name="estado" Type="Boolean" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="swdateupdated" Type="DateTime" Precision="3" />
+    <Property Name="ProcesoQueLaGenero" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityContainer Name="db_WhatsappEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Tbl_Meta_Mensajes" EntityType="Self.Tbl_Meta_Mensajes" />
+    <EntitySet Name="Tbl_Meta_ParametrosGenerales" EntityType="Self.Tbl_Meta_ParametrosGenerales" />
+    <EntitySet Name="Tbl_Meta_ValidarTelefono" EntityType="Self.Tbl_Meta_ValidarTelefono" />
+    <EntitySet Name="Tbl_Seg_Parametros" EntityType="Self.Tbl_Seg_Parametros" />
+    <EntitySet Name="Tbl_Whatsapp_Mensajes" EntityType="Self.Tbl_Whatsapp_Mensajes" />
+    <FunctionImport Name="Fc_Meta_MensajesPendientesAutorizados" IsComposable="true" ReturnType="Collection(db_WhatsappModel.Fc_Meta_MensajesPendientesAutorizados_Result)" />
+    <FunctionImport Name="SP_Meta_ValidarTelefono" ReturnType="Collection(db_WhatsappModel.SP_Meta_ValidarTelefono_Result)">
+      <Parameter Name="Telefono_id" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="SP_Meta_ValidarTelefono_Result">
+    <Property Type="Int32" Name="respuesta" Nullable="true" />
+    <Property Type="String" Name="mensaje" Nullable="true" MaxLength="150" />
+    <Property Type="Int64" Name="id" Nullable="true" />
+  </ComplexType>
+</Schema>

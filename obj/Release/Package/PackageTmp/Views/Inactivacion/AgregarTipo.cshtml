@@ -1,0 +1,78 @@
+﻿@using RNF_Web.Models;
+@model RNF_Web.Models.Tbl_RNF_Registro_Inactivacion_Tipo
+@{
+    Layout = "~/Views/Shared/_LayoutMoreSimple.cshtml";
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+<style>
+    .form-check-input {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+</style>
+
+<h4 style="color: red;">@ViewBag.AlertaTipoInactivacion</h4>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Categoria_id)
+        <h4>Registrar Tipo de Inactivación</h4>
+        <hr />
+
+        <table width="100%">
+            <tr>
+                <th width="50%">
+                    @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                </th>
+                <th width="25%">
+                    @Html.LabelFor(model => model.UsuarioInterno, htmlAttributes: new { @class = "control-label col-md-2" })
+                </th>
+                <th width="25%">
+                    @Html.LabelFor(model => model.UsuarioExterno, htmlAttributes: new { @class = "control-label col-md-2" })
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-group">
+                        <div class="col-md-20">
+                            @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                            @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <div class="form-check form-switch">
+                                @Html.EditorFor(model => model.UsuarioInterno, new { htmlAttributes = new { @class = "form-check-input" } })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.UsuarioInterno, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <div class="form-check form-switch">
+                                @Html.EditorFor(model => model.UsuarioExterno, new { htmlAttributes = new { @class = "form-check-input" } })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.UsuarioExterno, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Agregar" class="btn btn-success" />
+            </div>
+        </div>
+}
+

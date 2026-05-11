@@ -1,0 +1,52 @@
+﻿@using RNF_Web.Models;
+@model RNF_Web.Models.Tbl_Sol_Finca_PinpepOld_EspeciesProteger
+@{
+    Layout = "~/Views/Shared/_LayoutSimpleSolicitud.cshtml";
+    db_RNFEntities db = new db_RNFEntities();
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Solicitud_id)
+
+    <div class="form-horizontal">
+        <h4>PinpepOld Especies Proteger</h4>
+        <hr />
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Rodal_id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Rodal_id, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Rodal_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Area, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Area, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EspeciesProteger, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <textarea id="EspeciesProteger" name="EspeciesProteger" class="form-control" cols="30" rows="10"></textarea>
+                @Html.ValidationMessageFor(model => model.EspeciesProteger, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}

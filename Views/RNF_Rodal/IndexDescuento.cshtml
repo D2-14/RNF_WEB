@@ -1,0 +1,144 @@
+﻿@using RNF_Web.Models;
+@using System.Data.SqlClient;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+<div id="section_Rodal">
+    @model IEnumerable<RNF_Web.Models.Tbl_RNF_Rodal_Descuento>
+
+    @{
+        string Guid_id = ViewBag.Guid_id;
+        db_RNFEntities db = new db_RNFEntities();
+        Tbl_RNF_Registro tbl_RNF_Registro = db.Tbl_RNF_Registro.Where(Obj => Obj.No_Registro == Guid_id).FirstOrDefault();
+
+        ViewBag.AreaTotal = db.Tbl_RNF_Rodal_Descuento.Where(Obj => Obj.No_Registro == tbl_RNF_Registro.No_Registro).Sum(Obj => Obj.AreaTotal);
+        ViewBag.AreaTotalCalculadaSistema = db.Tbl_RNF_Rodal_Descuento.Where(Obj => Obj.No_Registro == tbl_RNF_Registro.No_Registro).Sum(Obj => Obj.AreaTotalCalculadaSistema);
+
+
+        ViewBag.AreaTotal = ViewBag.AreaTotal ?? 0;
+        ViewBag.AreaTotalCalculadaSistema = ViewBag.AreaTotalCalculadaSistema ?? 0;
+
+
+        ViewBag.CantidadFincas = db.Tbl_RNF_Finca.Where(Obj => Obj.No_Registro == tbl_RNF_Registro.No_Registro).Count();
+
+        if (ViewBag.CantidadFincas > 0)
+        {
+
+            ViewBag.MaxFincaId = db.Tbl_RNF_Finca.Where(Finca => Finca.No_Registro == tbl_RNF_Registro.No_Registro).Max(u => u.Finca_Id);
+
+        }
+        else
+        {
+            ViewBag.MaxFincaId = 0;
+        }
+
+        EdicionRNFGrants objRNFGrants = (EdicionRNFGrants)Session[Constants.session_EdicionRNFGrants];
+    }
+
+
+    <script type="text/javascript">
+        function popUp(URL) {
+            //    window.open(URL, 'Nombre de la ventana', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=1,width=1000,height=500,left = 300,top = 50');
+
+            Editar_Rodal(URL);
+
+        }
+
+
+    </script>
+
+    <div class="container-fluid">
+        <div style='height: 30px; width: 100%; background-color: #66bb6a; color: white; '>
+            <h4>Áreas de descuento</h4>
+        </div>
+
+        <br />
+
+        <div class="col-sm-6 col-md-12">
+
+            <table class="table">
+                <tr>
+                    <th>
+                        Finca Id
+                    </th>
+                    <th>
+                        Rodal Id
+                    </th>
+                    <th>
+                        Id Descuento
+                    </th>
+                    <th>
+                        Area total(ha)
+                    </th>
+                    <th>
+                        Area calculada(ha)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.GTMX)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.GTMY)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Finca_id)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Rodal_Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Rodal_Descuento_Id)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AreaTotal)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AreaTotalCalculadaSistema)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GTMX)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GTMY)
+                        </td>
+                        <td>
+                            @if (objRNFGrants.Borrar)
+                            {
+                                <img src="~/Content/icons/trash_green.png" onclick="Borrar_RodalDescuento('@item.No_Registro', @item.Finca_id, @item.Tipo_de_Area, @item.Rodal_Id, @item.Rodal_Descuento_Id)" width="25" height="25" />
+                            }
+                        </td>
+                    </tr>
+                }
+
+                <hr />
+                <hr />
+                <tr>
+                    <td></td>
+                    <th>Área total</th>
+                    <td></td>
+                    <th>@ViewBag.AreaTotal</th>
+                    <th>@ViewBag.AreaTotalCalculadaSistema</th>
+
+                    <td>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+

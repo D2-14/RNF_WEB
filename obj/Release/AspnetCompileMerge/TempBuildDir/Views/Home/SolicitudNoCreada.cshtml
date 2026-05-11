@@ -1,0 +1,36 @@
+﻿@using RNF_Web.Models;
+
+
+@{
+    Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+
+    ViewBag.Title = "Bloqueo de sistema";
+    ViewBag.SubTitle = "Bloqueo para impedir duplicidad en las solicitudes";
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@Html.Partial("_PartialPageEncabezado")
+
+
+<div class="container-fluid">
+
+
+    <h4>No se ha creado la solicitud</h4>
+    <hr />
+
+    <span>
+        <h1>Registro(s) NO creado con éxito.<hr width="100%" size="1" color="silver"></h1>
+        <h1>Se puede crear una solicitud despues de 10 minutos de haber creado la última.<hr width="100%" size="1" color="silver"></h1>
+        <h1>Si su intención no es crear una nueva solicitud favor consulte en la lista de solicitudes en proceso para continuar con la solicitud que actualmente tiene aperturada.<hr width="100%" size="1" color="silver"></h1>
+
+        <h2> <i>Cierre la pantalla para continuar....</i> </h2>
+    </span>
+
+</div>
+
+
+@Html.Partial("_PartialPageEncabezadoCierre")

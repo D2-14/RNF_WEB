@@ -1,0 +1,53 @@
+﻿@using RNF_Web.Models;
+@model IEnumerable<RNF_Web.Models.Tbl_EncResp_Encuesta_Documento>
+@{
+    Layout = null;
+    string partialpathrep = "";
+}
+
+<table class="table">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Documento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreBase)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.swdatecreated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Estado)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        partialpathrep = "/Encuesta/" + item.id_encuesta + "/" + item.swcreatedby + "/" + item.id_Correlativo + "/" + item.id_pregunta + "/";
+        partialpathrep = partialpathrep.Replace(".", "_");
+        <tr>
+          
+            <td>
+                @Html.DisplayFor(modelItem => item.Documento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreBase)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.swdatecreated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado)
+            </td>
+            <td>
+                @*<img src="~/Content/icons/ver.png" onclick="gestEtapaSolicitudDocumentoMostrar('@item.Documento_id','@item.FileName')" width="50" />*@
+                <img src="~/Content/icons/ver.png" onclick="window.open('@partialpathrep@item.Documento')" width="50" />
+                <img src="~/Content/icons/bandejaEntrada.png" onclick="archivoEncuestaDownload('@partialpathrep@item.Documento','@item.NombreBase')" width="50" />
+                <img src="~/Content/icons/trash_green.png" type="button" onclick="eliminarEtapaSolicitudDocumento('@item.id_encuesta','@item.swcreatedby','@item.id_Correlativo','@item.id_pregunta','@item.id_CorrelativoDocumento')" value="eliminar" width="30" />
+            </td>
+        </tr>
+    }
+
+</table>

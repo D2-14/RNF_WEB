@@ -1,0 +1,532 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@model Tbl_Gral_SolicitudConfiguracion
+@{
+    string check = "checked";
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+
+}
+
+<h3>
+    @Model.SolicitudTipo_id - @Model.Tbl_Gral_SolicitudConfiguracionTipo.Descripcion
+</h3>
+
+@{
+    if (Model.Usuario_CopiarDesdeRNF == null) { Model.Usuario_CopiarDesdeRNF = false; }
+    if (Model.Usuario_Actualizar == null) { Model.Usuario_Actualizar = false; }
+    if (Model.Usuario_Borrar == null) { Model.Usuario_Borrar = false; }
+    if (Model.Usuario_Agregar == null) { Model.Usuario_Agregar = false; }
+    if (Model.Propietario_CopiarDesdeRNF == null) { Model.Propietario_CopiarDesdeRNF = false; }
+    if (Model.Propietario_Editar == null) { Model.Propietario_Editar = false; }
+    if (Model.Propietario_Borrar == null) { Model.Propietario_Borrar = false; }
+    if (Model.Propietario_Agregar == null) { Model.Propietario_Agregar = false; }
+    if (Model.Representante_CopiarDesdeRNF == null) { Model.Representante_CopiarDesdeRNF = false; }
+    if (Model.Representante_Editar == null) { Model.Representante_Editar = false; }
+    if (Model.Representante_Borrar == null) { Model.Representante_Borrar = false; }
+    if (Model.Representante_Agregar == null) { Model.Representante_Agregar = false; }
+    if (Model.Finca_CopiarDesdeRNF == null) { Model.Finca_CopiarDesdeRNF = false; }
+    if (Model.Finca_Editar == null) { Model.Finca_Editar = false; }
+    if (Model.Finca_Borrar == null) { Model.Finca_Borrar = false; }
+    if (Model.Finca_Agregar == null) { Model.Finca_Agregar = false; }
+    if (Model.Rodal_CopiarDesdeRNF == null) { Model.Rodal_CopiarDesdeRNF = false; }
+    if (Model.Rodal_Editar == null) { Model.Rodal_Editar = false; }
+    if (Model.Rodal_Borrar == null) { Model.Rodal_Borrar = false; }
+    if (Model.Rodal_Agregar == null) { Model.Rodal_Agregar = false; }
+    if (Model.Poligono_CopiarDesdeRNF == null) { Model.Poligono_CopiarDesdeRNF = false; }
+    if (Model.Poligono_Agregar == null) { Model.Poligono_Agregar = false; }
+    if (Model.Cultivo_CopiarDesdeRNF == null) { Model.Cultivo_CopiarDesdeRNF = false; }
+    if (Model.Cultivo_Editar == null) { Model.Cultivo_Editar = false; }
+    if (Model.Cultivo_Borrar == null) { Model.Cultivo_Borrar = false; }
+    if (Model.Cultivo_Agregar == null) { Model.Cultivo_Agregar = false; }
+    if (Model.Dasometricos_CopiarDesdeRNF == null) { Model.Dasometricos_CopiarDesdeRNF = false; }
+    if (Model.Dasometricos_Agregar == null) { Model.Dasometricos_Agregar = false; }
+    if (Model.SubirDocumentos == null) { Model.SubirDocumentos = false; }
+    if (Model.Motosierra_CopiarDesdeRNF == null) { Model.Motosierra_CopiarDesdeRNF = false; }
+    if (Model.Motosierra_Editar == null) { Model.Motosierra_Editar = false; }
+    if (Model.Motosierra_Borrar == null) { Model.Motosierra_Borrar = false; }
+    if (Model.Motosierra_Agregar == null) { Model.Motosierra_Agregar = false; }
+    if (Model.Empresa_Entidad_CopiarDesdeRNF == null) { Model.Empresa_Entidad_CopiarDesdeRNF = false; }
+    if (Model.Empresa_Entidad_Editar == null) { Model.Empresa_Entidad_Editar = false; }
+    if (Model.Empresa_Entidad_Borrar == null) { Model.Empresa_Entidad_Borrar = false; }
+    if (Model.Empresa_Entidad_Agregar == null) { Model.Empresa_Entidad_Agregar = false; }
+}
+
+@Html.HiddenFor(model => model.SolicitudTipo_id)
+<table class="table table-striped table-hover" border="1">
+    <tr>
+        <th width="20%">
+            <label>Campo</label>
+        </th>
+        <th width="20%">
+            <label>Copiar Desde RNF</label>
+        </th>
+        <th width="20%">
+            <label>Agregar</label>
+        </th>
+        <th width="20%">
+            <label>Editar</label>
+        </th>
+        <th width="20%">
+            <label>Borrar</label>
+        </th>
+    </tr>
+    <tr id="tr_Usuario">
+        <td width="20%">
+            Usuario
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Usuario_CopiarDesdeRNF" @if ((bool)Model.Usuario_CopiarDesdeRNF) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Usuario_Agregar" @if ((bool)Model.Usuario_Agregar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Usuario_Actualizar" @if ((bool)Model.Usuario_Actualizar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Usuario_Borrar" @if ((bool)Model.Usuario_Borrar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+    </tr>
+    <tr id="tr_Propietario">
+        <td width="20%">
+            Propietario
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Propietario_CopiarDesdeRNF" @if ((bool)Model.Propietario_CopiarDesdeRNF) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Propietario_Agregar" @if ((bool)Model.Propietario_Agregar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Propietario_Editar" @if ((bool)Model.Propietario_Editar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Propietario_Borrar" @if ((bool)Model.Propietario_Borrar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+    </tr>
+    <tr id="tr_Representante">
+        <td width="20%">
+            Representante
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Representante_CopiarDesdeRNF" @if ((bool)Model.Representante_CopiarDesdeRNF) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Representante_Agregar" @if ((bool)Model.Representante_Agregar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Representante_Editar" @if ((bool)Model.Representante_Editar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Representante_Borrar" @if ((bool)Model.Representante_Borrar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+    </tr>
+    <tr id="tr_Finca">
+        <td width="20%">
+            Finca
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Finca_CopiarDesdeRNF" @if ((bool)Model.Finca_CopiarDesdeRNF) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Finca_Agregar" @if ((bool)Model.Finca_Agregar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Finca_Editar" @if ((bool)Model.Finca_Editar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Finca_Borrar" @if ((bool)Model.Finca_Borrar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+    </tr>
+    <tr id="tr_Rodal">
+        <td width="20%">
+            Rodal
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Rodal_CopiarDesdeRNF" @if ((bool)Model.Rodal_CopiarDesdeRNF) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Rodal_Agregar" @if ((bool)Model.Rodal_Agregar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Rodal_Editar" @if ((bool)Model.Rodal_Editar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Rodal_Borrar" @if ((bool)Model.Rodal_Borrar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+    </tr>
+    <tr id="tr_Poligono">
+        <td width="20%">
+            Poligono
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Poligono_CopiarDesdeRNF" @if ((bool)Model.Poligono_CopiarDesdeRNF) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Poligono_Agregar" @if ((bool)Model.Poligono_Agregar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+        </td>
+        <td width="20%">
+        </td>
+    </tr>
+    <tr id="tr_Cultivo">
+        <td width="20%">
+            Cultivo
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Cultivo_CopiarDesdeRNF" @if ((bool)Model.Cultivo_CopiarDesdeRNF) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Cultivo_Agregar" @if ((bool)Model.Cultivo_Agregar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Cultivo_Editar" @if ((bool)Model.Cultivo_Editar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Cultivo_Borrar" @if ((bool)Model.Cultivo_Borrar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+    </tr>
+    <tr id="tr_Dasometricos">
+        <td width="20%">
+            Dasométricos
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Dasometricos_CopiarDesdeRNF" @if ((bool)Model.Dasometricos_CopiarDesdeRNF) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Dasometricos_Agregar" @if ((bool)Model.Dasometricos_Agregar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+        </td>
+        <td width="20%">
+        </td>
+    </tr>
+    <tr id="tr_Subir_Documentos">
+        <td width="20%">
+            Subir Documentos
+        </td>
+        <td width="20%">
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="SubirDocumentos" @if ((bool)Model.SubirDocumentos) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+        </td>
+        <td width="20%">
+        </td>
+    </tr>
+    <tr id="tr_Motosierra">
+        <td width="20%">
+            Motosierra
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Motosierra_CopiarDesdeRNF" @if ((bool)Model.Motosierra_CopiarDesdeRNF) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Motosierra_Borrar" @if ((bool)Model.Motosierra_Borrar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Motosierra_Editar" @if ((bool)Model.Motosierra_Editar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Motosierra_Agregar" @if ((bool)Model.Motosierra_Agregar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+    </tr>
+    <tr id="tr_Empresa_Entidad">
+        <td width="20%">
+            Empresa Entidad
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Empresa_Entidad_CopiarDesdeRNF" @if ((bool)Model.Empresa_Entidad_CopiarDesdeRNF) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Empresa_Entidad_Agregar" @if ((bool)Model.Empresa_Entidad_Agregar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Empresa_Entidad_Editar" @if ((bool)Model.Empresa_Entidad_Editar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+        <td width="20%">
+            <label class="switch">
+                <input type="checkbox" id="Empresa_Entidad_Borrar" @if ((bool)Model.Empresa_Entidad_Borrar) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </td>
+    </tr>
+</table>
+
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+</style>
+
+<script>
+
+
+    function ocultar(nombre_tr) {
+        var tr_visualizar = document.getElementById(nombre_tr);
+        tr_visualizar.style.display = 'none';
+    }
+
+    $(document).ready(function () {
+        var SolicitudTipo_id = '@Model.SolicitudTipo_id';
+
+        var data = {
+            SolicitudTipo_id: SolicitudTipo_id
+        };
+
+        var url = '@Url.Action("VerificarPermisosSolicitudTipo", controllerName)';
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = jsonRespuesta;
+            console.log(oJSON);
+            var Cultivo = oJSON.Cultivo;
+            var Dasometricos = oJSON.Dasometricos;
+            var Empresa_entidad = oJSON.Empresa_entidad;
+            var Finca = oJSON.Finca;
+            var Motosierra = oJSON.Motosierra;
+            var Poligono = oJSON.Poligono;
+            var Propietario = oJSON.Propietario;
+            var Representante = oJSON.Representante;
+            var Rodal = oJSON.Rodal;
+            var SubirDocumentos = oJSON.SubirDocumentos;
+            var Usuario = oJSON.Usuario;
+
+            /**
+             * tr_Cultivo
+             * tr_Dasometricos
+             * tr_Empresa_Entidad
+             * tr_Finca
+             * tr_Motosierra
+             * tr_Poligono
+             * tr_Propietario
+             * tr_Representante
+             * tr_Rodal
+             * tr_Subir_Documentos
+             * tr_Usuario
+             */
+            if (!Cultivo) {
+                ocultar('tr_Cultivo');
+            }
+
+            if (!Dasometricos) {
+                ocultar('tr_Dasometricos');
+            }
+
+            if (!Empresa_entidad) {
+                ocultar('tr_Empresa_Entidad');
+            }
+
+            if (!Finca) {
+                ocultar('tr_Finca');
+            }
+
+            if (!Motosierra) {
+                ocultar('tr_Motosierra');
+            }
+
+            if (!Poligono) {
+                ocultar('tr_Poligono');
+            }
+
+            if (!Propietario) {
+                ocultar('tr_Propietario');
+            }
+
+            if (!Representante) {
+                ocultar('tr_Representante');
+            }
+
+            if (!Rodal) {
+                ocultar('tr_Rodal');
+            }
+
+            if (!SubirDocumentos) {
+                ocultar('tr_Subir_Documentos');
+            }
+
+            if (!Usuario) {
+                ocultar('tr_Usuario');
+            }
+
+
+
+
+        }).fail(function (error) {
+            alert(error);
+        });
+
+
+    });
+</script>

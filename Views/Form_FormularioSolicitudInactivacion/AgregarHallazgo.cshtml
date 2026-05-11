@@ -1,0 +1,400 @@
+﻿@using RNF_Web.Models;
+@model RNF_Web.Models.Tbl_RNF_Registro_BitacoraHallazgo
+@{
+    Layout = "~/Views/Shared/_LayoutMoreSimple.cshtml";
+    Layout = null;
+    string GuidEtapa_id = ViewBag.GuidEtapa_id;
+    string Guid_id = ViewBag.Guid_id;
+    int etapa_id = ViewBag.etapa_id;
+    decimal etaparuta_id = ViewBag.etaparuta_id;
+    int correlativoetapa_id = ViewBag.correlativoetapa_id;
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+    string Motivo = ViewBag.Motivo;
+    bool mostrar = ViewBag.mostrar;
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<script>
+
+
+    function agregarInactivacionTecnico() {
+        var Solicitud_id = '@Model.Solicitud_id';
+        var InactivacionTecnico_Tipo_id = document.getElementById("InactivacionTecnico_Tipo").value;
+        var Motivo = document.getElementById("Motivo").value;
+
+        if ((Motivo == null) || (Motivo.trim() == '')) {
+            alert("El motivo de inactivación no puede estar en blanco");
+            return;
+        }
+
+        var data = {
+            Solicitud_id: Solicitud_id,
+            InactivacionTecnico_Tipo_id: InactivacionTecnico_Tipo_id,
+            Motivo: Motivo
+        }
+
+        console.log(data);
+        var url = '@Url.Action("GeneraInactivacionTecnico", "Form_FormularioTecnicoInactivacion")';
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            var oJSON = RespuestaJSON;
+            var CodRespuesta = oJSON.CodRespuesta;
+            var StrRespuesta = oJSON.StrRespuesta;
+
+            if (CodRespuesta == 1) {
+                alert(StrRespuesta);
+            } else {
+                alert(StrRespuesta);
+            }
+
+        }).fail(function (RespuestaJSON) {
+            console.log(RespuestaJSON);
+            alert('Error: ' + RespuestaJSON);
+
+        })
+
+
+
+    }
+
+
+    function generarInformeTecnicoInactivacion() {
+        var Guid_id = '@Guid_id';
+        var etapa_id = '@etapa_id';
+        var etaparuta_id = '@etaparuta_id';
+        var correlativoetapa_id = '@correlativoetapa_id';
+
+        var data = {
+            Guid_id: Guid_id,
+            etapa_id: etapa_id,
+            etaparuta_id: etaparuta_id,
+            correlativoetapa_id: correlativoetapa_id
+        }
+
+        var url = '@Url.Action("InformeInactivacion", "Form_FormularioTecnicoInactivacion")';
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            var oJSON = RespuestaJSON;
+            var Result = oJSON.Result;
+            var Mensaje = oJSON.Mensaje;
+            if (Result == 1) {
+                var Ubicacion = oJSON.Ubicacion;
+                document.getElementById('btnUnificar').style.display = 'block';
+                window.open('/Archivos_Generados_Que_Pueden_Borrar/' + Ubicacion, '_blank');
+            } else {
+                alert(Mensaje);
+            }
+
+            console.log(oJSON);
+        }).fail(function (Error) {
+
+        });
+
+    }
+
+
+    function Consolidar() {
+        var data = {
+            Guid_id: '@Guid_id',
+            Guidetapa_id: '@GuidEtapa_id',
+            Bitacora_id: '@Model.Bitacora_id'
+        };
+
+    var url = "@Url.Action("jsonUnificarBitacora", "Unificar")";
+
+        $.post(url, data).done(function (jsonrespuesta) {
+            var oJSON = JSON.parse(jsonrespuesta);
+            var NombreDocumento = oJSON.strRespuesta;
+
+            window.open(NombreDocumento, '_blank');
+
+            var TdHiddeA = document.getElementById("btnFirmarDocumento");
+            TdHiddeA.style.display = "block";
+
+        });
+
+    }
+
+    function agregarHallazgo() {
+        var No_Registro = '@Model.No_Registro';
+        var No_RegistroLiteral = '@Model.No_RegistroLiteral';
+        var No_RegistroCorrelativo = '@Model.No_RegistroCorrelativo';
+        var Solicitud_id = '@Model.Solicitud_id';
+        var Bitacora_id = '@Model.Bitacora_id';
+        var DescripcionHallazgo = document.getElementById("DescripcionHallazgo").value;
+
+        if ((DescripcionHallazgo == null) || (DescripcionHallazgo.trim() == '')) {
+            alert("Error, no puede registrar un hallazgo en blanco, asegúrese de registrar la información");
+            return;
+        }
+
+        var url = '@Url.Action("RegistrarHallazgo", "RNF_Registro_Reasignacion")';
+
+        var data = {
+            No_Registro: No_Registro,
+            No_RegistroLiteral: No_RegistroLiteral,
+            No_RegistroCorrelativo: No_RegistroCorrelativo,
+            Solicitud_id: Solicitud_id,
+            Bitacora_id: Bitacora_id,
+            DescripcionHallazgo: DescripcionHallazgo
+        }
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            var oJSON = RespuestaJSON;
+            var Result = oJSON.Result;
+            var Mensaje = oJSON.Mensaje;
+
+            if (Result == 1) {
+                refeshPartialHallazgoRNF();
+            } else {
+                alert(Mensaje);
+            }
+
+        }).fail(function () {
+        });
+
+    }
+
+    function refeshPartialHallazgoRNF() {
+        var div_ListaHallazgos_RNF = document.getElementById('div_ListaHallazgos_RNF');
+        var div_DocumentosBitacora = document.getElementById('div_DocumentosBitacora');
+        if (div_DocumentosBitacora) {
+            $('#div_DocumentosBitacora').load('/Form_FormularioTecnicoInactivacion/DocumentosCambioEstado?No_Registro=@Model.No_Registro&Bitacora_id=@Model.Bitacora_id');
+        }
+        if (div_ListaHallazgos_RNF) {
+            $('#div_ListaHallazgos_RNF').load('/RNF_Registro_Reasignacion/HallazgoBitacora?No_Registro=@Model.No_Registro&Bitacora_id=@Model.Bitacora_id');
+        }
+        var DescripcionHallazgo = document.getElementById("DescripcionHallazgo");
+        DescripcionHallazgo.value = '';
+    }
+
+    function fnc_EnviarRespuesta(varRespuestaid)
+    {
+        varsolicitud_id = '@Model.Solicitud_id';
+        varetapa_id = '@etapa_id';
+        varetaparuta_id = '@etaparuta_id';
+        varcorrelativoetapa_id = '@correlativoetapa_id';
+        varMotivo = $('#Motivo').val();
+        varEtapaSolicitud_GUIDid= '@GuidEtapa_id';
+
+
+        var url = "@Url.Action("ActualizaEtapaRespuestaIndexSolicitud", "Form_FormularioTecnicoInactivacion")";
+
+        var data = { solicitud_id: varsolicitud_id, etapa_id: varetapa_id, etaparuta_id: varetaparuta_id, correlativoetapa_id: varcorrelativoetapa_id, motivo: varMotivo, respuestaid: varRespuestaid, EtapaSolicitud_GUIDid: varEtapaSolicitud_GUIDid };
+        $.post(url, data).done(function (jsonRespuesta) {
+               var objJSON = JSON.parse(jsonRespuesta);
+               var Cod_Respuesta = objJSON.CodRespuesta;
+               var Texto_Respuesta = objJSON.strRespuesta;
+
+
+                if (Cod_Respuesta == 1) {
+                    window.location.replace("/Gest_EtapaSolicitud/Index");
+                }
+                else
+                {
+
+                    $('#lblMeModelodelodelsaje').text(Texto_Respuesta);
+                    alert(Texto_Respuesta);
+
+                }
+
+           }).fail(manejarErrorAjax).always(function () {
+
+               alert('Error no identificado.');
+            });
+            return falsModel;
+
+    }
+
+     function FirmarDocumento() {
+
+        var TdHiddeA = document.getElementById("btnFirmarDocumento");
+            TdHiddeA.style.display = "none";
+
+
+        varFirmaElectronicaUsuario = $('#FirmaElectronicaUsuario').val();
+        varFirmaElectronicaPassword = $('#FirmaElectronicaPassword').val();
+
+        var data = {
+            Guid_id: '@Guid_id',
+            Guidetapa_id: '@GuidEtapa_id',
+            UsuarioFE: varFirmaElectronicaUsuario,
+            PasswordFE: varFirmaElectronicaPassword
+            };
+
+            var url = "@Url.Action("JsonProcesarFirmaElectronica", "Form_FormularioTecnicoInactivacion")";
+             loaderPantalla(true);
+             $.post(url, data).done(function (jsonrespuesta) {
+             loaderPantalla(false);
+             var oJSON = JSON.parse(jsonrespuesta);
+             var NombreDocumento = oJSON.strRespuesta;
+             var CodigoRespuesta = oJSON.CodRespuesta;
+
+                if ((CodigoRespuesta == '0') || (CodigoRespuesta == 0))
+                {
+                    window.open("/Home/FalloFirmaElectronica?FalloFe=" + NombreDocumento, '_blank');
+                }
+                else
+                {
+                    window.open(NombreDocumento, '_blank');
+                    fnc_EnviarRespuesta(1);
+                }
+
+
+
+            });
+
+            }
+
+
+    function activarDiasInactivacion() {
+
+        var cb_InactivacionTecnico_Tipo = document.getElementById('InactivacionTecnico_Tipo');
+        var cb_TiempoInactivacion = document.getElementById('TiempoInactivacion');
+        var InactivacionTecnico_Tipo = cb_InactivacionTecnico_Tipo.value;
+        var TiempoInactivacion = cb_TiempoInactivacion.value;
+
+        console.log(InactivacionTecnico_Tipo);
+        console.log(TiempoInactivacion);
+
+        if (InactivacionTecnico_Tipo == 2) {
+            cb_TiempoInactivacion.style.display = "none";
+        } else {
+            cb_TiempoInactivacion.style.visibility = "inline";
+        }
+
+    }
+
+    function motivoInactivacion() {
+        var Solicitud_id = @Model.Solicitud_id;
+        var Guid_id = '@Guid_id';
+        var TipoInactivacion_id = document.getElementById('TipoInactivacion_id').value;
+
+        var data = {
+            Solicitud_id: Solicitud_id,
+            Guid_id: Guid_id,
+            TipoInactivacion_id: TipoInactivacion_id
+        };
+        var url = '@Url.Action("GrabarMotivoInactivacion", "Form_FormularioTecnicoInactivacion")';
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            var oJSON = RespuestaJSON;
+            var result = oJSON.result;
+            var message = oJSON.message;
+            if (result != 1) {
+                alert(message);
+            }
+
+        }).fail(function (RespuestaJSON) {
+            console.log(RespuestaJSON);
+            alert('Ocurrió un error: ' + RespuestaJSON);
+        });
+
+
+    }
+
+    $(document).ready(function () {
+        refeshPartialHallazgoRNF();
+        motivoInactivacion();
+        activarDiasInactivacion();
+
+        $(document).on('change', '#InactivacionTecnico_Tipo', function () {
+
+            activarDiasInactivacion();
+
+
+        }); // -----Fin de cambio de InactivacionTecnicoTipo
+
+
+    });
+
+
+</script>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.No_Registro)
+    @Html.HiddenFor(model => model.No_RegistroLiteral)
+    @Html.HiddenFor(model => model.No_RegistroCorrelativo)
+    @Html.HiddenFor(model => model.Solicitud_id)
+    @Html.HiddenFor(model => model.Bitacora_id)
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-horizontal">
+        <h4>Causales</h4>
+        <hr />
+        <div class="form-group">
+            @Html.LabelFor(model => model.DescripcionHallazgo, "Descripción de Causal", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <textarea id="DescripcionHallazgo" name="DescripcionHallazgo" class="form-control" placeholder="Descripción"></textarea>
+                @Html.ValidationMessageFor(model => model.DescripcionHallazgo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="Registrar Causal" class="btn btn-success" onclick="agregarHallazgo()" />
+            </div>
+        </div>
+    </div>
+}
+
+<div id="div_ListaHallazgos_RNF"></div>
+
+
+<div id="div_DocumentosBitacora"> </div>
+
+<table class="table">
+    <tr style="display:none;">
+        <th>
+            Tipo de Inactivación
+        </th>
+        <td>
+            @Html.DropDownList("InactivacionTecnico_Tipo", null, htmlAttributes: new { @class = "form-select" })
+        </td>
+        <td>
+            @Html.DropDownList("TiempoInactivacion", null, htmlAttributes: new { @class = "form-selectl" })
+        </td>
+    </tr>
+    @if (mostrar)
+    {
+        <tr>
+            <th>
+                Motivo de Inactivación
+            </th>
+            <td colspan="2">
+                @Html.DropDownList("TipoInactivacion_id", null, htmlAttributes: new { @class = "form-select", onchange = "motivoInactivacion()" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <th>
+            Descripción del Caso
+        </th>
+        <td colspan="2">
+            <textarea class="form-control" rows="5" id="Motivo" name="Motivo" placeholder="Razón de inactivación">@Motivo</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+            <input type="button" class="btn btn-success" value="Registrar" onclick="agregarInactivacionTecnico()" />
+        </td>
+    </tr>
+</table>
+
+
+

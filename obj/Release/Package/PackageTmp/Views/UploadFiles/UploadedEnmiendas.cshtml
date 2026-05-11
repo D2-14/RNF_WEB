@@ -1,0 +1,357 @@
+﻿@model RNF_Web.Models.Tbl_Sol_Solicitud
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+
+    Layout = null; /* "~/Views/Shared/_LayoutSimple.cshtml";*/
+    ViewBag.Solicitud_id = Model.Solicitud_id;
+    ViewBag.Estado = Model.Estado_id;
+
+}
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#btnHideModal").click(function () {
+            $("#imgModal").modal('hide');
+        });
+        $("#btnHideModalCerrar").click(function () {
+            $("#modalRecepDocs").modal('hide');
+        });
+
+        $("#btnRecepcionDocs").click(function () {
+            $("#modalRecepDocs").modal('show');
+        });
+
+        $('#DivDoctosSubidosEspecificos_20').load('/UploadFiles/IndexEspecificoAnexo?id=20&solicitudid=@Model.Solicitud_id');
+
+    });
+
+
+      function Borrar(id, varfilename) {
+            $.ajax({
+                type: 'POST',
+                url: "@(Url.Action("BorrarArchivoAnexo", "UploadFiles"))",
+                dataType: 'json',
+                data: {solicitudid:@Model.Solicitud_id, id:id, filename: varfilename },
+                success: function (doc) {
+                    console.log(id);
+                    console.log("Se hizo click");
+                    $('#DivDoctosSubidosEspecificos_' + id).load('/UploadFiles/IndexEspecificoAnexo?id=' + id+'&solicitudid='+'@Model.Solicitud_id')
+                    //location.reload();
+                },
+                error: function (ex) {
+                    alert('error. ' + ex.status);
+                }
+
+            });
+            return false;
+        }
+
+
+
+        function refreshImagenes(e) {
+            $('#DivDoctosSubidosEspecificos_20').load('/UploadFiles/IndexEspecificoAnexo?id=20&solicitudid=@Model.Solicitud_id');
+        }
+
+
+       function SeleccionarArchivo(Nfile, Objeto) {
+
+            var componente = "Hand_" + Nfile;
+
+            var x = document.getElementById(componente);
+
+            x.src = "/Content/icons/click_hand.gif";
+
+
+            filename = Objeto.files[0].name
+
+            console.log(filename);
+        }
+
+        function hide_myModal() {
+            $("#imgModal").modal('hide');
+        }
+
+        function myModalShow(id, filename) {
+            $("#imgModal").modal('show');
+
+        }
+
+        function MostrarT(id, filename) {
+            $("#imgModal").modal('show');
+
+        }
+
+
+   function Mostrar(id, filename) {
+        $.ajax({
+                    type: 'POST',
+                    url: "@(Url.Action("ObtenerhrefAnexo", "UploadFiles"))",
+                    dataType: 'json',
+                data: { id: id, varfilename: filename, solicitudid: '@Model.Solicitud_id' },
+            success: function (doc) {
+
+
+                var imgDoc = document.getElementById("imDoc");
+                var ifDoc = document.getElementById("ifDoc");
+                var miHref = document.getElementById("miHref");
+
+                if (filename.split(".")[1] == "pdf" || filename.split(".")[1] == "PDF" ||
+                    filename.split(".")[1] == "jpg" || filename.split(".")[1] == "JPG" ||
+                    filename.split(".")[1] == "bmp" || filename.split(".")[1] == "BMP" ||
+                    filename.split(".")[1] == "png" || filename.split(".")[1] == "PNG" ||
+                    filename.split(".")[1] == "gif" || filename.split(".")[1] == "GIF") {
+
+                    if (filename.split(".")[1] == "pdf" || filename.split(".")[1] == "PDF") {
+                        imgDoc.src = "";
+                        ifDoc.src = doc;
+                        ifDoc.style.visibility = "visible";
+                        miHref.href = doc;
+                        $("#imgModal").modal('show');
+                    }
+                    else {
+                        imgDoc.src = doc;
+                        miHref.href = doc;
+                        $("#imgModal").modal('show');
+                        ifDoc.style.visibility = "hidden";
+                    }
+                }
+                else {
+                    window.location.href = doc;
+                }
+
+            },
+            error: function (ex) {
+                alert('error. ' + ex.status);
+            }
+
+        });
+        return false;
+
+    }
+
+
+
+        function MostrarTemp(id, filename) {
+            $.ajax({
+                        type: 'POST',
+                        url: "@(Url.Action("ObtenerhrefAnexo", "UploadFiles"))",
+                        dataType: 'json',
+                data: { id: id, varfilename: filename, solicitudid: '@Model.Solicitud_id' },
+                success: function (doc) {
+
+
+                    var imgDoc = document.getElementById("imDoc");
+                    var ifDoc = document.getElementById("ifDoc");
+                    var miHref = document.getElementById("miHref");
+
+
+                    if (filename.split(".")[1] == "pdf" || filenaSolicitud_idolicitud_idme.split(".")[1] == "PDF" ||
+                        filename.split(".")[1] == "jpg" || filename.split(".")[1] == "JPG" ||
+                        filename.split(".")[1] == "bmp" || filename.split(".")[1] == "BMP" ||
+                        filename.split(".")[1] == "png" || filename.split(".")[1] == "PNG" ||
+                        filename.split(".")[1] == "gif" || filename.split(".")[1] == "GIF") {
+
+                        if (filename.split(".")[1] == "pdf" || filename.split(".")[1] == "PDF") {
+
+                            imgDoc.src = "";
+                            ifDoc.src = doc;
+                            miHref.href = doc;
+                            $("#imgModal").modal('show');
+                        }
+                        else {
+
+                            ifDoc.src = "";
+                            imgDoc.src = doc;
+                            miHref.href = doc;
+                            $("#imgModal").modal('show');
+                        }
+                    }
+                    else {
+                        window.location.href = doc;
+                   }
+
+               },
+                error: function (ex) {
+                    alert('error. ' + ex.status);
+                }
+
+            });
+            return false;
+
+        }
+
+
+        $("#fileUpload").change(function () {
+
+            filename = this.files[0].name
+            console.log(filename);
+        });
+
+
+        // Inicio Subir Documento
+        // Inicio Validar Tipo de Documento
+        function ValidateExtension() {
+            var allowedFiles = [".doc", ".docx", ".pdf", ".jpg", ".png", ".bmp", ".gif", ".xlsx",".xls"];
+            var fileUpload = document.getElementById("fileUpload");
+
+
+            var lblError = document.getElementById("lblError");
+            var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
+            if (!regex.test(fileUpload.value.toLowerCase())) {
+                lblError.innerHTML = "Favor el archivo no debe contener caracteres como '(', '-' o caracteres especiales. Recuerde, únicamente puede subir archivos con extensión: <b>" + allowedFiles.join(', ') + "</b> unicamente.";
+                return false;
+            }
+
+            lblError.innerHTML = "";
+
+            return true;
+        }
+
+        function SubirDocumento(DocumentoASubir) {
+
+            var e = DocumentoASubir;
+
+            var componente = "Hand_" + e;
+
+            var x = document.getElementById(componente);
+
+            x.src = "/Content/icons/ImagenVacia.png";
+
+            if (e.value == 0) {
+                alert("Debe indicar el tipo de documento a agregar.");
+            }
+            else {
+
+
+                    if (ValidateExtension()) {
+                        alert("Llegados");
+
+                                var formData = new FormData();
+                                var file = document.getElementById('fileUpload').files[0];
+
+                                formData.append("archivo_a_grabar", file);
+                                formData.append("Tipo_De_Archivo", e);
+                                formData.append("Nombre_Archivo", file.name);
+                                formData.append("solicitudid", '@Model.Solicitud_id');
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "@(Url.Action("UploadFileAnexo", "UploadFiles"))",
+                                    data: formData,
+                                    processData: false,
+                                    contentType: false,
+                                    success: function (response) {
+                                        refreshImagenes(DocumentoASubir);
+                                        lblError.innerHTML = "";
+                                    },
+                                    error: function (response) {
+                                        alert("Error: No se pudo subir el archivo subido de forma exitosa.");
+                                    }
+
+                                });
+                    }
+            }
+
+        }
+
+
+</script>
+
+
+
+
+@*<div class="titulo-dos">
+    <h4> Enmienda de Secretaria</h4>
+</div>
+
+<input type="file" style="visibility:hidden;" name="FileUpload" id="fileUpload" />
+
+<table class="table" id="docSubidosConAnterioridad">
+    <tbody>
+
+        <tr>
+            <td>20</td>
+            <td>Enmienda de Secretaria	</td>
+            <td>
+            </td>
+            <td>
+                @if ((ViewBag.Estado != 10) && (ViewBag.Estado != 11))
+                {
+                    <label for="fileUpload" id="fileUpload_20" class="btn btn-primary btn-outlined" onclick="SeleccionarArchivo(20,this)">Seleccionar archivo</label>
+                }
+            </td>
+            <td>
+                <br />
+                @if ((ViewBag.Estado != 10) && (ViewBag.Estado != 11))
+                {
+                    <input id="btnUploadDocumento" type="button" onclick="SubirDocumento(20)" value="Subir Documento" />
+                    <img src="~/Content/icons/ImagenVacia.png" id="Hand_20" name="Hand_20" width="60" />
+                    <img src="~/Content/icons/refresh.png" type="button" onclick="refreshImagenes('20')" value="eliminar" width="30" />
+                }
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td colspan="2">
+                <div id='DivDoctosSubidosEspecificos_20'>
+                </div>
+                <label id="lblError"></label>
+            </td>
+        </tr>
+
+    </tbody>
+</table>*@
+
+
+
+
+@*<h1>@TempData["MensajeFile"]</h1>
+
+        Tipos de archivos solicitados(.doc, .docx, .pdf, .jpg, .png, .bmp, .gif)
+<br />*@
+@*<div>
+    <br />
+    <input type="file" style="visibility:hidden;" name="FileUpload" id="fileUpload" />
+    <br />
+</div>*@
+
+
+@*<div class="modal fade bd-example-modal-lg" tabindex="-1" id="imgModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" width: 700px;>
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="hide_myModal()">
+                    X
+                </button>
+                <h4 class="modal-title">Vista preliminar del documento cargado</h4>
+            </div>
+            <div class="modal-body">
+
+                <a ID="miHref" name="miHref" href="" target="_blank" style="display:none">Ver en pagina Completa</a>
+                <button class="btn-next" onclick="MostrarCompleta()">Mostrar en página completa</button>
+
+                <img src="~/Content/icons/click_hand.gif" width="80" />
+                <img style="max-height:1000px;max-width:800px;height:auto;width:auto;" id="imDoc" Visible="false" />
+                <iframe ID="ifDoc" style="height:600px;width:800px;" visible="false"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" onclick="hide_myModal()">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+
+

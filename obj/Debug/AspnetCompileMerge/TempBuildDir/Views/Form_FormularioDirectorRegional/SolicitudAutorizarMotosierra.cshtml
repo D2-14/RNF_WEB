@@ -1,0 +1,158 @@
+﻿@using RNF_Web.Models;
+@model Tbl_Gest_EtapaSolicitud
+
+
+@{
+    Layout = null;
+    ViewBag.Title = "Regiones";
+    ViewBag.SubTitle = "Listado de regiones";
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+<script>
+
+    function Cerrar() {
+        window.location.replace("/Main/Index");
+    }
+
+
+    function FirmarDocumento() {
+
+        var TdHiddeA = document.getElementById("btnFirmarDocumento");
+        TdHiddeA.style.display = "none";
+
+        varFirmaElectronicaUsuario = $('#FirmaElectronicaUsuario').val();
+        varFirmaElectronicaPassword = $('#FirmaElectronicaPassword').val();
+
+        var data = {
+            Guid_id: $('#Solicitud_Guid_id').val(),
+            Guidetapa_id: $('#EtapaSolicitud_GUID_id').val(),
+            UsuarioFE: varFirmaElectronicaUsuario,
+            PasswordFE: varFirmaElectronicaPassword
+        };
+
+    var url = "@Url.Action("JsonProcesarFirmaElectronica", "Form_FormularioDirectorRegional")";
+        loaderPantalla(true);
+        $.post(url, data).done(function (jsonrespuesta) {
+            loaderPantalla(false);
+            var oJSON = JSON.parse(jsonrespuesta);
+            var NombreDocumento = oJSON.strRespuesta;
+            var CodigoRespuesta = oJSON.CodRespuesta;
+
+
+            if ((CodigoRespuesta == '0') || (CodigoRespuesta == 0))
+            {
+                window.open("/Home/FalloFirmaElectronica?FalloFe=" + NombreDocumento, '_blank');
+            }
+            else
+            {
+                window.open(NombreDocumento, '_blank');
+
+
+                var resultResolucion_Aprobada = $('#EstadoResolucion').val();
+                if (resultResolucion_Aprobada == "aprobar") {
+                    fnc_EnviarRespuesta(1);
+                }
+                else
+                {
+                    fnc_EnviarRespuesta(2);
+                }
+
+            }
+
+        });
+
+    }
+
+
+    function EmitirDocumento() {
+        var varSolicitud_Guid_id = $('#Solicitud_Guid_id').val();
+        var varEtapaSolicitud_GUID_id = $('#EtapaSolicitud_GUID_id').val();
+        var varEtapa_id = $('#Etapa_id').val();
+        var Solicitud_id = $('#Solicitud_id').val();
+        var varEtapaRuta_id = $('#EtapaRuta_id').val();
+        var varCorrelativoEtapa_id = $('#CorrelativoEtapa_id').val();
+        loaderPantalla(true);
+        var data = {
+            Solicitud_id: Solicitud_id,
+            Guid_id: varSolicitud_Guid_id,
+            EtapaSolicitudGuid: varEtapaSolicitud_GUID_id,
+            etapa_id: varEtapa_id,
+            etaparuta_id: varEtapaRuta_id,
+            correlativoetapa_id: varCorrelativoEtapa_id
+        }
+
+            var url = "@Url.Action("EmitirDocumento", "Form_FormularioDirectorRegionalMotoSierra")";
+
+            $.post(url, data).done(function (jsonRespuesta) {
+                loaderPantalla(false);
+
+                var objJSON = JSON.parse(jsonRespuesta);
+                var Texto_Respuesta = objJSON.Ubicacion;
+
+                window.open('/Archivos_Generados_Que_Pueden_Borrar/' + Texto_Respuesta, '_blank');
+
+                var TdHiddeA = document.getElementById("btnFirmarDocumento");
+                TdHiddeA.style.display = "block";
+
+            });
+
+
+        }
+
+</script>
+
+@Html.HiddenFor(model => model.Solicitud_id)
+@Html.HiddenFor(model => model.Etapa_id)
+@Html.HiddenFor(model => model.EtapaRuta_id)
+@Html.HiddenFor(model => model.CorrelativoEtapa_id)
+@Html.HiddenFor(model => model.NoResolucion)
+@Html.HiddenFor(model => model.NoInformeTecnico)
+@Html.HiddenFor(model => model.Solicitud_Guid_id)
+@Html.HiddenFor(model => model.EtapaSolicitud_GUID_id)
+
+
+
+<table>
+    <tr>
+        <th colspan="2">Datos para la firma electrónica</th>
+    </tr>
+    <tr>
+        <td><br /></td>
+    </tr>
+    <tr>
+        <td width="20%">Usuario</td>
+        <td width="20%">
+            <input type="text" id="FirmaElectronicaUsuario" name="FirmaElectronicaUsuario" value="" />
+        </td>
+        <td width="20%">Password</td>
+        <td width="20%">
+            <input type="password" id="FirmaElectronicaPassword" name="FirmaElectronicaPassword" value="" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <br />
+        </td>
+    </tr>
+</table>
+
+
+<table>
+    <tr>
+        <td>
+            <input type="button" value="Vista previa" id="ExportarPDF" class="btn btn-success" onclick="EmitirDocumento()" />
+        </td>
+        <td>
+            <button class="btn btn-success" id="btnFirmarDocumento" name="btnFirmarDocumento" onclick="FirmarDocumento()" style="display:none;">Firmar Documento</button>
+        </td>
+        <td>
+            @*<input type="button" class="btn btn-secondary" value="Cerrar y continuar despues" onclick="Cerrar()" />*@
+        </td>
+    </tr>
+</table>

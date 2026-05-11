@@ -1,0 +1,43 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+<script>
+
+    $(document).ready(function () {
+
+        $('#datosdasometricos').load('/RNF_Inventario/Index?Guid_id=@ViewBag.Guid_id')
+
+        $('#gestionCultivos').load('/RNF_Rodal_Cultivo/Create?No_Registro=@ViewBag.Guid_id')
+
+    });
+
+
+
+</script>
+
+<div id="section_RodalDasometricos">
+    @model IEnumerable<RNF_Web.Models.Tbl_RNF_Rodal_Dasometrico>
+    <div class="container-fluid">
+        <div style='height: 30px; width: 100%; background-color: #66bb6a; color: white; '>
+            <h4>Detalle de datos dasométricos cargados</h4>
+        </div>
+
+        <br />
+
+        <a href="/RNF_Rodal_Dasometrico/DatosDasometricosCargados?Guid_id=@ViewBag.Guid_id" target="_blank">
+            <input type="button" class="btn-success" value="Visualizar datos cargados" />
+        </a>
+        <br />
+        <br />
+
+    </div>
+
+    <div id="datosdasometricos"></div>
+    <div id="gestionCultivos"></div>
+
+
+</div>

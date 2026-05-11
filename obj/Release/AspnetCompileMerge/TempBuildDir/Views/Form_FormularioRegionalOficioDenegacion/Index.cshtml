@@ -1,0 +1,26 @@
+﻿@using RNF_Web.Models;
+@{
+    Layout = null;
+    long Solicitud_id = ViewBag.Solicitud_id;
+    int Etapa_id = ViewBag.Etapa_id;
+    decimal EtapaRuta_id = ViewBag.EtapaRuta_id;
+    int CorrelativoEtapa_id = ViewBag.CorrelativoEtapa_id;
+    string GuidEtapa_id = ViewBag.GuidEtapa_id;
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+
+<div id="div_OficioRegistroNoProcedente"></div>
+
+<script>
+    $(document).ready(function () {
+        var myOficioRegistroNoProcedente = document.getElementById("div_OficioRegistroNoProcedente");
+        if (myOficioRegistroNoProcedente) {
+            $("#div_OficioRegistroNoProcedente").load('/Form_FormularioRegionalOficioDenegacion/Oficio_Registro_NoProcedente?Solicitud_id=@Solicitud_id&Etapa_id=@Etapa_id&EtapaRuta_id=@EtapaRuta_id&CorrelativoEtapa_id=@CorrelativoEtapa_id&GuidEtapa_id=@GuidEtapa_id')
+        }
+    });
+</script>

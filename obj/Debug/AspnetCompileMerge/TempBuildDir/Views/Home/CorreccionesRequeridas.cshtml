@@ -1,0 +1,30 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+<div class="container-fluid">
+
+    <img src="~/Content/images/bannerregistro.png" width="100%" />
+
+    <h3>El formulario no puede ser enviado</h3>
+    <hr />
+    <span>
+        <h4> Debe completar los siguientes requerimientos: </h4>
+
+        @foreach (var item in ViewBag.PuntosBloqueantes)
+        {
+            <h4> @Html.Raw(item.Descripcion)</h4>
+        }
+
+        @foreach (var item in ViewBag.DocumentosBloqueantes)
+        {
+            <h4>Debe subir el documento: @Html.Raw(item.Descripcion)</h4>
+        }
+    </span>
+    <hr />
+    <h4>Cierre esta ventana y complete la solicitud</h4>
+
+</div>

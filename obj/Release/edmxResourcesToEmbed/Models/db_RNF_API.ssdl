@@ -1,0 +1,1312 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="db_RNF_APIModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Tbl_API_Gral_Especie">
+    <Key>
+      <PropertyRef Name="Especie_Id" />
+    </Key>
+    <Property Name="Especie_Id" Type="varchar" MaxLength="12" Nullable="false" />
+    <Property Name="NombreCientifico" Type="varchar" MaxLength="250" />
+    <Property Name="NombresComunes" Type="varchar" MaxLength="250" />
+    <Property Name="Autores" Type="varchar" MaxLength="250" />
+    <Property Name="Sinonimos" Type="varchar" MaxLength="250" />
+    <Property Name="Familia" Type="varchar" MaxLength="250" />
+    <Property Name="Id" Type="int" />
+    <Property Name="ArbolFrutal" Type="bit" />
+    <Property Name="Conifera" Type="bit" />
+    <Property Name="Latifoliada" Type="bit" />
+    <Property Name="Estado_id" Type="bit" />
+    <Property Name="swcreatedby" Type="bigint" />
+    <Property Name="swcreatedbyinterno" Type="bit" />
+    <Property Name="swdatecreated" Type="datetime" />
+    <Property Name="swdateupdated" Type="datetime" />
+    <Property Name="swupdatedby" Type="bigint" />
+    <Property Name="swupdatedbyinterno" Type="bit" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Finca">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_Id" />
+    </Key>
+    <Property Name="Auditoria_id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Solicitud_id" Type="bigint" Nullable="false" />
+    <Property Name="Finca_Id" Type="bigint" Nullable="false" />
+    <Property Name="NombreFinca" Type="varchar" MaxLength="500" />
+    <Property Name="ObjetivoDeLaPlantacion" Type="varchar" MaxLength="500" />
+    <Property Name="Departamento_Registro" Type="varchar" MaxLength="500" />
+    <Property Name="Departamento" Type="varchar" MaxLength="500" />
+    <Property Name="Municipio" Type="varchar" MaxLength="500" />
+    <Property Name="Ubicacion" Type="varchar" MaxLength="500" />
+    <Property Name="AreaTotal" Type="decimal" Precision="18" Scale="10" />
+    <Property Name="AreaARegistrar" Type="decimal" Precision="18" Scale="10" />
+    <Property Name="GTMX" Type="decimal" Precision="18" Scale="10" />
+    <Property Name="GTMY" Type="decimal" Precision="18" Scale="10" />
+    <Property Name="swcreatedby" Type="bigint" />
+    <Property Name="swcreatedbyinterno" Type="bit" />
+    <Property Name="swdatecreated" Type="datetime" />
+    <Property Name="swtransferedby" Type="varchar(max)" />
+    <Property Name="swdatetransfered" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Tipo_de_Area" />
+      <PropertyRef Name="Rodal_Id" />
+    </Key>
+    <Property Name="Auditoria_id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Solicitud_id" Type="bigint" Nullable="false" />
+    <Property Name="Finca_id" Type="bigint" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Rodal_Id" Type="bigint" Nullable="false" />
+    <Property Name="AreaTotal" Type="decimal" Precision="10" Scale="3" />
+    <Property Name="AreaTotalCalculadaSistema" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="Longitud_Total" Type="decimal" Precision="10" Scale="3" />
+    <Property Name="GTMX" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="GTMX_Min" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="GTMX_Max" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY_Min" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY_Max" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="Colecta_De_Datos_X_Censo" Type="bit" Nullable="false" />
+    <Property Name="Colecta_De_Datos_X_Muestreo" Type="bit" Nullable="false" />
+    <Property Name="Colecta_De_Datos_X_Muestreo_No_Parcelas" Type="int" />
+    <Property Name="Colecta_De_Datos_X_Muestreo_Area_Parcelas" Type="decimal" Precision="25" Scale="3" />
+    <Property Name="Area_SIGAP" Type="bit" Nullable="false" />
+    <Property Name="CategoriaSIGAP_Id" Type="int" />
+    <Property Name="Procedencia_Pinfor" Type="bit" Nullable="false" />
+    <Property Name="Procedencia_Pinpep" Type="bit" Nullable="false" />
+    <Property Name="Procedencia_Probosque" Type="bit" Nullable="false" />
+    <Property Name="Procedencia_No_Expediente" Type="varchar" MaxLength="30" />
+    <Property Name="Procedencia_AnioInicial" Type="int" />
+    <Property Name="Procedencia_AnioFinal" Type="int" />
+    <Property Name="AreaRegion_Id" Type="bigint" />
+    <Property Name="AreaProtegida_Id" Type="bigint" />
+    <Property Name="Inconvenientes" Type="varchar" MaxLength="5000" />
+    <Property Name="InconvenientesBloqueantes" Type="bit" />
+    <Property Name="swcreatedby" Type="bigint" />
+    <Property Name="swcreatedbyinterno" Type="bit" />
+    <Property Name="swdatecreated" Type="datetime" />
+    <Property Name="swdateupdated" Type="datetime" />
+    <Property Name="swupdatedby" Type="bigint" />
+    <Property Name="swupdatedbyinterno" Type="bit" />
+    <Property Name="CategoriaSIGAP_AreaLongitud" Type="decimal" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal_Dasometrico">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Rodal_id" />
+      <PropertyRef Name="No_Parcela" />
+      <PropertyRef Name="Dasometrico_id" />
+      <PropertyRef Name="Tipo_de_Area" />
+    </Key>
+    <Property Name="Auditoria_id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Solicitud_id" Type="bigint" Nullable="false" />
+    <Property Name="Finca_id" Type="bigint" Nullable="false" />
+    <Property Name="Rodal_id" Type="bigint" Nullable="false" />
+    <Property Name="No_Parcela" Type="int" Nullable="false" />
+    <Property Name="Dasometrico_id" Type="bigint" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="Area_Efectiva_Rodal" Type="decimal" Precision="18" Scale="10" />
+    <Property Name="Area_Muestreada" Type="decimal" Precision="18" Scale="10" />
+    <Property Name="Especie" Type="varchar" MaxLength="50" />
+    <Property Name="Anio_Establecimiento" Type="int" />
+    <Property Name="DAP_Promedio" Type="decimal" Precision="18" Scale="10" />
+    <Property Name="Altura_Promedio" Type="decimal" Precision="18" Scale="10" />
+    <Property Name="swcreatedby" Type="bigint" />
+    <Property Name="swcreatedbyinterno" Type="bit" />
+    <Property Name="swdatecreated" Type="datetime" />
+    <Property Name="swtransferedby" Type="varchar(max)" />
+    <Property Name="swdatetransfered" Type="datetime" />
+    <Property Name="Clase_id" Type="int" />
+    <Property Name="EstadoFitosanitario" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal_Dasometrico_CentroParcela_Local">
+    <Key>
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Rodal_id" />
+      <PropertyRef Name="No_Parcela" />
+    </Key>
+    <Property Name="Solicitud_id" Type="bigint" Nullable="false" />
+    <Property Name="Finca_id" Type="bigint" Nullable="false" />
+    <Property Name="Rodal_id" Type="bigint" Nullable="false" />
+    <Property Name="No_Parcela" Type="int" Nullable="false" />
+    <Property Name="GTMX" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="swcreatedby" Type="bigint" />
+    <Property Name="swdatecreated" Type="datetime" />
+    <Property Name="swcreatedbyinterno" Type="bit" />
+    <Property Name="swupdatedby" Type="bigint" />
+    <Property Name="swdateupdated" Type="datetime" />
+    <Property Name="swupdatedbyinterno" Type="bit" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal_Dasometrico_Local">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Rodal_id" />
+      <PropertyRef Name="No_Parcela" />
+      <PropertyRef Name="Dasometrico_id" />
+      <PropertyRef Name="Tipo_de_Area" />
+    </Key>
+    <Property Name="Auditoria_id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Solicitud_id" Type="bigint" Nullable="false" />
+    <Property Name="Finca_id" Type="bigint" Nullable="false" />
+    <Property Name="Rodal_id" Type="bigint" Nullable="false" />
+    <Property Name="No_Parcela" Type="int" Nullable="false" />
+    <Property Name="Dasometrico_id" Type="bigint" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="Validado" Type="bit" />
+    <Property Name="Area_Muestreada" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="Area_Efectiva_Rodal" Type="decimal" Precision="18" Scale="10" />
+    <Property Name="Especie" Type="varchar" MaxLength="50" />
+    <Property Name="Anio_Establecimiento" Type="int" />
+    <Property Name="DAP_Promedio" Type="decimal" Precision="18" Scale="10" />
+    <Property Name="Altura_Promedio" Type="decimal" Precision="18" Scale="10" />
+    <Property Name="swcreatedby" Type="bigint" />
+    <Property Name="swcreatedbyinterno" Type="bit" />
+    <Property Name="swdatecreated" Type="datetime" />
+    <Property Name="swtransferedby" Type="varchar(max)" />
+    <Property Name="swdatetransfered" Type="datetime" />
+    <Property Name="Clase_id" Type="int" />
+    <Property Name="EstadoFitosanitario" Type="varchar" MaxLength="100" />
+    <Property Name="AreaBasal_MetroCuadrado" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="AreaBasal_Hectarea" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="Volumen_MetrosCubicos" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="Volumen_ha" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="Formula_Volumen_MetrosCubicos" Type="varchar" MaxLength="500" />
+    <Property Name="Formula_Volumen_ha" Type="varchar" MaxLength="500" />
+    <Property Name="Formula_AreaBasal_MetroCuadrado" Type="varchar" MaxLength="500" />
+    <Property Name="Formula_AreaBasal_Hectarea" Type="varchar" MaxLength="500" />
+    <Property Name="Clase_id1" Type="int" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal_Dasometrico_Manual">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Rodal_id" />
+      <PropertyRef Name="No_Parcela" />
+      <PropertyRef Name="Dasometrico_id" />
+      <PropertyRef Name="Tipo_de_Area" />
+    </Key>
+    <Property Name="Auditoria_id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Solicitud_id" Type="bigint" Nullable="false" />
+    <Property Name="Finca_id" Type="bigint" Nullable="false" />
+    <Property Name="Rodal_id" Type="bigint" Nullable="false" />
+    <Property Name="No_Parcela" Type="int" Nullable="false" />
+    <Property Name="Dasometrico_id" Type="bigint" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="Especie" Type="varchar" MaxLength="50" />
+    <Property Name="Anio_Establecimiento" Type="int" />
+    <Property Name="DAP_Promedio" Type="decimal" Precision="18" Scale="10" />
+    <Property Name="Altura_Promedio" Type="decimal" Precision="18" Scale="10" />
+    <Property Name="swcreatedby" Type="bigint" />
+    <Property Name="swcreatedbyinterno" Type="bit" />
+    <Property Name="swdatecreated" Type="datetime" />
+    <Property Name="swtransferedby" Type="varchar(max)" />
+    <Property Name="swdatetransfered" Type="datetime" />
+    <Property Name="Clase_id" Type="int" />
+    <Property Name="EstadoFitosanitario" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal_Dasometrico_ValidacionesDiametrica_Local">
+    <Key>
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Rodal_id" />
+      <PropertyRef Name="No_Parcela" />
+      <PropertyRef Name="Tipo_de_Area" />
+      <PropertyRef Name="ClaseDiametrica" />
+      <PropertyRef Name="Especie_id" />
+      <PropertyRef Name="Anio_Plantacion" />
+      <PropertyRef Name="Clase" />
+    </Key>
+    <Property Name="Solicitud_id" Type="bigint" Nullable="false" />
+    <Property Name="Finca_id" Type="bigint" Nullable="false" />
+    <Property Name="Rodal_id" Type="bigint" Nullable="false" />
+    <Property Name="No_Parcela" Type="int" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="int" Nullable="false" />
+    <Property Name="ClaseDiametrica" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="Cantidad_Arboles" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="Densidad_ha" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="AlturaPromedio" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="AreaBasal_ha" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="Volumen_ha" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="Volumen_Rodal" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="Especie_id" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="EstimacionPorMedioDe" Type="varchar" MaxLength="50" />
+    <Property Name="Anio_Plantacion" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="Volumen_X_Linea" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="Area_Basal_MetroCuadrado" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="Clase" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal_Descuento">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Rodal_Id" />
+      <PropertyRef Name="Rodal_Descuento_Id" />
+      <PropertyRef Name="Tipo_de_Area" />
+    </Key>
+    <Property Name="Auditoria_id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Solicitud_id" Type="bigint" Nullable="false" />
+    <Property Name="Finca_id" Type="bigint" Nullable="false" />
+    <Property Name="Rodal_Id" Type="bigint" Nullable="false" />
+    <Property Name="Rodal_Descuento_Id" Type="bigint" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="AreaTotal" Type="decimal" Precision="10" Scale="3" />
+    <Property Name="AreaTotalCalculadaSistema" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="GTMX" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="swcreatedby" Type="bigint" />
+    <Property Name="swcreatedbyinterno" Type="bit" />
+    <Property Name="swdatecreated" Type="datetime" />
+    <Property Name="swtransferedby" Type="varchar(max)" />
+    <Property Name="swdatetransfered" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal_Descuento_Local">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Rodal_Id" />
+      <PropertyRef Name="Rodal_Descuento_Id" />
+      <PropertyRef Name="Tipo_de_Area" />
+    </Key>
+    <Property Name="Auditoria_id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Solicitud_id" Type="bigint" Nullable="false" />
+    <Property Name="Finca_id" Type="bigint" Nullable="false" />
+    <Property Name="Rodal_Id" Type="bigint" Nullable="false" />
+    <Property Name="Rodal_Descuento_Id" Type="bigint" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="AreaTotal" Type="decimal" Precision="10" Scale="3" />
+    <Property Name="AreaTotalCalculadaSistema" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="GTMX" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="swcreatedby" Type="bigint" />
+    <Property Name="swcreatedbyinterno" Type="bit" />
+    <Property Name="swdatecreated" Type="datetime" />
+    <Property Name="swtransferedby" Type="varchar(max)" />
+    <Property Name="swdatetransfered" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal_Descuento_Poligono">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Rodal_Id" />
+      <PropertyRef Name="Rodal_Descuento_Id" />
+      <PropertyRef Name="Carga_id" />
+      <PropertyRef Name="Correlativo_id" />
+      <PropertyRef Name="Tipo_de_Area" />
+    </Key>
+    <Property Name="Auditoria_id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Solicitud_id" Type="bigint" Nullable="false" />
+    <Property Name="Finca_id" Type="bigint" Nullable="false" />
+    <Property Name="Rodal_Id" Type="bigint" Nullable="false" />
+    <Property Name="Rodal_Descuento_Id" Type="bigint" Nullable="false" />
+    <Property Name="Carga_id" Type="bigint" Nullable="false" />
+    <Property Name="Correlativo_id" Type="int" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="GTMX" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="Latitud" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="Longitud" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="Estado_id" Type="bit" />
+    <Property Name="swcreatedby" Type="bigint" />
+    <Property Name="swcreatedbyinterno" Type="bit" />
+    <Property Name="swdatecreated" Type="datetime" />
+    <Property Name="swtransferedby" Type="varchar(max)" />
+    <Property Name="swdatetransfered" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal_Descuento_Poligono_Local">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Rodal_Id" />
+      <PropertyRef Name="Rodal_Descuento_Id" />
+      <PropertyRef Name="RegistroLocal_id" />
+      <PropertyRef Name="Tipo_de_Area" />
+    </Key>
+    <Property Name="Auditoria_id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Solicitud_id" Type="bigint" Nullable="false" />
+    <Property Name="Finca_id" Type="bigint" Nullable="false" />
+    <Property Name="Rodal_Id" Type="bigint" Nullable="false" />
+    <Property Name="Rodal_Descuento_Id" Type="bigint" Nullable="false" />
+    <Property Name="RegistroLocal_id" Type="bigint" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="GTMX" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="Latitud" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="Longitud" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="Estado_id" Type="bit" />
+    <Property Name="swcreatedby" Type="bigint" />
+    <Property Name="swcreatedbyinterno" Type="bit" />
+    <Property Name="swdatecreated" Type="datetime" />
+    <Property Name="swtransferedby" Type="varchar(max)" />
+    <Property Name="swdatetransfered" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal_Local">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Tipo_de_Area" />
+      <PropertyRef Name="Rodal_Id" />
+    </Key>
+    <Property Name="Auditoria_id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Solicitud_id" Type="bigint" Nullable="false" />
+    <Property Name="Finca_id" Type="bigint" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Rodal_Id" Type="bigint" Nullable="false" />
+    <Property Name="AreaTotal" Type="decimal" Precision="10" Scale="3" />
+    <Property Name="AreaTotalCalculadaSistema" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="Longitud_Total" Type="decimal" Precision="10" Scale="3" />
+    <Property Name="GTMX" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="GTMX_Min" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="GTMX_Max" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY_Min" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY_Max" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="Colecta_De_Datos_X_Censo" Type="bit" Nullable="false" />
+    <Property Name="Colecta_De_Datos_X_Muestreo" Type="bit" Nullable="false" />
+    <Property Name="Colecta_De_Datos_X_Muestreo_No_Parcelas" Type="int" />
+    <Property Name="Colecta_De_Datos_X_Muestreo_Area_Parcelas" Type="decimal" Precision="25" Scale="3" />
+    <Property Name="Area_SIGAP" Type="bit" Nullable="false" />
+    <Property Name="CategoriaSIGAP_Id" Type="int" />
+    <Property Name="Procedencia_Pinfor" Type="bit" Nullable="false" />
+    <Property Name="Procedencia_Pinpep" Type="bit" Nullable="false" />
+    <Property Name="Procedencia_Probosque" Type="bit" Nullable="false" />
+    <Property Name="Procedencia_No_Expediente" Type="varchar" MaxLength="30" />
+    <Property Name="Procedencia_AnioInicial" Type="int" />
+    <Property Name="Procedencia_AnioFinal" Type="int" />
+    <Property Name="AreaRegion_Id" Type="bigint" />
+    <Property Name="AreaProtegida_Id" Type="bigint" />
+    <Property Name="Inconvenientes" Type="varchar" MaxLength="5000" />
+    <Property Name="InconvenientesBloqueantes" Type="bit" />
+    <Property Name="swcreatedby" Type="bigint" />
+    <Property Name="swcreatedbyinterno" Type="bit" />
+    <Property Name="swdatecreated" Type="datetime" />
+    <Property Name="swdateupdated" Type="datetime" />
+    <Property Name="swupdatedby" Type="bigint" />
+    <Property Name="swupdatedbyinterno" Type="bit" />
+    <Property Name="CategoriaSIGAP_AreaLongitud" Type="decimal" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal_Poligono">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Rodal_Id" />
+      <PropertyRef Name="Carga_id" />
+      <PropertyRef Name="Correlativo_id" />
+      <PropertyRef Name="Tipo_de_Area" />
+    </Key>
+    <Property Name="Auditoria_id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Solicitud_id" Type="bigint" Nullable="false" />
+    <Property Name="Finca_id" Type="bigint" Nullable="false" />
+    <Property Name="Rodal_Id" Type="bigint" Nullable="false" />
+    <Property Name="Carga_id" Type="bigint" Nullable="false" />
+    <Property Name="Correlativo_id" Type="int" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="Estado_id" Type="bit" />
+    <Property Name="GTMX" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="Longitud" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="Latitud" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="swcreatedby" Type="bigint" />
+    <Property Name="swcreatedbyinterno" Type="bit" />
+    <Property Name="swdatecreated" Type="datetime" />
+    <Property Name="swtransferedby" Type="varchar(max)" />
+    <Property Name="swdatetransfered" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal_Poligono_Local">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+      <PropertyRef Name="RegistroLocal_id" />
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Rodal_Id" />
+      <PropertyRef Name="Tipo_de_Area" />
+    </Key>
+    <Property Name="Auditoria_id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="RegistroLocal_id" Type="bigint" Nullable="false" />
+    <Property Name="Solicitud_id" Type="bigint" Nullable="false" />
+    <Property Name="Finca_id" Type="bigint" Nullable="false" />
+    <Property Name="Rodal_Id" Type="bigint" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="Estado_id" Type="bit" />
+    <Property Name="GTMX" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="Longitud" Type="decimal" Precision="25" Scale="20" />
+    <Property Name="Latitud" Type="decimal" Precision="25" Scale="20" />
+    <Property Name="Altitud" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="swcreatedby" Type="bigint" />
+    <Property Name="swcreatedbyinterno" Type="bit" />
+    <Property Name="swdatecreated" Type="datetime" />
+    <Property Name="swtransferedby" Type="varchar(max)" />
+    <Property Name="swdatetransfered" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Solicitud">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+    </Key>
+    <Property Name="Auditoria_id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Solicitud_id" Type="bigint" />
+    <Property Name="Guid_id" Type="varchar" MaxLength="40" />
+    <Property Name="Region_id" Type="int" />
+    <Property Name="SubRegion_id" Type="int" />
+    <Property Name="Region" Type="varchar(max)" />
+    <Property Name="SubRegion" Type="varchar(max)" />
+    <Property Name="Categoria" Type="varchar(max)" />
+    <Property Name="SubCategoria" Type="varchar(max)" />
+    <Property Name="Especificacion" Type="varchar(max)" />
+    <Property Name="Solicitante" Type="varchar" MaxLength="300" />
+    <Property Name="swcreatedby" Type="bigint" />
+    <Property Name="swdatecreated" Type="datetime" />
+    <Property Name="swcreatedbyinterno" Type="bit" />
+    <Property Name="swusertransferedby" Type="bigint" />
+    <Property Name="swtransferedby" Type="varchar(max)" />
+    <Property Name="swdatetransfered" Type="datetime" />
+  </EntityType>
+  <Function Name="fc_API_GetLongitudLatitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="GTMX" Type="decimal" Mode="In" />
+    <Parameter Name="GTMy" Type="decimal" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Longitud" Type="float" />
+          <Property Name="Latitud" Type="float" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_API_GetRegistro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Guid" Type="varchar" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Guid_id" Type="varchar" MaxLength="40" />
+          <Property Name="No_Registro" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="No_RegistroLiteral" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="No_RegistroCorrelativo" Type="int" Nullable="false" />
+          <Property Name="Solicitud_id" Type="bigint" Nullable="false" />
+          <Property Name="Region_id" Type="int" />
+          <Property Name="SubRegion_id" Type="int" />
+          <Property Name="Region" Type="varchar" MaxLength="50" />
+          <Property Name="SubRegion" Type="varchar" MaxLength="50" />
+          <Property Name="Categoria_id" Type="int" />
+          <Property Name="Sub_Categoria_id" Type="int" />
+          <Property Name="Sub_Sub_Categoria_id" Type="int" />
+          <Property Name="Categoria" Type="varchar" MaxLength="100" />
+          <Property Name="SubCategoria" Type="varchar" MaxLength="100" />
+          <Property Name="Especificacion" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="swcreatedby" Type="bigint" />
+          <Property Name="swcreatedbyinterno" Type="bit" />
+          <Property Name="swdatecreated" Type="datetime" />
+          <Property Name="Solicitante" Type="varchar" MaxLength="2001" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_API_GetResumenFinca_DictamenTecnico" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+    <Parameter Name="Finca_id" Type="bigint" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Solicitud_id" Type="bigint" />
+          <Property Name="Finca_id" Type="bigint" />
+          <Property Name="Area_SIGAP" Type="bit" />
+          <Property Name="CategoriaSIGAP_Id" Type="int" />
+          <Property Name="CategoriaSIGAP" Type="varchar" MaxLength="150" />
+          <Property Name="CategoriaSIGAP_AreaLongitud" Type="decimal" Precision="18" Scale="2" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_API_GetSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Guid" Type="varchar" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Guid_id" Type="varchar" MaxLength="40" />
+          <Property Name="Solicitud_id" Type="bigint" Nullable="false" />
+          <Property Name="Region_id" Type="int" />
+          <Property Name="SubRegion_id" Type="int" />
+          <Property Name="Region" Type="varchar" MaxLength="50" />
+          <Property Name="SubRegion" Type="varchar" MaxLength="50" />
+          <Property Name="Categoria" Type="varchar" MaxLength="100" />
+          <Property Name="SubCategoria" Type="varchar" MaxLength="100" />
+          <Property Name="Especificacion" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="swcreatedby" Type="bigint" />
+          <Property Name="swcreatedbyinterno" Type="bit" />
+          <Property Name="swdatecreated" Type="datetime" />
+          <Property Name="Solicitante" Type="varchar" MaxLength="2001" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_API_GetSolicitudDasometricoCentroParcela" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Solicitud_id" Type="bigint" Nullable="false" />
+          <Property Name="Finca_id" Type="bigint" Nullable="false" />
+          <Property Name="Rodal_Id" Type="bigint" Nullable="false" />
+          <Property Name="No_Parcela" Type="int" Nullable="false" />
+          <Property Name="Tipo_de_Area_id" Type="int" Nullable="false" />
+          <Property Name="Tipo_de_Area" Type="varchar" MaxLength="150" />
+          <Property Name="GTMX" Type="decimal" Precision="25" Scale="12" Nullable="false" />
+          <Property Name="GTMY" Type="decimal" Precision="25" Scale="12" Nullable="false" />
+          <Property Name="Longitud" Type="float" />
+          <Property Name="Latitud" Type="float" />
+          <Property Name="swcreatedby" Type="bigint" />
+          <Property Name="swcreatedbyinterno" Type="bit" />
+          <Property Name="swdatecreated" Type="datetime" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_API_GetSolicitudFinca" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Solicitud_id" Type="bigint" Nullable="false" />
+          <Property Name="Finca_id" Type="bigint" Nullable="false" />
+          <Property Name="NombreFinca" Type="varchar" MaxLength="500" />
+          <Property Name="ObjetivoDeLaPlantacion" Type="varchar" MaxLength="100" />
+          <Property Name="Departamento_Registro" Type="varchar" MaxLength="100" />
+          <Property Name="Departamento" Type="varchar" MaxLength="100" />
+          <Property Name="Municipio" Type="varchar" MaxLength="120" />
+          <Property Name="Ubicacion" Type="varchar" MaxLength="1500" />
+          <Property Name="AreaTotal" Type="decimal" Precision="10" Scale="3" />
+          <Property Name="AreaARegistrar" Type="decimal" Precision="10" Scale="3" />
+          <Property Name="GTMX" Type="decimal" Precision="25" Scale="12" Nullable="false" />
+          <Property Name="GTMY" Type="decimal" Precision="25" Scale="12" Nullable="false" />
+          <Property Name="swcreatedby" Type="bigint" />
+          <Property Name="swcreatedbyinterno" Type="bit" />
+          <Property Name="swdatecreated" Type="datetime" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_API_GetSolicitudRodal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Solicitud_id" Type="bigint" Nullable="false" />
+          <Property Name="Finca_id" Type="bigint" Nullable="false" />
+          <Property Name="Rodal_Id" Type="bigint" Nullable="false" />
+          <Property Name="Carga_id" Type="bigint" Nullable="false" />
+          <Property Name="Correlativo_id" Type="int" Nullable="false" />
+          <Property Name="Tipo_de_Area" Type="varchar" MaxLength="150" />
+          <Property Name="Estado_id" Type="bit" />
+          <Property Name="GTMX" Type="decimal" Precision="25" Scale="12" Nullable="false" />
+          <Property Name="GTMY" Type="decimal" Precision="25" Scale="12" Nullable="false" />
+          <Property Name="Longitud" Type="decimal" Precision="25" Scale="12" Nullable="false" />
+          <Property Name="Latitud" Type="decimal" Precision="25" Scale="12" Nullable="false" />
+          <Property Name="swcreatedby" Type="bigint" />
+          <Property Name="swcreatedbyinterno" Type="bit" />
+          <Property Name="swdatecreated" Type="datetime" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_API_PlantacionVoluntaria" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Solicitud_id" Type="bigint" Nullable="false" />
+          <Property Name="Finca_id" Type="bigint" Nullable="false" />
+          <Property Name="Rodal_id" Type="bigint" Nullable="false" />
+          <Property Name="Dasometrico_id" Type="bigint" Nullable="false" />
+          <Property Name="Tipo_de_Area" Type="varchar" MaxLength="150" />
+          <Property Name="Area_Efectiva_Rodal" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="No_Parcela" Type="int" Nullable="false" />
+          <Property Name="Area_Muestreada" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="Especie" Type="varchar" MaxLength="250" />
+          <Property Name="Anio_Establecimiento" Type="int" />
+          <Property Name="DAP_Promedio" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="Altura_Promedio" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="swcreatedby" Type="bigint" />
+          <Property Name="swcreatedbyinterno" Type="bit" />
+          <Property Name="swdatecreated" Type="datetime" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_API_RodalDescuento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Solicitud_id" Type="bigint" Nullable="false" />
+          <Property Name="Finca_id" Type="bigint" Nullable="false" />
+          <Property Name="Rodal_Id" Type="bigint" Nullable="false" />
+          <Property Name="Rodal_Descuento_Id" Type="bigint" Nullable="false" />
+          <Property Name="Tipo_de_Area" Type="varchar" MaxLength="150" />
+          <Property Name="AreaTotal" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="AreaTotalCalculadaSistema" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="GTMX" Type="decimal" Precision="25" Scale="12" Nullable="false" />
+          <Property Name="GTMY" Type="decimal" Precision="25" Scale="12" Nullable="false" />
+          <Property Name="swcreatedby" Type="bigint" />
+          <Property Name="swcreatedbyinterno" Type="bit" />
+          <Property Name="swdatecreated" Type="datetime" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_API_RodalDescuentoPoligono" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Solicitud_id" Type="bigint" Nullable="false" />
+          <Property Name="Finca_id" Type="bigint" Nullable="false" />
+          <Property Name="Rodal_Id" Type="bigint" Nullable="false" />
+          <Property Name="Rodal_Descuento_Id" Type="bigint" Nullable="false" />
+          <Property Name="Carga_id" Type="bigint" Nullable="false" />
+          <Property Name="Correlativo_id" Type="int" Nullable="false" />
+          <Property Name="Tipo_de_Area" Type="varchar" MaxLength="150" />
+          <Property Name="GTMX" Type="decimal" Precision="25" Scale="12" Nullable="false" />
+          <Property Name="GTMY" Type="decimal" Precision="25" Scale="12" Nullable="false" />
+          <Property Name="Latitud" Type="decimal" Precision="25" Scale="12" Nullable="false" />
+          <Property Name="Longitud" Type="decimal" Precision="25" Scale="12" Nullable="false" />
+          <Property Name="Estado_id" Type="bit" />
+          <Property Name="swcreatedby" Type="bigint" />
+          <Property Name="swcreatedbyinterno" Type="bit" />
+          <Property Name="swdatecreated" Type="datetime" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_API_Sol_Finca_Rodal_Planos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+    <Parameter Name="Finca_id" Type="bigint" Mode="In" />
+    <Parameter Name="Tipo_de_Area" Type="int" Mode="In" />
+    <Parameter Name="Rodal_id" Type="bigint" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="FechaDia" Type="varchar(max)" />
+          <Property Name="Solicitud_id" Type="bigint" Nullable="false" />
+          <Property Name="Finca_id" Type="bigint" Nullable="false" />
+          <Property Name="Rodal_id" Type="bigint" Nullable="false" />
+          <Property Name="Categoria_Registro" Type="varchar(max)" />
+          <Property Name="AreaEfectiva" Type="decimal" Precision="38" Scale="3" />
+          <Property Name="Longitud_Total" Type="decimal" Precision="38" Scale="3" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_API_Sol_Sel_Rodal_ValidacionesDiametrica" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+    <Parameter Name="Finca_id" Type="bigint" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Solicitud_id" Type="bigint" Nullable="false" />
+          <Property Name="Finca_id" Type="bigint" Nullable="false" />
+          <Property Name="Rodal_id" Type="bigint" Nullable="false" />
+          <Property Name="Tipo_de_Area" Type="int" Nullable="false" />
+          <Property Name="Longitud_Total" Type="decimal" Precision="10" Scale="3" />
+          <Property Name="Cantidad_Total_Arboles" Type="int" />
+          <Property Name="Especie" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Area_Efectiva_Rodal" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="Anio_Establecimiento" Type="int" />
+          <Property Name="EstimacionPorMedioDe" Type="varchar" MaxLength="50" />
+          <Property Name="ClaseDiametrica" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Clase" Type="int" Nullable="false" />
+          <Property Name="Cantidad_Arboles" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Densidad_ha" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="AlturaPromedio" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="AreaBasal_ha" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Volumen_ha" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Volumen_Rodal" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Area_Basal_MetroCuadrado" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Volumen_X_Linea" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="CoordenadaX" Type="decimal" Precision="25" Scale="12" />
+          <Property Name="CoordenadaY" Type="decimal" Precision="25" Scale="12" />
+          <Property Name="Filas_PDF_Estimacion" Type="int" />
+          <Property Name="Cantidad_Especies_X_Rodal" Type="int" />
+          <Property Name="LongitudMinima" Type="int" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_FS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Solicitud_id" Type="bigint" />
+          <Property Name="Finca_id" Type="bigint" />
+          <Property Name="Rodal_id" Type="bigint" />
+          <Property Name="Tipo_de_Area" Type="int" />
+          <Property Name="Tipo_Area" Type="varchar" MaxLength="50" />
+          <Property Name="Area_Efectiva_Rodal" Type="decimal" Precision="10" Scale="3" />
+          <Property Name="Especie_Id" Type="varchar" MaxLength="20" />
+          <Property Name="Especie" Type="varchar" MaxLength="100" />
+          <Property Name="Anio_Establecimiento" Type="int" />
+          <Property Name="DAP_Promedio" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="AlturaPromedio" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Clase_id" Type="int" />
+          <Property Name="Cantidad_De_Arboles" Type="int" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_PV" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Solicitud_id" Type="bigint" />
+          <Property Name="Finca_id" Type="bigint" />
+          <Property Name="Rodal_id" Type="bigint" />
+          <Property Name="NombreFinca" Type="varchar" MaxLength="150" />
+          <Property Name="Tipo_de_Area" Type="int" />
+          <Property Name="Tipo_de_Area_Desc" Type="varchar" MaxLength="50" />
+          <Property Name="Longitud_Total" Type="decimal" Precision="10" Scale="3" />
+          <Property Name="Cantidad_Total_Arboles" Type="int" />
+          <Property Name="Especie" Type="varchar" MaxLength="250" />
+          <Property Name="Area_Efectiva_Rodal" Type="decimal" Precision="10" Scale="3" />
+          <Property Name="Anio_Establecimiento" Type="int" />
+          <Property Name="EstimacionPorMedioDe" Type="varchar" MaxLength="50" />
+          <Property Name="Cantidad_Arboles" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Densidad_ha" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="AlturaPromedio" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="DAPPromedio" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="AreaBasal_ha" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Volumen_ha" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Volumen_Rodal" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Area_Basa_MetroCuadrado" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Volumen_X_Linea" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="CoordenadaX" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="CoordenadaY" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Clase" Type="int" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_PV_20221130" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Solicitud_id" Type="bigint" />
+          <Property Name="Finca_id" Type="bigint" />
+          <Property Name="Rodal_id" Type="bigint" />
+          <Property Name="NombreFinca" Type="varchar" MaxLength="150" />
+          <Property Name="Tipo_de_Area" Type="int" />
+          <Property Name="Tipo_de_Area_Desc" Type="varchar" MaxLength="50" />
+          <Property Name="Longitud_Total" Type="decimal" Precision="10" Scale="3" />
+          <Property Name="Cantidad_Total_Arboles" Type="int" />
+          <Property Name="Especie" Type="varchar" MaxLength="250" />
+          <Property Name="Area_Efectiva_Rodal" Type="decimal" Precision="10" Scale="3" />
+          <Property Name="Anio_Establecimiento" Type="int" />
+          <Property Name="EstimacionPorMedioDe" Type="varchar" MaxLength="50" />
+          <Property Name="Cantidad_Arboles" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Densidad_ha" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="AlturaPromedio" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="AreaBasal_ha" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Volumen_ha" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Volumen_Rodal" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Area_Basa_MetroCuadrado" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Volumen_X_Linea" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="CoordenadaX" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="CoordenadaY" Type="decimal" Precision="18" Scale="4" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_API_Sol_Sel_RodalAreProtegidaPoligono" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Rodal_id" Type="bigint" Mode="In" />
+    <Parameter Name="Solicitud_id" Type="int" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="ID_LOCATION" Type="int" />
+          <Property Name="NO_GRAPHIC" Type="varchar" MaxLength="100" />
+          <Property Name="ID_GRPHIC" Type="varchar" MaxLength="100" />
+          <Property Name="X_GMT" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Y_GMT" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="AREA" Type="varchar" MaxLength="100" />
+          <Property Name="PROPERTY" Type="varchar" MaxLength="100" />
+          <Property Name="DPI" Type="varchar" MaxLength="100" />
+          <Property Name="REG" Type="varchar" MaxLength="100" />
+          <Property Name="AREA_VERIFY" Type="varchar" MaxLength="100" />
+          <Property Name="SUBREGION" Type="varchar" MaxLength="100" />
+          <Property Name="LON" Type="varchar" MaxLength="100" />
+          <Property Name="LAT" Type="varchar" MaxLength="100" />
+          <Property Name="COLOR" Type="varchar" MaxLength="50" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_API_Sol_Sel_RodalRegionPoligono" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Rodal_id" Type="bigint" Mode="In" />
+    <Parameter Name="Solicitud_id" Type="int" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="ID_LOCATION" Type="int" />
+          <Property Name="NO_GRAPHIC" Type="varchar" MaxLength="100" />
+          <Property Name="ID_GRPHIC" Type="varchar" MaxLength="100" />
+          <Property Name="X_GMT" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Y_GMT" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="AREA" Type="varchar" MaxLength="100" />
+          <Property Name="PROPERTY" Type="varchar" MaxLength="100" />
+          <Property Name="DPI" Type="varchar" MaxLength="100" />
+          <Property Name="REG" Type="varchar" MaxLength="100" />
+          <Property Name="AREA_VERIFY" Type="varchar" MaxLength="100" />
+          <Property Name="SUBREGION" Type="varchar" MaxLength="100" />
+          <Property Name="LON" Type="varchar" MaxLength="100" />
+          <Property Name="LAT" Type="varchar" MaxLength="100" />
+          <Property Name="COLOR" Type="varchar" MaxLength="50" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_Reporte_Auditorias" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Guid_id" Type="varchar" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Guid_id" Type="varchar" MaxLength="40" />
+          <Property Name="Auditoria_id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Solicitud_id" Type="bigint" />
+          <Property Name="Solicitante" Type="varchar" MaxLength="300" />
+          <Property Name="swusertransferedby" Type="bigint" />
+          <Property Name="Auditor" Type="varchar" MaxLength="101" />
+          <Property Name="swtransferedby" Type="varchar(max)" />
+          <Property Name="swdatetransfered" Type="datetime" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_Reporte_Auditorias_Arboles_DiferenteAnio_Establecimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Auditoria_id" Type="varchar" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Finca_id" Type="bigint" Nullable="false" />
+          <Property Name="Rodal_id" Type="bigint" Nullable="false" />
+          <Property Name="No_Parcela" Type="int" Nullable="false" />
+          <Property Name="Dasometrico_id" Type="bigint" Nullable="false" />
+          <Property Name="Especie" Type="varchar" MaxLength="50" />
+          <Property Name="AnioIndicado" Type="int" />
+          <Property Name="Anio_Medida" Type="int" />
+          <Property Name="DAP_Indicada" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="DAP_Medida" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="Altura_Indicada" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="Altura_Medida" Type="decimal" Precision="18" Scale="10" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_Reporte_Auditorias_Arboles_DiferenteClase_y_EstadoFitosanitario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Auditoria_id" Type="varchar" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Finca_id" Type="bigint" Nullable="false" />
+          <Property Name="Rodal_id" Type="bigint" Nullable="false" />
+          <Property Name="No_Parcela" Type="int" Nullable="false" />
+          <Property Name="Dasometrico_id" Type="bigint" Nullable="false" />
+          <Property Name="Especie_Indicada" Type="varchar" MaxLength="50" />
+          <Property Name="Especie_Medida" Type="varchar" MaxLength="50" />
+          <Property Name="DAP_Indicada" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="DAP_Medida" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="Altura_Indicada" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="Altura_Medida" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="Clase_Indiciada" Type="int" />
+          <Property Name="Clase_Medida" Type="int" />
+          <Property Name="EstadoFitosanitario_Indiciada" Type="varchar" MaxLength="100" />
+          <Property Name="EstadoFitosanitario_Medida" Type="varchar" MaxLength="100" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_Reporte_Auditorias_Arboles_DiferenteDAP_y_Altura" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Auditoria_id" Type="varchar" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Finca_id" Type="bigint" Nullable="false" />
+          <Property Name="Rodal_id" Type="bigint" Nullable="false" />
+          <Property Name="No_Parcela" Type="int" Nullable="false" />
+          <Property Name="Dasometrico_id" Type="bigint" Nullable="false" />
+          <Property Name="Especie" Type="varchar" MaxLength="50" />
+          <Property Name="DAP_Indicada" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="DAP_Medida" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="Altura_Indicada" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="Altura_Medida" Type="decimal" Precision="18" Scale="10" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_Reporte_Auditorias_Arboles_DiferenteEspecie" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Auditoria_id" Type="varchar" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Finca_id" Type="bigint" Nullable="false" />
+          <Property Name="Rodal_id" Type="bigint" Nullable="false" />
+          <Property Name="No_Parcela" Type="int" Nullable="false" />
+          <Property Name="Dasometrico_id" Type="bigint" Nullable="false" />
+          <Property Name="Especie_Indicada" Type="varchar" MaxLength="50" />
+          <Property Name="Especie_Medida" Type="varchar" MaxLength="50" />
+          <Property Name="DAP_Indicada" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="DAP_Medida" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="Altura_Indicada" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="Altura_Medida" Type="decimal" Precision="18" Scale="10" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_Reporte_Auditorias_Arboles_PromedioDAP_y_Altura" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Auditoria_id" Type="varchar" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Cantidad" Type="int" />
+          <Property Name="Finca_id" Type="bigint" Nullable="false" />
+          <Property Name="Rodal_id" Type="bigint" Nullable="false" />
+          <Property Name="Tipo_de_Area" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Tipo_de_Area_id" Type="int" Nullable="false" />
+          <Property Name="No_Parcela" Type="int" Nullable="false" />
+          <Property Name="Especie_Indicada" Type="varchar" MaxLength="50" />
+          <Property Name="DAP_Promedio" Type="decimal" Precision="38" Scale="10" />
+          <Property Name="DAP_Promedio_Medido" Type="decimal" Precision="38" Scale="10" />
+          <Property Name="Promedio_Altura" Type="decimal" Precision="38" Scale="10" />
+          <Property Name="Promedio_Altura_Medido" Type="decimal" Precision="38" Scale="10" />
+          <Property Name="Diferencia_DAP" Type="decimal" Precision="38" Scale="10" />
+          <Property Name="Diferencia_Altura" Type="decimal" Precision="38" Scale="10" />
+          <Property Name="Observacion" Type="varchar" MaxLength="78" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_Reporte_Auditorias_ArbolesNuevos_PromedioDAP_y_Altura" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Auditoria_id" Type="varchar" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Finca_id" Type="bigint" Nullable="false" />
+          <Property Name="Rodal_id" Type="bigint" Nullable="false" />
+          <Property Name="Tipo_de_Area" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="No_Parcela" Type="int" Nullable="false" />
+          <Property Name="Arboles" Type="bigint" Nullable="false" />
+          <Property Name="Especie" Type="varchar" MaxLength="50" />
+          <Property Name="DAP_Promedio" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="Altura_Promedio" Type="decimal" Precision="18" Scale="10" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_Reporte_Auditorias_ArbolesNuevosAgrupados_PromedioDAP_y_Altura" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Auditoria_id" Type="varchar" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Finca_id" Type="bigint" Nullable="false" />
+          <Property Name="Rodal_id" Type="bigint" Nullable="false" />
+          <Property Name="Tipo_de_Area" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="No_Parcela" Type="int" Nullable="false" />
+          <Property Name="Arboles" Type="int" />
+          <Property Name="Especie" Type="varchar" MaxLength="50" />
+          <Property Name="DAP_Promedio" Type="decimal" Precision="38" Scale="10" />
+          <Property Name="Altura_Promedio" Type="decimal" Precision="38" Scale="10" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_Reporte_Auditorias_Descuento_RodalPoligonoPlano" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Auditoria_id" Type="varchar" Mode="In" />
+    <Parameter Name="Finca_id" Type="bigint" Mode="In" />
+    <Parameter Name="Rodal_id" Type="bigint" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="ID_LOCATION" Type="int" />
+          <Property Name="NO_GRAPHIC" Type="varchar" MaxLength="100" />
+          <Property Name="ID_GRPHIC" Type="varchar" MaxLength="100" />
+          <Property Name="X_GMT" Type="decimal" Precision="25" Scale="12" />
+          <Property Name="Y_GMT" Type="decimal" Precision="25" Scale="12" />
+          <Property Name="AREA" Type="varchar" MaxLength="100" />
+          <Property Name="PROPERTY" Type="varchar" MaxLength="100" />
+          <Property Name="DPI" Type="varchar" MaxLength="100" />
+          <Property Name="REG" Type="varchar" MaxLength="100" />
+          <Property Name="AREA_VERIFY" Type="varchar" MaxLength="100" />
+          <Property Name="SUBREGION" Type="varchar" MaxLength="100" />
+          <Property Name="LON" Type="varchar" MaxLength="100" />
+          <Property Name="LAT" Type="varchar" MaxLength="100" />
+          <Property Name="COLOR" Type="varchar" MaxLength="50" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_Reporte_Auditorias_Sel_FincaPoligonoPlano" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+    <Parameter Name="Finca_id" Type="bigint" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="ID_LOCATION" Type="int" />
+          <Property Name="NO_GRAPHIC" Type="varchar" MaxLength="100" />
+          <Property Name="ID_GRPHIC" Type="varchar" MaxLength="100" />
+          <Property Name="X_GMT" Type="decimal" Precision="25" Scale="12" />
+          <Property Name="Y_GMT" Type="decimal" Precision="25" Scale="12" />
+          <Property Name="AREA" Type="varchar" MaxLength="100" />
+          <Property Name="PROPERTY" Type="varchar" MaxLength="100" />
+          <Property Name="DPI" Type="varchar" MaxLength="100" />
+          <Property Name="REG" Type="varchar" MaxLength="100" />
+          <Property Name="AREA_VERIFY" Type="varchar" MaxLength="100" />
+          <Property Name="SUBREGION" Type="varchar" MaxLength="100" />
+          <Property Name="LON" Type="varchar" MaxLength="100" />
+          <Property Name="LAT" Type="varchar" MaxLength="100" />
+          <Property Name="COLOR" Type="varchar" MaxLength="50" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_Reporte_Auditorias_Sel_RodalPoligono" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+    <Parameter Name="Rodal_id" Type="bigint" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="ID_LOCATION" Type="int" />
+          <Property Name="NO_GRAPHIC" Type="varchar" MaxLength="100" />
+          <Property Name="ID_GRPHIC" Type="varchar" MaxLength="100" />
+          <Property Name="X_GMT" Type="decimal" Precision="25" Scale="12" />
+          <Property Name="Y_GMT" Type="decimal" Precision="25" Scale="12" />
+          <Property Name="AREA" Type="varchar" MaxLength="100" />
+          <Property Name="PROPERTY" Type="varchar" MaxLength="100" />
+          <Property Name="DPI" Type="varchar" MaxLength="100" />
+          <Property Name="REG" Type="varchar" MaxLength="100" />
+          <Property Name="AREA_VERIFY" Type="varchar" MaxLength="100" />
+          <Property Name="SUBREGION" Type="varchar" MaxLength="100" />
+          <Property Name="LON" Type="varchar" MaxLength="100" />
+          <Property Name="LAT" Type="varchar" MaxLength="100" />
+          <Property Name="COLOR" Type="varchar" MaxLength="50" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_Reporte_Auditorias_Sel_RodalPoligonoPlano" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+    <Parameter Name="Finca_id" Type="bigint" Mode="In" />
+    <Parameter Name="Rodal_id" Type="bigint" Mode="In" />
+    <Parameter Name="Tipo" Type="int" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="ID_LOCATION" Type="int" />
+          <Property Name="NO_GRAPHIC" Type="varchar" MaxLength="100" />
+          <Property Name="ID_GRPHIC" Type="varchar" MaxLength="100" />
+          <Property Name="X_GMT" Type="decimal" Precision="25" Scale="12" />
+          <Property Name="Y_GMT" Type="decimal" Precision="25" Scale="12" />
+          <Property Name="AREA" Type="varchar" MaxLength="100" />
+          <Property Name="PROPERTY" Type="varchar" MaxLength="100" />
+          <Property Name="DPI" Type="varchar" MaxLength="100" />
+          <Property Name="REG" Type="varchar" MaxLength="100" />
+          <Property Name="AREA_VERIFY" Type="varchar" MaxLength="100" />
+          <Property Name="SUBREGION" Type="varchar" MaxLength="100" />
+          <Property Name="LON" Type="varchar" MaxLength="100" />
+          <Property Name="LAT" Type="varchar" MaxLength="100" />
+          <Property Name="COLOR" Type="varchar" MaxLength="50" />
+          <Property Name="Tipo_Area" Type="varchar" MaxLength="150" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_20221114" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+    <Parameter Name="Finca_id" Type="bigint" Mode="In" />
+    <Parameter Name="Rodal_id" Type="bigint" Mode="In" />
+    <Parameter Name="Tipo" Type="int" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="ID_LOCATION" Type="int" />
+          <Property Name="NO_GRAPHIC" Type="varchar" MaxLength="100" />
+          <Property Name="ID_GRPHIC" Type="varchar" MaxLength="100" />
+          <Property Name="X_GMT" Type="decimal" Precision="25" Scale="12" />
+          <Property Name="Y_GMT" Type="decimal" Precision="25" Scale="12" />
+          <Property Name="AREA" Type="varchar" MaxLength="100" />
+          <Property Name="PROPERTY" Type="varchar" MaxLength="100" />
+          <Property Name="DPI" Type="varchar" MaxLength="100" />
+          <Property Name="REG" Type="varchar" MaxLength="100" />
+          <Property Name="AREA_VERIFY" Type="varchar" MaxLength="100" />
+          <Property Name="SUBREGION" Type="varchar" MaxLength="100" />
+          <Property Name="LON" Type="varchar" MaxLength="100" />
+          <Property Name="LAT" Type="varchar" MaxLength="100" />
+          <Property Name="COLOR" Type="varchar" MaxLength="50" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_Local" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+    <Parameter Name="Rodal_id" Type="bigint" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="ID_LOCATION" Type="int" />
+          <Property Name="NO_GRAPHIC" Type="varchar" MaxLength="100" />
+          <Property Name="ID_GRPHIC" Type="varchar" MaxLength="100" />
+          <Property Name="X_GMT" Type="decimal" Precision="25" Scale="12" />
+          <Property Name="Y_GMT" Type="decimal" Precision="25" Scale="12" />
+          <Property Name="AREA" Type="varchar" MaxLength="100" />
+          <Property Name="PROPERTY" Type="varchar" MaxLength="100" />
+          <Property Name="DPI" Type="varchar" MaxLength="100" />
+          <Property Name="REG" Type="varchar" MaxLength="100" />
+          <Property Name="AREA_VERIFY" Type="varchar" MaxLength="100" />
+          <Property Name="SUBREGION" Type="varchar" MaxLength="100" />
+          <Property Name="LON" Type="varchar" MaxLength="100" />
+          <Property Name="LAT" Type="varchar" MaxLength="100" />
+          <Property Name="COLOR" Type="varchar" MaxLength="50" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_Resumen" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+    <Parameter Name="Finca_id" Type="bigint" Mode="In" />
+    <Parameter Name="Rodal_id" Type="bigint" Mode="In" />
+    <Parameter Name="Tipo" Type="int" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Finca_id" Type="bigint" />
+          <Property Name="Rodal_id" Type="bigint" />
+          <Property Name="Rodal_Descuento_Id" Type="int" />
+          <Property Name="Tipo_de_AreaDescripcion" Type="varchar" MaxLength="100" />
+          <Property Name="AreaLUsuario" Type="decimal" Precision="10" Scale="4" />
+          <Property Name="AreaLTecnico" Type="decimal" Precision="10" Scale="4" />
+          <Property Name="Metrica" Type="varchar" MaxLength="15" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_Reporte_Auditorias_Sel_RodalPoligonoPlanoTecnicoOUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+    <Parameter Name="Finca_id" Type="bigint" Mode="In" />
+    <Parameter Name="Rodal_id" Type="bigint" Mode="In" />
+    <Parameter Name="Tipo" Type="int" Mode="In" />
+    <Parameter Name="Tecnico" Type="bit" Mode="In" />
+    <Parameter Name="Usuario" Type="bit" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="ID_LOCATION" Type="int" />
+          <Property Name="NO_GRAPHIC" Type="varchar" MaxLength="100" />
+          <Property Name="ID_GRPHIC" Type="varchar" MaxLength="100" />
+          <Property Name="X_GMT" Type="decimal" Precision="25" Scale="12" />
+          <Property Name="Y_GMT" Type="decimal" Precision="25" Scale="12" />
+          <Property Name="AREA" Type="varchar" MaxLength="100" />
+          <Property Name="PROPERTY" Type="varchar" MaxLength="100" />
+          <Property Name="DPI" Type="varchar" MaxLength="100" />
+          <Property Name="REG" Type="varchar" MaxLength="100" />
+          <Property Name="AREA_VERIFY" Type="varchar" MaxLength="100" />
+          <Property Name="SUBREGION" Type="varchar" MaxLength="100" />
+          <Property Name="LON" Type="varchar" MaxLength="100" />
+          <Property Name="LAT" Type="varchar" MaxLength="100" />
+          <Property Name="COLOR" Type="varchar" MaxLength="50" />
+          <Property Name="Tipo_Area" Type="varchar" MaxLength="150" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fc_Rerporte_Auditorias_Finca_Rodal_Planos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+    <Parameter Name="Finca_id" Type="bigint" Mode="In" />
+    <Parameter Name="Rodal_id" Type="bigint" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="FechaDia" Type="varchar(max)" />
+          <Property Name="Solicitud_id" Type="bigint" Nullable="false" />
+          <Property Name="Finca_id" Type="bigint" Nullable="false" />
+          <Property Name="Rodal_id" Type="bigint" Nullable="false" />
+          <Property Name="Categoria_Registro" Type="varchar" MaxLength="21" Nullable="false" />
+          <Property Name="AreaEfectiva" Type="decimal" Precision="38" Scale="3" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="Fcn_Gest_ComparativoArea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+  </Function>
+  <Function Name="fn_API_obtener_tipo_rodal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+    <Parameter Name="Finca_id" Type="bigint" Mode="In" />
+    <Parameter Name="Rodal_id" Type="bigint" Mode="In" />
+  </Function>
+  <Function Name="fn_generar_latitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
+    <Parameter Name="GTMX" Type="decimal" Mode="In" />
+    <Parameter Name="GTMY" Type="decimal" Mode="In" />
+  </Function>
+  <Function Name="fn_generar_longitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
+    <Parameter Name="GTMX" Type="decimal" Mode="In" />
+    <Parameter Name="GTMY" Type="decimal" Mode="In" />
+  </Function>
+  <Function Name="fn_sumar_area_rodal_local" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+    <Parameter Name="Finca_id" Type="bigint" Mode="In" />
+  </Function>
+  <Function Name="fn_sumar_longitud_rodal_local" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+    <Parameter Name="Finca_id" Type="bigint" Mode="In" />
+  </Function>
+  <Function Name="Fnc_API_Sol_Rodal_DasometricoAreaxParcela" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+    <Parameter Name="Finca_id" Type="bigint" Mode="In" />
+    <Parameter Name="Rodal_id" Type="bigint" Mode="In" />
+    <Parameter Name="Tipo_de_Area" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Fnc_API_Sol_Sel_Rodal_ValidacionesDiametrica_EspeciesXRodal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
+    <Parameter Name="Solicitud_id" Type="bigint" Mode="In" />
+    <Parameter Name="Finca_id" Type="bigint" Mode="In" />
+    <Parameter Name="Rodal_id" Type="bigint" Mode="In" />
+  </Function>
+  <Function Name="Fnc_Rodal_Tipo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+    <Parameter Name="Tipo_de_Area" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Fnc_Rodal_TipoMetrica" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+    <Parameter Name="Tipo_de_Area" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_API_Limpiar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="db_RNF_APIModelStoreContainer">
+    <EntitySet Name="Tbl_API_Gral_Especie" EntityType="Self.Tbl_API_Gral_Especie" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_API_Sol_Finca" EntityType="Self.Tbl_API_Sol_Finca" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_API_Sol_Rodal" EntityType="Self.Tbl_API_Sol_Rodal" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_API_Sol_Rodal_Dasometrico" EntityType="Self.Tbl_API_Sol_Rodal_Dasometrico" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_API_Sol_Rodal_Dasometrico_CentroParcela_Local" EntityType="Self.Tbl_API_Sol_Rodal_Dasometrico_CentroParcela_Local" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_API_Sol_Rodal_Dasometrico_Local" EntityType="Self.Tbl_API_Sol_Rodal_Dasometrico_Local" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_API_Sol_Rodal_Dasometrico_Manual" EntityType="Self.Tbl_API_Sol_Rodal_Dasometrico_Manual" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_API_Sol_Rodal_Dasometrico_ValidacionesDiametrica_Local" EntityType="Self.Tbl_API_Sol_Rodal_Dasometrico_ValidacionesDiametrica_Local" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_API_Sol_Rodal_Descuento" EntityType="Self.Tbl_API_Sol_Rodal_Descuento" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_API_Sol_Rodal_Descuento_Local" EntityType="Self.Tbl_API_Sol_Rodal_Descuento_Local" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_API_Sol_Rodal_Descuento_Poligono" EntityType="Self.Tbl_API_Sol_Rodal_Descuento_Poligono" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_API_Sol_Rodal_Descuento_Poligono_Local" EntityType="Self.Tbl_API_Sol_Rodal_Descuento_Poligono_Local" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_API_Sol_Rodal_Local" EntityType="Self.Tbl_API_Sol_Rodal_Local" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_API_Sol_Rodal_Poligono" EntityType="Self.Tbl_API_Sol_Rodal_Poligono" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_API_Sol_Rodal_Poligono_Local" EntityType="Self.Tbl_API_Sol_Rodal_Poligono_Local" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_API_Sol_Solicitud" EntityType="Self.Tbl_API_Sol_Solicitud" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,88 @@
+﻿@using RNF_Web.Models;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@model List<Tbl_RNF_Finca>
+@{
+    Layout = null;
+    string Guid_id = ViewBag.Guid_id;
+    //EdicionSolicitudGrants objGrant = (EdicionSolicitudGrants)Session[Constants.session_EdicionSolicitudGrants];
+    EdicionRNFGrants objRNFGrants = (EdicionRNFGrants)Session[Constants.session_EdicionRNFGrants];
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_RNF_Registro tbl_RNF_Registro = db.Tbl_RNF_Registro.Where(Obj => Obj.No_Registro == Guid_id).FirstOrDefault();
+}
+
+
+@foreach (var item in Model)
+{
+    <hr style="height:10px" />
+    <div align="center">
+        <strong>Localización de la plantación en coordenadas GTM (punto centro del rodal)</strong>
+    </div>
+    <table class="table" align="center" border="1" style="text-align:center;">
+        <tr>
+            <td>
+                <strong>GTMX</strong>
+            </td>
+            <td>
+                <strong>GTMY</strong>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @((item.GTMX??0).ToString("0"))
+            </td>
+            <td>
+                @((item.GTMY??0).ToString("0"))
+            </td>
+        </tr>
+    </table>
+    <div id="div_EstimacionVolumen_@item.Finca_Id"></div>
+    if (tbl_RNF_Registro.Categoria_id == 6)
+    {
+        <script>
+        $(document).ready(function () {
+            var myEstimacionVolumen_@item.Finca_Id = document.getElementById('div_EstimacionVolumen_@item.Finca_Id');
+            if (myEstimacionVolumen_@item.Finca_Id)
+            {
+                $('#div_EstimacionVolumen_@item.Finca_Id').load("/RNF_Inventario/EstimacionVolumen_FuenteSemillera?Guid_id=@Guid_id&Finca_Id=@item.Finca_Id")
+            }
+        });
+        </script>
+    }
+    else
+    {
+        <script>
+            $(document).ready(function () {
+                var myEstimacionVolumen_@item.Finca_Id = document.getElementById('div_EstimacionVolumen_@item.Finca_Id');
+                if (myEstimacionVolumen_@item.Finca_Id)
+                {
+                    $('#div_EstimacionVolumen_@item.Finca_Id').load("/RNF_Inventario/EstimacionVolumen?Guid_id=@Guid_id&Finca_Id=@item.Finca_Id")
+                }
+            });
+        </script>
+    }
+
+}
+
+
+@if (tbl_RNF_Registro.Categoria_id == 6)
+{
+    foreach (var item in Model)
+    {
+        <div id="div_RNF_InventarioFinca_@item.Finca_Id"></div>
+        <script>
+            $(document).ready(function () {
+                var myFinca_@item.Finca_Id = document.getElementById('div_RNF_InventarioFinca_@item.Finca_Id');
+                if (myFinca_@item.Finca_Id) {
+                    $('#div_RNF_InventarioFinca_@item.Finca_Id').load("/RNF_Inventario/Dasometricos_Rodales?No_Registro=@Guid_id&Finca_id=@item.Finca_Id");
+                }
+            });
+        </script>
+    }
+}
+

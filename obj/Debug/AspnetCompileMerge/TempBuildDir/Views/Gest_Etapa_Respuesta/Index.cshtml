@@ -1,0 +1,180 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Gest_Etapa_Respuesta>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+@{
+    ViewBag.Title = "Etapas asociadas a la respuesta : " + ViewBag.Etapaid +".- "+ @ViewBag.Nombre_Etapa;
+
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+}
+
+
+<script>
+
+    $(document).ready(function () {
+
+
+        $('#myModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        })
+
+        $("#myModal").on('show.bs.modal', function () {
+            var modal = $(this)
+            modal.find('.modal-title').text(document.getElementById("Titulo").value);
+            modal.find('.modal-body').html(document.getElementById("Pagina").value);
+        });
+
+        $("#btnHideModal").click(function () {
+
+            $("#myModal").modal('hide');
+        });
+
+
+        $("#btnHideModal_Close").click(function () {
+
+
+            $("#myModal").modal('hide');
+
+        });
+
+    });
+
+
+
+
+    function Editar_respuesta(varEtapa_Respuesta_id, varEtapa_id, varEtapaRuta_id) {
+        var Source = "/Gest_Etapa_Respuesta/ConfigurarEtapaRespuesta?etapaid=" + varEtapa_id + "&EtapaRutaid=" + varEtapaRuta_id + "&EtapaRespuestaid=" + varEtapa_Respuesta_id;
+
+
+        var Titulo = "Configuración de respuesta a etapa ";
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="1000px" height="1200px"></iframe>';
+        document.getElementById("Titulo").value = Titulo;
+        $("#myModal").modal("show");
+    }
+
+    function Configurar_nueva_respuesta() {
+            var Source = "/Gest_Etapa_Respuesta/Create?Etapaid=" + @ViewBag.Etapaid + "&EtapaRutaid=" + @ViewBag.EtapaRutaid;
+            var Titulo = "Crear nueva respuesta a etapa ";
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="1000px" height="1200px"></iframe>';
+            document.getElementById("Titulo").value = Titulo;
+            $("#myModal").modal("show");
+
+        }
+
+
+</script>
+
+@Html.Partial("_PartialPageEncabezado")
+<br />
+
+<div class="row">
+    <div class="col-lg-1 col-md-1 col-sm-1">
+        <button rel="tooltip" title="Regresar" onclick="location.href='@Url.Action("Index", "Gest_Etapa", new {rutaid = @ViewBag.EtapaRutaid  } )'">
+            <i><img src="~/Content/icons/regresar.png" style="border-radius: 30%; width: 40px; height: auto" /></i>
+            <div class="ripple-container"></div>
+            Volver
+        </button>
+    </div>
+
+
+    <div class="col-lg-1 col-md-1 col-sm-1">
+        <button rel="tooltip" title="Agregar" onclick="Configurar_nueva_respuesta()">
+            <i><img src="~/Content/icons/add_simple.png" style="border-radius: 30%; width: 35px; height: auto" /></i>
+            <div class="ripple-container"></div>
+            Agregar
+        </button>
+    </div>
+</div>
+<br />
+<br />
+<div class="titulo-dos">
+    <h4>Respuestas definidas</h4>
+</div>
+<table class="table">
+    <tr>
+        <th>Respuesta Id</th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Respuesta_default)
+        </th>
+        <th>
+            Nuevo estado de la solicitud
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Estado)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Etapa_Respuesta_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.CheckBoxFor(modelItem => item.Respuesta_default.Value, new { disabled = "disabled" })
+            </td>
+            <td>
+                @*Nuevo estado de la solicitud*@
+                @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud_Estado.Descripcion)
+            </td>
+            <td>
+                @Html.CheckBoxFor(modelItem => item.Estado.Value, new { disabled = "disabled" })
+            </td>
+            <td>
+                <button rel="tooltip" title="Editar" onclick="Editar_respuesta(@item.Etapa_Respuesta_id, @item.Etapa_id, @item.EtapaRuta_id)">
+                    <i><img src="~/Content/icons/edit-9-xxl.png" style="border-radius: 30%; width: 35px; height: auto" /></i>
+                    <div class="ripple-container"></div>
+                    Editar
+                </button>
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+
+
+
+
+<input type="hidden" id="Pagina" name="Pagina" value="">
+<input type="hidden" id="Titulo" name="Titulo" value="">
+<div class="container mt-3">
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" id="btnHideModal" class="btn-next" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="h_iframe">
+                    </div>
+                </div>
+                <div id="DatosPersonerias"></div>
+                <div class="modal-footer">
+                    <button type="button" id="btnHideModal_Close" class="btn-next" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

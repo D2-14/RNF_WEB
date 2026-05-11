@@ -1,0 +1,274 @@
+﻿@using RNF_Web.Models;
+@using System.Data.SqlClient;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+@{
+    string Guid_id = ViewBag.Guid_id;
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_RNF_Registro tbl_RNF_Registro = db.Tbl_RNF_Registro.Where(Obj => Obj.No_Registro == Guid_id).FirstOrDefault();
+
+    if (tbl_RNF_Registro == null)
+    {
+        ViewBag.Estado = 1;
+
+    }
+    else
+    {
+        ViewBag.Estado = tbl_RNF_Registro.Estado_id;
+    }
+
+}
+<head>
+    <style>
+        #tablename {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            #tablename td, #customers th {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+
+            #tablename tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            #tablename tr:hover {
+                background-color: #ddd;
+            }
+
+            #tablename th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: left;
+                background-color: #04AA6D;
+                color: white;
+            }
+    </style>
+</head>
+
+<script type="text/javascript">
+    function fncExportExcel() {
+        var No_Registro = '@ViewBag.Guid_id';
+
+        var data = {
+            No_Registro: No_Registro
+        };
+
+        var url = "@Url.Action("Exportar_Excel","RNF_Rodal_Dasometrico")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+            var CodRespuesta = oJSON.CodRespuesta;
+            var StrMensaje = oJSON.StrMensaje;
+            var StrUbicacion = oJSON.StrUbicacion;
+            if (CodRespuesta == 1) {
+                window.open(StrUbicacion, "_blank");
+            } else {
+                alert(StrMensaje);
+            }
+
+        }).fail(function (jsonRespuesta) {
+        });
+
+    }
+
+    function fnExcelReport() {
+        var tab_text = "<table border='2px'><tr bgcolor='#87AFC6'>";
+        var textRange; var j = 0;
+        tab = document.getElementById('tablename'); // id of table
+
+        for (j = 0; j < tab.rows.length; j++) {
+            tab_text = tab_text + tab.rows[j].innerHTML + "</tr>";
+            //tab_text=tab_text+"</tr>";
+        }
+
+        tab_text = tab_text + "</table>";
+        tab_text = tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+        tab_text = tab_text.replace(/<img[^>]*>/gi, ""); // remove if u want images in your table
+        tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+
+        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+        {
+            txtArea1.document.open("txt/html", "replace");
+            txtArea1.document.write(tab_text);
+            txtArea1.document.close();
+            txtArea1.focus();
+            sa = txtArea1.document.execCommand("SaveAs", true, "Say Thanks to Sumit.xls");
+        }
+        else                 //other browser not tested on IE 11
+            sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
+
+        return (sa);
+    }
+
+</script>
+
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+
+
+
+<div id="section_RodalDasometricos">
+    @model IEnumerable<RNF_Web.Models.Tbl_RNF_Rodal_Dasometrico>
+    <div class="container-fluid">
+        <div style='height: 30px; width: 100%; background-color: #66bb6a; color: white; '>
+            <h4>Detalle de datos dasométricos cargados</h4>
+        </div>
+        <br />
+
+        <div class="col-sm-6 col-md-12">
+            <table class="table">
+                <tr>
+                    <th colspan="1">Formula utilizada para cálculo de volumen</th>
+                </tr>
+                <tr>
+                    <th colspan="1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                </tr>
+
+                @foreach (var item in ViewBag.FormulasUtilizadas)
+                {
+                    <tr>
+                        <td>
+                            @item.Especie_id
+                        </td>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </td>
+                        <td>
+                            @item.Formula_Volumen_MetrosCubicos
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                    </tr>
+
+                }
+            </table>
+        </div>
+
+        <br />
+        <br />
+        <iframe id="txtArea1" style="display:none"></iframe>
+
+        <div class="col-sm-6 col-md-12">
+
+            <input class="btn-success" type="button" onclick="fncExportExcel();" value="Exportar a Excel">
+
+            <table class="table" id="tablename" name="tablename">
+                <tr>
+                    <th>
+                        Finca
+                    </th>
+                    <th>
+                        Rodal
+                    </th>
+                    <th>
+                        Tipo de Área
+                    </th>
+                    <th>
+                        Área efectiva
+                        <br />
+                        /
+                        <br />
+                        Longitud
+                    </th>
+                    <th>
+                        No Parcela
+                    </th>
+                    <th>
+                        Área muestreada
+                    </th>
+                    <th>
+                        Especie
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Anio_Establecimiento)
+                    </th>
+                    <th>
+                        DAP (cm)
+                    </th>
+                    <th>
+                        Altura (m)
+                    </th>
+                    <th>
+                        Densidad
+                    </th>
+                    @if (tbl_RNF_Registro.Categoria_id == 6)
+                    {
+                        <th>
+                            Clase
+                        </th>
+                        <th>
+                            Estado Fitosanitario
+                        </th>
+                    }
+
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Finca_id)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Rodal_id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tbl_Sol_Rodal_Tipo.Descripcion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Area_Efectiva_Rodal)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.No_Parcela)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Area_Muestreada)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tbl_Gral_Especie.NombreCientifico)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Anio_Establecimiento)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DAP_Promedio)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Altura_Promedio)
+                        </td>
+                        <td>
+                            @((item.Densidad_ha??0).ToString("0"))
+                        </td>
+                        @if (tbl_RNF_Registro.Categoria_id == 6)
+                        {
+                            <td>
+                                @((item.Clase_id??0))
+                            </td>
+                            <td>
+                                @((item.Tbl_Sol_Rodal_Dasometrico_EstadoFitosanitario.Descripcion??""))
+                            </td>
+
+                        }
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</div>
+

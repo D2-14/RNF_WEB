@@ -1,0 +1,109 @@
+﻿@model IEnumerable<RNF_Web.Models.fc_Seg_Privilegio_Result>
+
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+@{
+
+    ViewBag.Title = "   Privilegios";
+    ViewBag.SubTitle = null;
+
+
+}
+
+<br />
+<label style="color: teal;font-weight: 500; font-size:20px">Listado de privilegios</label>
+<hr />
+
+
+<table width="100%">
+    <tr>
+        <th width="40%">
+            Opcion
+        </th>
+        <td>
+        </td>
+        <th width="15%">
+            Visualizar
+        </th>
+        <th width="15%">
+            Adicionar
+        </th>
+        <th width="15%">
+            Editar
+        </th>
+        <th width="15%">
+            Imprimir
+        </th>
+        <td>
+        </td>
+    </tr>
+
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.OpcionNombre
+            </td>
+            <td>
+                &nbsp;&nbsp;&nbsp;
+            </td>
+            <td>
+                @if (item.Visualizar == true)
+                {
+                    <input type="checkbox" id="CambioEstatus" name="EstadoActivo" value="Estatus" onclick="changePrivilegio('1','@item.Modulo_id', '@item.OpcionTipo_id','@item.Opcion_id','@item.Rol_id','0','1')" checked>
+                }
+                else
+                {
+                    <input type="checkbox" id="CambioEstatus" name="EstadoActivo" value="Estatus" onclick="changePrivilegio('1','@item.Modulo_id', '@item.OpcionTipo_id','@item.Opcion_id','@item.Rol_id','1','1')">
+                }
+            </td>
+
+            <td>
+                @if (item.Adicionar == true)
+                {
+                    <input type="checkbox" id="CambioEstatus" name="EstadoActivo" value="Estatus" onclick="changePrivilegio('1','@item.Modulo_id', '@item.OpcionTipo_id','@item.Opcion_id','@item.Rol_id','0','2')" checked>
+                }
+                else
+                {
+                    <input type="checkbox" id="CambioEstatus" name="EstadoActivo" value="Estatus" onclick="changePrivilegio('1','@item.Modulo_id', '@item.OpcionTipo_id','@item.Opcion_id','@item.Rol_id','1','2')">
+                }
+            </td>
+
+            <td>
+                @if (item.Editar == true)
+                {
+                    <input type="checkbox" id="CambioEstatus" name="EstadoActivo" value="Estatus" onclick="changePrivilegio('1','@item.Modulo_id', '@item.OpcionTipo_id','@item.Opcion_id','@item.Rol_id','0','3')" checked>
+                }
+                else
+                {
+                    <input type="checkbox" id="CambioEstatus" name="EstadoActivo" value="Estatus" onclick="changePrivilegio('1','@item.Modulo_id', '@item.OpcionTipo_id','@item.Opcion_id','@item.Rol_id','1','3')">
+                }
+            </td>
+
+            <td>
+                @if (item.Imprimir == true)
+                {
+                    <input type="checkbox" id="CambioEstatus" name="EstadoActivo" value="Estatus" onclick="changePrivilegio('1','@item.Modulo_id', '@item.OpcionTipo_id','@item.Opcion_id','@item.Rol_id','0','4')" checked>
+                }
+                else
+                {
+                    <input type="checkbox" id="CambioEstatus" name="EstadoActivo" value="Estatus" onclick="changePrivilegio('1','@item.Modulo_id', '@item.OpcionTipo_id','@item.Opcion_id','@item.Rol_id','1','4')">
+                }
+            </td>
+
+            <td width="30%">
+                &nbsp;&nbsp;&nbsp;
+            </td>
+        </tr>
+    }
+
+
+</table>
+

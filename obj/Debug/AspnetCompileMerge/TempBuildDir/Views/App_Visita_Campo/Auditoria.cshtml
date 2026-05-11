@@ -1,0 +1,126 @@
+﻿@using RNF_Web.Models;
+
+@{
+    ViewBag.Title = "   Home page";
+    //Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    db_RNFEntities db = new db_RNFEntities();
+    string guidid = ViewBag.guidid;
+    Tbl_Sol_Solicitud tbl_Sol_Solicitud = db.Tbl_Sol_Solicitud.Where(Obj => Obj.Guid_id == guidid).FirstOrDefault();
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+<table width="100%">
+    <tr>
+        <td width="50%"></td>
+        <td width="30%">
+        </td>
+        <td width="10%">
+
+            <button rel="tooltip" title="Regresar" onclick="location.href='@Url.Action("Index", "App_Visita_Campo", new { Guid_id = ViewBag.guidid, etapa_id = ViewBag.etapa_id, etaparuta_id = ViewBag.etaparuta_id, correlativoetapa_id = ViewBag.correlativoetapa_id })'">
+                <i><img src="~/Content/icons/regresar.png" style="border-radius: 30%; width: 40px; height: auto" /></i>
+                <div class="ripple-container"></div>
+                Regresar
+            </button>
+
+        </td>
+        <td width="10%"></td>
+    </tr>
+</table>
+
+
+@if (tbl_Sol_Solicitud.Categoria_id == 6)
+{
+    <table class="table" width="100%">
+        <tr>
+            <td>
+                <h3>Datos de la fuente semillera del usuario</h3>
+            </td>
+            <td>
+                <h3>Datos de la fuente semillera del técnico</h3>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="EstimacionVolumenUsuario"></div>
+            </td>
+            <td>
+                <div id="EstimacionVolumenTecnico"></div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div id="ResumenFSTecnico"></div>
+            </td>
+        </tr>
+    </table>
+}
+else
+{
+    <div id="DiferenteEspecie"></div>
+    <div id="DiferenteDAPAltura"></div>
+    <div id="DiferenteAnioEstablecimiento"></div>
+    <div id="AreasDeDescuentoNuevas"></div>
+    <div id="PromedioDAPAltura"></div>
+    <div id="EspeciesNuevasAgregadas"></div>
+    <div id="EspeciesNuevasAgrupadas"></div>
+    <div id="ArbolesxClase"></div>
+}
+
+
+<script>
+    $(document).ready(function () {
+        var myEstimacionVolumenUsuario = document.getElementById('EstimacionVolumenUsuario');
+        var myEstimacionVolumenTecnico = document.getElementById('EstimacionVolumenTecnico');
+        var myResumenFSTecnico = document.getElementById('ResumenFSTecnico');
+
+        var myDiferenteEspecie = document.getElementById('DiferenteEspecie');
+        var myDiferenteDAPAltura = document.getElementById('DiferenteDAPAltura');
+        var myDiferenteAnioEstablecimiento = document.getElementById('DiferenteAnioEstablecimiento');
+        var myAreasDeDescuentoNuevas = document.getElementById('AreasDeDescuentoNuevas');
+        var myPromedioDAPAltura = document.getElementById('PromedioDAPAltura');
+        var myEspeciesNuevasAgregadas = document.getElementById('EspeciesNuevasAgregadas');
+        var myEspeciesNuevasAgrupadas = document.getElementById('EspeciesNuevasAgrupadas');
+        var myArbolesxClase = document.getElementById('ArbolesxClase');
+
+        if (myEstimacionVolumenUsuario) {
+            $("#EstimacionVolumenUsuario").load('/ReportePV/Fincas?Solicitud_id=@tbl_Sol_Solicitud.Solicitud_id');
+        }
+        if (myEstimacionVolumenTecnico) {
+            $("#EstimacionVolumenTecnico").load("/App_Visita_Campo/Fincas_API?Solicitud_id=@tbl_Sol_Solicitud.Solicitud_id")
+        }
+        if (myResumenFSTecnico) {
+            $("#ResumenFSTecnico").load("/App_Visita_Campo/ResumenPV_FS?Solicitud_id=@tbl_Sol_Solicitud.Solicitud_id")
+        }
+
+        if (myDiferenteAnioEstablecimiento) {
+            $("#DiferenteAnioEstablecimiento").load("/App_Visita_Campo/ArbolesDiferenteAnioEstablecimiento?Auditoria_id=@ViewBag.auditoriaid");
+        }
+        if (myDiferenteEspecie) {
+            $("#DiferenteEspecie").load("/App_Visita_Campo/ArbolesDiferenteEspecie?Auditoria_id=@ViewBag.auditoriaid");
+        }
+        if (myDiferenteDAPAltura) {
+            $("#DiferenteDAPAltura").load("/App_Visita_Campo/ArbolesDiferenteDAPyAltura?Auditoria_id=@ViewBag.auditoriaid");
+        }
+        if (myAreasDeDescuentoNuevas) {
+            $("#AreasDeDescuentoNuevas").load("/App_Visita_Campo/AreasDeDescuentoNuevas?Auditoria_id=@ViewBag.auditoriaid");
+        }
+        if (myPromedioDAPAltura) {
+            $("#PromedioDAPAltura").load("/App_Visita_Campo/Promedio_DAP_Altura?Auditoria_id=@ViewBag.auditoriaid");
+        }
+        if (myEspeciesNuevasAgregadas) {
+            $("#EspeciesNuevasAgregadas").load("/App_Visita_Campo/EspeciesNuevasAgregadas?Auditoria_id=@ViewBag.auditoriaid");
+        }
+        if (myEspeciesNuevasAgrupadas) {
+            $("#EspeciesNuevasAgrupadas").load("/App_Visita_Campo/EspeciesNuevasAgrupadas?Auditoria_id=@ViewBag.auditoriaid");
+        }
+        if (myArbolesxClase) {
+            $("#ArbolesxClase").load("/App_Visita_Campo/Arboles_x_Clase?Auditoria_id=@ViewBag.auditoriaid");
+        }
+    })
+</script>

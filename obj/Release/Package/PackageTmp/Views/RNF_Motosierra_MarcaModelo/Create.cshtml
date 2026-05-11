@@ -1,0 +1,114 @@
+﻿@using RNF_Web.Models;
+@model Tbl_RNF_Motosierra_Marca_Modelo
+@{
+    db_RNFEntities db = new db_RNFEntities();
+
+    string No_Registro = ViewBag.No_Registro;
+
+    Tbl_RNF_Registro tbl_RNF_Registro = db.Tbl_RNF_Registro.Where(Obj => Obj.No_Registro == No_Registro).FirstOrDefault();
+
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+
+    EdicionRNFGrants objRNFGrants = (EdicionRNFGrants)Session[Constants.session_EdicionRNFGrants];
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+<br />
+<div style='height: 30px; width: 100%; background-color: #66bb6a; color: white; '>
+    <h4>Listado de Motosierra(s) Registrada(s)</h4>
+</div>
+
+
+@if (objRNFGrants.Agregar)
+{
+    <table class="table">
+        <tr>
+            <th>
+                Marca y Modelo
+            </th>
+            <th>
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" name="Marca" id="Marca" value="" placeholder="Marca de Motosierra" class="form-control" />
+            </td>
+            <td>
+                <input type="text" name="Modelo" id="Modelo" value="" placeholder="Modelo de Motosierra" class="form-control" />
+            </td>
+        </tr>
+    </table>
+    <div class="col-sm-12 col-md-12" align="right">
+        <input align="right" type="button" name="Agregar" id="Agregar" value="Agregar Motosierra" onclick="agregarMotosierraMarcaModelo()" class="btn btn-sm btn-success" />
+    </div>
+
+}
+
+<script>
+
+    function refreshViewMotosierraMarcaModelo() {
+        $('#listadoMotosierrasMarcaModelo').load('/RNF_Motosierra_MarcaModelo/Index?No_Registro=@No_Registro');
+    }
+
+    $(document).ready(function () {
+        refreshViewMotosierraMarcaModelo();
+    });
+
+
+    function agregarMotosierraMarcaModelo() {
+        var No_Registro = '@No_Registro';
+        var Marca = document.getElementById("Marca").value;
+        var Modelo = document.getElementById("Modelo").value;
+
+        if ((Marca == null) || (Marca.trim() == "")) {
+            alert("Error, debe indicar la marca a registrar");
+            return;
+        }
+
+        if ((Modelo == null) || (Modelo.trim() == "")) {
+            alert("Error, debe indicar el modelo a registrar");
+            return;
+        }
+
+        var data = {
+            No_Registro: No_Registro,
+            Marca: Marca,
+            Modelo: Modelo
+        }
+
+        var url = "@Url.Action("AgregarMotosierraMarcaModelo", "RNF_Motosierra_MarcaModelo")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+            var CodRespuesta = oJSON.CodRespuesta;
+            var strRespuesta = oJSON.strRespuesta;
+
+            if (CodRespuesta == 1) {
+                document.getElementById("Marca").value = "";
+                document.getElementById("Modelo").value = "";
+                refreshViewMotosierraMarcaModelo();
+
+            } else {
+                alert(strRespuesta);
+                refreshViewMotosierraMarcaModelo();
+            }
+
+        }).fail(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+
+        });
+
+    }
+
+</script>
+
+<div id="listadoMotosierrasMarcaModelo"></div>
+

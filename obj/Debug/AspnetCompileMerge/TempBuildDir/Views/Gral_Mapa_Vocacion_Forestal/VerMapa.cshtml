@@ -1,0 +1,15 @@
+﻿@using RNF_Web.Models;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+@model Tbl_Gral_Mapa_Vocacion_Forestal
+@{
+
+}
+
+<img src="@Model.Nombre" alt="Mapa de Vocacion Forestal" />

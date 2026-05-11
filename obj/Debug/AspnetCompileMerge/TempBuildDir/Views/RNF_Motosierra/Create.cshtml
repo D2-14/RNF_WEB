@@ -1,0 +1,149 @@
+﻿@using RNF_Web.Models;
+@model RNF_Web.Models.Tbl_RNF_Motosierra
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+@{
+    EdicionRNFGrants objRNFGrants = (EdicionRNFGrants)Session[Constants.session_EdicionRNFGrants];
+
+}
+
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<div class="container-fluid">
+
+    <div style='height: 30px; width: 100%; background-color: #66bb6a; color: white; '>
+        <h4>Datos de la Motosierra.</h4>
+    </div>
+
+    <br />
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+        @Html.HiddenFor(model => model.Motosierra_id)
+        @Html.HiddenFor(model => model.Solicitud_id)
+        @Html.HiddenFor(model => model.No_Registro)
+        @Html.HiddenFor(model => model.No_RegistroLiteral)
+        @Html.HiddenFor(model => model.No_RegistroCorrelativo)
+        @Html.HiddenFor(model => model.swcreatedby)
+        @Html.HiddenFor(model => model.swdatecreated)
+        @Html.HiddenFor(model => model.swcreatedbyinterno)
+
+        @Html.HiddenFor(model => model.swdateupdated)
+        @Html.HiddenFor(model => model.swupdatedby)
+        @Html.HiddenFor(model => model.swupdatedbyinterno)
+
+
+        <div class="row">
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.Marca, htmlAttributes: new { @class = "control-label col-md-10" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Marca, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Marca, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.Modelo, htmlAttributes: new { @class = "control-label col-md-10" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Modelo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Modelo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.No_SerieMotosierra, htmlAttributes: new { @class = "control-label col-md-10" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.No_SerieMotosierra, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.No_SerieMotosierra, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.Cilindraje, htmlAttributes: new { @class = "control-label col-md-10" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Cilindraje, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Cilindraje, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.Potencia, htmlAttributes: new { @class = "control-label col-md-10" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Potencia, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Potencia, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.No_Lote, htmlAttributes: new { @class = "control-label col-md-10" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.No_Lote, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.No_Lote, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.No_SerieFactura, htmlAttributes: new { @class = "control-label col-md-10" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.No_SerieFactura, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.No_SerieFactura, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.No_Factura, htmlAttributes: new { @class = "control-label col-md-10" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.No_Factura, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.No_Factura, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.EmpresaEmisoraFactura, htmlAttributes: new { @class = "control-label col-md-10" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.EmpresaEmisoraFactura, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.EmpresaEmisoraFactura, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+                @Html.LabelFor(model => model.OtroDocumentoRespaldo, htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.OtroDocumentoRespaldo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.OtroDocumentoRespaldo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div><br />
+
+
+        if (objRNFGrants.Editar)
+        {
+            <div class="col-sm-12 col-md-12" align="right">
+                <input type="button" value="Guardar cambios" class="btn btn-success" onclick="agregarEditarMotosierra()" />
+                <input type="button" value="Eliminar" class="btn btn-danger" onclick="eliminarMotosierra()" />
+                @*<input type="submit" value="Guardar cambios" class="btn btn-success" />*@
+            </div>
+        }
+        else
+        {
+            <h3> ** El estatus actual no permite modificar o editar estos datos</h3>
+        }
+
+    }
+
+
+</div>
+

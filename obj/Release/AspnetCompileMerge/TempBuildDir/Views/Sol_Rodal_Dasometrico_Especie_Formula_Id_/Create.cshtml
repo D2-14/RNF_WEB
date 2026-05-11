@@ -1,0 +1,100 @@
+﻿@model RNF_Web.Models.Tbl_Sol_Rodal_Dasometrico_Especie_Formula_Id
+
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    ViewBag.Title = "Formula";
+    ViewBag.SubTitle = "Crear una formula";
+}
+
+
+
+@Html.Partial("_PartialPageEncabezado")
+
+<button class="btn-secondary" style="position: absolute; right: 0;" rel="tooltip" title="Regresar" onclick="location.href='@Url.Action("Index", "Sol_Rodal_Dasometrico_Especie_Formula_Id_")'">
+    <i><img src="~/Content/icons/regresar.png" style="border-radius: 30%; width: 35px; height: auto" /></i>
+    <div class="ripple-container"></div>
+</button>
+
+<br />
+<br />
+
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.HiddenFor(model => model.swdatecreated)
+    @Html.HiddenFor(model => model.swcreatedby)
+    @Html.HiddenFor(model => model.swdateupdated)
+    @Html.HiddenFor(model => model.swupdatedby)
+
+
+<div class="container">
+
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Especie_id, " Especie (Nombre científico) ", htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Especie_id", null, htmlAttributes: new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.Especie_id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Descripcion, " Descripcion del formulario", htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="form-group">
+                @Html.LabelFor(model => model.FormulaSistemas, "Formula interna", htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.FormulaSistemas, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.FormulaSistemas, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+        </div>
+        <div class="col-sm-12 col-md-3">
+        </div>
+        <div class="col-sm-12 col-md-3">
+            @TempData["FormulaMessage"]
+            <input type="submit" value="Guardar cambios" class="btn btn-success btn-fab btn-round" />
+        </div>
+    </div>
+    <br />
+    <br />
+</div>
+
+}
+
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+
+
+

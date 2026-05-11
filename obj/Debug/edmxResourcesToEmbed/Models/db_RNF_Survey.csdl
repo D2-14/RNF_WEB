@@ -1,0 +1,444 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="db_RNF_SurveyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Tbl_Enc_Encuesta">
+    <Key>
+      <PropertyRef Name="id_encuesta" />
+    </Key>
+    <Property Name="id_encuesta" Type="Int32" Nullable="false" />
+    <Property Name="descripcion" Type="String" MaxLength="1500" FixedLength="false" Unicode="false" />
+    <Property Name="fecha_inicio" Type="DateTime" Precision="0" />
+    <Property Name="fecha_final" Type="DateTime" Precision="0" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swdateupdated" Type="DateTime" Precision="3" />
+    <Property Name="swupdatedby" Type="Int64" />
+    <NavigationProperty Name="Tbl_Enc_Encuesta_Pregunta" Relationship="Self.FK_Tbl_Enc_Encuesta_Pregunta_Tbl_Enc_Encuesta" FromRole="Tbl_Enc_Encuesta" ToRole="Tbl_Enc_Encuesta_Pregunta" />
+    <NavigationProperty Name="Tbl_EncResp_Encuesta" Relationship="Self.FK_Tbl_EncResp_Encuesta_Tbl_Enc_Encuesta" FromRole="Tbl_Enc_Encuesta" ToRole="Tbl_EncResp_Encuesta" />
+  </EntityType>
+  <EntityType Name="Tbl_Enc_Encuesta_Pregunta">
+    <Key>
+      <PropertyRef Name="id_encuesta" />
+      <PropertyRef Name="id_pregunta" />
+    </Key>
+    <Property Name="id_encuesta" Type="Int32" Nullable="false" />
+    <Property Name="id_pregunta" Type="Int32" Nullable="false" />
+    <Property Name="id_tipo_respuesta" Type="Int32" />
+    <Property Name="descripcion" Type="String" MaxLength="1500" FixedLength="false" Unicode="false" />
+    <Property Name="pregunta_final" Type="Boolean" Nullable="false" />
+    <Property Name="tiene_observacion" Type="Boolean" Nullable="false" />
+    <Property Name="titulo_observacion" Type="String" MaxLength="800" FixedLength="false" Unicode="false" />
+    <Property Name="PreguntaOrigen" Type="Int32" />
+    <Property Name="RespuestaOrigen" Type="Int32" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swdateupdated" Type="DateTime" Precision="3" />
+    <Property Name="swupdatedby" Type="Int64" />
+    <Property Name="id_estado" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Tbl_Enc_Encuesta" Relationship="Self.FK_Tbl_Enc_Encuesta_Pregunta_Tbl_Enc_Encuesta" FromRole="Tbl_Enc_Encuesta_Pregunta" ToRole="Tbl_Enc_Encuesta" />
+    <NavigationProperty Name="Tbl_Enc_Tipo_Respuesta" Relationship="Self.FK_Tbl_Enc_Encuesta_Pregunta_Tbl_Enc_Tipo_Respuesta" FromRole="Tbl_Enc_Encuesta_Pregunta" ToRole="Tbl_Enc_Tipo_Respuesta" />
+    <NavigationProperty Name="Tbl_Enc_Encuesta_Respuesta" Relationship="Self.FK_Tbl_Enc_Encuesta_Respuesta_Tbl_Enc_Encuesta_Pregunta" FromRole="Tbl_Enc_Encuesta_Pregunta" ToRole="Tbl_Enc_Encuesta_Respuesta" />
+    <NavigationProperty Name="Tbl_EncResp_Encuesta_Pregunta" Relationship="Self.FK_Tbl_EncResp_Encuesta_Pregunta_Tbl_Enc_Encuesta_Pregunta" FromRole="Tbl_Enc_Encuesta_Pregunta" ToRole="Tbl_EncResp_Encuesta_Pregunta" />
+  </EntityType>
+  <EntityType Name="Tbl_Enc_Encuesta_Respuesta">
+    <Key>
+      <PropertyRef Name="id_encuesta" />
+      <PropertyRef Name="id_pregunta" />
+      <PropertyRef Name="id_respuesta" />
+    </Key>
+    <Property Name="id_encuesta" Type="Int32" Nullable="false" />
+    <Property Name="id_pregunta" Type="Int32" Nullable="false" />
+    <Property Name="id_respuesta" Type="Int32" Nullable="false" />
+    <Property Name="id_Estado" Type="Boolean" />
+    <Property Name="respuesta" Type="String" MaxLength="1500" FixedLength="false" Unicode="false" />
+    <Property Name="salta_pregunta" Type="Int32" />
+    <Property Name="respuesta_final" Type="Boolean" />
+    <Property Name="ExplicacionIncluir" Type="Boolean" />
+    <Property Name="ExplicacionTexto" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swdateupdated" Type="DateTime" Precision="3" />
+    <Property Name="swupdatedby" Type="Int64" />
+    <NavigationProperty Name="Tbl_Enc_Encuesta_Pregunta" Relationship="Self.FK_Tbl_Enc_Encuesta_Respuesta_Tbl_Enc_Encuesta_Pregunta" FromRole="Tbl_Enc_Encuesta_Respuesta" ToRole="Tbl_Enc_Encuesta_Pregunta" />
+    <NavigationProperty Name="Tbl_EncResp_Encuesta_PreguntaRespuesta" Relationship="Self.FK_Tbl_EncResp_Encuesta_PreguntaRespuesta_Tbl_Enc_Encuesta_Respuesta" FromRole="Tbl_Enc_Encuesta_Respuesta" ToRole="Tbl_EncResp_Encuesta_PreguntaRespuesta" />
+  </EntityType>
+  <EntityType Name="Tbl_Enc_EncuestaXCategoria">
+    <Key>
+      <PropertyRef Name="id_encuesta" />
+      <PropertyRef Name="id_categoria" />
+    </Key>
+    <Property Name="id_encuesta" Type="Int32" Nullable="false" />
+    <Property Name="id_categoria" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tbl_Enc_Tipo_Respuesta">
+    <Key>
+      <PropertyRef Name="id_tipo_respuesta" />
+    </Key>
+    <Property Name="id_tipo_respuesta" Type="Int32" Nullable="false" />
+    <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swdateupdated" Type="DateTime" Precision="3" />
+    <Property Name="swupdatedby" Type="Int64" />
+    <Property Name="multiple" Type="Boolean" />
+    <NavigationProperty Name="Tbl_Enc_Encuesta_Pregunta" Relationship="Self.FK_Tbl_Enc_Encuesta_Pregunta_Tbl_Enc_Tipo_Respuesta" FromRole="Tbl_Enc_Tipo_Respuesta" ToRole="Tbl_Enc_Encuesta_Pregunta" />
+  </EntityType>
+  <EntityType Name="Tbl_EncResp_Encuesta">
+    <Key>
+      <PropertyRef Name="id_encuesta" />
+      <PropertyRef Name="swcreatedby" />
+      <PropertyRef Name="id_Correlativo" />
+    </Key>
+    <Property Name="id_encuesta" Type="Int32" Nullable="false" />
+    <Property Name="swcreatedby" Type="Int64" Nullable="false" />
+    <Property Name="id_Correlativo" Type="Int32" Nullable="false" />
+    <Property Name="No_Registro" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="No_RegistroLiteral" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="No_RegistroCorrelativo" Type="Int32" />
+    <Property Name="fecha_inicio" Type="DateTime" Precision="0" />
+    <Property Name="fecha_final" Type="DateTime" Precision="0" />
+    <Property Name="id_estado" Type="Int32" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="swdateupdated" Type="DateTime" Precision="3" />
+    <Property Name="swupdatedby" Type="Int64" />
+    <Property Name="NombreDocumentoFirmado" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
+    <Property Name="NombreDocumentoNoFirmado" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Tbl_Enc_Encuesta" Relationship="Self.FK_Tbl_EncResp_Encuesta_Tbl_Enc_Encuesta" FromRole="Tbl_EncResp_Encuesta" ToRole="Tbl_Enc_Encuesta" />
+    <NavigationProperty Name="Tbl_EncResp_Encuesta_Pregunta" Relationship="Self.FK_Tbl_EncResp_Encuesta_Pregunta_Tbl_EncResp_Encuesta" FromRole="Tbl_EncResp_Encuesta" ToRole="Tbl_EncResp_Encuesta_Pregunta" />
+    <NavigationProperty Name="Tbl_EncResp_Encuesta_Estado" Relationship="Self.FK_Tbl_EncResp_Encuesta_Tbl_EncResp_Encuesta_Estado" FromRole="Tbl_EncResp_Encuesta" ToRole="Tbl_EncResp_Encuesta_Estado" />
+  </EntityType>
+  <EntityType Name="Tbl_EncResp_Encuesta_Documento">
+    <Key>
+      <PropertyRef Name="id_encuesta" />
+      <PropertyRef Name="swcreatedby" />
+      <PropertyRef Name="id_Correlativo" />
+      <PropertyRef Name="id_pregunta" />
+      <PropertyRef Name="id_CorrelativoDocumento" />
+    </Key>
+    <Property Name="id_encuesta" Type="Int32" Nullable="false" />
+    <Property Name="swcreatedby" Type="Int64" Nullable="false" />
+    <Property Name="id_Correlativo" Type="Int32" Nullable="false" />
+    <Property Name="id_pregunta" Type="Int32" Nullable="false" />
+    <Property Name="id_CorrelativoDocumento" Type="Int32" Nullable="false" />
+    <Property Name="Documento" Type="String" MaxLength="2500" FixedLength="false" Unicode="false" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="Estado" Type="Boolean" />
+    <Property Name="NombreBase" Type="String" MaxLength="2500" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Tbl_EncResp_Encuesta_Pregunta" Relationship="Self.FK_Tbl_EncResp_Encuesta_Documento_Tbl_EncResp_Encuesta_Pregunta" FromRole="Tbl_EncResp_Encuesta_Documento" ToRole="Tbl_EncResp_Encuesta_Pregunta" />
+  </EntityType>
+  <EntityType Name="Tbl_EncResp_Encuesta_Estado">
+    <Key>
+      <PropertyRef Name="id_estado" />
+    </Key>
+    <Property Name="id_estado" Type="Int32" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Tbl_EncResp_Encuesta" Relationship="Self.FK_Tbl_EncResp_Encuesta_Tbl_EncResp_Encuesta_Estado" FromRole="Tbl_EncResp_Encuesta_Estado" ToRole="Tbl_EncResp_Encuesta" />
+  </EntityType>
+  <EntityType Name="Tbl_EncResp_Encuesta_Pregunta">
+    <Key>
+      <PropertyRef Name="id_encuesta" />
+      <PropertyRef Name="swcreatedby" />
+      <PropertyRef Name="id_Correlativo" />
+      <PropertyRef Name="id_pregunta" />
+    </Key>
+    <Property Name="id_encuesta" Type="Int32" Nullable="false" />
+    <Property Name="swcreatedby" Type="Int64" Nullable="false" />
+    <Property Name="id_Correlativo" Type="Int32" Nullable="false" />
+    <Property Name="id_pregunta" Type="Int32" Nullable="false" />
+    <Property Name="Respuesta_Observaciones" Type="String" MaxLength="2500" FixedLength="false" Unicode="false" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="swupdatedby" Type="Int64" />
+    <Property Name="swdateupdated" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Tbl_Enc_Encuesta_Pregunta" Relationship="Self.FK_Tbl_EncResp_Encuesta_Pregunta_Tbl_Enc_Encuesta_Pregunta" FromRole="Tbl_EncResp_Encuesta_Pregunta" ToRole="Tbl_Enc_Encuesta_Pregunta" />
+    <NavigationProperty Name="Tbl_EncResp_Encuesta" Relationship="Self.FK_Tbl_EncResp_Encuesta_Pregunta_Tbl_EncResp_Encuesta" FromRole="Tbl_EncResp_Encuesta_Pregunta" ToRole="Tbl_EncResp_Encuesta" />
+    <NavigationProperty Name="Tbl_EncResp_Encuesta_Documento" Relationship="Self.FK_Tbl_EncResp_Encuesta_Documento_Tbl_EncResp_Encuesta_Pregunta" FromRole="Tbl_EncResp_Encuesta_Pregunta" ToRole="Tbl_EncResp_Encuesta_Documento" />
+    <NavigationProperty Name="Tbl_EncResp_Encuesta_PreguntaRespuesta" Relationship="Self.FK_Tbl_EncResp_Encuesta_PreguntaRespuesta_Tbl_EncResp_Encuesta_Pregunta" FromRole="Tbl_EncResp_Encuesta_Pregunta" ToRole="Tbl_EncResp_Encuesta_PreguntaRespuesta" />
+  </EntityType>
+  <EntityType Name="Tbl_EncResp_Encuesta_PreguntaRespuesta">
+    <Key>
+      <PropertyRef Name="id_encuesta" />
+      <PropertyRef Name="swcreatedby" />
+      <PropertyRef Name="id_Correlativo" />
+      <PropertyRef Name="id_pregunta" />
+      <PropertyRef Name="id_respuesta" />
+    </Key>
+    <Property Name="id_encuesta" Type="Int32" Nullable="false" />
+    <Property Name="swcreatedby" Type="Int64" Nullable="false" />
+    <Property Name="id_Correlativo" Type="Int32" Nullable="false" />
+    <Property Name="id_pregunta" Type="Int32" Nullable="false" />
+    <Property Name="id_respuesta" Type="Int32" Nullable="false" />
+    <Property Name="Respuesta_Observaciones" Type="String" MaxLength="2500" FixedLength="false" Unicode="false" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="swupdatedby" Type="Int64" />
+    <Property Name="swdateupdated" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Tbl_Enc_Encuesta_Respuesta" Relationship="Self.FK_Tbl_EncResp_Encuesta_PreguntaRespuesta_Tbl_Enc_Encuesta_Respuesta" FromRole="Tbl_EncResp_Encuesta_PreguntaRespuesta" ToRole="Tbl_Enc_Encuesta_Respuesta" />
+    <NavigationProperty Name="Tbl_EncResp_Encuesta_Pregunta" Relationship="Self.FK_Tbl_EncResp_Encuesta_PreguntaRespuesta_Tbl_EncResp_Encuesta_Pregunta" FromRole="Tbl_EncResp_Encuesta_PreguntaRespuesta" ToRole="Tbl_EncResp_Encuesta_Pregunta" />
+  </EntityType>
+  <EntityType Name="Tbl_Web_Formulario">
+    <Key>
+      <PropertyRef Name="id_web_form" />
+    </Key>
+    <Property Name="id_web_form" Type="Int32" Nullable="false" />
+    <Property Name="html" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+    <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="fecha_vencimiento" Type="DateTime" Precision="0" />
+    <Property Name="tipo_empresa" Type="Int32" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swdateupdated" Type="DateTime" Precision="3" />
+    <Property Name="swupdatedby" Type="Int64" />
+  </EntityType>
+  <Association Name="FK_Tbl_Enc_Encuesta_Pregunta_Tbl_Enc_Encuesta">
+    <End Role="Tbl_Enc_Encuesta" Type="Self.Tbl_Enc_Encuesta" Multiplicity="1" />
+    <End Role="Tbl_Enc_Encuesta_Pregunta" Type="Self.Tbl_Enc_Encuesta_Pregunta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Enc_Encuesta">
+        <PropertyRef Name="id_encuesta" />
+      </Principal>
+      <Dependent Role="Tbl_Enc_Encuesta_Pregunta">
+        <PropertyRef Name="id_encuesta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tbl_EncResp_Encuesta_Tbl_Enc_Encuesta">
+    <End Role="Tbl_Enc_Encuesta" Type="Self.Tbl_Enc_Encuesta" Multiplicity="1" />
+    <End Role="Tbl_EncResp_Encuesta" Type="Self.Tbl_EncResp_Encuesta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Enc_Encuesta">
+        <PropertyRef Name="id_encuesta" />
+      </Principal>
+      <Dependent Role="Tbl_EncResp_Encuesta">
+        <PropertyRef Name="id_encuesta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tbl_Enc_Encuesta_Pregunta_Tbl_Enc_Tipo_Respuesta">
+    <End Role="Tbl_Enc_Tipo_Respuesta" Type="Self.Tbl_Enc_Tipo_Respuesta" Multiplicity="0..1" />
+    <End Role="Tbl_Enc_Encuesta_Pregunta" Type="Self.Tbl_Enc_Encuesta_Pregunta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Enc_Tipo_Respuesta">
+        <PropertyRef Name="id_tipo_respuesta" />
+      </Principal>
+      <Dependent Role="Tbl_Enc_Encuesta_Pregunta">
+        <PropertyRef Name="id_tipo_respuesta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tbl_Enc_Encuesta_Respuesta_Tbl_Enc_Encuesta_Pregunta">
+    <End Role="Tbl_Enc_Encuesta_Pregunta" Type="Self.Tbl_Enc_Encuesta_Pregunta" Multiplicity="1" />
+    <End Role="Tbl_Enc_Encuesta_Respuesta" Type="Self.Tbl_Enc_Encuesta_Respuesta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Enc_Encuesta_Pregunta">
+        <PropertyRef Name="id_encuesta" />
+        <PropertyRef Name="id_pregunta" />
+      </Principal>
+      <Dependent Role="Tbl_Enc_Encuesta_Respuesta">
+        <PropertyRef Name="id_encuesta" />
+        <PropertyRef Name="id_pregunta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tbl_EncResp_Encuesta_Pregunta_Tbl_Enc_Encuesta_Pregunta">
+    <End Role="Tbl_Enc_Encuesta_Pregunta" Type="Self.Tbl_Enc_Encuesta_Pregunta" Multiplicity="1" />
+    <End Role="Tbl_EncResp_Encuesta_Pregunta" Type="Self.Tbl_EncResp_Encuesta_Pregunta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Enc_Encuesta_Pregunta">
+        <PropertyRef Name="id_encuesta" />
+        <PropertyRef Name="id_pregunta" />
+      </Principal>
+      <Dependent Role="Tbl_EncResp_Encuesta_Pregunta">
+        <PropertyRef Name="id_encuesta" />
+        <PropertyRef Name="id_pregunta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tbl_EncResp_Encuesta_PreguntaRespuesta_Tbl_Enc_Encuesta_Respuesta">
+    <End Role="Tbl_Enc_Encuesta_Respuesta" Type="Self.Tbl_Enc_Encuesta_Respuesta" Multiplicity="1" />
+    <End Role="Tbl_EncResp_Encuesta_PreguntaRespuesta" Type="Self.Tbl_EncResp_Encuesta_PreguntaRespuesta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Enc_Encuesta_Respuesta">
+        <PropertyRef Name="id_encuesta" />
+        <PropertyRef Name="id_pregunta" />
+        <PropertyRef Name="id_respuesta" />
+      </Principal>
+      <Dependent Role="Tbl_EncResp_Encuesta_PreguntaRespuesta">
+        <PropertyRef Name="id_encuesta" />
+        <PropertyRef Name="id_pregunta" />
+        <PropertyRef Name="id_respuesta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tbl_EncResp_Encuesta_Pregunta_Tbl_EncResp_Encuesta">
+    <End Role="Tbl_EncResp_Encuesta" Type="Self.Tbl_EncResp_Encuesta" Multiplicity="1" />
+    <End Role="Tbl_EncResp_Encuesta_Pregunta" Type="Self.Tbl_EncResp_Encuesta_Pregunta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_EncResp_Encuesta">
+        <PropertyRef Name="id_encuesta" />
+        <PropertyRef Name="swcreatedby" />
+        <PropertyRef Name="id_Correlativo" />
+      </Principal>
+      <Dependent Role="Tbl_EncResp_Encuesta_Pregunta">
+        <PropertyRef Name="id_encuesta" />
+        <PropertyRef Name="swcreatedby" />
+        <PropertyRef Name="id_Correlativo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tbl_EncResp_Encuesta_Tbl_EncResp_Encuesta_Estado">
+    <End Role="Tbl_EncResp_Encuesta_Estado" Type="Self.Tbl_EncResp_Encuesta_Estado" Multiplicity="0..1" />
+    <End Role="Tbl_EncResp_Encuesta" Type="Self.Tbl_EncResp_Encuesta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_EncResp_Encuesta_Estado">
+        <PropertyRef Name="id_estado" />
+      </Principal>
+      <Dependent Role="Tbl_EncResp_Encuesta">
+        <PropertyRef Name="id_estado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tbl_EncResp_Encuesta_Documento_Tbl_EncResp_Encuesta_Pregunta">
+    <End Role="Tbl_EncResp_Encuesta_Pregunta" Type="Self.Tbl_EncResp_Encuesta_Pregunta" Multiplicity="1" />
+    <End Role="Tbl_EncResp_Encuesta_Documento" Type="Self.Tbl_EncResp_Encuesta_Documento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_EncResp_Encuesta_Pregunta">
+        <PropertyRef Name="id_encuesta" />
+        <PropertyRef Name="swcreatedby" />
+        <PropertyRef Name="id_Correlativo" />
+        <PropertyRef Name="id_pregunta" />
+      </Principal>
+      <Dependent Role="Tbl_EncResp_Encuesta_Documento">
+        <PropertyRef Name="id_encuesta" />
+        <PropertyRef Name="swcreatedby" />
+        <PropertyRef Name="id_Correlativo" />
+        <PropertyRef Name="id_pregunta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tbl_EncResp_Encuesta_PreguntaRespuesta_Tbl_EncResp_Encuesta_Pregunta">
+    <End Role="Tbl_EncResp_Encuesta_Pregunta" Type="Self.Tbl_EncResp_Encuesta_Pregunta" Multiplicity="1" />
+    <End Role="Tbl_EncResp_Encuesta_PreguntaRespuesta" Type="Self.Tbl_EncResp_Encuesta_PreguntaRespuesta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_EncResp_Encuesta_Pregunta">
+        <PropertyRef Name="id_encuesta" />
+        <PropertyRef Name="swcreatedby" />
+        <PropertyRef Name="id_Correlativo" />
+        <PropertyRef Name="id_pregunta" />
+      </Principal>
+      <Dependent Role="Tbl_EncResp_Encuesta_PreguntaRespuesta">
+        <PropertyRef Name="id_encuesta" />
+        <PropertyRef Name="swcreatedby" />
+        <PropertyRef Name="id_Correlativo" />
+        <PropertyRef Name="id_pregunta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="db_RNF_SurveyEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Tbl_Enc_Encuesta" EntityType="Self.Tbl_Enc_Encuesta" />
+    <EntitySet Name="Tbl_Enc_Encuesta_Pregunta" EntityType="Self.Tbl_Enc_Encuesta_Pregunta" />
+    <EntitySet Name="Tbl_Enc_Encuesta_Respuesta" EntityType="Self.Tbl_Enc_Encuesta_Respuesta" />
+    <EntitySet Name="Tbl_Enc_EncuestaXCategoria" EntityType="Self.Tbl_Enc_EncuestaXCategoria" />
+    <EntitySet Name="Tbl_Enc_Tipo_Respuesta" EntityType="Self.Tbl_Enc_Tipo_Respuesta" />
+    <EntitySet Name="Tbl_EncResp_Encuesta" EntityType="Self.Tbl_EncResp_Encuesta" />
+    <EntitySet Name="Tbl_EncResp_Encuesta_Documento" EntityType="Self.Tbl_EncResp_Encuesta_Documento" />
+    <EntitySet Name="Tbl_EncResp_Encuesta_Estado" EntityType="Self.Tbl_EncResp_Encuesta_Estado" />
+    <EntitySet Name="Tbl_EncResp_Encuesta_Pregunta" EntityType="Self.Tbl_EncResp_Encuesta_Pregunta" />
+    <EntitySet Name="Tbl_EncResp_Encuesta_PreguntaRespuesta" EntityType="Self.Tbl_EncResp_Encuesta_PreguntaRespuesta" />
+    <EntitySet Name="Tbl_Web_Formulario" EntityType="Self.Tbl_Web_Formulario" />
+    <AssociationSet Name="FK_Tbl_Enc_Encuesta_Pregunta_Tbl_Enc_Encuesta" Association="Self.FK_Tbl_Enc_Encuesta_Pregunta_Tbl_Enc_Encuesta">
+      <End Role="Tbl_Enc_Encuesta" EntitySet="Tbl_Enc_Encuesta" />
+      <End Role="Tbl_Enc_Encuesta_Pregunta" EntitySet="Tbl_Enc_Encuesta_Pregunta" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tbl_EncResp_Encuesta_Tbl_Enc_Encuesta" Association="Self.FK_Tbl_EncResp_Encuesta_Tbl_Enc_Encuesta">
+      <End Role="Tbl_Enc_Encuesta" EntitySet="Tbl_Enc_Encuesta" />
+      <End Role="Tbl_EncResp_Encuesta" EntitySet="Tbl_EncResp_Encuesta" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tbl_Enc_Encuesta_Pregunta_Tbl_Enc_Tipo_Respuesta" Association="Self.FK_Tbl_Enc_Encuesta_Pregunta_Tbl_Enc_Tipo_Respuesta">
+      <End Role="Tbl_Enc_Tipo_Respuesta" EntitySet="Tbl_Enc_Tipo_Respuesta" />
+      <End Role="Tbl_Enc_Encuesta_Pregunta" EntitySet="Tbl_Enc_Encuesta_Pregunta" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tbl_Enc_Encuesta_Respuesta_Tbl_Enc_Encuesta_Pregunta" Association="Self.FK_Tbl_Enc_Encuesta_Respuesta_Tbl_Enc_Encuesta_Pregunta">
+      <End Role="Tbl_Enc_Encuesta_Pregunta" EntitySet="Tbl_Enc_Encuesta_Pregunta" />
+      <End Role="Tbl_Enc_Encuesta_Respuesta" EntitySet="Tbl_Enc_Encuesta_Respuesta" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tbl_EncResp_Encuesta_Pregunta_Tbl_Enc_Encuesta_Pregunta" Association="Self.FK_Tbl_EncResp_Encuesta_Pregunta_Tbl_Enc_Encuesta_Pregunta">
+      <End Role="Tbl_Enc_Encuesta_Pregunta" EntitySet="Tbl_Enc_Encuesta_Pregunta" />
+      <End Role="Tbl_EncResp_Encuesta_Pregunta" EntitySet="Tbl_EncResp_Encuesta_Pregunta" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tbl_EncResp_Encuesta_PreguntaRespuesta_Tbl_Enc_Encuesta_Respuesta" Association="Self.FK_Tbl_EncResp_Encuesta_PreguntaRespuesta_Tbl_Enc_Encuesta_Respuesta">
+      <End Role="Tbl_Enc_Encuesta_Respuesta" EntitySet="Tbl_Enc_Encuesta_Respuesta" />
+      <End Role="Tbl_EncResp_Encuesta_PreguntaRespuesta" EntitySet="Tbl_EncResp_Encuesta_PreguntaRespuesta" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tbl_EncResp_Encuesta_Pregunta_Tbl_EncResp_Encuesta" Association="Self.FK_Tbl_EncResp_Encuesta_Pregunta_Tbl_EncResp_Encuesta">
+      <End Role="Tbl_EncResp_Encuesta" EntitySet="Tbl_EncResp_Encuesta" />
+      <End Role="Tbl_EncResp_Encuesta_Pregunta" EntitySet="Tbl_EncResp_Encuesta_Pregunta" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tbl_EncResp_Encuesta_Tbl_EncResp_Encuesta_Estado" Association="Self.FK_Tbl_EncResp_Encuesta_Tbl_EncResp_Encuesta_Estado">
+      <End Role="Tbl_EncResp_Encuesta_Estado" EntitySet="Tbl_EncResp_Encuesta_Estado" />
+      <End Role="Tbl_EncResp_Encuesta" EntitySet="Tbl_EncResp_Encuesta" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tbl_EncResp_Encuesta_Documento_Tbl_EncResp_Encuesta_Pregunta" Association="Self.FK_Tbl_EncResp_Encuesta_Documento_Tbl_EncResp_Encuesta_Pregunta">
+      <End Role="Tbl_EncResp_Encuesta_Pregunta" EntitySet="Tbl_EncResp_Encuesta_Pregunta" />
+      <End Role="Tbl_EncResp_Encuesta_Documento" EntitySet="Tbl_EncResp_Encuesta_Documento" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tbl_EncResp_Encuesta_PreguntaRespuesta_Tbl_EncResp_Encuesta_Pregunta" Association="Self.FK_Tbl_EncResp_Encuesta_PreguntaRespuesta_Tbl_EncResp_Encuesta_Pregunta">
+      <End Role="Tbl_EncResp_Encuesta_Pregunta" EntitySet="Tbl_EncResp_Encuesta_Pregunta" />
+      <End Role="Tbl_EncResp_Encuesta_PreguntaRespuesta" EntitySet="Tbl_EncResp_Encuesta_PreguntaRespuesta" />
+    </AssociationSet>
+    <FunctionImport Name="SP_Enc_BajarPregunta" ReturnType="Collection(db_RNF_SurveyModel.SP_Enc_BajarPregunta_Result)">
+      <Parameter Name="id_Encuesta" Mode="In" Type="Int32" />
+      <Parameter Name="id_Pregunta" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_enc_crate_update_encuesta">
+      <Parameter Name="id_encuesta" Mode="In" Type="Int32" />
+      <Parameter Name="descripcion" Mode="In" Type="String" />
+      <Parameter Name="fecha_inicio" Mode="In" Type="DateTime" />
+      <Parameter Name="fecha_fin" Mode="In" Type="DateTime" />
+      <Parameter Name="empresa" Mode="In" Type="Int32" />
+      <Parameter Name="usuario" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_Enc_SubirPregunta" ReturnType="Collection(db_RNF_SurveyModel.SP_Enc_SubirPregunta_Result)">
+      <Parameter Name="id_Encuesta" Mode="In" Type="Int32" />
+      <Parameter Name="id_Pregunta" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Sp_EncResp_Encuesta_Pregunta" ReturnType="Collection(db_RNF_SurveyModel.Sp_EncResp_Encuesta_Pregunta_Result)">
+      <Parameter Name="id_encuesta" Mode="In" Type="Int32" />
+      <Parameter Name="swcreatedby" Mode="In" Type="Int64" />
+      <Parameter Name="id_Correlativo" Mode="In" Type="Int32" />
+      <Parameter Name="id_pregunta" Mode="In" Type="Int32" />
+      <Parameter Name="Respuesta_Observaciones" Mode="In" Type="String" />
+      <Parameter Name="swupdatedby" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="Sp_EncResp_Encuesta_PreguntaEspecifica" ReturnType="Collection(db_RNF_SurveyModel.Sp_EncResp_Encuesta_PreguntaEspecifica_Result)">
+      <Parameter Name="id_encuesta" Mode="In" Type="Int32" />
+      <Parameter Name="swcreatedby" Mode="In" Type="Int64" />
+      <Parameter Name="id_Correlativo" Mode="In" Type="Int32" />
+      <Parameter Name="id_pregunta" Mode="In" Type="Int32" />
+      <Parameter Name="id_respuesta" Mode="In" Type="Int32" />
+      <Parameter Name="Aplica" Mode="In" Type="Boolean" />
+      <Parameter Name="Respuesta_Observaciones" Mode="In" Type="String" />
+      <Parameter Name="swupdatedby" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="sp_send_data" ReturnType="Collection(Int32)">
+      <Parameter Name="titulo" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="SP_Enc_BajarPregunta_Result">
+    <Property Type="Int32" Name="respuesta" Nullable="false" />
+    <Property Type="String" Name="mensaje" Nullable="false" MaxLength="5" />
+    <Property Type="Int64" Name="id" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SP_Enc_SubirPregunta_Result">
+    <Property Type="Int32" Name="respuesta" Nullable="false" />
+    <Property Type="String" Name="mensaje" Nullable="false" MaxLength="5" />
+    <Property Type="Int64" Name="id" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="Sp_EncResp_Encuesta_Pregunta_Result">
+    <Property Type="Int32" Name="respuesta" Nullable="false" />
+    <Property Type="String" Name="mensaje" Nullable="false" MaxLength="55" />
+    <Property Type="Int64" Name="id" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="Sp_EncResp_Encuesta_PreguntaEspecifica_Result">
+    <Property Type="Int32" Name="respuesta" Nullable="false" />
+    <Property Type="String" Name="mensaje" Nullable="false" MaxLength="5" />
+    <Property Type="Int64" Name="id" Nullable="true" />
+  </ComplexType>
+</Schema>

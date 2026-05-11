@@ -1,0 +1,63 @@
+﻿@using RNF_Web.Models;
+
+@model IEnumerable<Tbl_RNF_RegistroHistory>
+
+@{
+    Layout = null;
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+
+
+            <tr>
+
+                <td>
+                    @if (item.Solicitud_id != 0)
+                    {
+                        @item.Tbl_Gral_SolicitudConfiguracionTipo.TipoRegistro
+                    }
+                    else
+                    {
+                        @Html.Raw("Registro migrado")
+                    }
+                    <br />
+                    @if (item.swdatecreated != null)
+                    {
+                        @Html.Raw("Fecha de Solicitud: " + (((DateTime)item.swdatecreated).ToString("dd/MM/yyyy")))
+                    }
+                    <br />
+                    @if (item.Solicitud_id > 0)
+                    {
+                        <button class="btn" rel="tooltip" title="Revisar" onclick="window.open('@Url.Action("HistorialSolicitud","Gest_EtapaSolicitud", new { Guid_id = item.GuidSolicitud_id})')">
+                            <i><img src="~/Content/icons/workflow.png" style="border-radius: 25%; width: 35px; height: auto" /></i>
+                            <div class="ripple-container"></div>
+                        </button>
+
+                        <button class="btn" rel="tooltip" title="Revisar" onclick="window.open('@Url.Action("SolicitudEtapaView","Home", new { Guid_id = item.GuidSolicitud_id, etapaid = 0, etaparutaid = 0, correlativo = 0 })')">
+                            <i><img src="~/Content/icons/etapas.png" style="border-radius: 25%; width: 35px; height: auto" /></i>
+                            <div class="ripple-container"></div>
+                        </button>
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
+

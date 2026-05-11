@@ -1,0 +1,354 @@
+﻿@using RNF_Web.Models;
+@using PagedList.Mvc;
+@model PagedList.PagedList<Tbl_Sol_Solicitud>
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+@*@model IEnumerable<Tbl_Sol_Solicitud>*@
+
+@{
+    Usuario objUs = (Usuario)Session[Constants.session_User];
+    db_RNFEntities db = new db_RNFEntities();
+
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    ViewBag.Title = "Bandeja de solicitudes";
+    ViewBag.SubTitle = null;
+    ViewBag.swdateinicio = String.Format("{0:yyyy-MM-dd}", ViewBag.FechaInicio);
+    ViewBag.swdatefinal = String.Format("{0:yyyy-MM-dd}", ViewBag.FechaFin);
+
+    string strEstadoSolicitud = "Estado Solicitud";
+    string strFechaSolicitud = "Fecha de la solicitud";
+    string strFechaEtapa = "Fecha de la etapa";
+    string strTipo = "Tipo";
+    string strSolicitante = "Solicitante";
+    string strFlechas = " ▼▲";
+
+    string SortOrder = ViewBag.CurrentSort;
+
+    int intAdministradorRol = db.Database.SqlQuery<int>("select max(AdministradorRNF) from Tbl_Gral_PerfilesRol").FirstOrDefault();
+    int intSubRegionaRol = db.Database.SqlQuery<int>("select max(SubRegional) from Tbl_Gral_PerfilesRol").FirstOrDefault();
+    int intDirectorRegionalRol = db.Database.SqlQuery<int>("select max(Regional) from Tbl_Gral_PerfilesRol").FirstOrDefault();
+
+    fc_Seg_Sel_RolUsuario_Result fc_RolAdminsitrador = db.fc_Seg_Sel_RolUsuario(objUs.intUsuario_id, 1).Where(Obj => Obj.Rol_id == intAdministradorRol).FirstOrDefault();
+    fc_Seg_Sel_RolUsuario_Result fc_RolSubRegional = db.fc_Seg_Sel_RolUsuario(objUs.intUsuario_id, 1).Where(Obj => Obj.Rol_id == intSubRegionaRol).FirstOrDefault();
+    fc_Seg_Sel_RolUsuario_Result fc_RolDirectorRegional = db.fc_Seg_Sel_RolUsuario(objUs.intUsuario_id, 1).Where(Obj => Obj.Rol_id == intDirectorRegionalRol).FirstOrDefault();
+
+
+    bool RolSubRegional = false;
+    bool RolDirectorRegional = false;
+    bool RolAdministrador = false;
+
+    if (fc_RolAdminsitrador != null)
+    {
+        RolAdministrador = true;
+    }
+    if (fc_RolSubRegional != null)
+    {
+        RolSubRegional = true;
+    }
+    if (fc_RolDirectorRegional != null)
+    {
+        RolDirectorRegional = true;
+    }
+
+    RolSubRegional = false;
+    RolDirectorRegional = false;
+
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+}
+
+
+@Html.Partial("_PartialPageEncabezado")
+<div align="center" class="form-group">
+    @using (Html.BeginForm(actionName, controllerName, FormMethod.Get))
+    {
+        <table class="table table-striped">
+            <tr>
+                <th scope="col" class="form-label">No. Expediente</th>
+                <th scope="col" class="form-label" colspan="2">Nombre de Solicitante</th>
+                <th scope="col" class="form-label">Fecha Inicio</th>
+                <th scope="col" class="form-label">Fecha Fin</th>
+                <th scope="col" class="form-label"></th>
+            </tr>
+            <tr>
+                <th scope="row"><input type="text" class="form-control" name="Expediente" id="Expediente" value="@ViewBag.Expediente" placeholder="Ej. I-1-001-1.1.1-1997" /></th>
+                <th scope="row"><input type="text" class="form-control" name="SolicitanteNombre" id="SolicitanteNombre" value="@ViewBag.SolicitanteNombre" placeholder="Nombre de Solicitante" /></th>
+                <th scope="row"><input type="text" class="form-control" name="SolicitanteApellido" id="SolicitanteApellido" value="@ViewBag.SolicitanteApellido" placeholder="Apellido de Solicitante" /></th>
+                <td><input type="date" class="form-control fechainicio" name="FechaInicio" id="FechaInicio" value="@ViewBag.swdateinicio" /></td>
+                <td><input type="date" class="form-control fechafin" name="FechaFin" id="FechaFin" value="@ViewBag.swdatefinal" /></td>
+                <td><input type="submit" class="btn btn-primary" value="Buscar" /></td>
+            </tr>
+        </table>
+    }
+</div>
+<table class="table">
+    <tr>
+        <th width="10%">
+            Número
+        </th>
+        <th width="10%">
+            Soporte Id.
+        </th>
+        <th width="10%">
+            @Html.ActionLink(strEstadoSolicitud, actionName, new { sortOrder = ViewBag.Estado, FechaInicio = ViewBag.swdateinicio, FechaFin = ViewBag.swdatefinal, Expediente = ViewBag.Expediente, SolicitanteNombre = ViewBag.SolicitanteNombre, SolicitanteApellido = ViewBag.SolicitanteApellido })
+            @if ((SortOrder == "Estado") || (SortOrder == "estado_desc"))
+            {
+                @Html.Raw(strFlechas);
+            }
+        </th>
+        <th>
+            @Html.ActionLink(strFechaSolicitud, actionName, new { sortOrder = ViewBag.FechaSolicitud, FechaInicio = ViewBag.swdateinicio, FechaFin = ViewBag.swdatefinal, Expediente = ViewBag.Expediente, SolicitanteNombre = ViewBag.SolicitanteNombre, SolicitanteApellido = ViewBag.SolicitanteApellido })
+            @if ((SortOrder == "FechaSolicitud") || (SortOrder == "fechasol_desc"))
+            {
+                @Html.Raw(strFlechas);
+            }
+        </th>
+        <th>
+            @Html.ActionLink(strFechaEtapa, actionName, new { sortOrder = ViewBag.FechaEtapa, FechaInicio = ViewBag.swdateinicio, FechaFin = ViewBag.swdatefinal, Expediente = ViewBag.Expediente, SolicitanteNombre = ViewBag.SolicitanteNombre, SolicitanteApellido = ViewBag.SolicitanteApellido })
+            @if ((SortOrder == "FechaEtapa") || (SortOrder == "fechaetapa_desc"))
+            {
+                @Html.Raw(strFlechas);
+            }
+        </th>
+        <th>
+            @Html.ActionLink(strTipo, actionName, new { sortOrder = ViewBag.Tipo, FechaInicio = ViewBag.swdateinicio, FechaFin = ViewBag.swdatefinal, Expediente = ViewBag.Expediente, SolicitanteNombre = ViewBag.SolicitanteNombre, SolicitanteApellido = ViewBag.SolicitanteApellido })
+            @if ((SortOrder == "Tipo") || (SortOrder == "tipo_desc"))
+            {
+                @Html.Raw(strFlechas);
+            }
+        </th>
+        <th>
+            @Html.ActionLink(strSolicitante, actionName, new { sortOrder = ViewBag.Solicitante, FechaInicio = ViewBag.swdateinicio, FechaFin = ViewBag.swdatefinal, Expediente = ViewBag.Expediente, SolicitanteNombre = ViewBag.SolicitanteNombre, SolicitanteApellido = ViewBag.SolicitanteApellido })
+            @if ((SortOrder == "Solicitante") || (SortOrder == "solicitante_desc"))
+            {
+                @Html.Raw(strFlechas);
+            }
+        </th>
+        <th>
+            Revisar solicitud
+        </th>
+        <th>
+            Reasignar subregion
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @if ((item.Solicitud_NumeroExpediente != null) && (item.Solicitud_NumeroExpediente != ""))
+                {
+                    @Html.DisplayFor(modelItem => item.Solicitud_NumeroExpediente)
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Solicitud_NumeroTemporal)
+                }
+                <br />
+                Ref.@item.Solicitud_id
+            </td>
+            <td>
+                @item.Solicitud_id
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud_Estado.Descripcion)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.swdatecreated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.swdateupdated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud_Categoria.Descripcion) - <br />
+                @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud_Sub_Categoria.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Seg_UsuarioExterno.Nombres) @Html.DisplayFor(modelItem => item.Tbl_Seg_UsuarioExterno.Apellidos)
+            </td>
+            <td>
+                @*@if ((item.Estado_id == 1) || (item.Estado_id == 3))
+                    {
+                        <button class="btn-secondary" rel="tooltip" title="Panel de Asignación" onclick="window.open('/App_Visita_Campo/PanelAsignacion?Guid_id=@item.Guid_id')">
+                            <i><img src="~/Content/icons/workflow.png" style="border-radius: 25%; width: 35px; height: auto" /></i>
+                            <div class="ripple-container"></div>
+                        </button>
+                    }*@
+                <button class="btn-secondary" rel="tooltip" title="Revisar Historico" onclick="window.open('/Gest_EtapaSolicitud/Historial?Guid_id=@item.Guid_id')">
+                    <i><img src="~/Content/icons/workflow.png" style="border-radius: 25%; width: 35px; height: auto" /></i>
+                    <div class="ripple-container"></div>
+                </button>
+                <br />
+                <button class="btn-secondary" rel="tooltip" title="Revisar Solicitud" onclick="window.open('/Home/SolicitudEtapaView?guid_id=@item.Guid_id&etapaid=0&etaparutaid=0&correlativo=0')">
+                    <i><img src="~/Content/icons/etapas.png" style="border-radius: 25%; width: 35px; height: auto" /></i>
+                    <div class="ripple-container"></div>
+                </button>
+            </td>
+            <td>
+                @if ((RolAdministrador) || (RolDirectorRegional) || (RolSubRegional))
+                {
+                    <button class="btn-secondary" rel="tooltip" title="Revisar" onclick="ReasignarSolicitud('@item.Solicitud_id')">
+                        <i><img src="~/Content/icons/etapas.png" style="border-radius: 25%; width: 35px; height: auto" /></i>
+                        <div class="ripple-container"></div>
+                    </button>
+
+                }
+            </td>
+
+
+        </tr>
+    }
+</table>
+<div class="card-content table-responsive" align="center">
+    <p>Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount</p>
+    @Html.PagedListPager(Model, page => Url.Action(actionName, new { page, sortOrder = ViewBag.CurrentSort, FechaInicio = ViewBag.swdateinicio, FechaFin = ViewBag.swdatefinal, Expediente = ViewBag.Expediente, SolicitanteNombre = ViewBag.SolicitanteNombre, SolicitanteApellido = ViewBag.SolicitanteApellido }))
+</div>
+
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+
+<input type="hidden" id="Pagina" name="Pagina" value="">
+<input type="hidden" id="Titulo" name="Titulo" value="">
+<div class="container mt-3">
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" id="btnHideModal" class="btn-next" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="h_iframe">
+                    </div>
+                </div>
+                <div id="DatosPersonerias"></div>
+                <div class="modal-footer">
+                    <button type="button" id="btnHideModal_Close" class="btn-next" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        var myHistorial = document.getElementById('div_Historial');
+        if (myHistorial) {
+            $("#div_Historial").load("/Gest_EtapaSolicitud/BuscarSolicitudParametros");
+        }
+
+        $('#myModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        })
+
+        $("#myModal").on('show.bs.modal', function () {
+            var modal = $(this)
+            modal.find('.modal-title').text(document.getElementById("Titulo").value);
+            modal.find('.modal-body').html(document.getElementById("Pagina").value);
+        });
+
+
+        $("#btnHideModal").click(function () {
+
+            $("#myModal").modal('hide');
+        });
+
+
+        $("#btnHideModal_Close").click(function () {
+
+            $("#myModal").modal('hide');
+        });
+
+
+
+    });
+
+    var fechainiciojs = document.getElementById('FechaInicio').value;
+    var fechafinjs = document.getElementById('FechaFin').value;
+    var expedientejs = document.getElementById('Expediente').value;
+    var solicitantenombrejs = document.getElementById('SolicitanteNombre').value;
+    var solicitanteapellidojs = document.getElementById('SolicitanteApellido').value;
+
+
+    function cambiofechainicio() {
+        actualizaHistorial();
+    }
+
+    function cambiofechafin() {
+        actualizaHistorial();
+    }
+
+    function cambioparametrobusqueda() {
+        actualizaHistorial();
+    }
+
+    function cambioparametrosolicitantenombre() {
+        actualizaHistorial();
+    }
+
+    function cambioparametrosolicitanteapellido() {
+        actualizaHistorial();
+    }
+
+    function cambioParametros() {
+        fechainiciojs = document.getElementById('FechaInicio').value;
+        fechafinjs = document.getElementById('FechaFin').value;
+        expedientejs = document.getElementById('Expediente').value;
+        solicitantenombrejs = document.getElementById('SolicitanteNombre').value;
+        solicitanteapellidojs = document.getElementById('SolicitanteApellido').value;
+        var data = {
+            fechainiciojs: fechainiciojs,
+            fechafinjs: fechafinjs,
+            expedientejs: expedientejs,
+            solicitantenombrejs: solicitantenombrejs,
+            solicitanteapellidojs: solicitanteapellidojs
+        };
+    }
+
+    function actualizaHistorial() {
+        cambioParametros();
+        var myHistorialActualizar = document.getElementById('div_Historial');
+        if (myHistorialActualizar) {
+            $('#div_Historial').load("/Gest_EtapaSolicitud/BuscarSolicitudParametros?FechaInicio=" + fechainiciojs + "&FechaFin=" + fechafinjs + "&Expediente=" + expedientejs + "&SolicitanteNombre=" + solicitantenombrejs + "&SolicitanteApellido=" + solicitanteapellidojs);//?strDatoBusqueda=" + strDatoBusqueda
+        }
+
+    }
+
+
+
+
+    function VisualizarSolicitud(varguid_id, varetapaid,varetaparutaid,varcorrelativo) {
+        var Source = "/Home/SolicitudEtapaView?guid_id=" + varguid_id + "&etapaid=" + varetapaid + "&etaparutaid=" + varetaparutaid + "&correlativo=" + varcorrelativo+"";
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Revision de solicitud';
+        $("#myModal").modal("show");
+
+    }
+
+    function openModalPartial(Source, Titulo) {
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '"frameborder="0" width="1000px" height="1200px"></iframe>';
+        document.getElementById("Titulo").value = Titulo;
+        $("#myModal").modal("show");
+    }
+    function ReasignarSolicitud(Solicitud_id) {
+        var Source = "/Gest_EtapaSolicitud/Solicitud_Reasignacion?Solicitud_id=" + Solicitud_id;
+        var Titulo = 'Reasignaciones de Solicitud';
+
+        openModalPartial(Source, Titulo);
+
+    }
+</script>

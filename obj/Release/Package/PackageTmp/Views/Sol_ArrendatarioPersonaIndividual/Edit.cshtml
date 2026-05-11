@@ -1,0 +1,348 @@
+﻿@model RNF_Web.Models.Tbl_Sol_ArrendatarioPersonaIndividual
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutSimple.cshtml";
+
+
+    db_RNFEntities db = new db_RNFEntities();
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    Usuario objUs = (Usuario)Session["User"];
+    long solicitud_id = ViewBag.solicitud_id;
+    Tbl_Sol_Solicitud tbl_Sol_Solicitud = db.Tbl_Sol_Solicitud.Find(solicitud_id);
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+    fc_Gral_Sol_Configuracion_Result permisos = db.fc_Gral_Sol_Configuracion(tbl_Sol_Solicitud.Solicitud_id, "Sol_Arrendatario", boolEsInterno).FirstOrDefault();
+
+}
+
+<script src="~/Scripts/jquery-3.6.0.js"></script>
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+
+<script>
+
+    $(document).ready(function () {
+
+
+        $("#Fecha_Nacimiento").datepicker({
+            dateFormat: "dd/mm/yy",
+            yearRange: "-120:+0",
+            changeMonth: true,
+            changeYear: true
+        });
+
+
+        $(document).on('change', '#No_Documento', function () {
+            var Constancia = $('#DocumentoID_Tipo').val();
+            var No_Documento = $('#No_Documento').val();
+
+
+            if (Constancia == 0) {
+                document.getElementById("mensaje").innerHTML = "Debe especificar el tipo de documento de identificación";
+            }
+            else {
+                if (Constancia == 1) {
+                    if (isNaN(No_Documento) || No_Documento < 1000000000000 || No_Documento > 9999999999999) {
+                        text = "El número de DPI es invalido.";
+                    }
+                    else {
+                        text = "";
+                    }
+
+                    document.getElementById("mensaje").innerHTML = text;
+                }
+                else {
+                    document.getElementById("mensaje").innerHTML = "";
+                }
+            }
+
+
+
+
+        });
+
+        $(document).on('change', '#DepartamentoDPI_id', function () {
+
+            var url = "@Url.Action("GetMunicipios", "Sol_Solicitud")";
+            var Departamento = $('#DepartamentoDPI_id').val();
+            var data = { Departamento: Departamento};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#MunicipioDPI_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text: municipio.Text
+                    }));
+
+                });
+
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+
+    }); // -----Fin
+
+</script>
+<br />
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.HiddenFor(model => model.Solicitud_id)
+    @Html.HiddenFor(model => model.UsuarioExterno_id)
+    @Html.HiddenFor(model => model.swcreatedby)
+    @Html.HiddenFor(model => model.swdatecreated)
+    @Html.HiddenFor(model => model.swcreatedbyinterno)
+
+    @Html.HiddenFor(model => model.swdateupdated)
+    @Html.HiddenFor(model => model.swupdatedby)
+    @Html.HiddenFor(model => model.swupdatedbyinterno)
+    @Html.HiddenFor(model => model.Estado_id)
+
+
+
+
+    <div class="titulo-dos">
+        <h4>Datos del arrendatario</h4>
+    </div>
+
+
+    <table class="table table-condensed">
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.PuebloPertenencia_id, htmlAttributes: new { @class = "control-label col-md-12 ", style = "text-align:left;" })
+            </td>
+            <td>
+                @Html.LabelFor(model => model.Sexo_id, htmlAttributes: new { @class = "control-label col-md-12" })
+            </td>
+
+        </tr>
+        <tr>
+
+            <td>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.DropDownList("PuebloPertenencia_id", null, htmlAttributes: new { @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.PuebloPertenencia_id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.DropDownList("Sexo_id", null, htmlAttributes: new { @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.Sexo_id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Nombres, htmlAttributes: new { @class = "control-label col-md-12" })
+
+            </td>
+            <td>
+                @Html.LabelFor(model => model.Apellidos, htmlAttributes: new { @class = "control-label col-md-12" })
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Nombres, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Nombres, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Apellidos, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Apellidos, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                @Html.LabelFor(model => model.Fecha_Nacimiento, "Fecha de nacimiento", htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div class="form-group">
+                    <div class="col-md-7">
+                        @Html.TextBoxFor(model => model.Fecha_Nacimiento, "{0:dd-MM-yyyy}", new { @class = "dateInput", @placeholder = "dd/mm/yyyy", data_val = false })
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.DocumentoID_Tipo, htmlAttributes: new { @class = "control-label col-md-12" })
+            </td>
+            <td>
+                @Html.LabelFor(model => model.No_Documento, htmlAttributes: new { @class = "control-label col-md-12" })
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.DropDownList("DocumentoID_Tipo", null, htmlAttributes: new { @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.DocumentoID_Tipo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.No_Documento, new { htmlAttributes = new { @class = "form-control", @maxlength = "13" } })
+                        @Html.ValidationMessageFor(model => model.No_Documento, "", new { @class = "text-danger" })
+                        <p id="mensaje"></p>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                @Html.LabelFor(model => model.No_NIT, htmlAttributes: new { @class = "control-label col-md-12" })
+
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.No_NIT, new { htmlAttributes = new { @class = "form-control", @maxlength = "13" } })
+                        @Html.ValidationMessageFor(model => model.No_NIT, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.DepartamentoDPI_id, htmlAttributes: new { @class = "control-label col-md-6" })
+
+            </td>
+            <td>
+                @Html.LabelFor(model => model.MunicipioDPI_id, htmlAttributes: new { @class = "control-label col-md-2" })
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.DropDownList("DepartamentoDPI_id", null, htmlAttributes: new { @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.DepartamentoDPI_id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.DropDownList("MunicipioDPI_id", null, htmlAttributes: new { @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.MunicipioDPI_id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Celular, htmlAttributes: new { @class = "control-label col-md-12" })
+            </td>
+            <td>
+                @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label col-md-12" })
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Celular, new { htmlAttributes = new { @class = "form-control", @maxlength = "8" } })
+                        @Html.ValidationMessageFor(model => model.Celular, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control", @maxlength = "8" } })
+                        @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+    </table>
+
+    <div style='color: red'>
+        <h3>@TempData["Mensaje"]</h3>
+    </div>
+
+
+    if ((bool)permisos.Editar)
+    {
+        <div class="col-sm-12 col-md-12" align="right">
+            <input type="submit" value="Grabar..." class="btn-next" />
+        </div>
+    }
+    else
+    {
+        <h3> ** El estatus actual no permite modificar o editar  datos</h3>
+    }
+
+}
+
+

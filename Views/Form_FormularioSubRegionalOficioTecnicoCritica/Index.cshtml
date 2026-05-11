@@ -1,0 +1,189 @@
+﻿@model RNF_Web.Models.Tbl_Gest_EtapaSolicitud
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+
+@{
+    ViewBag.Title = "   Home page";
+    Layout = null;
+
+    string guidid, guidetapa;
+    guidid = ViewBag.guidsolicitud;
+    guidetapa = ViewBag.guidetapasolicitud;
+
+    Usuario objUs;
+    objUs = (Usuario)Session["User"];
+
+}
+
+
+<script>
+
+    function Cerrar()
+    {
+        window.location.replace("/Main/Index");
+    }
+
+    function fnc_EnviarRespuesta(varRespuestaid)
+    {
+        varsolicitud_id = '@Model.Solicitud_id';
+        varetapa_id = '@Model.Etapa_id';
+        varetaparuta_id = '@Model.EtapaRuta_id';
+        varcorrelativoetapa_id = '@Model.CorrelativoEtapa_id';
+        varMotivo = $('#Motivo').val();
+        varEtapaSolicitud_GUIDid= '@Model.EtapaSolicitud_GUID_id';
+
+
+        var url = "@Url.Action("ActualizaEtapaRespuestaIndexSolicitud", "Form_FormularioSubRegionalOficioTecnicoCritica")";
+
+        var data = { solicitud_id: varsolicitud_id, etapa_id: varetapa_id, etaparuta_id: varetaparuta_id, correlativoetapa_id: varcorrelativoetapa_id, motivo: varMotivo, respuestaid: varRespuestaid, EtapaSolicitud_GUIDid: varEtapaSolicitud_GUIDid };
+        $.post(url, data).done(function (jsonRespuesta) {
+               var objJSON = JSON.parse(jsonRespuesta);
+               var Cod_Respuesta = objJSON.CodRespuesta;
+               var Texto_Respuesta = objJSON.strRespuesta;
+
+
+                if (Cod_Respuesta == 1) {
+                    alert(Texto_Respuesta);
+                    window.location.replace("/Gest_EtapaSolicitud/Index");
+                } else
+                {
+                    $('#lblMensaje').text(Texto_Respuesta);
+                    alert(Texto_Respuesta);
+
+                }
+
+           }).fail(manejarErrorAjax).always(function () {
+
+               alert('Error no identificado.');
+            });
+            return false;
+
+    }
+
+
+</script>
+
+
+
+<br />
+<div id="div_ListarCriticas"></div>
+
+<table>
+    <tr>
+        <td></td>
+        <td>
+            <input type="button" class="btn btn-success" value="Enviar las observaciones" onclick="fnc_EnviarRespuesta('1')" />
+        </td>
+        <td width="10%"></td>
+        <td></td>
+        <td>
+            @*<input type="button" class="btn btn-secondary" value="Cerrar y continuar despues" onclick="Cerrar()" />*@
+        </td>
+        <td></td>
+        <td>&nbsp;&nbsp;&nbsp;</td>
+        <td>&nbsp;&nbsp;&nbsp;</td>
+    </tr>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $("#obtenerPDF").hide();
+
+        var myListarCriticas = document.getElementById("div_ListarCriticas");
+
+        if (myListarCriticas) {
+            $("#div_ListarCriticas").load("/Form_FormularioSubRegionalOficioTecnicoCritica/ListaCriticasOficioTecnico?Guid_id=@guidid&EtapaSolicitudGuid=@guidetapa");
+
+
+        }
+    })
+
+    function refreshPartialCriticas() {
+        var myListarCriticas = document.getElementById("div_ListarCriticas");
+
+        if (myListarCriticas) {
+            $("#div_ListarCriticas").load("/Form_FormularioSubRegionalOficioTecnicoCritica/ListaCriticasOficioTecnico?Guid_id=@guidid&EtapaSolicitudGuid=@guidetapa");
+        }
+    }
+
+    var ubicacionpdf = null;
+
+
+    function abrirPDF() {
+        window.open(ubicacionpdf, '_blank');
+    }
+
+
+    function grabarObservacion(enmiendaid) {
+
+        var Enmienda_id = enmiendaid;
+        var Objecion = document.getElementById("Objecion_" + enmiendaid).value;
+        var EtapaSolicitud_GUID_id = '@guidetapa';
+        var Solicitud_Guid_id = '@guidid';
+        var swcriticadoby = '@objUs.intUsuario_id';
+        var swcriticadobyinterno = true;
+
+        if ((Objecion.trim() == "") || (Objecion.trim() == null)) {
+            alert("Debe colocar una observación")
+            return;
+        }
+
+        var data = {
+            EtapaSolicitud_GUID_id: EtapaSolicitud_GUID_id,
+            Solicitud_Guid_id: Solicitud_Guid_id,
+            Enmienda_id: Enmienda_id,
+            Objecion: Objecion,
+            swcriticadoby: swcriticadoby,
+            swcriticadobyinterno: swcriticadobyinterno
+        }
+
+        var url = "@Url.Action("GrabarObjecion", "Form_FormularioSubRegionalOficioTecnicoCritica")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+
+            refreshPartialCriticas();
+
+        });
+
+    }
+
+
+    function descargarEnmiendaJuridica() {
+
+        var EtapaSolicitud_GUID_id = '@guidetapa';
+        var Solicitud_Guid_id = '@guidid';
+
+        var data = {
+            EtapaSolicitud_GUID_id: EtapaSolicitud_GUID_id,
+            Solicitud_Guid_id: Solicitud_Guid_id
+        };
+
+        var url = "@Url.Action("ObtenerEnmiendaOficioJuridico", "Form_FormularioSubRegionalOficioTecnico_EnmiendaCritica")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+            var NombreDocumento = oJSON.Ubicacion;
+
+            var archivopdf = NombreDocumento + ".pdf";
+            ubicacionpdf = archivopdf;
+            $("#obtenerPDF").show();
+
+
+            refreshPartialCriticas();
+
+        });
+
+    }
+
+
+
+</script>
+
+

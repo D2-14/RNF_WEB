@@ -1,0 +1,85 @@
+﻿@using RNF_Web.Models;
+@model RNF_Web.Models.Tbl_Sol_Finca_Probosque_EspeciesForestales
+@{
+    Layout = "~/Views/Shared/_LayoutSimpleSolicitud.cshtml";
+    db_RNFEntities db = new db_RNFEntities();
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@using (Html.BeginForm())
+{
+    <h4>Especies Forestales Probosque</h4>
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Solicitud_id)
+<table class="table">
+    <tr>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Finca_id, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Finca_id, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Finca_id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Referencia_id, "Referencia (Número de Rodal)", htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Referencia_id, new { htmlAttributes = new { @class = "form-control", @type="number" } })
+                    @Html.ValidationMessageFor(model => model.Referencia_id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Area, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Area, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.NombreCientifico, "Especie", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NombreCientifico, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NombreCientifico, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.FechaPlantacion, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-16">
+                    @Html.EditorFor(model => model.FechaPlantacion, new { htmlAttributes = new { @type = "date", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.FechaPlantacion, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.DensidadActual, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DensidadActual, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DensidadActual, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </div>
+}

@@ -1,0 +1,387 @@
+﻿@using RNF_Web.Models;
+@using PagedList.Mvc;
+@model PagedList.PagedList<Tbl_Sol_Solicitud>
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    ViewBag.Title = "Bandeja de expedientes";
+    ViewBag.SubTitle = null;
+
+    string strFlechas = " ▼▲";
+
+    string SortOrder = ViewBag.CurrentSort;
+    string procedencia = "";
+    string fasemodalidadtipoproyecto = "";
+    string fase = "";
+    string modalidad = "";
+    string tipoproyecto = "";
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+    List<Tbl_Seg_Usuario> tbl_Seg_Usuarios = ViewBag.tbl_Seg_Usuarios;
+
+}
+
+<script>
+    function openModalPartial(Source, Titulo) {
+
+        $("#myModal").modal("show");
+    }
+
+    function nuevoExpediente() {
+        var Source = "/API_Probosque/BuscarProbosque";
+        var Titulo = 'Buscar expediente PROBOSQUE';
+        openModalPartial(Source, Titulo);
+    }
+
+    function asignarTecnico(Solicitud_id, TecnicoAsignado) {
+
+        console.log(Solicitud_id);
+        console.log(TecnicoAsignado);
+
+        var OpcionActual = TecnicoAsignado.options[TecnicoAsignado.selectedIndex];
+
+        console.log(OpcionActual);
+
+        var TecnicoAsignado_id = OpcionActual.value;
+        var Correo = OpcionActual.text;
+
+        var mensajeAlerta = '¿Desea asignar este expediente al técnico ' + Correo + '?';
+        var confirmacion = confirm(mensajeAlerta);
+        if (confirmacion) {
+            var data = {
+                Solicitud_id: Solicitud_id,
+                TecnicoAsignado_id: TecnicoAsignado_id
+            }
+
+            var url = '@Url.Action("AsignarTecnicoExpedienteOficio", controllerName)';
+
+            $.post(url, data).done(function (RespuestaJSON) {
+                var oJSON = RespuestaJSON;
+
+                var Result = oJSON.result;
+                var Mensaje = oJSON.message;
+
+                alert(Mensaje);
+
+
+            }).fail(function (RespuestaJSON) {
+                alert('Ocurrió un error...' + RespuestaJSON);
+                console.log(RespuestaJSON);
+            })
+
+        }
+    }
+
+</script>
+
+
+<h1>@TempData["Expediente_Secorf"]</h1>
+
+<div>
+    @using (Html.BeginForm(actionName, controllerName, FormMethod.Get))
+    {
+        <table class="table table-striped" width="100%">
+            <tr>
+                <th scope="col" class="form-label">No. Expediente</th>
+                <th scope="col" class="form-label">No. Licencia</th>
+                <th scope="col" class="form-label">No. POA</th>
+                <th scope="col" class="form-label">No. DPI</th>
+                <th scope="col" class="form-label">Nombre de Solicitante</th>
+                <th scope="col" class="form-label"></th>
+                <th scope="col" class="form-label"></th>
+            </tr>
+            <tr>
+                <th scope="row"><input type="text" class="form-control" name="NoExpediente" id="NoExpediente" value="@ViewBag.NoExpediente" placeholder="Ej. I-1-001-1.1.1-1997" /></th>
+                <th scope="row"><input type="text" class="form-control" name="NoLicencia" id="NoLicencia" value="@ViewBag.NoLicencia" placeholder="Número de Licencia" /></th>
+                <th scope="row"><input type="text" class="form-control" name="NoPOA" id="NoPOA" value="@ViewBag.NoPOA" placeholder="Número de POA" /></th>
+                <th scope="row"><input type="text" class="form-control" name="NoDPI" id="NoDPI" value="@ViewBag.NoDPI" placeholder="Número de DPI" /></th>
+                <th scope="row"><input type="text" class="form-control" name="SolicitanteNombre" id="SolicitanteNombre" value="@ViewBag.SolicitanteNombre" placeholder="Nombre del Solicitante" /></th>
+                <td scope="row"><input type="submit" class="btn btn-primary" value="Buscar" /></td>
+                <td scope="row">
+                    <a rel="tooltip" title="Nuevo" onclick="nuevoExpediente()">
+                        <i><img src="~/Content/icons/add_simple.png" style="border-radius: 30%; width: 40px; height: auto" /></i>
+                        <div class="ripple-container"></div>
+                        Nuevo
+                    </a>
+                </td>
+            </tr>
+        </table>
+    }
+</div>
+@Html.Partial("_PartialPageEncabezado")
+
+<table class="table">
+    <tr>
+        <th width="10%">
+            No. expediente o <br /> No. temporal
+        </th>
+        <th width="0%">
+        </th>
+        <th width="10%">
+            @Html.ActionLink("Número de licencia", actionName, new { sortOrder = ViewBag.SortNoLicencia, NoExpediente = ViewBag.NoExpediente, NoLicencia = ViewBag.NoLicencia, NoPOA = ViewBag.NoPOA, NoDPI = ViewBag.NoDPI, SolicitanteNombre = ViewBag.SolicitanteNombre })
+        </th>
+        <th width="0%">
+            @if ((SortOrder == "Solicitud_NumeroLicencia") || (SortOrder == "Solicitud_NumeroLicencia_desc"))
+            {
+                @Html.Raw(strFlechas);
+            }
+        </th>
+
+        <th>
+            @Html.ActionLink("Número de POA", actionName, new { sortOrder = ViewBag.SortNoPOA, NoExpediente = ViewBag.NoExpediente, NoLicencia = ViewBag.NoLicencia, NoPOA = ViewBag.NoPOA, NoDPI = ViewBag.NoDPI, SolicitanteNombre = ViewBag.SolicitanteNombre })
+        </th>
+        <th width="0%">
+            @if ((SortOrder == "Solicitud_NumeroPOA") || (SortOrder == "Solicitud_NumeroPOA_desc"))
+            {
+                @Html.Raw(strFlechas);
+            }
+        </th>
+
+        <th>
+            @Html.ActionLink("Número de DPI", actionName, new { sortOrder = ViewBag.SortNoDPI, NoExpediente = ViewBag.NoExpediente, NoLicencia = ViewBag.NoLicencia, NoPOA = ViewBag.NoPOA, NoDPI = ViewBag.NoDPI, SolicitanteNombre = ViewBag.SolicitanteNombre })
+        </th>
+        <th width="0%">
+            @if ((SortOrder == "Solicitud_NumeroDPI") || (SortOrder == "Solicitud_NumeroDPI_desc"))
+            {
+                @Html.Raw(strFlechas);
+            }
+        </th>
+
+
+        <th>
+            @Html.ActionLink("Nombre Completo", actionName, new { sortOrder = ViewBag.SortNombre, NoExpediente = ViewBag.NoExpediente, NoLicencia = ViewBag.NoLicencia, NoPOA = ViewBag.NoPOA, NoDPI = ViewBag.NoDPI, SolicitanteNombre = ViewBag.SolicitanteNombre })
+        </th>
+        <th width="0%">
+            @if ((SortOrder == "Solicitud_Nombre") || (SortOrder == "Solicitud_Nombre_desc"))
+            {
+                @Html.Raw(strFlechas);
+            }
+        </th>
+
+        <th>
+            @Html.ActionLink("Fecha de Creación", actionName, new { sortOrder = ViewBag.Sortswdatecreated, NoExpediente = ViewBag.NoExpediente, NoLicencia = ViewBag.NoLicencia, NoPOA = ViewBag.NoPOA, NoDPI = ViewBag.NoDPI, SolicitanteNombre = ViewBag.SolicitanteNombre })
+        </th>
+        <th width="0%">
+            @if ((SortOrder == "swdatecreated") || (SortOrder == "swdatecreated_desc"))
+            {
+                @Html.Raw(strFlechas);
+            }
+        </th>
+
+        <th>
+            Procedencia
+        </th>
+        <th>
+        </th>
+
+        <th width="10%">
+            @Html.ActionLink("Número de expediente", actionName, new { sortOrder = ViewBag.SortNoExpediente, NoExpediente = ViewBag.NoExpediente, NoLicencia = ViewBag.NoLicencia, NoPOA = ViewBag.NoPOA, NoDPI = ViewBag.NoDPI, SolicitanteNombre = ViewBag.SolicitanteNombre })
+        </th>
+        <th width="0%">
+            @if ((SortOrder == "Solicitud_NumeroExpediente") || (SortOrder == "Solicitud_NumeroExpediente_desc"))
+            {
+                @Html.Raw(strFlechas);
+            }
+        </th>
+        <th>
+            Asignar Técnico
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        ViewBag.TecnicoAsignado_id = new SelectList(tbl_Seg_Usuarios, nameof(Tbl_Seg_Usuario.Usuario_id), nameof(Tbl_Seg_Usuario.email), item.TecnicoAsignado_id);
+        <tr>
+            <td colspan="2">
+                No. Solicitud:
+                @if (item.Solicitud_NumeroExpediente != null)
+                {
+                    @Html.DisplayFor(modelItem => item.Solicitud_NumeroExpediente)
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Solicitud_NumeroTemporal)
+                }
+                Expediente procedencia:
+                @Html.DisplayFor(modelItem => item.Procedencia_Expediente)
+
+            </td>
+            <td colspan="2">
+                @Html.DisplayFor(modelItem => item.Procedencia_Licencia)
+            </td>
+            <td colspan="2">
+                @Html.DisplayFor(modelItem => item.Procedencia_POA)
+            </td>
+            <td colspan="2">
+                @Html.DisplayFor(modelItem => item.DPI_Titular)
+            </td>
+            <td colspan="2">
+                @Html.DisplayFor(modelItem => item.Procedencia_NombreSolicitante)
+            </td>
+            <td colspan="2">
+                @item.swdatecreated
+            </td>
+            <td colspan="2">
+                @if (item.Procedencia_PinpepOld || item.Procedencia_PinpepNew)
+                {
+                    procedencia = "PINPEP";
+                }
+                @if (item.Procedencia_Probosque)
+                {
+                    procedencia = "PROBOSQUE";
+                }
+                @if (item.Procedencia_secorf)
+                {
+                    procedencia = "Obligaciónes de Repoblación Forestal";
+                }
+                @Html.Raw(procedencia)
+
+
+                @{
+                    fase = item.Procedencia_Fase ?? "";
+                    modalidad = item.Procedencia_Modalidad ?? "";
+                    tipoproyecto = item.Procedencia_TipoProyecto ?? "";
+                    if (fase != "")
+                    {
+                        fase += ", <br />";
+                    }
+                    if (modalidad != "")
+                    {
+                        modalidad += ", <br />";
+                    }
+                    if (item.Procedencia_PinpepOld || item.Procedencia_PinpepNew)
+                    {
+                        fasemodalidadtipoproyecto = fase + modalidad;
+                    }
+                    if (item.Procedencia_Probosque)
+                    {
+                        fasemodalidadtipoproyecto = fase + modalidad + tipoproyecto;
+                    }
+                    if (item.Procedencia_secorf)
+                    {
+                        fasemodalidadtipoproyecto = modalidad;
+                    }
+                }
+                @Html.Raw(fasemodalidadtipoproyecto)
+
+
+            </td>
+            <td colspan="2">
+                @if (item.No_Registro != null)
+                {
+                    <a type="button" class="btn btn-sm btn-primary" style="width: 110px;" href="@Url.Action("RegistroView","RNF_Registro", new { No_Registro = item.No_Registro })" target="_blank">@item.No_Registro</a>
+                    <br />
+                }
+                <a type="button" class="btn btn-sm btn-primary" style="width: 110px;" href="@Url.Action("SolicitudEtapaView","Home", new { guid_id = item.Guid_id, etapaid = 1, etaparutaid = 1, correlativo = 1 })" target="_blank">Solicitud</a>
+            </td>
+            <td>
+                @Html.DropDownList("TecnicoAsignado_id", null, new { @class="form-select", @onchange= $"asignarTecnico('{@item.Solicitud_id}',this)" })
+            </td>
+        </tr>
+    }
+</table>
+
+<div class="card-content table-responsive" align="center">
+    <p>Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount</p>
+    @Html.PagedListPager(Model, page => Url.Action(actionName, new { page, sortOrder = ViewBag.CurrentSort, NoExpediente = ViewBag.NoExpediente, NoPOA = ViewBag.NoPOA, NoDPI = ViewBag.NoDPI, SolicitanteNombre = ViewBag.SolicitanteNombre }))
+</div>
+
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+
+
+<input type="hidden" id="Pagina" name="Pagina" value="">
+<input type="hidden" id="Titulo" name="Titulo" value="">
+
+<div class="container mt-3">
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" id="btnHideModal" class="btn-next" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="container">
+                    <table width="100%">
+                        <tr>
+                            <td width="25%">
+                                <a rel="tooltip" title="Nuevo" onclick="location.replace('@Url.Action("Crear", "Expediente_Secorf")')">
+                                    <i><img src="~/Content/icons/add_simple.png" style="border-radius: 30%; width: 40px; height: auto" /></i>
+                                    <div class="ripple-container"></div>
+                                    Obligaciones de Repoblación Forestal
+                                </a>
+                            </td>
+                            <td width="25%">
+                                <a rel="tooltip" title="Nuevo" onclick="location.replace('@Url.Action("BuscarProbosque", "API_Probosque")')">
+                                    <i><img src="~/Content/icons/add_simple.png" style="border-radius: 30%; width: 40px; height: auto" /></i>
+                                    <div class="ripple-container"></div>
+                                    PROBOSQUE
+                                </a>
+                            </td>
+                            <td width="25%">
+                                <a rel="tooltip" title="Nuevo" onclick="location.replace('@Url.Action("BuscarPinpepOld", "API_Probosque")')">
+                                    <i><img src="~/Content/icons/add_simple.png" style="border-radius: 30%; width: 40px; height: auto" /></i>
+                                    <div class="ripple-container"></div>
+                                    PINPEP Old
+                                </a>
+                            </td>
+                            <td width="25%">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnHideModal_Close" class="btn-next" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+
+
+    $(document).ready(function () {
+
+        $('#myModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        })
+
+        $("#myModal").on('show.bs.modal', function () {
+            var modal = $(this)
+            modal.find('.modal-title').text(document.getElementById("Titulo").value);
+            modal.find('.modal-body').html(document.getElementById("Pagina").value);
+        });
+
+
+        $("#btnHideModal").click(function () {
+
+            $("#myModal").modal('hide');
+            location.reload();
+        });
+
+
+        $("#btnHideModal_Close").click(function () {
+
+            $("#myModal").modal('hide');
+            location.reload();
+        });
+
+
+    });
+
+
+
+
+</script>

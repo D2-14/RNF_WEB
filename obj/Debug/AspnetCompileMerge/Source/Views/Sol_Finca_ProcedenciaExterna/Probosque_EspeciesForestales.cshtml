@@ -1,0 +1,93 @@
+﻿@using RNF_Web.Models;
+@model List<Tbl_Sol_Finca_Probosque_EspeciesForestales>
+@{
+    db_RNFEntities db = new db_RNFEntities();
+    Layout = null;
+    long Solicitud_id = ViewBag.Solicitud_id;
+    Tbl_Sol_Solicitud tbl_Sol_Solicitud = db.Tbl_Sol_Solicitud.Find(Solicitud_id);
+
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string Nombre_Div = "div_Sol_Permisos_Sol_Finca_Probosque_EspeciesForestales";
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+    fc_Gral_Sol_Configuracion_Result permisos = db.fc_Gral_Sol_Configuracion(tbl_Sol_Solicitud.Solicitud_id, controllerName, boolEsInterno).FirstOrDefault();
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+    <div id="@Nombre_Div"></div>
+}
+
+@if (((bool)permisos.Agregar) && tbl_Sol_Solicitud.Procedencia_Probosque)
+{
+    <input type="button" class="btn btn-success" value="Agregar Especies Forestales" onclick="AgregarEspecieForestalProbosque()" />
+}
+
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                Finca
+            </th>
+            <th>
+                Referencia
+            </th>
+            <th>
+                Correlativo
+            </th>
+            <th>
+                Especie
+            </th>
+            <th>
+                Fecha de Plantación
+            </th>
+            <th>
+                Densidad Actual
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Finca_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Referencia_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Correlativo_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NombreCientifico)
+        </td>
+        <td>
+            @if (item.FechaPlantacion != null)
+            {
+                @(((DateTime)item.FechaPlantacion).ToString("yyyy"))
+            }
+            else
+            {
+                @Html.Raw("-----")
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DensidadActual)
+        </td>
+        <td>
+            @if (((bool)permisos.Agregar) && tbl_Sol_Solicitud.Procedencia_Probosque && !(bool)item.RegistroExterno)
+            {
+                <input type="button" class="btn btn-danger" value="Borrar" onclick="BorrarEspecieForestalProbosque('@item.Finca_id','@item.Correlativo_id')" />
+            }
+        </td>
+    </tr>
+        }
+
+    </table>
+}

@@ -1,0 +1,44 @@
+﻿@using RNF_Web.Models;
+@model IEnumerable<RNF_Web.Models.Tbl_RNF_Finca_PinpepOld_EspeciesProteger>
+@{
+    db_RNFEntities db = new db_RNFEntities();
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                Rodal
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Area)
+            </th>
+            <th>
+                Especies a proteger
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rodal_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Area)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EspeciesProteger)
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+

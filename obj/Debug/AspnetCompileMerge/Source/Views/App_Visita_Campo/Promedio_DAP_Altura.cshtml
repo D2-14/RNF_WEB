@@ -1,0 +1,180 @@
+﻿@using RNF_Web.Models;
+@model List<App_PromedioDAP_Altura>
+@{
+    decimal diferenciaMedida;
+    diferenciaMedida = 0;
+    AppAudit oAudit;
+    oAudit = (AppAudit)Session["App"];
+}
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@if (Model.Count() > 0)
+{
+    <h1 align="center">Promedio de DAP y Altura</h1>
+
+    <table class="table table-striped table-hover" border="1">
+        <thead>
+            <tr>
+                <th colspan="6">
+                </th>
+                <th colspan="2" align="center">
+                    <strong>
+                        DAP Promedio
+                    </strong>
+                </th>
+                <th colspan="2" align="center">
+                    <strong>
+                        Altura Promedio
+                    </strong>
+                </th>
+                <th colspan="2" align="center">
+                    <strong>
+                        Diferencia Promedio
+                    </strong>
+                </th>
+                <th>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <strong>
+                        Finca
+                    </strong>
+                </th>
+                <th>
+                    <strong>
+                        Rodal
+                    </strong>
+                </th>
+                <th>
+                    <strong>
+                        Tipo de Area
+                    </strong>
+                </th>
+                <th>
+                    <strong>
+                        Número de Parcela
+                    </strong>
+                </th>
+                <th>
+                    <strong>
+                        Cantidad de Árboles
+                    </strong>
+                </th>
+                <th>
+                    <strong>
+                        Especie Indicada
+                    </strong>
+                </th>
+                <th>
+                    <strong>
+                        Estimado (Usuario)
+                    </strong>
+                </th>
+                <th>
+                    <strong>
+                        Medido (Técnico)
+                    </strong>
+                </th>
+                <th>
+                    <strong>
+                        Estimado (Usuario)
+                    </strong>
+                </th>
+                <th>
+                    <strong>
+                        Medido (Técnico)
+                    </strong>
+                </th>
+                <th>
+                    <strong>
+                        DAP
+                    </strong>
+                </th>
+                <th>
+                    <strong>
+                        Altura
+                    </strong>
+                </th>
+                <th>
+                    <strong>
+                        Observaciones
+                    </strong>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Finca_id
+                    </td>
+                    <td>
+                        @item.Rodal_id
+                    </td>
+                    <td>
+                        @item.Tipo_de_Area
+                    </td>
+                    <td>
+                        @item.No_Parcela
+                    </td>
+                    <td>
+                        @item.Cantidad
+                    </td>
+                    <td>
+                        @item.Especie_Indicada
+                    </td>
+                    <td>
+                        @((item.DAP_Promedio).ToString("0.00"))
+                    </td>
+                    <td>
+                        @((item.DAP_Promedio_Medido).ToString("0.00"))
+                    </td>
+                    <td>
+                        @((item.Promedio_Altura).ToString("0.00"))
+                    </td>
+                    <td>
+                        @{
+                            diferenciaMedida = (decimal)item.Promedio_Altura_Medido;
+                            diferenciaMedida = Math.Abs(diferenciaMedida);
+                        }
+                        @diferenciaMedida.ToString("0.00")
+                    </td>
+                    <td>
+                        @{
+                            diferenciaMedida = (decimal)item.Diferencia_DAP;
+                            diferenciaMedida = Math.Abs(diferenciaMedida);
+                        }
+                        @diferenciaMedida.ToString("0.00")
+                    </td>
+                    <td>
+                        @{
+                            diferenciaMedida = (decimal)item.Diferencia_Altura;
+                            diferenciaMedida = Math.Abs(diferenciaMedida);
+                        }
+                        @diferenciaMedida.ToString("0.00")
+                    </td>
+                    <td>
+                        @item.Observacion
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p align="center">
+        <strong>No se encontraron árboles con Promedio de DAP y Altura</strong>
+    </p>
+}
+
+
+

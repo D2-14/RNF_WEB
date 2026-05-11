@@ -1,0 +1,23 @@
+﻿@using RNF_Web.Models;
+<meta http-equiv="refresh" content="9">
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@if (ViewBag.CantidadItems != "")
+{
+
+    if ((string.Compare(ViewBag.CantidadItems, "Error: La ultima carga de información ha fallado") != 0) && (string.Compare(ViewBag.CantidadItems, "Proceso de carga en espera de nuevo archivo..") != 0))
+    {
+        <img src="~/Content/icons/uploading.gif" style="position: absolute; top: 25%; left: 40%; " />
+    }
+
+    <h1 style="position: absolute; top: 10%; left: 35%; ">@ViewBag.CantidadItems</h1>
+}
+else
+{
+    <h1 style="position: absolute; top: 10%; left: 35%; ">-- Ultima carga finalizada con exito --</h1>
+}

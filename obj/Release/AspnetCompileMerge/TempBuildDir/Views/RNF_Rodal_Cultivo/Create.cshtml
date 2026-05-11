@@ -1,0 +1,265 @@
+﻿@model RNF_Web.Models.Tbl_RNF_Rodal_Cultivo
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@{
+    Layout = null;
+    ViewBag.Title = "Cultivo ";
+    ViewBag.SubTitle = "Ingresar especie por área";
+}
+
+<script>
+
+    function refreshPartialListaCultivo() {
+        $('#listadoCultivos').load('/RNF_Rodal_Cultivo/Index?Guid_id=@ViewBag.Guid');
+    }
+
+    $(document).ready(function () {
+
+        refreshPartialListaCultivo();
+
+        GetRodal();
+    });
+
+    function GetRodal()
+    {
+        var url = "@Url.Action("GetRodal", "RNF_Rodal_Cultivo")";
+        var Finca = $('#Finca_id').val();
+        var No_Registro = '@ViewBag.Guid';
+        var data = {
+            No_Registro: No_Registro,
+            finca_id: Finca
+        };
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Rodal_Id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, rodal) {
+                    select.append($('<option/>', {
+                        value: rodal.Value,
+                        text: rodal.Text
+                    }));
+
+                });
+
+                GetRodalTipo();
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+    }
+
+    function AgregarCultivo()
+    {
+
+        var AnioEstablecimiento = $('#Anio_Establecimiento').val();
+
+
+        if (Anio_Establecimiento == '' || Anio_Establecimiento == 'NaN') {
+            $('#lblMensaje').text("Debe indicar el año de establecimiento no puede ser mayor al año actual.");
+        }
+
+        if (Anio_Establecimiento > 2022)
+        {
+            $('#lblMensaje').text("El año de establecimiento no puede ser mayor al año actual.");
+            return;
+        }
+
+        if (Anio_Establecimiento < 1600) {
+            $('#lblMensaje').text("Debe indicar el año de establecimiento no puede ser mayor al año actual.");
+            return;
+        }
+
+        var url = "@Url.Action("AgregarCultivo", "RNF_Rodal_Cultivo")";
+        var Finca = $('#Finca_id').val();
+        var No_Registro = '@ViewBag.Guid';
+        var Rodal = $('#Rodal_Id').val();
+        var Area = $('#Tipo_de_Area').val();
+        var Cultivo = $('#Cultivo_id').val();
+        var CultivoVolumen_Rodal = $('#CultivoVolumen_Rodal').val();
+        var CultivoVolumen_ha = $('#CultivoVolumen_ha').val();
+
+        var data = {
+            No_Registro: No_Registro,
+            finca_id: Finca,
+            rodal_id: Rodal,
+            area_id: Area,
+            cultivo_id: Cultivo,
+            anioestablecimiento: AnioEstablecimiento,
+            Volumen_Rodal: CultivoVolumen_Rodal,
+            Volumen_ha: CultivoVolumen_ha
+        };
+
+        $.post(url, data).done(function (jsonRespuesta) {
+
+            var objJSON = JSON.parse(jsonRespuesta);
+            var Cod_Respuesta = objJSON.CodRespuesta;
+            var Texto_Respuesta = objJSON.strRespuesta;
+
+            if (Cod_Respuesta == 1) {
+                $('#lblMensaje').text(Texto_Respuesta);
+            }
+            refreshPartialListaCultivo();
+
+            }).fail(function (jsonRespuesta) {
+                refreshPartialListaCultivo();
+            });
+    }
+
+
+    function Borrar_Cultivo(No_Registro, Finca, Rodal, Area, Cultivo)
+    {
+        var url = "@Url.Action("EliminarCultivo", "RNF_Rodal_Cultivo")";
+
+        //EliminarCultivo(long solicitud_id, long finca_id, long rodal_id, int area_id, int cultivo_id)
+
+        var data = { No_Registro: No_Registro, finca_id: Finca, rodal_id: Rodal, area_id: Area, cultivo_id: Cultivo };
+
+        $.post(url, data).done(function (jsonRespuesta) {
+
+            var objJSON = JSON.parse(jsonRespuesta);
+            var Cod_Respuesta = objJSON.CodRespuesta;
+            var Texto_Respuesta = objJSON.strRespuesta;
+
+            if (Cod_Respuesta == 1) {
+                $('#lblMensaje').text(Texto_Respuesta);
+            }
+        refreshPartialListaCultivo();
+
+        }).fail(function (jsonRespuesta) {
+            refreshPartialListaCultivo();
+        });
+
+    }
+
+
+    function GetRodalTipo()
+    {
+        var url = "@Url.Action("GetRodalTipo", "RNF_Rodal_Cultivo")";
+        var Finca = $('#Finca_id').val();
+        var No_Registro = '@ViewBag.Guid';
+        var Rodal = $('#Rodal_Id').val();
+        var data = { No_Registro: No_Registro, finca_id: Finca, rodal_id: Rodal };
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Tipo_de_Area");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, rodaltipo) {
+                    select.append($('<option/>', {
+                        value: rodaltipo.Value,
+                        text: rodaltipo.Text
+                    }));
+
+                });
+
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+    }
+
+
+    $(document).on('change', '#Rodal_Id', function () {
+
+        GetRodalTipo();
+
+    }); // -----Fin de Change ddlDepartamento
+
+
+
+    $(document).on('change', '#Finca_id', function () {
+
+            GetRodal();
+
+        }); // -----Fin de Change ddlDepartamento
+
+
+</script>
+
+<br />
+<div style='height: 30px; width: 100%; background-color: #66bb6a; color: white; '>
+    <h4>Listado de cultivo(s)</h4>
+</div>
+
+<table width="100%">
+    <tr>
+        <td>
+            @Html.LabelFor(model => model.Finca_id, "Finca", htmlAttributes: new { @class = "control-label col-md-2" })
+        </td>
+        <td>
+            @Html.LabelFor(model => model.Rodal_Id, "Rodal", htmlAttributes: new { @class = "control-label col-md-4" })
+        </td>
+        <td width="15%">
+            @Html.LabelFor(model => model.Tipo_de_Area, "Tipo", htmlAttributes: new { @class = "control-label col-md-12" })
+        </td>
+        <td>
+            @Html.LabelFor(model => model.Cultivo_id, "Tipo de área", htmlAttributes: new { @class = "control-label col-md-4" })
+        </td>
+        <td>
+            @Html.LabelFor(model => model.Anio_Establecimiento, "Año de establecimiento", htmlAttributes: new { @class = "control-label col-md-12" })
+        </td>
+        <td>
+            @Html.LabelFor(model => model.Volumen_Rodal, "Volumen por Rodal", htmlAttributes: new { @class = "control-label col-md-12" })
+        </td>
+        <td>
+            @Html.LabelFor(model => model.Volumen_ha, "Volumen por ha", htmlAttributes: new { @class = "control-label col-md-12" })
+        </td>
+        <td>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DropDownList("Finca_id", null, htmlAttributes: new { @class = "form-select" })
+        </td>
+        <td>
+            @Html.DropDownList("Rodal_Id", null, htmlAttributes: new { @class = "form-select" })
+        </td>
+
+        <td>
+            @Html.DropDownList("Tipo_de_Area", null, htmlAttributes: new { @class = "form-select" })
+        </td>
+        <td>
+            @Html.DropDownList("Cultivo_id", null, htmlAttributes: new { @class = "form-select" })
+        </td>
+        <td>
+            <div class="col-md-12">
+                <input type="text" id="Anio_Establecimiento" name="Anio_Establecimiento" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" value="2022" />
+            </div>
+        </td>
+        <td>
+            <input type="number" class="form-control" name="CultivoVolumen_Rodal" id="CultivoVolumen_Rodal" placeholder="0.0000" value="0" />
+        </td>
+        <td>
+            <input type="number" class="form-control" name="CultivoVolumen_ha" id="CultivoVolumen_ha" placeholder="0.0000" value="0" />
+        </td>
+
+        <td>
+            <input type="button" class="btn-success" value="Agregar" onclick="AgregarCultivo()" />
+        </td>
+
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td> <label id="lblMensaje" name="lblMensaje" /></td>
+    </tr>
+</table>
+
+<div id="listadoCultivos" name="listadoCultivos" />
+<hr />
+

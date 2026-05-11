@@ -1,0 +1,288 @@
+﻿@model RNF_Web.Models.Tbl_Sol_Solicitud
+@using RNF_Web.Models;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+
+@{
+    db_RNFEntities db = new db_RNFEntities();
+
+    ViewBag.Title = "Create";
+
+
+}
+
+@*<script src="~/Scripts/jquery-3.6.0.js"></script>*@
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script type="text/javascript" src="~/Scripts/qrcode.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $(document).on('change', '#Departamento_id', function () {
+
+            var url = "@Url.Action("GetMunicipios", "Sol_Solicitud")";
+            var Departamento = $('#Departamento_id').val();
+            var data = { Departamento: Departamento};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Municipio_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text: municipio.Text
+                    }));
+
+                });
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+
+        $(document).on('change', '#Region_id', function () {
+
+            var url = "@Url.Action("GetSubRegion", "Sol_Solicitud")";
+            var Region = $('#Region_id').val();
+            var data = { Region: Region};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#SubRegion_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text:  municipio.Text
+                    }));
+
+                });
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlRegion
+
+
+        $(document).on('change', '#Categoria_id', function () {
+
+            var url = "@Url.Action("GetSubCategorias", "Sol_Solicitud")";
+            var Categoria = $('#Categoria_id').val();
+            var data = { Categoria: Categoria};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Sub_Categoria_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, SubCategoria) {
+                    select.append($('<option/>', {
+                        value: SubCategoria.Value,
+                        text: SubCategoria.Text
+                    }));
+
+                });
+
+                $('#Sub_Categoria_id').change()
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+        $(document).on('change', '#Sub_Categoria_id', function () {
+            var Contador = 0;
+            var url = "@Url.Action("GetSubSubCategorias", "Sol_Solicitud")";
+            var Categoria = $('#Categoria_id').val();
+            var SubCategoria = $('#Sub_Categoria_id').val();
+
+            if ((Categoria == 1) && (SubCategoria == 2)) {
+                location.replace("/UsuarioExterno/VisualizarMapa")
+            }
+
+            var data = { Categoria: Categoria, SubCategoria: SubCategoria  };
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Sub_Sub_Categoria_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+
+                $.each(Listdata, function (index, SubSubCategoria) {
+                    Contador = Contador + 1;
+                    select.append($('<option/>', {
+                        value: SubSubCategoria.Value,
+                        text: SubSubCategoria.Text
+                    }));
+
+                });
+
+                if (Contador < 1) {
+                    select.append($('<option/>', {
+                        value: '0',
+                        text: '-- No Aplica --'
+                    }));
+                }
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+
+    }); // -----Fin de document ready function
+</script>
+
+<style>
+    .textarea-label {
+        display: block;
+        /* border, padding, and other styles go here,
+    don't set the height, and don't use floats or positioning */
+    }
+
+        .textarea-label textarea {
+            margin: 0;
+            outline: 0 none;
+            padding: 0;
+            width: 100%;
+        }
+</style>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.Solicitud_id)
+    @Html.HiddenFor(model => model.Estado_id)
+    @Html.HiddenFor(model => model.swcreatedby)
+    @Html.HiddenFor(model => model.swdatecreated)
+    @Html.HiddenFor(model => model.swcreatedbyinterno)
+    @Html.HiddenFor(model => model.swdateupdated)
+    @Html.HiddenFor(model => model.swupdatedby)
+    @Html.HiddenFor(model => model.swupdatedbyinterno)
+
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="container-fluid">
+
+        <div id="MostrarCategoria">
+            <div class="row">
+                <div class="titulo-dos">
+                    <h4>Tipo de Solicitud</h4>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col">
+                    @Html.LabelFor(model => model.Categoria_id, "Categoría", htmlAttributes: new { @class = "control-label col-md-12" })
+                    @Html.DropDownList("Categoria_id", null, htmlAttributes: new { @class = "form-select", @disabled = "disabled" })
+                    @Html.HiddenFor(m => m.Categoria_id)
+                    @Html.ValidationMessageFor(model => model.Categoria_id, "", new { @class = "text-danger" })
+
+                    @Html.LabelFor(model => model.Sub_Categoria_id, "Sub Categoría", htmlAttributes: new { @class = "control-label col-md-12" })
+                    @Html.DropDownList("Sub_Categoria_id", null, htmlAttributes: new { @class = "form-select", @disabled = "disabled" })
+                    @Html.HiddenFor(m => m.Sub_Categoria_id)
+                    @Html.ValidationMessageFor(model => model.Sub_Categoria_id, "", new { @class = "text-danger" })
+                    @if (Model.Estado_id == 0)
+                    {
+                        @Html.LabelFor(model => model.Sub_Sub_Categoria_id, "Especificación", htmlAttributes: new { @class = "control-label col-md-12" })
+                        @Html.DropDownList("Sub_Sub_Categoria_id", null, htmlAttributes: new { @class = "form-select"})
+                        @Html.HiddenFor(m => m.Sub_Sub_Categoria_id)
+                        @Html.ValidationMessageFor(model => model.Sub_Sub_Categoria_id, "", new { @class = "text-danger" })
+                    }
+                    else
+                    { 
+                        @Html.LabelFor(model => model.Sub_Sub_Categoria_id, "Especificación", htmlAttributes: new { @class = "control-label col-md-12" })
+                        @Html.DropDownList("Sub_Sub_Categoria_id", null, htmlAttributes: new { @class = "form-select", @disabled = "disabled" })
+                        @Html.HiddenFor(m => m.Sub_Sub_Categoria_id)
+                        @Html.ValidationMessageFor(model => model.Sub_Sub_Categoria_id, "", new { @class = "text-danger" })
+                    }
+
+                    </div>
+            </div>
+        </div>
+
+        <div id="MostrarRegion" style="display:none">
+            <div class="row">
+                <div class="titulo-dos">
+                    <h4>Dirección en la que desea realizar la gestión.</h4>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col">
+                    @Html.LabelFor(model => model.Region_id, "Región", htmlAttributes: new { @class = "control-label col-md-12" })
+                    @Html.DropDownList("Region_id", null, htmlAttributes: new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.Region_id, "", new { @class = "text-danger" })
+
+                    @Html.LabelFor(model => model.SubRegion_id, "Sub-Región", htmlAttributes: new { @class = "control-label col-md-12" })
+                    @Html.DropDownList("SubRegion_id", null, htmlAttributes: new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.SubRegion_id, "", new { @class = "text-danger" })
+
+                    <a href="http://www.inab.gob.gt/index.php/quienes-somos/oficinas-inab" target="_blank">Consultar directorio</a>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <h1 style="background-color:powderblue;">@TempData["MensajeSolicitudFail"]</h1>
+            <div class="col">
+                <div class="d-grid gap-2">
+                    @if (Model.Estado_id == 0)
+                    {
+                        <input type="button" value="Cancelar el proceso" class="btn-cancel" onclick="EliminarSolicitud('0')" />
+                    }
+                </div>
+            </div>
+            <div class="col">
+                <div class="d-grid gap-2">
+                    @if (Model.Estado_id == 0)
+                    {
+                        <input type="button" onclick="location.href='~/home/Index';" value="Cerrar y continuar despues" class="btn-warn" />
+                    }
+                    else
+                    {
+                        <input type="button" onclick="location.href='~/home/Index';" value="Cerrar" class="btn-warn" />
+                    }
+                </div>
+            </div>
+            <div class="col">
+                <div class="d-grid gap-2">
+                    @if (Model.Estado_id == 0)
+                    {
+                        <input type="submit" value="Siguiente" class="btn-next" />
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+

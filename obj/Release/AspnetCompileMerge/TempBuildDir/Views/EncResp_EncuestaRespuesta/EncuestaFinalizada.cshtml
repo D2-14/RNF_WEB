@@ -1,0 +1,29 @@
+﻿@model RNF_Web.Models.Tbl_Enc_Encuesta_Pregunta
+@using RNF_Web.Models
+
+
+@{
+
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+<div class="container-fluid">
+
+    <img src="~/Content/images/bannerMonitoreoFinalizado.png" width="100%" />
+
+    <h4>Monitoreo finalizado</h4>
+    <hr />
+
+    <span>
+        <h1>Registro(s) actualizado(s) con éxito.<hr width="100%" size="1" color="silver"></h1>
+
+        <h2> <i>Cierre la pantalla para continuar....</i> </h2>
+    </span>
+
+</div>

@@ -1,0 +1,112 @@
+﻿
+@using RNF_Web.Models;
+
+@{
+    Usuario objUs = (Usuario)Session["User"];
+    if (objUs != null)
+    {
+        ViewBag.Nombres = objUs.strNombre_Usuario;
+    }
+    else
+    {
+        ViewBag.Nombres = "REGISTRO DE NUEVO USUARIO";
+    }
+}
+
+
+
+<script>
+    function download(filename, NombreDescarga) {
+
+        var element = document.createElement('a');
+        element.setAttribute('href', filename);
+        element.setAttribute('download', NombreDescarga);
+        document.body.appendChild(element);
+        element.click();
+        //document.body.removeChild(element);
+    }
+</script>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    @*
+        Paleta de colores https://htmlcolorcodes.com/es/
+        RGB to Hexa       https://www.rgbtohex.net/
+    *@
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="~/Content/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/assets/css/Login-Form-Clean.css">
+    <link rel="stylesheet" href="~/Content/assets/css/styles.css">
+    <script src="~/Content/assets/js/index.js"></script>
+
+
+
+</head>
+<body>
+
+    <!--<div style='height: 50px; width: 100%; background-color: green; color: white;'>
+        <table width="100%">
+            <tr>
+                <td width="5%">
+                    <div class=" d-sm-block d-md-none">
+                        <img class=".d-md-none .d-lg-block" width="44" height="44" src="~/Content/icons/trespuntos.png" onclick="mostrarMenuLateral()" />
+                    </div>
+                </td>
+                <td width="95%">
+                    <br />-->
+    @*<h2 style="text-align:center;">@Html.Raw(Constants.Layout_Titulo)</h2>*@
+    <!--</td>
+            </tr>
+        </table>
+    </div>-->
+    @*<script src="~/Scripts/chosen.jquery.js"></script>*@
+
+    <script src="~/Content/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Content/assets/js/jquery.min.js"></script>
+
+
+</body>
+</html>
+
+
+<link type="text/css" rel="stylesheet" href="~/Content/assets/css/menuvertical.css" />
+<input type="hidden" name="formContent" value="formContent" />
+
+
+<script language="javascript">
+    if (top.frames.length > 0) {
+        window.open("home.jsf", "_blank");
+        window.stop();
+    }
+    function mostrarMenuLateral() {
+        var content = document.getElementById("formContent:contentAgenciaVirtual");
+        if (content.getAttribute("class").includes("menuLateralVisible")) {
+            content.setAttribute("class", content.getAttribute("class").replace("menuLateralVisible", ""));
+        } else {
+            content.setAttribute("class", content.getAttribute("class") + " menuLateralVisible");
+        }
+    }
+</script>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-md-12">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.addEventListener("beforeunload", function (e) {
+        document.cookie = "ASP.NET_SessionId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    });
+</script>

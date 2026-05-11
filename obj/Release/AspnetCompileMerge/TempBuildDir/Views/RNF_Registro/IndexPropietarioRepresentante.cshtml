@@ -1,0 +1,167 @@
+﻿@using RNF_Web.Models;
+@using System.Data.SqlClient;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+@{
+
+    db_RNFEntities db = new db_RNFEntities();
+    string Guid_id = ViewBag.Guid_id;
+
+    Tbl_RNF_Registro tbl_RNF_Registro = db.Tbl_RNF_Registro.Where(Obj => Obj.No_Registro == Guid_id).FirstOrDefault();
+
+    ViewBag.Estado = tbl_RNF_Registro.Estado_id;
+
+    ViewBag.PropietarioIndividual = db.Tbl_RNF_PropietarioPersonaIndividual.Where(obj => obj.No_Registro == Guid_id && obj.Estado_id == true).Count();
+
+    ViewBag.PropietarioJuridico = db.Tbl_RNF_PropietarioPersonaJuridica.Where(obj => obj.No_Registro == Guid_id && obj.Estado_id == true).Count();
+
+    ViewBag.RepresentanteLegal = db.Tbl_RNF_RepresentanteLegal.Where(obj => obj.No_Registro == Guid_id && obj.Estado_id == 1).Count();
+
+    ViewBag.RepresentanteLegalM = db.Tbl_RNF_RepresentanteLegal.Where(obj => obj.No_Registro == tbl_RNF_Registro.No_Registro && obj.RepresentanteLegatTipo_id == 1 && obj.Estado_id == 1).Count();
+    EdicionRNFGrants objRNFGrants = (EdicionRNFGrants)Session[Constants.session_EdicionRNFGrants];
+
+}
+
+<script>
+
+    $(document).ready(function () {
+
+        $('#section_Propietario').load('/RNF_Registro/IndexPropietario?Guid_id=@Guid_id');
+
+        $('#section_Representante').load('/RNF_RepresentanteLegal/Index?Guid_id=@Guid_id');
+
+        $('#section_Arrendatario').load('/RNF_Registro/IndexArrendatario?No_Registro=@Guid_id');
+
+        $('#section_RepresentanteJ').load('/RNF_RepresentanteLegal/IndexMandatario?Guid_id=@Guid_id');
+
+        $(document).on('change', '#Mandatario', function () {
+            var Constancia = $('#Mandatario').val();
+
+
+            var TdToShowA = document.getElementById("section_Representante");
+            var TdToShowB = document.getElementById("siguiente");
+
+            if (Constancia == 'Si') {
+                TdToShowA.style.display = "block";
+                TdToShowB.style.display = "none";
+            }
+            else {
+                TdToShowA.style.display = "none";
+                TdToShowB.style.display = "block";
+
+            }
+
+        });
+
+
+        $(document).on('change', '#MandatarioJ', function () {
+            var Constancia = $('#MandatarioJ').val();
+
+
+            var TdToShowA = document.getElementById("section_RepresentanteJ");
+
+            if (Constancia == 'Si') {
+                TdToShowA.style.display = "block";
+            }
+            else {
+                TdToShowA.style.display = "none";
+
+            }
+
+        });
+
+
+
+    });
+
+</script>
+
+<div id="section_Propietario"></div>
+<div id="section_Arrendatario"></div>
+
+
+
+@if (((ViewBag.PropietarioIndividual > 0) && (ViewBag.RepresentanteLegal == 0)))
+{
+    <label for="Mandatario"> Cuenta con mandatario:</label>
+    <select name="Mandatario" id="Mandatario">
+        <option value="ND">---------------------------</option>
+        <option value="Si">Si</option>
+        <option value="No">No</option>
+    </select>
+    <br />
+    <br />
+
+    <div id="section_Representante" style="display:none"></div>
+
+}
+
+@if ((ViewBag.PropietarioIndividual > 0) && (ViewBag.PropietarioIndividual > 0))
+{
+    <div id="section_Representante"></div>
+
+}
+
+@if (ViewBag.PropietarioJuridico > 0)
+{
+    <div id="section_Representante"></div>
+
+    if (ViewBag.RepresentanteLegalM > 0)
+    {
+        <div id="section_RepresentanteJ"></div>
+    }
+    else
+    {
+        <label for="MandatarioJ"> Cuenta con mandatario:</label>
+        <select name="MandatarioJ" id="MandatarioJ">
+            <option value="ND">---------------------------</option>
+            <option value="Si">Si</option>
+            <option value="No">No</option>
+        </select>
+        <br />
+        <br />
+
+        <div id="section_RepresentanteJ" style="display:none"></div>
+    }
+}
+
+
+<br />
+<br />
+
+<div class="row">
+    <div class="col-sm-6 col-md-6" align="right">
+        @*@if ((ViewBag.Estado == 0))
+        {
+            <input type="button" value="Cancelar el proceso" class="btn btn-danger" onclick="EliminarSolicitud(0)" />
+        }*@
+    </div>
+    <div class="col-sm-3 col-md-3" align="right">
+        @*<a href="~/home/Index">
+            @if ((ViewBag.Estado == 0) || (ViewBag.Estado == 4))
+            {
+                <input type="button" value="Cerrar y continuar despues" class="btn btn-success" />
+            }
+            else
+            {
+                <input type="button" value="Cerrar" class="btn btn-success" />
+            }
+
+
+        </a>*@
+    </div>
+
+    <div class="col-sm-3 col-md-3" align="right">
+        @if ((objRNFGrants.Editar) && (ViewBag.PropietarioIndividual > 0 || (ViewBag.PropietarioJuridico > 0 && ViewBag.RepresentanteLegal > 0)))
+        {
+            <input id="siguiente" type="submit" value="Siguiente" class="btn btn-success" onclick="Refresh()" />
+        }
+    </div>
+</div>
+

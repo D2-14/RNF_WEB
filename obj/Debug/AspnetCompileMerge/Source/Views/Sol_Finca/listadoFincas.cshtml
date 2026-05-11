@@ -1,0 +1,78 @@
+﻿@using RNF_Web.Models;
+@using System.Data.SqlClient;
+
+@model IEnumerable<RNF_Web.Models.Tbl_Sol_Finca>
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Url.Action("listadoFincas", "Sol_Finca")
+}
+
+
+<style>
+
+    .lateral-window {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 30%; /* Adjust the width as needed */
+        height: 100vh; /* Make the window cover the full height of the viewport */
+        background-color: #228B22; /* Choose your desired background color */
+        padding: 20px; /* Adjust the padding as needed */
+        z-index: 999; /* Ensure the window appears above other content */
+        /* Other styles for the lateral window */
+    }
+                      
+                      
+
+</style>
+
+@if (Model.Count()>0)
+{ 
+    <aside id="asideFinca" class="lateral-window">
+        <div class="titulo-dos">
+            <h5>Fincas agregadas</h5>
+        </div>
+        <br />
+
+        <div class="titulo-dos">
+            <h5>en la solicitud</h5>
+        </div>
+        <br />
+        <div class="titulo-dos">
+            <h5>al momento</h5>
+        </div>
+        <hr />
+        <table width="100%" class="table-striped">
+            <tr>
+                <th scope="col" width="30%">No.</th>
+                <th scope="col" width="70%">
+                    Finca Nombre
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Finca_Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreFinca)
+                    </td>
+                </tr>
+            }
+        </table>
+        <br />
+        <button onclick="ocultar()">Cerrar X</button>
+    </aside>
+}
+
+<script>
+
+    function ocultar() {
+        var mySolPermisos = document.getElementById('asideFinca');
+        mySolPermisos.style.display = "none";
+    };
+
+</script>

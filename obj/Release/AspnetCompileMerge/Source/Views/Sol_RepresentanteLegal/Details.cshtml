@@ -1,0 +1,168 @@
+﻿@model RNF_Web.Models.Tbl_Sol_RepresentanteLegal
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Tbl_Sol_RepresentanteLegal</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombres)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombres)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Apellidos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Apellidos)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.No_NIT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.No_NIT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RepresentanteNo_Documento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RepresentanteNo_Documento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha_Nacimiento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha_Nacimiento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha_InicioNombramiento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha_InicioNombramiento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha_FinNombramiento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha_FinNombramiento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VigenciaIndefinida)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VigenciaIndefinida)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UsuarioExterno_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UsuarioExterno_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.swcreatedby)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.swcreatedby)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.swcreatedbyinterno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.swcreatedbyinterno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.swdatecreated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.swdatecreated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.swdateupdated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.swdateupdated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.swupdatedby)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.swupdatedby)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.swupdatedbyinterno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.swupdatedbyinterno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tbl_Gral_DocumentoID_Tipo.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tbl_Gral_DocumentoID_Tipo.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tbl_Sol_RepresentanteLegal_Estado.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tbl_Sol_RepresentanteLegal_Estado.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tbl_Sol_RepresentanteLegalTipo.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tbl_Sol_RepresentanteLegalTipo.Descripcion)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.RepresentanteLegal_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

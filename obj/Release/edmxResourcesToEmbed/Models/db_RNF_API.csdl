@@ -1,0 +1,1135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="db_RNF_APIModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <ComplexType Name="fc_API_GetLongitudLatitud_Result">
+    <Property Name="Longitud" Type="Double" />
+    <Property Name="Latitud" Type="Double" />
+  </ComplexType>
+  <ComplexType Name="fc_API_GetRegistro_Result">
+    <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="No_Registro" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="No_RegistroLiteral" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="No_RegistroCorrelativo" Type="Int32" Nullable="false" />
+    <Property Name="Solicitud_id" Type="Int64" Nullable="false" />
+    <Property Name="Region_id" Type="Int32" />
+    <Property Name="SubRegion_id" Type="Int32" />
+    <Property Name="Region" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SubRegion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Categoria_id" Type="Int32" />
+    <Property Name="Sub_Categoria_id" Type="Int32" />
+    <Property Name="Sub_Sub_Categoria_id" Type="Int32" />
+    <Property Name="Categoria" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="SubCategoria" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Especificacion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swcreatedbyinterno" Type="Boolean" />
+    <Property Name="swdatecreated" Type="DateTime" />
+    <Property Name="Solicitante" Type="String" MaxLength="2001" FixedLength="false" Unicode="false" />
+  </ComplexType>
+  <ComplexType Name="fc_API_GetResumenFinca_DictamenTecnico_Result">
+    <Property Name="Solicitud_id" Type="Int64" />
+    <Property Name="Finca_id" Type="Int64" />
+    <Property Name="Area_SIGAP" Type="Boolean" />
+    <Property Name="CategoriaSIGAP_Id" Type="Int32" />
+    <Property Name="CategoriaSIGAP" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="CategoriaSIGAP_AreaLongitud" Type="Decimal" Precision="18" Scale="2" />
+  </ComplexType>
+  <ComplexType Name="fc_API_GetSolicitud_Result">
+    <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="Solicitud_id" Type="Int64" Nullable="false" />
+    <Property Name="Region_id" Type="Int32" />
+    <Property Name="SubRegion_id" Type="Int32" />
+    <Property Name="Region" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SubRegion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Categoria" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="SubCategoria" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Especificacion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swcreatedbyinterno" Type="Boolean" />
+    <Property Name="swdatecreated" Type="DateTime" />
+    <Property Name="Solicitante" Type="String" MaxLength="2001" FixedLength="false" Unicode="false" />
+  </ComplexType>
+  <ComplexType Name="fc_API_GetSolicitudDasometricoCentroParcela_Result">
+    <Property Name="Solicitud_id" Type="Int64" Nullable="false" />
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_Id" Type="Int64" Nullable="false" />
+    <Property Name="No_Parcela" Type="Int32" Nullable="false" />
+    <Property Name="Tipo_de_Area_id" Type="Int32" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="GTMX" Type="Decimal" Precision="25" Scale="12" Nullable="false" />
+    <Property Name="GTMY" Type="Decimal" Precision="25" Scale="12" Nullable="false" />
+    <Property Name="Longitud" Type="Double" />
+    <Property Name="Latitud" Type="Double" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swcreatedbyinterno" Type="Boolean" />
+    <Property Name="swdatecreated" Type="DateTime" />
+  </ComplexType>
+  <ComplexType Name="fc_API_GetSolicitudFinca_Result">
+    <Property Name="Solicitud_id" Type="Int64" Nullable="false" />
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="NombreFinca" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="ObjetivoDeLaPlantacion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Departamento_Registro" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Departamento" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Municipio" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+    <Property Name="Ubicacion" Type="String" MaxLength="1500" FixedLength="false" Unicode="false" />
+    <Property Name="AreaTotal" Type="Decimal" Precision="10" Scale="3" />
+    <Property Name="AreaARegistrar" Type="Decimal" Precision="10" Scale="3" />
+    <Property Name="GTMX" Type="Decimal" Precision="25" Scale="12" Nullable="false" />
+    <Property Name="GTMY" Type="Decimal" Precision="25" Scale="12" Nullable="false" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swcreatedbyinterno" Type="Boolean" />
+    <Property Name="swdatecreated" Type="DateTime" />
+  </ComplexType>
+  <ComplexType Name="fc_API_GetSolicitudRodal_Result">
+    <Property Name="Solicitud_id" Type="Int64" Nullable="false" />
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_Id" Type="Int64" Nullable="false" />
+    <Property Name="Carga_id" Type="Int64" Nullable="false" />
+    <Property Name="Correlativo_id" Type="Int32" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="Estado_id" Type="Boolean" />
+    <Property Name="GTMX" Type="Decimal" Precision="25" Scale="12" Nullable="false" />
+    <Property Name="GTMY" Type="Decimal" Precision="25" Scale="12" Nullable="false" />
+    <Property Name="Longitud" Type="Decimal" Precision="25" Scale="12" Nullable="false" />
+    <Property Name="Latitud" Type="Decimal" Precision="25" Scale="12" Nullable="false" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swcreatedbyinterno" Type="Boolean" />
+    <Property Name="swdatecreated" Type="DateTime" />
+  </ComplexType>
+  <ComplexType Name="fc_API_PlantacionVoluntaria_Result">
+    <Property Name="Solicitud_id" Type="Int64" Nullable="false" />
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_id" Type="Int64" Nullable="false" />
+    <Property Name="Dasometrico_id" Type="Int64" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="Area_Efectiva_Rodal" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="No_Parcela" Type="Int32" Nullable="false" />
+    <Property Name="Area_Muestreada" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="Especie" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Anio_Establecimiento" Type="Int32" />
+    <Property Name="DAP_Promedio" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="Altura_Promedio" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swcreatedbyinterno" Type="Boolean" />
+    <Property Name="swdatecreated" Type="DateTime" />
+  </ComplexType>
+  <ComplexType Name="fc_API_RodalDescuento_Result">
+    <Property Name="Solicitud_id" Type="Int64" Nullable="false" />
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_Id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_Descuento_Id" Type="Int64" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="AreaTotal" Type="Decimal" Precision="10" Scale="3" Nullable="false" />
+    <Property Name="AreaTotalCalculadaSistema" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="GTMX" Type="Decimal" Precision="25" Scale="12" Nullable="false" />
+    <Property Name="GTMY" Type="Decimal" Precision="25" Scale="12" Nullable="false" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swcreatedbyinterno" Type="Boolean" />
+    <Property Name="swdatecreated" Type="DateTime" />
+  </ComplexType>
+  <ComplexType Name="fc_API_RodalDescuentoPoligono_Result">
+    <Property Name="Solicitud_id" Type="Int64" Nullable="false" />
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_Id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_Descuento_Id" Type="Int64" Nullable="false" />
+    <Property Name="Carga_id" Type="Int64" Nullable="false" />
+    <Property Name="Correlativo_id" Type="Int32" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="GTMX" Type="Decimal" Precision="25" Scale="12" Nullable="false" />
+    <Property Name="GTMY" Type="Decimal" Precision="25" Scale="12" Nullable="false" />
+    <Property Name="Latitud" Type="Decimal" Precision="25" Scale="12" Nullable="false" />
+    <Property Name="Longitud" Type="Decimal" Precision="25" Scale="12" Nullable="false" />
+    <Property Name="Estado_id" Type="Boolean" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swcreatedbyinterno" Type="Boolean" />
+    <Property Name="swdatecreated" Type="DateTime" />
+  </ComplexType>
+  <ComplexType Name="fc_API_Sol_Finca_Rodal_Planos_Result">
+    <Property Name="FechaDia" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Solicitud_id" Type="Int64" Nullable="false" />
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_id" Type="Int64" Nullable="false" />
+    <Property Name="Categoria_Registro" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="AreaEfectiva" Type="Decimal" Precision="38" Scale="3" />
+    <Property Name="Longitud_Total" Type="Decimal" Precision="38" Scale="3" />
+  </ComplexType>
+  <ComplexType Name="fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_Result">
+    <Property Name="Solicitud_id" Type="Int64" Nullable="false" />
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_id" Type="Int64" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="Int32" Nullable="false" />
+    <Property Name="Longitud_Total" Type="Decimal" Precision="10" Scale="3" />
+    <Property Name="Cantidad_Total_Arboles" Type="Int32" />
+    <Property Name="Especie" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Area_Efectiva_Rodal" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="Anio_Establecimiento" Type="Int32" />
+    <Property Name="EstimacionPorMedioDe" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ClaseDiametrica" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Clase" Type="Int32" Nullable="false" />
+    <Property Name="Cantidad_Arboles" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Densidad_ha" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="AlturaPromedio" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="AreaBasal_ha" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Volumen_ha" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Volumen_Rodal" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Area_Basal_MetroCuadrado" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Volumen_X_Linea" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="CoordenadaX" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="CoordenadaY" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="Filas_PDF_Estimacion" Type="Int32" />
+    <Property Name="Cantidad_Especies_X_Rodal" Type="Int32" />
+    <Property Name="LongitudMinima" Type="Int32" />
+  </ComplexType>
+  <ComplexType Name="fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_FS_Result">
+    <Property Name="Solicitud_id" Type="Int64" />
+    <Property Name="Finca_id" Type="Int64" />
+    <Property Name="Rodal_id" Type="Int64" />
+    <Property Name="Tipo_de_Area" Type="Int32" />
+    <Property Name="Tipo_Area" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Area_Efectiva_Rodal" Type="Decimal" Precision="10" Scale="3" />
+    <Property Name="Especie_Id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Especie" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Anio_Establecimiento" Type="Int32" />
+    <Property Name="DAP_Promedio" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="AlturaPromedio" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Clase_id" Type="Int32" />
+    <Property Name="Cantidad_De_Arboles" Type="Int32" />
+  </ComplexType>
+  <ComplexType Name="fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_PV_Result">
+    <Property Name="Solicitud_id" Type="Int64" />
+    <Property Name="Finca_id" Type="Int64" />
+    <Property Name="Rodal_id" Type="Int64" />
+    <Property Name="NombreFinca" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="Tipo_de_Area" Type="Int32" />
+    <Property Name="Tipo_de_Area_Desc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Longitud_Total" Type="Decimal" Precision="10" Scale="3" />
+    <Property Name="Cantidad_Total_Arboles" Type="Int32" />
+    <Property Name="Especie" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Area_Efectiva_Rodal" Type="Decimal" Precision="10" Scale="3" />
+    <Property Name="Anio_Establecimiento" Type="Int32" />
+    <Property Name="EstimacionPorMedioDe" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Cantidad_Arboles" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Densidad_ha" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="AlturaPromedio" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="DAPPromedio" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="AreaBasal_ha" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Volumen_ha" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Volumen_Rodal" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Area_Basa_MetroCuadrado" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Volumen_X_Linea" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="CoordenadaX" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="CoordenadaY" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Clase" Type="Int32" />
+  </ComplexType>
+  <ComplexType Name="fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_PV_20221130_Result">
+    <Property Name="Solicitud_id" Type="Int64" />
+    <Property Name="Finca_id" Type="Int64" />
+    <Property Name="Rodal_id" Type="Int64" />
+    <Property Name="NombreFinca" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="Tipo_de_Area" Type="Int32" />
+    <Property Name="Tipo_de_Area_Desc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Longitud_Total" Type="Decimal" Precision="10" Scale="3" />
+    <Property Name="Cantidad_Total_Arboles" Type="Int32" />
+    <Property Name="Especie" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Area_Efectiva_Rodal" Type="Decimal" Precision="10" Scale="3" />
+    <Property Name="Anio_Establecimiento" Type="Int32" />
+    <Property Name="EstimacionPorMedioDe" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Cantidad_Arboles" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Densidad_ha" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="AlturaPromedio" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="AreaBasal_ha" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Volumen_ha" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Volumen_Rodal" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Area_Basa_MetroCuadrado" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Volumen_X_Linea" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="CoordenadaX" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="CoordenadaY" Type="Decimal" Precision="18" Scale="4" />
+  </ComplexType>
+  <ComplexType Name="fc_API_Sol_Sel_RodalAreProtegidaPoligono_Result">
+    <Property Name="ID_LOCATION" Type="Int32" />
+    <Property Name="NO_GRAPHIC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ID_GRPHIC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="X_GMT" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Y_GMT" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="AREA" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PROPERTY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="DPI" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="REG" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="AREA_VERIFY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="SUBREGION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LON" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LAT" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="COLOR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </ComplexType>
+  <ComplexType Name="fc_API_Sol_Sel_RodalRegionPoligono_Result">
+    <Property Name="ID_LOCATION" Type="Int32" />
+    <Property Name="NO_GRAPHIC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ID_GRPHIC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="X_GMT" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Y_GMT" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="AREA" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PROPERTY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="DPI" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="REG" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="AREA_VERIFY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="SUBREGION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LON" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LAT" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="COLOR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </ComplexType>
+  <ComplexType Name="fc_Reporte_Auditorias_Result">
+    <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="Auditoria_id" Type="Guid" Nullable="false" />
+    <Property Name="Solicitud_id" Type="Int64" />
+    <Property Name="Solicitante" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="swusertransferedby" Type="Int64" />
+    <Property Name="Auditor" Type="String" MaxLength="101" FixedLength="false" Unicode="false" />
+    <Property Name="swtransferedby" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="swdatetransfered" Type="DateTime" />
+  </ComplexType>
+  <ComplexType Name="fc_Reporte_Auditorias_Arboles_DiferenteAnio_Establecimiento_Result">
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_id" Type="Int64" Nullable="false" />
+    <Property Name="No_Parcela" Type="Int32" Nullable="false" />
+    <Property Name="Dasometrico_id" Type="Int64" Nullable="false" />
+    <Property Name="Especie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="AnioIndicado" Type="Int32" />
+    <Property Name="Anio_Medida" Type="Int32" />
+    <Property Name="DAP_Indicada" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="DAP_Medida" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="Altura_Indicada" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="Altura_Medida" Type="Decimal" Precision="18" Scale="10" />
+  </ComplexType>
+  <ComplexType Name="fc_Reporte_Auditorias_Arboles_DiferenteClase_y_EstadoFitosanitario_Result">
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_id" Type="Int64" Nullable="false" />
+    <Property Name="No_Parcela" Type="Int32" Nullable="false" />
+    <Property Name="Dasometrico_id" Type="Int64" Nullable="false" />
+    <Property Name="Especie_Indicada" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Especie_Medida" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DAP_Indicada" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="DAP_Medida" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="Altura_Indicada" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="Altura_Medida" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="Clase_Indiciada" Type="Int32" />
+    <Property Name="Clase_Medida" Type="Int32" />
+    <Property Name="EstadoFitosanitario_Indiciada" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="EstadoFitosanitario_Medida" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+  </ComplexType>
+  <ComplexType Name="fc_Reporte_Auditorias_Arboles_DiferenteDAP_y_Altura_Result">
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_id" Type="Int64" Nullable="false" />
+    <Property Name="No_Parcela" Type="Int32" Nullable="false" />
+    <Property Name="Dasometrico_id" Type="Int64" Nullable="false" />
+    <Property Name="Especie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DAP_Indicada" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="DAP_Medida" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="Altura_Indicada" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="Altura_Medida" Type="Decimal" Precision="18" Scale="10" />
+  </ComplexType>
+  <ComplexType Name="fc_Reporte_Auditorias_Arboles_DiferenteEspecie_Result">
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_id" Type="Int64" Nullable="false" />
+    <Property Name="No_Parcela" Type="Int32" Nullable="false" />
+    <Property Name="Dasometrico_id" Type="Int64" Nullable="false" />
+    <Property Name="Especie_Indicada" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Especie_Medida" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DAP_Indicada" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="DAP_Medida" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="Altura_Indicada" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="Altura_Medida" Type="Decimal" Precision="18" Scale="10" />
+  </ComplexType>
+  <ComplexType Name="fc_Reporte_Auditorias_Arboles_PromedioDAP_y_Altura_Result">
+    <Property Name="Cantidad" Type="Int32" />
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_id" Type="Int64" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Tipo_de_Area_id" Type="Int32" Nullable="false" />
+    <Property Name="No_Parcela" Type="Int32" Nullable="false" />
+    <Property Name="Especie_Indicada" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DAP_Promedio" Type="Decimal" Precision="38" Scale="10" />
+    <Property Name="DAP_Promedio_Medido" Type="Decimal" Precision="38" Scale="10" />
+    <Property Name="Promedio_Altura" Type="Decimal" Precision="38" Scale="10" />
+    <Property Name="Promedio_Altura_Medido" Type="Decimal" Precision="38" Scale="10" />
+    <Property Name="Diferencia_DAP" Type="Decimal" Precision="38" Scale="10" />
+    <Property Name="Diferencia_Altura" Type="Decimal" Precision="38" Scale="10" />
+    <Property Name="Observacion" Type="String" MaxLength="78" FixedLength="false" Unicode="false" />
+  </ComplexType>
+  <ComplexType Name="fc_Reporte_Auditorias_ArbolesNuevos_PromedioDAP_y_Altura_Result">
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_id" Type="Int64" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="No_Parcela" Type="Int32" Nullable="false" />
+    <Property Name="Arboles" Type="Int64" Nullable="false" />
+    <Property Name="Especie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DAP_Promedio" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="Altura_Promedio" Type="Decimal" Precision="18" Scale="10" />
+  </ComplexType>
+  <ComplexType Name="fc_Reporte_Auditorias_ArbolesNuevosAgrupados_PromedioDAP_y_Altura_Result">
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_id" Type="Int64" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="No_Parcela" Type="Int32" Nullable="false" />
+    <Property Name="Arboles" Type="Int32" />
+    <Property Name="Especie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DAP_Promedio" Type="Decimal" Precision="38" Scale="10" />
+    <Property Name="Altura_Promedio" Type="Decimal" Precision="38" Scale="10" />
+  </ComplexType>
+  <ComplexType Name="fc_Reporte_Auditorias_Descuento_RodalPoligonoPlano_Result">
+    <Property Name="ID_LOCATION" Type="Int32" />
+    <Property Name="NO_GRAPHIC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ID_GRPHIC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="X_GMT" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="Y_GMT" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="AREA" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PROPERTY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="DPI" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="REG" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="AREA_VERIFY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="SUBREGION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LON" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LAT" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="COLOR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </ComplexType>
+  <ComplexType Name="fc_Reporte_Auditorias_Sel_FincaPoligonoPlano_Result">
+    <Property Name="ID_LOCATION" Type="Int32" />
+    <Property Name="NO_GRAPHIC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ID_GRPHIC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="X_GMT" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="Y_GMT" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="AREA" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PROPERTY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="DPI" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="REG" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="AREA_VERIFY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="SUBREGION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LON" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LAT" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="COLOR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </ComplexType>
+  <ComplexType Name="fc_Reporte_Auditorias_Sel_RodalPoligono_Result">
+    <Property Name="ID_LOCATION" Type="Int32" />
+    <Property Name="NO_GRAPHIC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ID_GRPHIC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="X_GMT" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="Y_GMT" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="AREA" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PROPERTY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="DPI" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="REG" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="AREA_VERIFY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="SUBREGION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LON" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LAT" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="COLOR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </ComplexType>
+  <ComplexType Name="fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_Result">
+    <Property Name="ID_LOCATION" Type="Int32" />
+    <Property Name="NO_GRAPHIC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ID_GRPHIC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="X_GMT" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="Y_GMT" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="AREA" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PROPERTY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="DPI" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="REG" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="AREA_VERIFY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="SUBREGION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LON" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LAT" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="COLOR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Tipo_Area" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+  </ComplexType>
+  <ComplexType Name="fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_20221114_Result">
+    <Property Name="ID_LOCATION" Type="Int32" />
+    <Property Name="NO_GRAPHIC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ID_GRPHIC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="X_GMT" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="Y_GMT" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="AREA" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PROPERTY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="DPI" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="REG" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="AREA_VERIFY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="SUBREGION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LON" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LAT" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="COLOR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </ComplexType>
+  <ComplexType Name="fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_Local_Result">
+    <Property Name="ID_LOCATION" Type="Int32" />
+    <Property Name="NO_GRAPHIC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ID_GRPHIC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="X_GMT" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="Y_GMT" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="AREA" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PROPERTY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="DPI" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="REG" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="AREA_VERIFY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="SUBREGION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LON" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LAT" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="COLOR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </ComplexType>
+  <ComplexType Name="fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_Resumen_Result">
+    <Property Name="Finca_id" Type="Int64" />
+    <Property Name="Rodal_id" Type="Int64" />
+    <Property Name="Rodal_Descuento_Id" Type="Int32" />
+    <Property Name="Tipo_de_AreaDescripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="AreaLUsuario" Type="Decimal" Precision="10" Scale="4" />
+    <Property Name="AreaLTecnico" Type="Decimal" Precision="10" Scale="4" />
+    <Property Name="Metrica" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+  </ComplexType>
+  <ComplexType Name="fc_Reporte_Auditorias_Sel_RodalPoligonoPlanoTecnicoOUsuario_Result">
+    <Property Name="ID_LOCATION" Type="Int32" />
+    <Property Name="NO_GRAPHIC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ID_GRPHIC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="X_GMT" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="Y_GMT" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="AREA" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PROPERTY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="DPI" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="REG" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="AREA_VERIFY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="SUBREGION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LON" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LAT" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="COLOR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Tipo_Area" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+  </ComplexType>
+  <ComplexType Name="fc_Rerporte_Auditorias_Finca_Rodal_Planos_Result">
+    <Property Name="FechaDia" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Solicitud_id" Type="Int64" Nullable="false" />
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_id" Type="Int64" Nullable="false" />
+    <Property Name="Categoria_Registro" Type="String" MaxLength="21" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="AreaEfectiva" Type="Decimal" Precision="38" Scale="3" />
+  </ComplexType>
+  <EntityType Name="Tbl_API_Gral_Especie">
+    <Key>
+      <PropertyRef Name="Especie_Id" />
+    </Key>
+    <Property Name="Especie_Id" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="NombreCientifico" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="NombresComunes" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Autores" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Sinonimos" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Familia" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Id" Type="Int32" />
+    <Property Name="ArbolFrutal" Type="Boolean" />
+    <Property Name="Conifera" Type="Boolean" />
+    <Property Name="Latifoliada" Type="Boolean" />
+    <Property Name="Estado_id" Type="Boolean" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swcreatedbyinterno" Type="Boolean" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="swdateupdated" Type="DateTime" Precision="3" />
+    <Property Name="swupdatedby" Type="Int64" />
+    <Property Name="swupdatedbyinterno" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Finca">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_Id" />
+    </Key>
+    <Property Name="Auditoria_id" Type="Guid" Nullable="false" />
+    <Property Name="Solicitud_id" Type="Int64" Nullable="false" />
+    <Property Name="Finca_Id" Type="Int64" Nullable="false" />
+    <Property Name="NombreFinca" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="ObjetivoDeLaPlantacion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Departamento_Registro" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Departamento" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Municipio" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Ubicacion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="AreaTotal" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="AreaARegistrar" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="GTMX" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="GTMY" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swcreatedbyinterno" Type="Boolean" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="swtransferedby" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="swdatetransfered" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Tipo_de_Area" />
+      <PropertyRef Name="Rodal_Id" />
+    </Key>
+    <Property Name="Auditoria_id" Type="Guid" Nullable="false" />
+    <Property Name="Solicitud_id" Type="Int64" Nullable="false" />
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Rodal_Id" Type="Int64" Nullable="false" />
+    <Property Name="AreaTotal" Type="Decimal" Precision="10" Scale="3" />
+    <Property Name="AreaTotalCalculadaSistema" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="Longitud_Total" Type="Decimal" Precision="10" Scale="3" />
+    <Property Name="GTMX" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="GTMX_Min" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="GTMX_Max" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY_Min" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY_Max" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="Colecta_De_Datos_X_Censo" Type="Boolean" Nullable="false" />
+    <Property Name="Colecta_De_Datos_X_Muestreo" Type="Boolean" Nullable="false" />
+    <Property Name="Colecta_De_Datos_X_Muestreo_No_Parcelas" Type="Int32" />
+    <Property Name="Colecta_De_Datos_X_Muestreo_Area_Parcelas" Type="Decimal" Precision="25" Scale="3" />
+    <Property Name="Area_SIGAP" Type="Boolean" Nullable="false" />
+    <Property Name="CategoriaSIGAP_Id" Type="Int32" />
+    <Property Name="Procedencia_Pinfor" Type="Boolean" Nullable="false" />
+    <Property Name="Procedencia_Pinpep" Type="Boolean" Nullable="false" />
+    <Property Name="Procedencia_Probosque" Type="Boolean" Nullable="false" />
+    <Property Name="Procedencia_No_Expediente" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Procedencia_AnioInicial" Type="Int32" />
+    <Property Name="Procedencia_AnioFinal" Type="Int32" />
+    <Property Name="AreaRegion_Id" Type="Int64" />
+    <Property Name="AreaProtegida_Id" Type="Int64" />
+    <Property Name="Inconvenientes" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
+    <Property Name="InconvenientesBloqueantes" Type="Boolean" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swcreatedbyinterno" Type="Boolean" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="swdateupdated" Type="DateTime" Precision="3" />
+    <Property Name="swupdatedby" Type="Int64" />
+    <Property Name="swupdatedbyinterno" Type="Boolean" />
+    <Property Name="CategoriaSIGAP_AreaLongitud" Type="Decimal" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal_Dasometrico">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Rodal_id" />
+      <PropertyRef Name="No_Parcela" />
+      <PropertyRef Name="Dasometrico_id" />
+      <PropertyRef Name="Tipo_de_Area" />
+    </Key>
+    <Property Name="Auditoria_id" Type="Guid" Nullable="false" />
+    <Property Name="Solicitud_id" Type="Int64" Nullable="false" />
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_id" Type="Int64" Nullable="false" />
+    <Property Name="No_Parcela" Type="Int32" Nullable="false" />
+    <Property Name="Dasometrico_id" Type="Int64" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Area_Efectiva_Rodal" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="Area_Muestreada" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="Especie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Anio_Establecimiento" Type="Int32" />
+    <Property Name="DAP_Promedio" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="Altura_Promedio" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swcreatedbyinterno" Type="Boolean" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="swtransferedby" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="swdatetransfered" Type="DateTime" Precision="3" />
+    <Property Name="Clase_id" Type="Int32" />
+    <Property Name="EstadoFitosanitario" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal_Dasometrico_CentroParcela_Local">
+    <Key>
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Rodal_id" />
+      <PropertyRef Name="No_Parcela" />
+    </Key>
+    <Property Name="Solicitud_id" Type="Int64" Nullable="false" />
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_id" Type="Int64" Nullable="false" />
+    <Property Name="No_Parcela" Type="Int32" Nullable="false" />
+    <Property Name="GTMX" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="swcreatedbyinterno" Type="Boolean" />
+    <Property Name="swupdatedby" Type="Int64" />
+    <Property Name="swdateupdated" Type="DateTime" Precision="3" />
+    <Property Name="swupdatedbyinterno" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal_Dasometrico_Local">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Rodal_id" />
+      <PropertyRef Name="No_Parcela" />
+      <PropertyRef Name="Dasometrico_id" />
+      <PropertyRef Name="Tipo_de_Area" />
+    </Key>
+    <Property Name="Auditoria_id" Type="Guid" Nullable="false" />
+    <Property Name="Solicitud_id" Type="Int64" Nullable="false" />
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_id" Type="Int64" Nullable="false" />
+    <Property Name="No_Parcela" Type="Int32" Nullable="false" />
+    <Property Name="Dasometrico_id" Type="Int64" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Validado" Type="Boolean" />
+    <Property Name="Area_Muestreada" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="Area_Efectiva_Rodal" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="Especie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Anio_Establecimiento" Type="Int32" />
+    <Property Name="DAP_Promedio" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="Altura_Promedio" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swcreatedbyinterno" Type="Boolean" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="swtransferedby" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="swdatetransfered" Type="DateTime" Precision="3" />
+    <Property Name="Clase_id" Type="Int32" />
+    <Property Name="EstadoFitosanitario" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="AreaBasal_MetroCuadrado" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="AreaBasal_Hectarea" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="Volumen_MetrosCubicos" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="Volumen_ha" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="Formula_Volumen_MetrosCubicos" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Formula_Volumen_ha" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Formula_AreaBasal_MetroCuadrado" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Formula_AreaBasal_Hectarea" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Clase_id1" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal_Dasometrico_Manual">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Rodal_id" />
+      <PropertyRef Name="No_Parcela" />
+      <PropertyRef Name="Dasometrico_id" />
+      <PropertyRef Name="Tipo_de_Area" />
+    </Key>
+    <Property Name="Auditoria_id" Type="Guid" Nullable="false" />
+    <Property Name="Solicitud_id" Type="Int64" Nullable="false" />
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_id" Type="Int64" Nullable="false" />
+    <Property Name="No_Parcela" Type="Int32" Nullable="false" />
+    <Property Name="Dasometrico_id" Type="Int64" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Especie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Anio_Establecimiento" Type="Int32" />
+    <Property Name="DAP_Promedio" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="Altura_Promedio" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swcreatedbyinterno" Type="Boolean" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="swtransferedby" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="swdatetransfered" Type="DateTime" Precision="3" />
+    <Property Name="Clase_id" Type="Int32" />
+    <Property Name="EstadoFitosanitario" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal_Dasometrico_ValidacionesDiametrica_Local">
+    <Key>
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Rodal_id" />
+      <PropertyRef Name="No_Parcela" />
+      <PropertyRef Name="Tipo_de_Area" />
+      <PropertyRef Name="ClaseDiametrica" />
+      <PropertyRef Name="Especie_id" />
+      <PropertyRef Name="Anio_Plantacion" />
+      <PropertyRef Name="Clase" />
+    </Key>
+    <Property Name="Solicitud_id" Type="Int64" Nullable="false" />
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_id" Type="Int64" Nullable="false" />
+    <Property Name="No_Parcela" Type="Int32" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="Int32" Nullable="false" />
+    <Property Name="ClaseDiametrica" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Cantidad_Arboles" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Densidad_ha" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="AlturaPromedio" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="AreaBasal_ha" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Volumen_ha" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Volumen_Rodal" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Especie_id" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="EstimacionPorMedioDe" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Anio_Plantacion" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Volumen_X_Linea" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Area_Basal_MetroCuadrado" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Clase" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal_Descuento">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Rodal_Id" />
+      <PropertyRef Name="Rodal_Descuento_Id" />
+      <PropertyRef Name="Tipo_de_Area" />
+    </Key>
+    <Property Name="Auditoria_id" Type="Guid" Nullable="false" />
+    <Property Name="Solicitud_id" Type="Int64" Nullable="false" />
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_Id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_Descuento_Id" Type="Int64" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="AreaTotal" Type="Decimal" Precision="10" Scale="3" />
+    <Property Name="AreaTotalCalculadaSistema" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="GTMX" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swcreatedbyinterno" Type="Boolean" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="swtransferedby" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="swdatetransfered" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal_Descuento_Local">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Rodal_Id" />
+      <PropertyRef Name="Rodal_Descuento_Id" />
+      <PropertyRef Name="Tipo_de_Area" />
+    </Key>
+    <Property Name="Auditoria_id" Type="Guid" Nullable="false" />
+    <Property Name="Solicitud_id" Type="Int64" Nullable="false" />
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_Id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_Descuento_Id" Type="Int64" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="AreaTotal" Type="Decimal" Precision="10" Scale="3" />
+    <Property Name="AreaTotalCalculadaSistema" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="GTMX" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swcreatedbyinterno" Type="Boolean" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="swtransferedby" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="swdatetransfered" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal_Descuento_Poligono">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Rodal_Id" />
+      <PropertyRef Name="Rodal_Descuento_Id" />
+      <PropertyRef Name="Carga_id" />
+      <PropertyRef Name="Correlativo_id" />
+      <PropertyRef Name="Tipo_de_Area" />
+    </Key>
+    <Property Name="Auditoria_id" Type="Guid" Nullable="false" />
+    <Property Name="Solicitud_id" Type="Int64" Nullable="false" />
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_Id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_Descuento_Id" Type="Int64" Nullable="false" />
+    <Property Name="Carga_id" Type="Int64" Nullable="false" />
+    <Property Name="Correlativo_id" Type="Int32" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="GTMX" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="Latitud" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="Longitud" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="Estado_id" Type="Boolean" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swcreatedbyinterno" Type="Boolean" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="swtransferedby" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="swdatetransfered" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal_Descuento_Poligono_Local">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Rodal_Id" />
+      <PropertyRef Name="Rodal_Descuento_Id" />
+      <PropertyRef Name="RegistroLocal_id" />
+      <PropertyRef Name="Tipo_de_Area" />
+    </Key>
+    <Property Name="Auditoria_id" Type="Guid" Nullable="false" />
+    <Property Name="Solicitud_id" Type="Int64" Nullable="false" />
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_Id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_Descuento_Id" Type="Int64" Nullable="false" />
+    <Property Name="RegistroLocal_id" Type="Int64" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="GTMX" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="Latitud" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="Longitud" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="Estado_id" Type="Boolean" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swcreatedbyinterno" Type="Boolean" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="swtransferedby" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="swdatetransfered" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal_Local">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Tipo_de_Area" />
+      <PropertyRef Name="Rodal_Id" />
+    </Key>
+    <Property Name="Auditoria_id" Type="Guid" Nullable="false" />
+    <Property Name="Solicitud_id" Type="Int64" Nullable="false" />
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Rodal_Id" Type="Int64" Nullable="false" />
+    <Property Name="AreaTotal" Type="Decimal" Precision="10" Scale="3" />
+    <Property Name="AreaTotalCalculadaSistema" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="Longitud_Total" Type="Decimal" Precision="10" Scale="3" />
+    <Property Name="GTMX" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="GTMX_Min" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="GTMX_Max" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY_Min" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY_Max" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="Colecta_De_Datos_X_Censo" Type="Boolean" Nullable="false" />
+    <Property Name="Colecta_De_Datos_X_Muestreo" Type="Boolean" Nullable="false" />
+    <Property Name="Colecta_De_Datos_X_Muestreo_No_Parcelas" Type="Int32" />
+    <Property Name="Colecta_De_Datos_X_Muestreo_Area_Parcelas" Type="Decimal" Precision="25" Scale="3" />
+    <Property Name="Area_SIGAP" Type="Boolean" Nullable="false" />
+    <Property Name="CategoriaSIGAP_Id" Type="Int32" />
+    <Property Name="Procedencia_Pinfor" Type="Boolean" Nullable="false" />
+    <Property Name="Procedencia_Pinpep" Type="Boolean" Nullable="false" />
+    <Property Name="Procedencia_Probosque" Type="Boolean" Nullable="false" />
+    <Property Name="Procedencia_No_Expediente" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Procedencia_AnioInicial" Type="Int32" />
+    <Property Name="Procedencia_AnioFinal" Type="Int32" />
+    <Property Name="AreaRegion_Id" Type="Int64" />
+    <Property Name="AreaProtegida_Id" Type="Int64" />
+    <Property Name="Inconvenientes" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
+    <Property Name="InconvenientesBloqueantes" Type="Boolean" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swcreatedbyinterno" Type="Boolean" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="swdateupdated" Type="DateTime" Precision="3" />
+    <Property Name="swupdatedby" Type="Int64" />
+    <Property Name="swupdatedbyinterno" Type="Boolean" />
+    <Property Name="CategoriaSIGAP_AreaLongitud" Type="Decimal" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal_Poligono">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Rodal_Id" />
+      <PropertyRef Name="Carga_id" />
+      <PropertyRef Name="Correlativo_id" />
+      <PropertyRef Name="Tipo_de_Area" />
+    </Key>
+    <Property Name="Auditoria_id" Type="Guid" Nullable="false" />
+    <Property Name="Solicitud_id" Type="Int64" Nullable="false" />
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_Id" Type="Int64" Nullable="false" />
+    <Property Name="Carga_id" Type="Int64" Nullable="false" />
+    <Property Name="Correlativo_id" Type="Int32" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Estado_id" Type="Boolean" />
+    <Property Name="GTMX" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="Longitud" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="Latitud" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swcreatedbyinterno" Type="Boolean" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="swtransferedby" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="swdatetransfered" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Rodal_Poligono_Local">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+      <PropertyRef Name="RegistroLocal_id" />
+      <PropertyRef Name="Solicitud_id" />
+      <PropertyRef Name="Finca_id" />
+      <PropertyRef Name="Rodal_Id" />
+      <PropertyRef Name="Tipo_de_Area" />
+    </Key>
+    <Property Name="Auditoria_id" Type="Guid" Nullable="false" />
+    <Property Name="RegistroLocal_id" Type="Int64" Nullable="false" />
+    <Property Name="Solicitud_id" Type="Int64" Nullable="false" />
+    <Property Name="Finca_id" Type="Int64" Nullable="false" />
+    <Property Name="Rodal_Id" Type="Int64" Nullable="false" />
+    <Property Name="Tipo_de_Area" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Estado_id" Type="Boolean" />
+    <Property Name="GTMX" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="GTMY" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="Longitud" Type="Decimal" Precision="25" Scale="20" />
+    <Property Name="Latitud" Type="Decimal" Precision="25" Scale="20" />
+    <Property Name="Altitud" Type="Decimal" Precision="25" Scale="12" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swcreatedbyinterno" Type="Boolean" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="swtransferedby" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="swdatetransfered" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="Tbl_API_Sol_Solicitud">
+    <Key>
+      <PropertyRef Name="Auditoria_id" />
+    </Key>
+    <Property Name="Auditoria_id" Type="Guid" Nullable="false" />
+    <Property Name="Solicitud_id" Type="Int64" />
+    <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="Region_id" Type="Int32" />
+    <Property Name="SubRegion_id" Type="Int32" />
+    <Property Name="Region" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="SubRegion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Categoria" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="SubCategoria" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Especificacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Solicitante" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="swcreatedby" Type="Int64" />
+    <Property Name="swdatecreated" Type="DateTime" Precision="3" />
+    <Property Name="swcreatedbyinterno" Type="Boolean" />
+    <Property Name="swusertransferedby" Type="Int64" />
+    <Property Name="swtransferedby" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="swdatetransfered" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityContainer Name="db_RNF_APIEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Tbl_API_Gral_Especie" EntityType="Self.Tbl_API_Gral_Especie" />
+    <EntitySet Name="Tbl_API_Sol_Finca" EntityType="Self.Tbl_API_Sol_Finca" />
+    <EntitySet Name="Tbl_API_Sol_Rodal" EntityType="Self.Tbl_API_Sol_Rodal" />
+    <EntitySet Name="Tbl_API_Sol_Rodal_Dasometrico" EntityType="Self.Tbl_API_Sol_Rodal_Dasometrico" />
+    <EntitySet Name="Tbl_API_Sol_Rodal_Dasometrico_CentroParcela_Local" EntityType="Self.Tbl_API_Sol_Rodal_Dasometrico_CentroParcela_Local" />
+    <EntitySet Name="Tbl_API_Sol_Rodal_Dasometrico_Local" EntityType="Self.Tbl_API_Sol_Rodal_Dasometrico_Local" />
+    <EntitySet Name="Tbl_API_Sol_Rodal_Dasometrico_Manual" EntityType="Self.Tbl_API_Sol_Rodal_Dasometrico_Manual" />
+    <EntitySet Name="Tbl_API_Sol_Rodal_Dasometrico_ValidacionesDiametrica_Local" EntityType="Self.Tbl_API_Sol_Rodal_Dasometrico_ValidacionesDiametrica_Local" />
+    <EntitySet Name="Tbl_API_Sol_Rodal_Descuento" EntityType="Self.Tbl_API_Sol_Rodal_Descuento" />
+    <EntitySet Name="Tbl_API_Sol_Rodal_Descuento_Local" EntityType="Self.Tbl_API_Sol_Rodal_Descuento_Local" />
+    <EntitySet Name="Tbl_API_Sol_Rodal_Descuento_Poligono" EntityType="Self.Tbl_API_Sol_Rodal_Descuento_Poligono" />
+    <EntitySet Name="Tbl_API_Sol_Rodal_Descuento_Poligono_Local" EntityType="Self.Tbl_API_Sol_Rodal_Descuento_Poligono_Local" />
+    <EntitySet Name="Tbl_API_Sol_Rodal_Local" EntityType="Self.Tbl_API_Sol_Rodal_Local" />
+    <EntitySet Name="Tbl_API_Sol_Rodal_Poligono" EntityType="Self.Tbl_API_Sol_Rodal_Poligono" />
+    <EntitySet Name="Tbl_API_Sol_Rodal_Poligono_Local" EntityType="Self.Tbl_API_Sol_Rodal_Poligono_Local" />
+    <EntitySet Name="Tbl_API_Sol_Solicitud" EntityType="Self.Tbl_API_Sol_Solicitud" />
+    <FunctionImport Name="fc_API_GetLongitudLatitud" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_API_GetLongitudLatitud_Result)">
+      <Parameter Name="GTMX" Mode="In" Type="Decimal" />
+      <Parameter Name="GTMy" Mode="In" Type="Decimal" />
+    </FunctionImport>
+    <FunctionImport Name="fc_API_GetRegistro" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_API_GetRegistro_Result)">
+      <Parameter Name="Guid" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="fc_API_GetResumenFinca_DictamenTecnico" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_API_GetResumenFinca_DictamenTecnico_Result)">
+      <Parameter Name="Solicitud_id" Mode="In" Type="Int64" />
+      <Parameter Name="Finca_id" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="fc_API_GetSolicitud" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_API_GetSolicitud_Result)">
+      <Parameter Name="Guid" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="fc_API_GetSolicitudDasometricoCentroParcela" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_API_GetSolicitudDasometricoCentroParcela_Result)">
+      <Parameter Name="Solicitud_id" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="fc_API_GetSolicitudFinca" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_API_GetSolicitudFinca_Result)">
+      <Parameter Name="Solicitud_id" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="fc_API_GetSolicitudRodal" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_API_GetSolicitudRodal_Result)">
+      <Parameter Name="Solicitud_id" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="fc_API_PlantacionVoluntaria" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_API_PlantacionVoluntaria_Result)">
+      <Parameter Name="Solicitud_id" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="fc_API_RodalDescuento" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_API_RodalDescuento_Result)">
+      <Parameter Name="Solicitud_id" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="fc_API_RodalDescuentoPoligono" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_API_RodalDescuentoPoligono_Result)">
+      <Parameter Name="Solicitud_id" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="fc_API_Sol_Finca_Rodal_Planos" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_API_Sol_Finca_Rodal_Planos_Result)">
+      <Parameter Name="Solicitud_id" Mode="In" Type="Int64" />
+      <Parameter Name="Finca_id" Mode="In" Type="Int64" />
+      <Parameter Name="Tipo_de_Area" Mode="In" Type="Int32" />
+      <Parameter Name="Rodal_id" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="fc_API_Sol_Sel_Rodal_ValidacionesDiametrica" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_Result)">
+      <Parameter Name="Solicitud_id" Mode="In" Type="Int64" />
+      <Parameter Name="Finca_id" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_FS" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_FS_Result)">
+      <Parameter Name="Solicitud_id" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_PV" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_PV_Result)">
+      <Parameter Name="Solicitud_id" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_PV_20221130" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_PV_20221130_Result)">
+      <Parameter Name="Solicitud_id" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="fc_API_Sol_Sel_RodalAreProtegidaPoligono" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_API_Sol_Sel_RodalAreProtegidaPoligono_Result)">
+      <Parameter Name="Rodal_id" Mode="In" Type="Int64" />
+      <Parameter Name="Solicitud_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="fc_API_Sol_Sel_RodalRegionPoligono" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_API_Sol_Sel_RodalRegionPoligono_Result)">
+      <Parameter Name="Rodal_id" Mode="In" Type="Int64" />
+      <Parameter Name="Solicitud_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="fc_Reporte_Auditorias" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_Reporte_Auditorias_Result)">
+      <Parameter Name="Guid_id" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="fc_Reporte_Auditorias_Arboles_DiferenteAnio_Establecimiento" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_Reporte_Auditorias_Arboles_DiferenteAnio_Establecimiento_Result)">
+      <Parameter Name="Auditoria_id" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="fc_Reporte_Auditorias_Arboles_DiferenteClase_y_EstadoFitosanitario" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_Reporte_Auditorias_Arboles_DiferenteClase_y_EstadoFitosanitario_Result)">
+      <Parameter Name="Auditoria_id" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="fc_Reporte_Auditorias_Arboles_DiferenteDAP_y_Altura" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_Reporte_Auditorias_Arboles_DiferenteDAP_y_Altura_Result)">
+      <Parameter Name="Auditoria_id" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="fc_Reporte_Auditorias_Arboles_DiferenteEspecie" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_Reporte_Auditorias_Arboles_DiferenteEspecie_Result)">
+      <Parameter Name="Auditoria_id" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="fc_Reporte_Auditorias_Arboles_PromedioDAP_y_Altura" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_Reporte_Auditorias_Arboles_PromedioDAP_y_Altura_Result)">
+      <Parameter Name="Auditoria_id" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="fc_Reporte_Auditorias_ArbolesNuevos_PromedioDAP_y_Altura" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_Reporte_Auditorias_ArbolesNuevos_PromedioDAP_y_Altura_Result)">
+      <Parameter Name="Auditoria_id" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="fc_Reporte_Auditorias_ArbolesNuevosAgrupados_PromedioDAP_y_Altura" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_Reporte_Auditorias_ArbolesNuevosAgrupados_PromedioDAP_y_Altura_Result)">
+      <Parameter Name="Auditoria_id" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="fc_Reporte_Auditorias_Descuento_RodalPoligonoPlano" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_Reporte_Auditorias_Descuento_RodalPoligonoPlano_Result)">
+      <Parameter Name="Auditoria_id" Mode="In" Type="String" />
+      <Parameter Name="Finca_id" Mode="In" Type="Int64" />
+      <Parameter Name="Rodal_id" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="fc_Reporte_Auditorias_Sel_FincaPoligonoPlano" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_Reporte_Auditorias_Sel_FincaPoligonoPlano_Result)">
+      <Parameter Name="Solicitud_id" Mode="In" Type="Int64" />
+      <Parameter Name="Finca_id" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="fc_Reporte_Auditorias_Sel_RodalPoligono" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_Reporte_Auditorias_Sel_RodalPoligono_Result)">
+      <Parameter Name="Solicitud_id" Mode="In" Type="Int64" />
+      <Parameter Name="Rodal_id" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="fc_Reporte_Auditorias_Sel_RodalPoligonoPlano" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_Result)">
+      <Parameter Name="Solicitud_id" Mode="In" Type="Int64" />
+      <Parameter Name="Finca_id" Mode="In" Type="Int64" />
+      <Parameter Name="Rodal_id" Mode="In" Type="Int64" />
+      <Parameter Name="Tipo" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_20221114" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_20221114_Result)">
+      <Parameter Name="Solicitud_id" Mode="In" Type="Int64" />
+      <Parameter Name="Finca_id" Mode="In" Type="Int64" />
+      <Parameter Name="Rodal_id" Mode="In" Type="Int64" />
+      <Parameter Name="Tipo" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_Local" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_Local_Result)">
+      <Parameter Name="Solicitud_id" Mode="In" Type="Int64" />
+      <Parameter Name="Rodal_id" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_Resumen" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_Resumen_Result)">
+      <Parameter Name="Solicitud_id" Mode="In" Type="Int64" />
+      <Parameter Name="Finca_id" Mode="In" Type="Int64" />
+      <Parameter Name="Rodal_id" Mode="In" Type="Int64" />
+      <Parameter Name="Tipo" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="fc_Reporte_Auditorias_Sel_RodalPoligonoPlanoTecnicoOUsuario" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_Reporte_Auditorias_Sel_RodalPoligonoPlanoTecnicoOUsuario_Result)">
+      <Parameter Name="Solicitud_id" Mode="In" Type="Int64" />
+      <Parameter Name="Finca_id" Mode="In" Type="Int64" />
+      <Parameter Name="Rodal_id" Mode="In" Type="Int64" />
+      <Parameter Name="Tipo" Mode="In" Type="Int32" />
+      <Parameter Name="Tecnico" Mode="In" Type="Boolean" />
+      <Parameter Name="Usuario" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="fc_Rerporte_Auditorias_Finca_Rodal_Planos" IsComposable="true" ReturnType="Collection(db_RNF_APIModel.fc_Rerporte_Auditorias_Finca_Rodal_Planos_Result)">
+      <Parameter Name="Solicitud_id" Mode="In" Type="Int64" />
+      <Parameter Name="Finca_id" Mode="In" Type="Int64" />
+      <Parameter Name="Rodal_id" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="SP_API_Limpiar" />
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,226 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+}
+
+
+<script src="~/Scripts/jquery-3.6.0.js"></script>
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+
+<div class="col">
+    <div class="form-group">
+        @Html.DropDownList("ConfiguracionTipoSolicitud_id", null, htmlAttributes: new { @class = "form-select", onchange = "refreshVistaConfiguracion()" })
+    </div>
+</div>
+
+<div id="div_ConfiguracionDocumentos"></div>
+
+<div id="div_PermisosAsignados"></div>
+
+<div align="right">
+    <input type="button" class="btn btn-success" value="Guardar Cambios" onclick="grabarCambios()" />
+</div>
+
+<script>
+    $(document).ready(function () {
+        refreshVistaConfiguracion();
+    });
+
+    function refreshVistaConfiguracion() {
+        var SolicitudTipo_id = document.getElementById("ConfiguracionTipoSolicitud_id").value;
+        console.log(SolicitudTipo_id);
+
+        $("#div_ConfiguracionDocumentos").load("/Gral_SolicitudConfiguracion/Edit?id=" + SolicitudTipo_id);
+
+
+        $("#div_PermisosAsignados").load("/Gral_SolicitudConfiguracion/PermisosAsignados/?SolicitudTipo_id=" + SolicitudTipo_id);
+    }
+
+    function actualizar()
+    {
+        var SolicitudTipo_id = document.getElementById("SolicitudTipo_id").value;
+
+        varFormatoSolicitud_Codigo = document.getElementById("FormatoSolicitud_Codigo").value;
+        varFormatoSolicitud_Fecha = document.getElementById("FormatoSolicitud_Fecha").value;
+        varFormatoSolicitud_Version = document.getElementById("FormatoSolicitud_Version").value;
+
+        varBoletaDeDecision_Codigo = document.getElementById("BoletaDeDecision_Codigo").value;
+        varBoletaDeDecision_Version = document.getElementById("BoletaDeDecision_Version").value;
+        varBoletaDeDecision_Fecha = document.getElementById("BoletaDeDecision_Fecha").value;
+
+        varInformeTecnico_Codigo = document.getElementById("InformeTecnico_Codigo").value;
+        varInformeTecnico_Version = document.getElementById("InformeTecnico_Version").value;
+        varInformeTecnico_Fecha = document.getElementById("InformeTecnico_Fecha").value;
+
+        var data = {
+
+            SolicitudTipo_id: SolicitudTipo_id,
+            FormatoSolicitud_Codigo: varFormatoSolicitud_Codigo,
+            FormatoSolicitud_Fecha : varFormatoSolicitud_Fecha,
+            FormatoSolicitud_Version: varFormatoSolicitud_Version,
+
+            BoletaDeDecision_Codigo: varBoletaDeDecision_Codigo,
+            BoletaDeDecision_Fecha: varBoletaDeDecision_Fecha,
+            BoletaDeDecision_Version: varBoletaDeDecision_Version,
+
+            InformeTecnico_Codigo: varInformeTecnico_Codigo,
+            InformeTecnico_Version: varInformeTecnico_Version,
+            InformeTecnico_Fecha: varInformeTecnico_Fecha
+
+
+        }
+
+         var url = "@Url.Action("GrabarCambiosfiguracionTipo", "Gral_SolicitudConfiguracion")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+            var respuesta = oJSON.Resultado;
+            alert(respuesta);
+            refreshVistaConfiguracion();
+        })
+
+    }
+
+    function grabarCambios() {
+        var SolicitudTipo_id = document.getElementById("SolicitudTipo_id").value;
+
+        var opcion_Usuario_CopiarDesdeRNF = document.getElementById("Usuario_CopiarDesdeRNF");
+        var opcion_Usuario_Actualizar = document.getElementById("Usuario_Actualizar");
+        var opcion_Usuario_Borrar = document.getElementById("Usuario_Borrar");
+        var opcion_Usuario_Agregar = document.getElementById("Usuario_Agregar");
+        var opcion_Propietario_CopiarDesdeRNF = document.getElementById("Propietario_CopiarDesdeRNF");
+        var opcion_Propietario_Editar = document.getElementById("Propietario_Editar");
+        var opcion_Propietario_Borrar = document.getElementById("Propietario_Borrar");
+        var opcion_Propietario_Agregar = document.getElementById("Propietario_Agregar");
+        var opcion_Representante_CopiarDesdeRNF = document.getElementById("Representante_CopiarDesdeRNF");
+        var opcion_Representante_Editar = document.getElementById("Representante_Editar");
+        var opcion_Representante_Borrar = document.getElementById("Representante_Borrar");
+        var opcion_Representante_Agregar = document.getElementById("Representante_Agregar");
+        var opcion_Finca_CopiarDesdeRNF = document.getElementById("Finca_CopiarDesdeRNF");
+        var opcion_Finca_Editar = document.getElementById("Finca_Editar");
+        var opcion_Finca_Borrar = document.getElementById("Finca_Borrar");
+        var opcion_Finca_Agregar = document.getElementById("Finca_Agregar");
+        var opcion_Rodal_CopiarDesdeRNF = document.getElementById("Rodal_CopiarDesdeRNF");
+        var opcion_Rodal_Editar = document.getElementById("Rodal_Editar");
+        var opcion_Rodal_Borrar = document.getElementById("Rodal_Borrar");
+        var opcion_Rodal_Agregar = document.getElementById("Rodal_Agregar");
+        var opcion_Poligono_CopiarDesdeRNF = document.getElementById("Poligono_CopiarDesdeRNF");
+        var opcion_Poligono_Agregar = document.getElementById("Poligono_Agregar");
+        var opcion_Cultivo_CopiarDesdeRNF = document.getElementById("Cultivo_CopiarDesdeRNF");
+        var opcion_Cultivo_Editar = document.getElementById("Cultivo_Editar");
+        var opcion_Cultivo_Borrar = document.getElementById("Cultivo_Borrar");
+        var opcion_Cultivo_Agregar = document.getElementById("Cultivo_Agregar");
+        var opcion_Dasometricos_CopiarDesdeRNF = document.getElementById("Dasometricos_CopiarDesdeRNF");
+        var opcion_Dasometricos_Agregar = document.getElementById("Dasometricos_Agregar");
+        var opcion_SubirDocumentos = document.getElementById("SubirDocumentos");
+        var opcion_Motosierra_CopiarDesdeRNF = document.getElementById("Motosierra_CopiarDesdeRNF");
+        var opcion_Motosierra_Editar = document.getElementById("Motosierra_Editar");
+        var opcion_Motosierra_Borrar = document.getElementById("Motosierra_Borrar");
+        var opcion_Motosierra_Agregar = document.getElementById("Motosierra_Agregar");
+        var opcion_Empresa_Entidad_CopiarDesdeRNF = document.getElementById("Empresa_Entidad_CopiarDesdeRNF");
+        var opcion_Empresa_Entidad_Editar = document.getElementById("Empresa_Entidad_Editar");
+        var opcion_Empresa_Entidad_Borrar = document.getElementById("Empresa_Entidad_Borrar");
+        var opcion_Empresa_Entidad_Agregar = document.getElementById("Empresa_Entidad_Agregar");
+
+        var Usuario_CopiarDesdeRNF = opcion_Usuario_CopiarDesdeRNF.checked;
+        var Usuario_Actualizar = opcion_Usuario_Actualizar.checked;
+        var Usuario_Borrar = opcion_Usuario_Borrar.checked;
+        var Usuario_Agregar = opcion_Usuario_Agregar.checked;
+        var Propietario_CopiarDesdeRNF = opcion_Propietario_CopiarDesdeRNF.checked;
+        var Propietario_Editar = opcion_Propietario_Editar.checked;
+        var Propietario_Borrar = opcion_Propietario_Borrar.checked;
+        var Propietario_Agregar = opcion_Propietario_Agregar.checked;
+        var Representante_CopiarDesdeRNF = opcion_Representante_CopiarDesdeRNF.checked;
+        var Representante_Editar = opcion_Representante_Editar.checked;
+        var Representante_Borrar = opcion_Representante_Borrar.checked;
+        var Representante_Agregar = opcion_Representante_Agregar.checked;
+        var Finca_CopiarDesdeRNF = opcion_Finca_CopiarDesdeRNF.checked;
+        var Finca_Editar = opcion_Finca_Editar.checked;
+        var Finca_Borrar = opcion_Finca_Borrar.checked;
+        var Finca_Agregar = opcion_Finca_Agregar.checked;
+        var Rodal_CopiarDesdeRNF = opcion_Rodal_CopiarDesdeRNF.checked;
+        var Rodal_Editar = opcion_Rodal_Editar.checked;
+        var Rodal_Borrar = opcion_Rodal_Borrar.checked;
+        var Rodal_Agregar = opcion_Rodal_Agregar.checked;
+        var Poligono_CopiarDesdeRNF = opcion_Poligono_CopiarDesdeRNF.checked;
+        var Poligono_Agregar = opcion_Poligono_Agregar.checked;
+        var Cultivo_CopiarDesdeRNF = opcion_Cultivo_CopiarDesdeRNF.checked;
+        var Cultivo_Editar = opcion_Cultivo_Editar.checked;
+        var Cultivo_Borrar = opcion_Cultivo_Borrar.checked;
+        var Cultivo_Agregar = opcion_Cultivo_Agregar.checked;
+        var Dasometricos_CopiarDesdeRNF = opcion_Dasometricos_CopiarDesdeRNF.checked;
+        var Dasometricos_Agregar = opcion_Dasometricos_Agregar.checked;
+        var SubirDocumentos = opcion_SubirDocumentos.checked;
+        var Motosierra_CopiarDesdeRNF = opcion_Motosierra_CopiarDesdeRNF.checked;
+        var Motosierra_Editar = opcion_Motosierra_Editar.checked;
+        var Motosierra_Borrar = opcion_Motosierra_Borrar.checked;
+        var Motosierra_Agregar = opcion_Motosierra_Agregar.checked;
+        var Empresa_Entidad_CopiarDesdeRNF = opcion_Empresa_Entidad_CopiarDesdeRNF.checked;
+        var Empresa_Entidad_Editar = opcion_Empresa_Entidad_Editar.checked;
+        var Empresa_Entidad_Borrar = opcion_Empresa_Entidad_Borrar.checked;
+        var Empresa_Entidad_Agregar = opcion_Empresa_Entidad_Agregar.checked;
+
+        var data = {
+            SolicitudTipo_id: SolicitudTipo_id,
+            Usuario_CopiarDesdeRNF: Usuario_CopiarDesdeRNF,
+            Usuario_Actualizar: Usuario_Actualizar,
+            Usuario_Borrar: Usuario_Borrar,
+            Usuario_Agregar: Usuario_Agregar,
+            Propietario_CopiarDesdeRNF: Propietario_CopiarDesdeRNF,
+            Propietario_Editar: Propietario_Editar,
+            Propietario_Borrar: Propietario_Borrar,
+            Propietario_Agregar: Propietario_Agregar,
+            Representante_CopiarDesdeRNF: Representante_CopiarDesdeRNF,
+            Representante_Editar: Representante_Editar,
+            Representante_Borrar: Representante_Borrar,
+            Representante_Agregar: Representante_Agregar,
+            Finca_CopiarDesdeRNF: Finca_CopiarDesdeRNF,
+            Finca_Editar: Finca_Editar,
+            Finca_Borrar: Finca_Borrar,
+            Finca_Agregar: Finca_Agregar,
+            Rodal_CopiarDesdeRNF: Rodal_CopiarDesdeRNF,
+            Rodal_Editar: Rodal_Editar,
+            Rodal_Borrar: Rodal_Borrar,
+            Rodal_Agregar: Rodal_Agregar,
+            Poligono_CopiarDesdeRNF: Poligono_CopiarDesdeRNF,
+            Poligono_Agregar: Poligono_Agregar,
+            Cultivo_CopiarDesdeRNF: Cultivo_CopiarDesdeRNF,
+            Cultivo_Editar: Cultivo_Editar,
+            Cultivo_Borrar: Cultivo_Borrar,
+            Cultivo_Agregar: Cultivo_Agregar,
+            Dasometricos_CopiarDesdeRNF: Dasometricos_CopiarDesdeRNF,
+            Dasometricos_Agregar: Dasometricos_Agregar,
+            SubirDocumentos: SubirDocumentos,
+            Motosierra_CopiarDesdeRNF: Motosierra_CopiarDesdeRNF,
+            Motosierra_Editar: Motosierra_Editar,
+            Motosierra_Borrar: Motosierra_Borrar,
+            Motosierra_Agregar: Motosierra_Agregar,
+            Empresa_Entidad_CopiarDesdeRNF: Empresa_Entidad_CopiarDesdeRNF,
+            Empresa_Entidad_Editar: Empresa_Entidad_Editar,
+            Empresa_Entidad_Borrar: Empresa_Entidad_Borrar,
+            Empresa_Entidad_Agregar: Empresa_Entidad_Agregar
+        }
+
+        var url = "@Url.Action("GrabarCambiosPermisos","Gral_SolicitudConfiguracion")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+            var respuesta = oJSON.Resultado;
+            alert(respuesta);
+            refreshVistaConfiguracion();
+        })
+
+    }
+</script>

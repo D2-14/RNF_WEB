@@ -1,0 +1,343 @@
+﻿@model RNF_Web.Models.Tbl_Sol_Solicitud_OficioDictamenJuridico
+
+
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<link href="/Content/Layout.css" rel="stylesheet" />
+<link href="/Content/bootstrap.css" rel="stylesheet" />
+<script src="~/Content/assets/js/jquery.min.js"></script>
+
+
+<script>
+
+    function grabarDictamen()
+    {
+
+        var varSolicitud_id = $('#Solicitud_id').val();
+        var varDictamen = $('#Dictamen').val();
+        var varOficio = $('#Oficio').val();
+        var varEtapa_id = $('#Etapa_id').val();
+        var varEtapaRuta_id = $('#EtapaRuta_id').val();
+        var varCorrelativoEtapa_id = $('#CorrelativoEtapa_id').val();
+        var varEtapaSolicitud_GUID_id = $('#EtapaSolicitud_GUID_id').val();
+
+        varNumero = $('#No_DictamenUOficio').val();
+        varInicialesDelJuridico = $('#InicialesJuridico').val();
+        varAntecedentes = $('#Antecedentes').val();
+        varFundamentoLegal = $('#FundamentoLegal').val();
+        varAnalisis = $('#Analisis').val();
+
+        varObservaciones = $('#Observaciones').val();
+
+        varOpinionJuridica = $('#OpinionJuridica').val();
+
+        varEnmienda_No_1 = null;
+        varEnmienda_No_2 = null;
+        varEnmienda_No_3 = null;
+        varEnmienda_No_4 = null;
+        varEnmienda_No_5 = null;
+
+        varFirmaElectronicaUsuario = $('#FirmaElectronicaUsuario').val();
+        varFirmaElectronicaPassword = $('#FirmaElectronicaPassword').val();
+
+        if (varNumero == '' || varNumero == 'NaN') {
+            $('#lblMensaje').text('Debe Ingresar la Número de Dictamen');
+        }
+        else if (varAntecedentes == '' || varAntecedentes == 'NaN') {
+            alert("Debe indicar los antecedentes")
+            $('#lblMensaje').text('Fecha Fuera de este periodo');
+        } else
+        {
+
+
+            var data =
+            {
+                Solicitud_id: varSolicitud_id,
+                Dictamen: varDictamen,
+                Oficio: varOficio,
+                Etapa_id: varEtapa_id,
+                EtapaRuta_id: varEtapaRuta_id,
+                CorrelativoEtapa_id: varCorrelativoEtapa_id,
+                Numero: varNumero,
+                InicialesDelJuridico: varInicialesDelJuridico,
+                Antecedentes: varAntecedentes,
+                FundamentoLegal: varFundamentoLegal,
+                Analisis: varAnalisis,
+                Observaciones: varObservaciones,
+                OpinionJuridica: varOpinionJuridica,
+                FirmaElectronicaUsuario: varFirmaElectronicaUsuario,
+                FirmaElectronicaPassword: varFirmaElectronicaPassword,
+                EtapaSolicitud_Guid_id: varEtapaSolicitud_GUID_id
+            }
+
+            var url = "@Url.Action("GuardarDictamen", "Form_FormularioJuridico")";
+            loaderPantalla(true);
+            $.post(url, data).done(function (jsonRespuesta) {
+                loaderPantalla(false);
+                var objJSON = JSON.parse(jsonRespuesta);
+                var Cod_Respuesta = objJSON.CodRespuesta;
+                var Texto_Respuesta = objJSON.strRespuesta;
+
+                if (Cod_Respuesta == 1) {
+                    window.open('/Archivos_Generados_Que_Pueden_Borrar/' + Texto_Respuesta, '_blank');
+                    var TdHiddeA = document.getElementById("btnFirmarDocumento");
+                    TdHiddeA.style.display = "block";
+                }
+                else
+                {
+
+                    $('#lblMensaje').text(Texto_Respuesta);
+                    alert(Texto_Respuesta);
+
+                }
+            });
+
+
+
+
+        }
+
+    }
+
+
+    function fnc_EnviarRespuesta(varRespuestaid)
+    {
+        varsolicitud_id = '@Model.Solicitud_id';
+        varetapa_id = '@Model.Etapa_id';
+        varetaparuta_id = '@Model.EtapaRuta_id';
+        varcorrelativoetapa_id = '@Model.CorrelativoEtapa_id';
+        varMotivo = $('#Motivo').val();
+        varEtapaSolicitud_GUIDid= '@Model.EtapaSolicitud_GUID_id';
+
+
+        var url = "@Url.Action("ActualizaEtapaRespuestaIndexSolicitud", "Form_FormularioJuridico")";
+
+        var data = { solicitud_id: varsolicitud_id, etapa_id: varetapa_id, etaparuta_id: varetaparuta_id, correlativoetapa_id: varcorrelativoetapa_id, motivo: varMotivo, respuestaid: varRespuestaid, EtapaSolicitud_GUIDid: varEtapaSolicitud_GUIDid };
+        $.post(url, data).done(function (jsonRespuesta) {
+               var objJSON = JSON.parse(jsonRespuesta);
+               var Cod_Respuesta = objJSON.CodRespuesta;
+               var Texto_Respuesta = objJSON.strRespuesta;
+
+
+                if (Cod_Respuesta == 1) {
+                    window.location.replace("/Gest_EtapaSolicitud/Index");
+                } else
+                {
+
+                    $('#lblMensaje').text(Texto_Respuesta);
+                    alert(Texto_Respuesta);
+
+                }
+
+           }).fail(manejarErrorAjax).always(function () {
+
+               alert('Error no identificado.');
+            });
+            return false;
+
+    }
+
+    function FirmarDocumento() {
+
+        var TdHiddeA = document.getElementById("btnFirmarDocumento");
+        TdHiddeA.style.display = "none";
+
+        varFirmaElectronicaUsuario = $('#FirmaElectronicaUsuario').val();
+        varFirmaElectronicaPassword = $('#FirmaElectronicaPassword').val();
+
+        var data = {
+            Guid_id: '@ViewBag.Guid_id',
+            Guidetapa_id: '@Model.EtapaSolicitud_GUID_id',
+            UsuarioFE: varFirmaElectronicaUsuario,
+            PasswordFE: varFirmaElectronicaPassword
+        };
+
+    var url = "@Url.Action("JsonProcesarFirmaElectronica", "Home")";
+
+        loaderPantalla(true);
+        $.post(url, data).done(function (jsonrespuesta) {
+            loaderPantalla(false);
+            var oJSON = JSON.parse(jsonrespuesta);
+            var NombreDocumento = oJSON.strRespuesta;
+            var CodigoRespuesta = oJSON.CodRespuesta;
+
+
+            if ((CodigoRespuesta == '0') || (CodigoRespuesta == 0))
+            {
+                window.open("/Home/FalloFirmaElectronica?FalloFe=" + NombreDocumento, '_blank');
+            }
+            else
+            {
+                window.open(NombreDocumento, '_blank');
+
+                fnc_EnviarRespuesta(1);
+
+            }
+
+
+        });
+
+    }
+
+
+</script>
+
+@Html.AntiForgeryToken()
+<h4>@ViewBag.Mensaje</h4>
+
+<div class="container">
+
+
+    <div class="titulo-dos">
+        <h4>INGRESE DATOS DEL DICTAMEN</h4>
+        <h3>@ViewBag.mensaje</h3>
+    </div>
+
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.HiddenFor(model => model.Solicitud_id)
+    @Html.HiddenFor(model => model.Dictamen)
+    @Html.HiddenFor(model => model.Oficio)
+    @Html.HiddenFor(model => model.Etapa_id)
+    @Html.HiddenFor(model => model.EtapaRuta_id)
+    @Html.HiddenFor(model => model.CorrelativoEtapa_id)
+    @Html.HiddenFor(model => model.EtapaSolicitud_GUID_id)
+
+    <br />
+    <table>
+        <tr>
+            <td width="20%">Número de Dictamen</td>
+            <td width="20%">
+                <input type="text" id="No_DictamenUOficio" name="No_DictamenUOficio" value="@Model.Numero" />
+            </td>
+            <td width="20%"></td>
+            <td width="20%"></td>
+            <td width="20%"></td>
+        </tr>
+        <tr>
+            <td width="20%">Iniciales del Jurídico</td>
+            <td width="20%">
+                <input type="text" id="InicialesJuridico" name="InicialesJuridico" value="@Model.InicialesDelJuridico" />
+            </td>
+            <td width="20%"></td>
+            <td width="20%"></td>
+            <td width="20%"></td>
+        </tr>
+        <tr>
+            <td width="20%">Antecedentes</td>
+            <td width="20%">
+            </td>
+            <td width="20%"></td>
+            <td width="20%"></td>
+            <td width="20%"></td>
+        </tr>
+        <tr>
+            <td width="20%" colspan="4">
+                <textarea id="Antecedentes" name="Antecedentes" rows="5" cols="80">@Model.Antecedentes</textarea>
+            </td>
+        </tr>
+
+        <tr>
+            <td width="20%">Fundamento legal</td>
+            <td width="20%">
+            </td>
+            <td width="20%"></td>
+            <td width="20%"></td>
+            <td width="20%"></td>
+        </tr>
+        <tr>
+            <td width="20%" colspan="4">
+                <textarea id="FundamentoLegal" name="FundamentoLegal" rows="5" cols="80">@Model.FundamentoLegal</textarea>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td width="20%">Análisis</td>
+            <td width="20%">
+            </td>
+            <td width="20%"></td>
+            <td width="20%"></td>
+            <td width="20%"></td>
+        </tr>
+        <tr>
+            <td width="20%" colspan="4">
+                <textarea id="Analisis" name="Analisis" rows="5" cols="80">@Model.Analisis</textarea>
+            </td>
+        </tr>
+
+        <tr>
+            <td width="20%">Opinión jurídica</td>
+            <td width="20%">
+            </td>
+            <td width="20%"></td>
+            <td width="20%"></td>
+            <td width="20%"></td>
+        </tr>
+        <tr>
+            <td width="20%" colspan="4">
+                <textarea id="OpinionJuridica" name="OpinionJuridica" rows="5" cols="80">@Model.OpinionJuridica</textarea>
+            </td>
+        </tr>
+
+        <tr>
+            <td width="20%">Observaciones (dirigidas al director subregional o regional)</td>
+            <td width="20%">
+            </td>
+            <td width="20%"></td>
+            <td width="20%"></td>
+            <td width="20%"></td>
+        </tr>
+        <tr>
+            <td width="20%" colspan="4">
+                <textarea id="Observaciones" name="Observaciones" rows="5" cols="80">@Model.Observaciones</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                <hr />
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">Usuario</td>
+            <td width="20%">
+                <input type="text" id="FirmaElectronicaUsuario" name="FirmaElectronicaUsuario" value="" />
+            </td>
+            <td width="20%">Password</td>
+            <td width="20%">
+                <input type="password" id="FirmaElectronicaPassword" name="FirmaElectronicaPassword" value="" />
+            </td>
+        </tr>
+
+    </table>
+
+    <br />
+    <label class="text-danger" id="lblMensaje"></label>
+
+    <h3 class="text-danger">Cualquier cambio realizado en campos anteriores debe volver a presionar <strong>vista previa</strong> para confirmar los cambios antes de firmar el documento</h3>
+    <table width="100%">
+        <tr>
+            <td>
+                <button id="btnVistaprevia" class="btn btn-success" onclick="grabarDictamen()">Vista previa</button>
+            </td>
+            <td>
+            </td>
+            <td>
+                <button class="btn btn-success" id="btnFirmarDocumento" name="btnFirmarDocumento" onclick="FirmarDocumento()" style="display:none;">Firmar Dictamen</button>
+            </td>
+            <td>
+            </td>
+            <td>
+                @*<input type="button" class="btn btn-secondary" value="Cerrar y continuar despues" onclick="Cerrar()" />*@
+            </td>
+        </tr>
+    </table>
+</div>
+
+

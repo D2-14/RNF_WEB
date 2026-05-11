@@ -1,0 +1,22 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+<form id="uploadFile">
+    <div class="row">
+        <div class="col-md-6">
+            @Html.Label("Seleccione tipo de documento", new { @class = "control-label" })
+            <br />
+            @Html.DropDownList("ddlDocumentos", new SelectList(ViewBag.TiposDocumento, "Tipo_Documento_id", "Nombre"), new { @class = "form-select" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <input type="file" id="fileInput" value="Seleccionar archivo" />
+            <input type="button" id="btsubir" class="btn-next-ic"
+                   value="Subir archivo" />
+        </div>
+    </div>
+</form>

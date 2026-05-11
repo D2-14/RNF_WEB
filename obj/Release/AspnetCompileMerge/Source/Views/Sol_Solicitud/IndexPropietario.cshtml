@@ -1,0 +1,248 @@
+﻿@model IEnumerable<RNF_Web.Models.fc_Sol_Sel_ListadoDePropietario_Result>
+@using RNF_Web.Models;
+@using System.Data.SqlClient;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@{
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_Sol_Solicitud tbl_sol_solicitud = db.Tbl_Sol_Solicitud.Find(ViewBag.Sol_id);
+
+    ViewBag.Estado = tbl_sol_solicitud.Estado_id;
+
+    ViewBag.PropietarioJuridico = db.Tbl_Sol_PropietarioPersonaJuridica.Where(obj => obj.Solicitud_id == tbl_sol_solicitud.Solicitud_id && obj.Estado_id == true).Count();
+
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string Nombre_Div = "div_Sol_Permisos_IndexPropietario";
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    Nombre_Div = "Sol_Propietario";
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+    fc_Gral_Sol_Configuracion_Result permisos = db.fc_Gral_Sol_Configuracion(tbl_sol_solicitud.Solicitud_id, Nombre_Div, boolEsInterno).FirstOrDefault();
+
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <div id="@Nombre_Div"></div>
+}
+
+<script>
+
+    function visualizarPermisos(solicitudid, controllername, esinterno, nombrediv) {
+        var solicitudId = solicitudid;
+        var controllerName = controllername;
+        var esInterno = esinterno;
+
+        var mySolPermisos = document.getElementById(nombrediv);
+        if (mySolPermisos) {
+            $("#" + nombrediv).load("/Gral_SolicitudConfiguracion/PermisosRecibidos?Solicitud_id=" + solicitudId + "&controllerName=" + controllerName + "&EsInterno=" + esInterno);
+        }
+
+    }
+    $(document).ready(function () {
+        visualizarPermisos('@tbl_sol_solicitud.Solicitud_id', '@controllerName', '@objUs.EsInterno', '@Nombre_Div');
+
+    });
+
+    $(document).on('change', '#Personeria', function () {
+
+        var Personeria = $('#Personeria').val();
+
+        if (Personeria == 1)  /*individual*/ {
+            var TdToShowA = document.getElementById("ClickYoPropietario");
+            TdToShowA.innerText = "<< Click aquí para AGREGARME como propietario >>";
+            TdToShowA.style = "color:white; "
+            TdToShowA.hidden = false;
+
+            var TdToShowA = document.getElementById("ClickPropietario");
+            TdToShowA.innerText = "<< Click aquí para agregar un propietario >>";
+            TdToShowA.style = "color:white; "
+            TdToShowA.hidden = false;
+
+            document.getElementById("imgAddme").src = "/Content/icons/addme_II.png";
+            document.getElementById("imgPropietario").style.visibility = 'Visible';
+        }
+        else {
+            var TdToShowA = document.getElementById("ClickPropietario");
+            TdToShowA.innerText = "Click en la imagen para agregarme como propietario";
+            TdToShowA.style = "color:black; "
+            TdToShowA.hidden = true;
+
+
+            var TdToShowA = document.getElementById("ClickYoPropietario");
+            TdToShowA.innerText = "Click aquí para agregar propietario jurídico";
+            TdToShowA.style = "color:white; "
+
+            document.getElementById("imgAddme").src = "/Content/icons/add-empresa.png";
+
+            document.getElementById("imgPropietario").style.visibility = 'hidden';
+
+        }
+
+
+
+        function VerifAgregarme_Como_PropietarioRepresentante(solicitud, tipo) {
+            var Personeria = $('#Personeria').val();
+
+            if (Personeria == 1) {
+                Agregarme_Como_PropietarioRepresentante(solicitud, tipo)
+            }
+            else {
+                Agregar_Propietario()
+            }
+        }
+
+
+    }); // -----Fin de Change ddlDepartamento
+
+
+
+
+</script>
+
+
+
+
+
+<div class="container-fluid">
+    <div class="row mt-2">
+        <div class="titulo-dos">
+            <h4>Datos del propietario(s)</h4>
+        </div>
+    </div>
+    <br />
+
+    <a href="/Content/SoporteAudioVisualUsuario/007_Propietario.mp4" target="_blank">
+        <img width="50" height="auto" src="~/Content/icons/VideoTutoria.gif" />
+    </a>
+    <h6></h6>
+
+    @if (((bool)permisos.Agregar))// && ViewBag.PropietarioJuridico == 0)
+    {
+        <div class="row">
+            <div class="col-md-6">
+                @Html.Label("Seleccione tipo de propietario a agregar", new { @class = "control-label" })
+                @Html.DropDownList("Personeria", null, htmlAttributes: new { @class = "form-select" })
+            </div>
+            <div class="col">
+                <div class="d-grid gap-2">
+                    <button class="btn-next-ic" onclick="Agregarme_Como_PropietarioRepresentante(@ViewBag.Solicitud_id, 1); return false;" id="ClickYoPropietario">
+                        <i class="fa in fa-plus-circle" aria-hidden="true"></i><br />Agregarme como propietario
+                    </button>
+                </div>
+            </div>
+            <div class="col">
+                <div class="d-grid gap-2">
+                    @if ((bool)permisos.Agregar)
+                    {
+
+                        <button class="btn-next-ic" onclick="Agregar_Propietario(); return false;" id="ClickPropietario">
+                            <i class="fa in fa-users" aria-hidden="true"></i><br />Agregar otro
+                        </button>
+                    }
+                </div>
+
+            </div>
+        </div>
+    }
+
+
+    <div class="row">
+        <div class="col">
+            <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">@Html.DisplayNameFor(model => model.Personeria)</th>
+                            <th scope="col">@Html.DisplayNameFor(model => model.Nombre)</th>
+                            <th scope="col">Documento</th>
+                            <th scope="col">Editar</th>
+                            <th scope="col">Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Personeria)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Nombre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.No_NIT)
+                                </td>
+
+                                @if (item.Personeria_id == 1)
+                                {
+                                    <td>
+                                        @if ((bool)permisos.Editar)
+                                        {
+                                            <div class="div-icons-table" onclick="Editar_PropietarioIndividual(@item.Solicitud_id, @item.PersonaJuridica_Id)">
+                                                <i class="fa in fa-edit" aria-hidden="true"></i>
+                                            </div>
+                                        }
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        @if ((bool)permisos.Editar)
+                                        {
+                                            <div class="div-icons-table" onclick="Editar_PropietarioJuridico(@item.Solicitud_id, @item.PersonaJuridica_Id)">
+                                                <i class="fa in fa-edit" aria-hidden="true"></i>
+                                            </div>
+                                        }
+                                    </td>
+                                }
+
+
+                                @if (item.Personeria_id == 1)
+                                {
+                                    <td>
+                                        @if ((bool)permisos.Borrar)
+                                        {
+                                            <div class="div-icons-table" onclick="Eliminar_PropietarioIndividual(@item.Solicitud_id, @item.PersonaJuridica_Id)">
+                                                <i class="fa in fa-trash-o" aria-hidden="true"></i>
+                                            </div>
+                                        }
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        @if ((bool)permisos.Borrar)
+                                        {
+                                            <div class="div-icons-table" onclick="Eliminar_PropietarioJuridico(@item.Solicitud_id, @item.PersonaJuridica_Id)">
+                                                <i class="fa in fa-trash-o" aria-hidden="true"></i>
+                                            </div>
+                                        }
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    var opts = {};
+    if (!$("#Personeria").is(':visible')) {
+        opts["width"] = 'auto';
+    }
+    $("#Personeria").chosen(opts);
+
+
+</script>

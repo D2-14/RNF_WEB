@@ -1,0 +1,74 @@
+﻿@model IEnumerable<RNF_Web.Models.Vw_Sol_Rodal_CategoriaSIGAP>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    ViewBag.Title = "Categoría SIGAP";
+    ViewBag.SubTitle = "Listado de categorías SIGAP";
+}
+
+
+@Html.Partial("_PartialPageEncabezado")
+
+<button class="btn-secondary" style="position: absolute; right: 0;" rel="tooltip" title="Agregar" onclick="location.href='@Url.Action("Create", "Sol_Rodal_CategoriaSIGAP")'">
+    <i><img src="~/Content/icons/add_simple.png" style="border-radius: 30%; width: 45px; height: auto" /></i>
+    <div class="ripple-container"></div>
+</button>
+
+<br />
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </th>
+        <th>
+            Fecha de creación
+        </th>
+        <th>
+            Creado por
+        </th>
+        <th>
+            Fecha de actualización
+        </th>
+        <th>
+            Actualizado por
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.swdatecreated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.swcreatedby)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.swdateUpdated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.swUpdatedby)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.CategoriaSIGAP_Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@Html.Partial("_PartialPageEncabezadoCierre")

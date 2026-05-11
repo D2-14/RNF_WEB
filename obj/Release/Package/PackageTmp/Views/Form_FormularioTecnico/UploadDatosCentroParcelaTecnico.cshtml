@@ -1,0 +1,161 @@
+﻿
+@using RNF_Web.Models;
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<div id="section_ExcelRodal">
+    @model System.Data.DataTable
+    @using System.Data;
+    @using RNF_Web.Models;
+    @using System.Data.SqlClient;
+
+    @{
+
+        string guidid = ViewBag.Guid_id;
+
+        db_RNFEntities db = new db_RNFEntities();
+        Tbl_Sol_Solicitud tbl_sol_solicitud = (from d in db.Tbl_Sol_Solicitud
+                                               where d.Guid_id == guidid
+                                               select d).FirstOrDefault();
+
+        ViewBag.Estado = tbl_sol_solicitud.Estado_id;
+
+        ViewBag.Title = "   Análisis de centro de parcela ";
+    }
+
+
+
+
+
+    <link href="/Content/Layout.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+    <script>
+        function GenerarDocumento()
+        {
+            var data = {
+            Guid_id: "@guidid"
+            };
+            var url = "@Url.Action("DescargarCentroParcela", "Form_FormularioTecnico")";
+
+            $.post(url, data).done(function (jsonrespuesta) {
+            var oJSON = JSON.parse(jsonrespuesta);
+            var NombreDocumento = oJSON.Ubicacion;
+            var ubicacioncompleta = NombreDocumento;
+            //var link = window.location;
+
+            //link.href = ubicacioncompleta;
+            window.open(ubicacioncompleta, '_blank');
+
+
+            });
+
+        }
+
+    </script>
+
+
+    <div class="titulo-dos">
+        <h4 class="title">&nbsp;&nbsp;&nbsp;@ViewBag.Title</h4>
+    </div>
+
+
+    @*<a href="~/Content/Machotes/DatosCentroParcela_Vacio.xlsx">
+            <input type="button" class="btn btn-primary" value="Datos de las coordenadas de la solicitud" />
+        </a>
+        <a href="~/Content/Machotes/DatosCentroParcela_Ejemplo.xlsx">
+            <input type="button" class="btn btn-primary" value="Formato para evaluación técnica" />
+        </a>*@
+    @using (Html.BeginForm("UploadDatosCentroParcelaTecnico", "Form_FormularioTecnico", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+        <input type="hidden" name="etapa_id" id="etapa_id" value="@ViewBag.etapa_id" />
+        <input type="hidden" name="etaparuta_id" id="etaparuta_id" value="@ViewBag.etaparuta_id" />
+        <input type="hidden" name="correlativoetapa_id" id="correlativoetapa_id" value="@ViewBag.correlativoetapa_id" />
+        <div class="form-group">
+            <div class="col-sm-12">
+                <form id="uploader">
+                    <h1>@Html.Raw(TempData["MensajeFileDasom"])</h1>
+
+                    <br />
+
+                    @if ((ViewBag.Estado != 10) && (ViewBag.Estado != 11))
+                    {
+                        <table width="100%">
+                            <tr>
+                                <td width="20%" style="vertical-align:central">
+                                    <input type="button" onclick="GenerarDocumento()" class="btn btn-primary" value="Datos de las coordenadas de la solicitud" />
+                                    @*<input type="button" onclick="GenerarDocumento()" class="btn btn-primary" value="Datos de la plantación de la solicitud" />*@
+                                </td>
+                                <td width="20%">
+                                </td>
+                                <td style="vertical-align:central">
+                                    @if (ViewBag.Owner == 1)
+                                    {
+                                        <label>
+                                            @*<label for="file" id="upfilefile" class="btn-next-ic">&nbsp;&nbsp;&nbsp;&nbsp;Seleccionar archivo&nbsp;&nbsp;&nbsp;&nbsp;</label>*@
+                                            <img src="~/Content/icons/btnSubirArchivo.png" width="180" height="auto" id="upfile1" style="cursor:pointer" />
+                                            <input type="file" id="upload" name="upload" style="display:none">
+                                        </label>
+                                    }
+                                </td>
+                                <td style="vertical-align:central">
+                                    @if (ViewBag.Owner == 1)
+                                    {
+                                        <input type="submit" id="btsubir" class="btn btn-primary btn-outlined" width="100%"
+                                               value="Subir archivo" />
+                                    }
+                                </td>
+                                <td style="vertical-align:central">
+                                    <input type="hidden" value="@guidid" id="Guid_id" name="Guid_id" />
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                </td>
+                                <td>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                            </tr>
+                        </table>
+
+                    }
+                    <br /><br />
+
+                </form>
+            </div>
+
+            <div id="divDetalleParcelas"></div>
+            <div id="divDetalleParcelasTecnico"></div>
+
+            <div class="col-sm-3"></div>
+        </div>
+
+    }
+
+</div>
+
+<br />
+
+
+<script>
+
+    $(document).ready(function () {
+        var divDetalleParcelas = document.getElementById("divDetalleParcelas");
+        var divDetalleParcelasTecnico = document.getElementById('divDetalleParcelasTecnico');
+        if (divDetalleParcelas) {
+            $("#divDetalleParcelas").load("/Sol_Rodal/CentroParcela?Solicitud_id=@ViewBag.solicitud_id&firma=@ViewBag.Guid_id")
+        }
+        if (divDetalleParcelasTecnico) {
+            $('#divDetalleParcelasTecnico').load('/Form_FormularioTecnico/CentroParcelaTecnico?Solicitud_id=@ViewBag.solicitud_id')
+        }
+    });
+
+</script>

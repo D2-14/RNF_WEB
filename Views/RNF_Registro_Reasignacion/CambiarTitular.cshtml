@@ -1,0 +1,138 @@
+﻿@using RNF_Web.Models;
+@model RNF_Web.Models.Tbl_RNF_Registro
+@{
+    ViewBag.Title = "Cambio de titular mediante DPI";
+    DateTime FechaVencimiento, swdatecreated;
+    swdatecreated = DateTime.Now;
+    FechaVencimiento = Model.Fecha_De_Vencimiento ?? swdatecreated;
+    ViewBag.FechaHoy = String.Format("{0:yyyy-MM-dd}", swdatecreated);
+    ViewBag.FechaVencimiento = String.Format("{0:yyyy-MM-dd}", FechaVencimiento);
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+@Html.Partial("_PartialPageEncabezado")
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+
+<script>
+
+    function soloLetrasYNumeros(e) {
+        let char = String.fromCharCode(e.which); // convierte la tecla en carácter
+        let regex = /^[a-zA-Z0-9]$/; // solo letras y números
+
+        if (!regex.test(char)) {
+            e.preventDefault(); // bloquea el carácter
+            return false;
+        }
+        return true;
+    }
+
+    function cambiarTitular() {
+        var No_Registro = '@Model.No_Registro';
+        var DPI_Nuevo = document.getElementById("DPI_Nuevo").value;
+        var Fecha_Hoy = '@ViewBag.FechaHoy';
+
+
+        if ((DPI_Nuevo == null) || (DPI_Nuevo.trim() == "")) {
+            alert("El nuevo DPI no puede estar en blanco");
+            return;
+        }
+
+        var data = {
+            No_Registro: No_Registro,
+            DPI_Nuevo: DPI_Nuevo
+        };
+
+        var opcion = confirm("¿Está seguro que desea cambiar el titular del registro " + No_Registro + " al nuevo DPI: " + DPI_Nuevo + "?");
+        if (opcion) {
+            var url = "@Url.Action("CambiarNuevoTitular", "RNF_Registro_Reasignacion")";
+
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    dataType: 'json',
+                    data: data,
+                    success: function (doc) {
+                        var oJSON = JSON.parse(doc);
+                        var mensaje = oJSON.resultado;
+                        alert(mensaje);
+                    },
+                    error: function (ex) {
+                        alert('Ocurrio un error aqui. ' + ex.status);
+                    }
+
+                });
+
+        }
+
+    }
+</script>
+
+<table class="table table-striped">
+    <tr>
+        <th>Expediente</th>
+        <td>@Model.Expediente</td>
+    </tr>
+    <tr>
+        <th>Registro</th>
+        <td>@Model.No_Registro</td>
+    </tr>
+    <tr>
+        <th>Categoría</th>
+        <td>@Model.Tbl_Sol_Solicitud_Categoria.Descripcion, @Model.Tbl_Sol_Solicitud_Sub_Categoria.Descripcion</td>
+    </tr>
+    <tr>
+        <th>Región y SubRegión</th>
+        <td>@Model.Tbl_Gral_Region.Nombre_Region, @Model.Tbl_Gral_SubRegion.Nombre_SubRegion</td>
+    </tr>
+    <tr>
+        <th>DPI Titular Actual</th>
+        <td>@Model.DPI_Titular</td>
+    </tr>
+    <tr>
+        <th>DPI Titular Nuevo</th>
+        <td><input type="text" name="DPI_Nuevo" onkeypress="soloLetrasYNumeros(event)" id="DPI_Nuevo" value="" placeholder="1234567890123" maxlength="13" class="form-control" onchange="consultarDPI()" /></td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <th>Nombre</th>
+        <td><label id="dpi_nombre"></label></td>
+    </tr>
+    <tr>
+        <th>DPI</th>
+        <td><label id="dpi_dpi"></label></td>
+    </tr>
+</table>
+<input type="button" name="cambiarTitular" id="cambiarTitular" value="Cambiar Titular" onclick="cambiarTitular()" class="btn btn-sm btn-success" />
+@Html.Partial("_PartialPageEncabezadoCierre")
+
+
+<script>
+    function consultarDPI() {
+
+        var DPI_Nuevo = document.getElementById("DPI_Nuevo").value;
+
+        var data = {
+            DPI_Nuevo: DPI_Nuevo
+        };
+        var url = "@Url.Action("ConsultarDPINuevoTitular", "RNF_Registro_Reasignacion")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+            var cod_respuesta = oJSON.cod_respuesta;
+            var datos_dpi = oJSON.datos_dpi;
+            console.log(oJSON);
+            if (cod_respuesta == 1) {
+                document.getElementById("dpi_nombre").innerHTML = datos_dpi.Nombre;
+                document.getElementById("dpi_dpi").innerHTML = datos_dpi.DPI;
+            }
+            else {
+                alert("Usuario no existe o documento no válido");
+            }
+
+        });
+    }
+</script>

@@ -1,0 +1,73 @@
+﻿@using RNF_Web.Models;
+@model List<fc_Reporte_Auditorias_Result>
+@{
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<table class="table table-striped">
+    <tr>
+        <td>
+            <strong>
+                Solicitante
+            </strong>
+        </td>
+        <td>
+            <strong>
+                Técnico que Visita
+            </strong>
+        </td>
+        <td>
+            <strong>
+                Fecha de Revisión
+            </strong>
+        </td>
+        <td>
+            <strong>
+                Evaluación de Datos Dasométricos
+            </strong>
+        </td>
+        <td>
+        </td>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Solicitante
+            </td>
+            <td>
+                @item.Auditor
+            </td>
+            <td>
+                @item.swdatetransfered
+            </td>
+            <td>
+                <a href="/App_Visita_Campo/Auditoria?Auditoria_id=@item.Auditoria_id.ToString().ToUpper()&Guid_id=@ViewBag.guidid&etapa_id=@ViewBag.etapa_id&etaparuta_id=@ViewBag.etaparuta_id&correlativoetapa_id=@ViewBag.correlativoetapa_id">Verificar</a>
+            </td>
+            <td>
+                <div id="divPonderacionDasometrico"></div>
+            </td>
+        </tr>
+    }
+</table>
+
+
+<script>
+    $(document).ready(function () {
+        var myPonderacionPoligono = document.getElementById('divPonderacionPoligono');
+        var myPonderacionDescuento = document.getElementById('divPonderacionDescuento');
+        var myPonderacionDasometrico = document.getElementById('divPonderacionDasometrico');
+        var myPermitirCambios = document.getElementById('divPermitirCambios');
+
+
+        if (myPonderacionDasometrico) {
+            $("#divPonderacionDasometrico").load("/App_Visita_Campo/PonderacionDasometricos?Guid_id=@ViewBag.guidid");
+        }
+
+    })
+</script>
+

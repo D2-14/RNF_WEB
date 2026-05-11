@@ -1,0 +1,194 @@
+﻿@using RNF_Web.Models;
+@{
+    Layout = "~/Views/Shared/_LayoutMoreSimple.cshtml";
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+<script>
+
+    function valExpediente_PinpepOld() {
+        buscarExpediente_PinpepOld();
+    }
+
+    function buscarExpediente_PinpepOld() {
+        var Expediente = document.getElementById("Expediente_PinpepOld").value;
+        Expediente = Expediente.replace(" ", "%20");
+        Expediente = Expediente.replace("+", "%2B");
+        if ((Expediente.trim() != "") || (Expediente != null))
+        {
+            $('#div_ResultadoPinpepOld').load('/API_Probosque/ResultadoPinpepOld?Expediente=' + Expediente);
+        }
+    }
+
+    function removeClass() {
+        var Mensaje_PinpepOld = document.getElementById("Mensaje_PinpepOld");
+        Mensaje_PinpepOld.innerHTML = "";
+        Mensaje_PinpepOld.classList.remove("text-success");
+        Mensaje_PinpepOld.classList.remove("text-primary");
+        Mensaje_PinpepOld.classList.remove("text-danger");
+    }
+
+    function IngresarSolicitud_PinpepOld(Expediente) {
+        loaderPantalla(true);
+        removeClass();
+        setTimeout(function () {
+
+            var Mensaje_PinpepOld = document.getElementById("Mensaje_PinpepOld");
+
+            var data = {
+                Expediente: Expediente
+            }
+
+            var url = "@Url.Action("PostExpedientePinpepOld", "API_Probosque")";
+
+            $.post(url, data).done(function (jsonRespuesta) {
+                var oJSON = jsonRespuesta;
+                var Mensaje = oJSON.Mensaje;
+                var Result = oJSON.Result;
+                var Migrado = oJSON.Migrado;
+                var Solicitud_id = oJSON.Solicitud_id;
+             
+                if (Result == 1) {
+                    Mensaje_PinpepOld.classList.add("text-success");
+                } else if (Result == 5) {
+                    Mensaje_PinpepOld.classList.add("text-primary");
+                } else {
+                    Mensaje_PinpepOld.classList.add("text-danger");
+                }
+                Mensaje_PinpepOld.innerHTML = Mensaje;
+
+                if (Migrado) {
+                    alert("Solicitud actual: " + Solicitud_id);
+                } else {
+
+                    $('#div_CreateConRegion').load('/API_Probosque/CreateConRegionPinpepOld');
+
+                    var table_ExpedientePinpepOld = document.getElementById("table_ExpedientePinpepOld");
+                    if (table_ExpedientePinpepOld) {
+                        table_ExpedientePinpepOld.style.visibility = "visible";
+                        var lbl_TipoProyecto_PinpepOld = document.getElementById("lbl_TipoProyecto_PinpepOld");
+                        var lbl_Region_PinpepOld = document.getElementById("lbl_Region_PinpepOld");
+                        var lbl_SubRegion_PinpepOld = document.getElementById("lbl_SubRegion_PinpepOld");
+                        lbl_TipoProyecto_PinpepOld.innerHTML = oJSON.Data.proyecto.TipoProyecto;
+                        lbl_Region_PinpepOld.innerHTML = oJSON.Data.proyecto.Region;
+                        lbl_SubRegion_PinpepOld.innerHTML = oJSON.Data.proyecto.SubRegion;
+                        document.getElementById("DPI_Titular").value = "0000000000000";
+                        consultarDPI();
+                    }
+
+                }
+
+                loaderPantalla(false);
+            }).fail(function (jsonRespuesta) {
+                loaderPantalla(false);
+            });
+
+            //loaderPantalla(false);
+        }, 2000);
+
+    }
+
+    function consultarDPI() {
+        var iniciarSolicitud = document.getElementById("iniciarSolicitud");
+        var DPI_Nuevo = document.getElementById("DPI_Titular").value;
+        var Nombre = document.getElementById("Nombre");
+        var data = {
+            DPI_Nuevo: DPI_Nuevo
+        };
+        var url = "@Url.Action("ConsultarDPINuevoTitular", "RNF_Registro_Reasignacion")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+            var cod_respuesta = oJSON.cod_respuesta;
+            var datos_dpi = oJSON.datos_dpi;
+            console.log(oJSON);
+            iniciarSolicitud.style.visibility = "visible";
+            if (cod_respuesta == 1) {
+                //iniciarSolicitud.style.visibility = "visible";
+                Nombre.value = datos_dpi.Nombre;
+                console.log(datos_dpi);
+            } else {
+                Nombre.value = "";
+                //iniciarSolicitud.style.visibility = "hidden";
+                alert("Usuario externo no existe o DPI es inválido");
+            }
+
+        });
+    }
+
+    function CrearSolicitud() {
+
+        var lbl_Expediente = document.getElementById("lbl_Expediente_PinpepOld").textContent;
+
+        var Categoria_id = document.getElementById("Categoria_id").value;
+        var Sub_Categoria_id = document.getElementById("Sub_Categoria_id").value;
+        var Sub_Sub_Categoria_id = document.getElementById("Sub_Sub_Categoria_id").value;
+        var Region_id = document.getElementById("Region_id").value;
+        var SubRegion_id = document.getElementById("SubRegion_id").value;
+        var DPI_Titular = document.getElementById("DPI_Titular").value;
+
+        
+
+        var data = {
+            Expediente: lbl_Expediente,
+            Categoria_id: Categoria_id,
+            Sub_Categoria_id: Sub_Categoria_id,
+            Sub_Sub_Categoria_id: Sub_Sub_Categoria_id,
+            Region_id: Region_id,
+            SubRegion_id: SubRegion_id,
+            DPI_Titular: DPI_Titular
+        };
+
+        console.log(data);
+
+        if ((Categoria_id == 0) || (Region_id == 0)) {
+            alert("Debe seleccionar categoría y región a registrar");
+            return;
+        }
+
+        var url = "@Url.Action("CrearSolicitudPinpepOld", "API_Probosque")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = jsonRespuesta;
+            console.log(oJSON);
+            var Result = oJSON.Result;
+
+            alert(oJSON.Mensaje);
+            if (Result == 1) {
+                var guid_id = oJSON.guid_id;
+                location.href = '/Home/SolicitudEtapaView?guid_id=' + guid_id + '&etapaid=1&etaparutaid=1&correlativo=1';
+            }
+        }).fail(function (error) {
+            alert(error);
+        });
+
+
+    }
+
+</script>
+
+
+<div>
+    <table class="table table-striped">
+        <tr>
+            <th colspan="2">Expediente</th>
+        </tr>
+        <tr>
+            <td width="90%">
+                <input type="text" id="Expediente_PinpepOld" name="Expediente_PinpepOld" value="" class="form-control" placeholder="Exp.1" />
+            </td>
+            <td width="10%">
+                <input type="button" name="buscarProbosque" value="Buscar" class="btn btn-primary" onclick="valExpediente_PinpepOld()" />
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="div_ResultadoPinpepOld"></div>
+
+

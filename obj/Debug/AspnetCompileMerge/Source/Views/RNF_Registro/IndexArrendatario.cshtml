@@ -1,0 +1,231 @@
+﻿@model IEnumerable<RNF_Web.Models.fc_RNF_Sel_ListadoDeArrendatario_Result>
+@using RNF_Web.Models;
+@using System.Data.SqlClient;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@{
+    string No_Registro = ViewBag.No_Registro;
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    db_RNFEntities db = new db_RNFEntities();
+
+    Tbl_RNF_Registro tbl_RNF_Registro = db.Tbl_RNF_Registro.Where(Obj => Obj.No_Registro == No_Registro).FirstOrDefault();
+
+    ViewBag.PropietarioJuridico = db.Tbl_RNF_ArrendatarioPersonaJuridica.Where(obj => obj.No_Registro == tbl_RNF_Registro.No_Registro && obj.Estado_id == true).Count();
+
+    string Nombre_Div = "div_Sol_Permisos_IndexArrendatario";
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+    EdicionRNFGrants objRNFGrants = (EdicionRNFGrants)Session[Constants.session_EdicionRNFGrants];
+
+}
+
+<script>
+
+    function visualizarPermisos(solicitudid, controllername, esinterno, nombrediv) {
+        var solicitudId = solicitudid;
+        var controllerName = controllername;
+        var esInterno = esinterno;
+
+        var mySolPermisos = document.getElementById(nombrediv);
+        if (mySolPermisos) {
+            $("#" + nombrediv).load("/Gral_SolicitudConfiguracion/PermisosRecibidos?Solicitud_id=" + solicitudId + "&controllerName=" + controllerName + "&EsInterno=" + esInterno);
+        }
+
+    }
+
+    $(document).ready(function () {
+    });
+
+    $(document).on('change', '#PersoneriaArrendatario', function () {
+        var PersoneriaArrendatario = $('#PersoneriaArrendatario').val();
+
+
+        if (PersoneriaArrendatario == 1)  /*individual*/ {
+            var TdToShowA = document.getElementById("ClickYoArrendatario");
+            TdToShowA.innerText = "<< Click en la imagen para agregarme como arrendatario >>";
+            TdToShowA.style = "color:blue; "
+            TdToShowA.hidden = false;
+
+            var TdToShowA = document.getElementById("ClickArrendatario");
+            TdToShowA.innerText = "<< Click en la imagen para agregar arrendatario >>";
+            TdToShowA.style = "color:blue; "
+            TdToShowA.hidden = false;
+
+            document.getElementById("imgAddmeArrendatario").src = "/Content/icons/addme_II.png";
+            document.getElementById("imgArrendatario").style.visibility = 'Visible';
+        }
+        else if (PersoneriaArrendatario == 2) {
+            var TdToShowA = document.getElementById("ClickArrendatario");
+            TdToShowA.innerText = "Click en la imagen para agregarme como arrendatario";
+            TdToShowA.style = "color:black; "
+            TdToShowA.hidden = true;
+
+
+            var TdToShowA = document.getElementById("ClickYoArrendatario");
+            TdToShowA.innerText = "Click en la imagen para agregar arrendatario jurídico";
+            TdToShowA.style = "color:black; "
+
+            document.getElementById("imgAddmeArrendatario").src = "/Content/icons/add-empresa.png";
+
+            document.getElementById("imgArrendatario").style.visibility = 'hidden';
+
+        } else {
+            var TdToShowA = document.getElementById("ClickYoArrendatario");
+            TdToShowA.innerText = "<< Click en la imagen para agregarme como arrendatario >>";
+            TdToShowA.style = "color:blue; "
+            TdToShowA.hidden = true;
+
+            var TdToShowA = document.getElementById("ClickArrendatario");
+            TdToShowA.innerText = "<< Click en la imagen para agregar arrendatario >>";
+            TdToShowA.style = "color:blue; "
+            TdToShowA.hidden = true;
+
+            document.getElementById("imgAddmeArrendatario").src = "/Content/icons/addme_II.png";
+            document.getElementById("imgArrendatario").style.visibility = 'hidden';
+            document.getElementById("imgAddmeArrendatario").style.visibility = 'hidden';
+        }
+
+
+
+        function VerifAgregarme_Como_ArrendatarioRepresentante(solicitud, tipo) {
+            var PersoneriaArrendatario = $('#PersoneriaArrendatario').val();
+
+            if (PersoneriaArrendatario == 1) {
+                Agregarme_Como_Arrendatario(solicitud, tipo)
+            }
+            else {
+                Agregar_Arrendatario()
+            }
+        }
+
+
+    }); // -----Fin de Change ddlDepartamento
+
+
+
+
+</script>
+
+
+<div class="container-fluid">
+
+    @*ViewBag.PropietarioJuridico>0   No pueden haber varios propietarios juridicos y no aplica agregar propietario individual*@
+    @if ((objRNFGrants.Agregar))
+    {
+        <div class="row">
+            <div class="col-xs-3 col-md-3">
+                @Html.Label("Seleccione tipo de arrendatario a agregar", new { @class = "control-label" })
+            </div>
+            <div class="col-xs-3 col-md-3">
+                @Html.DropDownList("PersoneriaArrendatario", null, htmlAttributes: new { @class = "form-select", style = "width:100%;" })
+            </div>
+
+            <div class="col-xs-1 col-md-1">
+                <span class="pull-right">
+                    <img id="imgAddmeArrendatario" src="~/Content/icons/addme_II.png" onclick="Agregarme_Como_Arrendatario('@ViewBag.No_Registro', 1)" width="40" height="40" />
+                </span>
+            </div>
+            <div class="col-xs-2 col-md-2">
+                <p id="ClickYoArrendatario">Click en la imagen para agregar arrendatario</p>
+            </div>
+            <div class="col-xs-1 col-md-1">
+                <span class="pull-right">
+                    <img id="imgArrendatario" src="~/Content/icons/add-user-9-xxl.png" onclick="Agregar_Arrendatario('@ViewBag.No_Registro')" width="40" height="40" />
+                </span>
+            </div>
+            <div class="col-xs-2 col-md-2">
+                <p id="ClickArrendatario">Click en la imagen para agregar arrendatario</p>
+            </div>
+
+        </div>
+
+    }
+
+    <hr />
+    <div style='height: 30px; width: 100%; background-color: #66bb6a; color: white; '>
+        <h4>Datos del arrendatario(s)</h4>
+    </div>
+    <br />
+
+    <div class="row">
+        <div class="col">
+            <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">@Html.DisplayNameFor(model => model.Personeria)</th>
+                            <th scope="col">@Html.DisplayNameFor(model => model.Nombre)</th>
+                            <th scope="col">Documento</th>
+                            <th scope="col">Editar</th>
+                            <th scope="col">Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Personeria)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Nombre)
+                                </td>
+                                <td>
+                                    @Html.Raw(item.TipoIdentificacion + " " + item.NoIdentificacion)
+                                </td>
+
+                                @if (item.Personeria_id == 1)
+                                {
+                                    <td>
+                                        @if (objRNFGrants.Editar)
+                                        {
+                                            <img src="~/Content/icons/edit-9-xxl.png" onclick="Editar_ArrendatarioIndividual('@item.No_Registro', @item.PersonaJuridica_Id)" width="25" height="25" />
+                                        }
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        @if (objRNFGrants.Editar)
+                                        {
+                                            <img src="~/Content/icons/edit-9-xxl.png" onclick="Editar_ArrendatarioJuridico('@item.No_Registro', @item.PersonaJuridica_Id)" width="25" height="25" />
+                                        }
+                                    </td>
+                                }
+
+
+                                @if (item.Personeria_id == 1)
+                                {
+                                    <td>
+                                        @if (objRNFGrants.Borrar)
+                                        {
+                                            <img src="~/Content/icons/trash_green.png" onclick="Eliminar_ArrendatarioIndividual('@item.No_Registro', @item.PersonaJuridica_Id)" width="25" height="25" />
+                                        }
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        @if (objRNFGrants.Borrar)
+                                        {
+                                            <img src="~/Content/icons/trash_green.png" onclick="Eliminar_ArrendatarioJuridico('@item.No_Registro', @item.PersonaJuridica_Id)" width="25" height="25" />
+                                        }
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

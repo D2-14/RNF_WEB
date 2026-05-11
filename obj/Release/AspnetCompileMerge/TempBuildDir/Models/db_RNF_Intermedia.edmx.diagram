@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="728d4e9270d848ff955794c5cf701553" Name="Diagram1">
+        <EntityTypeShape EntityType="db_RNF_IntermediaModel.Tbl_API_Categoria_Intermedia" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_IntermediaModel.Tbl_API_ExpedienteOficio_FasePermitida" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_IntermediaModel.Tbl_API_PinpepOld_EspeciesForestales" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_IntermediaModel.Tbl_API_PinpepOld_Expediente" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_IntermediaModel.Tbl_API_PinpepOld_Finca" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_IntermediaModel.Tbl_API_PinpepOld_InformeTecnico" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_IntermediaModel.Tbl_API_PinpepOld_Propietarios" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_IntermediaModel.Tbl_API_PinpepOld_PropietariosGrupal" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_IntermediaModel.Tbl_API_PinpepOld_Representante" Width="1.5" PointX="6.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_IntermediaModel.Tbl_API_PinpepOld_Rodales" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_IntermediaModel.Tbl_API_PinpepOld_Rodales_Poligonos" Width="1.5" PointX="2.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_IntermediaModel.Tbl_API_PinpepOld_Rodales_PoligonosDescuento" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_IntermediaModel.Tbl_API_Probosque_EspeciesForestales" Width="1.5" PointX="8.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_IntermediaModel.Tbl_API_Probosque_Expediente" Width="1.5" PointX="4.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_IntermediaModel.Tbl_API_Probosque_Finca" Width="1.5" PointX="6.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_IntermediaModel.Tbl_API_Probosque_FincaRegistroPropiedad" Width="1.5" PointX="8.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_IntermediaModel.Tbl_API_Probosque_InformeTecnico" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_IntermediaModel.Tbl_API_Probosque_Propietario_PersonaIndividual" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_IntermediaModel.Tbl_API_Probosque_Propietario_PersonaJuridica" Width="1.5" PointX="10.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_IntermediaModel.Tbl_API_Probosque_RepresentanteLegal" Width="1.5" PointX="10.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_IntermediaModel.Tbl_API_Probosque_Rodales" Width="1.5" PointX="10.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_IntermediaModel.Tbl_API_Probosque_Rodales_Documentos" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_IntermediaModel.Tbl_API_Probosque_Rodales_Poligonos" Width="1.5" PointX="12.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_IntermediaModel.Tbl_API_Probosque_Rodales_PoligonosDescuento" Width="1.5" PointX="12.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_IntermediaModel.Tbl_Categoria" Width="1.5" PointX="10.75" PointY="12.75" IsExpanded="true" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

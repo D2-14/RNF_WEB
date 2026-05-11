@@ -1,0 +1,134 @@
+﻿
+<script>
+    function download(filename, NombreDescarga) {
+
+        var element = document.createElement('a');
+        element.setAttribute('href', filename);
+        element.setAttribute('download', NombreDescarga);
+        document.body.appendChild(element);
+        element.click();
+        //document.body.removeChild(element);
+    }
+</script>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    @*<script src="~/Content/jquery.min.js"></script>
+        <script src="~/Content/bootstrap.min.js"></script>
+        <link href="~/Content/bootstrap-chosen.css" rel="stylesheet" />*@
+
+
+    <link href="/Content/Layout.css" rel="stylesheet" />
+    <link href="/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Content/assets/js/jquery.min.js"></script>
+
+
+
+    <style>
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav > li {
+            background-color: #e3f2fd; /* Color de la cinta  */
+            padding: 20px; /* Ancho de la cinta  */
+            float: left;
+        }
+
+        .nav li a {
+            background: #e3f2fd; /* color de los botones de las letras*/
+            color: #1E88E5; /* color de fondo de las letras*/
+            display: block;
+            border: 2px double; /*border de cada elemento*/
+            padding: 15px 30px;
+        }
+
+
+
+        .nav li ul {
+            display: none;
+            position: absolute;
+            min-width: 140px;
+        }
+
+        .submenu {
+            z-index: 10999;
+        }
+
+        .nav li:hover > ul {
+            display: block;
+        }
+
+        .nav li ul li {
+            position: relative;
+        }
+
+            .nav li ul li ul {
+                right: -140px;
+                top: 0;
+            }
+
+        .navbar-inverse {
+            background-color: #e3f2fd; /* Color de la cinta, area sin botones. */
+            border-color: blue; /* Borde de la cinta...*/
+        }
+
+        .navbar-nav li a:hover, .navbar-nav > .active > a { /* Color de la navegación  */
+            color: #fff !important;
+            background-color: blue !important;
+            background-image: none !important;
+        }
+
+        .img-thumbnail {
+            width: 100%;
+            border: none;
+        }
+
+
+        .modal-dialog {
+            animation-direction: reverse;
+            animation: show 1s .5s backwards;
+            transform-style: preserve-3d;
+            transition: all 0.5s linear;
+        }
+
+            .modal-dialog:target .modal-content {
+                animation: show 1s .5s backwards;
+                transform-style: preserve-3d;
+                transition: all 0.5s linear;
+            }
+
+        @@keyframes show {
+            0% {
+                transform: rotateY(-180deg);
+            }
+
+            100% {
+                transform: rotateY(0deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    @RenderBody()
+
+</body>
+</html>
+
+<script>
+    window.addEventListener("beforeunload", function (e) {
+        document.cookie = "ASP.NET_SessionId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    });
+</script>

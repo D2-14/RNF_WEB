@@ -1,0 +1,498 @@
+﻿@model List<Tbl_API_Sol_Rodal_Local>
+@using RNF_Web.Models;
+@{
+    string Guid_id = ViewBag.guidid;
+    int etapa_id = ViewBag.etapa_id;
+    decimal etaparuta_id = ViewBag.etaparuta_id;
+    int correlativoetapa_id = ViewBag.correlativoetapa_id;
+    int tipodearea = 0;
+
+    db_RNF_APIEntities db_Api = new db_RNF_APIEntities();
+
+    List<Tbl_API_Sol_Rodal_Descuento_Local> listModelB = new List<Tbl_API_Sol_Rodal_Descuento_Local>();
+
+
+    db_RNFEntities db_RNF = new db_RNFEntities();
+
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+
+<div class="container-fluid">
+    <div class="titulo-dos">
+        <h4>Datos del Polígono de Técnico/Usuario</h4>
+    </div>
+
+    <br />
+
+    <div class="col-sm-6 col-md-12">
+        <table class="table">
+            <tr>
+                <th>
+                    Finca Id
+                </th>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Tipo de Area
+                </th>
+                <th>
+                    GTMX
+                </th>
+                <th>
+                    GTMY
+                </th>
+                <th>Calculo Técnico / Usuario</th>
+                <th></th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+
+                ViewBag.CategoriaSIGAP_Id = new SelectList(db_RNF.Tbl_Sol_Rodal_CategoriaSIGAP, "CategoriaSIGAP_Id", "Descripcion", item.CategoriaSIGAP_Id);
+
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Finca_id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rodal_Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tipo_de_Area)
+                    </td>
+                    <td>
+                        @((item.GTMX??0).ToString("0"))
+                    </td>
+                    <td>
+                        @((item.GTMY??0).ToString("0"))
+                    </td>
+                    <td>
+
+                        @{
+                            db_RNFEntities db = new db_RNFEntities();
+
+                            int tipoArea = 2;
+
+                            Tbl_Sol_Rodal tbl_Sol_Rodal = null;
+
+                            if (item.Tipo_de_Area == "Rodal")
+                            {
+                                tipoArea = 1;
+                            }
+
+                            if (item.Tipo_de_Area == "Area de descuento")
+                            {
+                                tipoArea = 3;
+                            }
+
+                            try
+                            {
+                                tbl_Sol_Rodal = db.Tbl_Sol_Rodal.Where(Obj => Obj.Solicitud_id == item.Solicitud_id && Obj.Finca_id == item.Finca_id && Obj.Tipo_de_Area == tipoArea && Obj.Rodal_Id == item.Rodal_Id).First();
+                            }
+                            catch (Exception exec)
+                            {
+                                tbl_Sol_Rodal = null;
+                                ViewBag.AreaNoEncontrada = "Area no encontrada";
+                            }
+
+                        }
+
+                        <table>
+                            <tr>
+                                <td>
+                                    @if ((tipoArea == 1) || (tipoArea == 3))
+                                    {
+                                        @Html.Raw(item.AreaTotal.ToString());
+                                    }
+                                    else
+                                    {
+                                        @Html.Raw(item.Longitud_Total.ToString());
+                                    }
+                                </td>
+                                <td>
+                                    @if ((tipoArea == 1) || (tipoArea == 3))
+                                    {
+                                        @Html.Raw(" ha /");
+                                    }
+                                    else
+                                    {
+                                        @Html.Raw(" m /");
+                                    }
+
+                                </td>
+                                <td>
+
+                                    @if (tbl_Sol_Rodal != null)
+                                    {
+                                        if (tbl_Sol_Rodal.AreaTotal > 0)
+                                        {
+                                            @Html.Raw(tbl_Sol_Rodal.AreaTotal.ToString() + " ha ");
+                                        }
+                                        else
+                                        {
+                                            @Html.Raw(tbl_Sol_Rodal.Longitud_Total.ToString() + " m ");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @Html.Raw(ViewBag.AreaNoEncontrada)
+                                    }
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                        Categoría SIGAP
+                        @Html.DropDownList("CategoriaSIGAP_Id", null, htmlAttributes: new { @class = "form-select", OnChange = $"ActualizarSigap('{@item.Solicitud_id}','{@item.Finca_id}', '{@item.Tipo_de_Area}', '{@item.Rodal_Id}',this.value)" })
+                    </td>
+                    <td>
+                        @if ((tipoArea == 1) || (tipoArea == 3))
+                        {
+                            @Html.Raw(" ha SIGAP");
+                        }
+                        else
+                        {
+                            @Html.Raw(" m SIGAP");
+                        }
+                        <br />
+                        <input type="text" value="@item.CategoriaSIGAP_AreaLongitud" OnChange="ActualizarAreaSigap('@item.Solicitud_id','@item.Finca_id', '@item.Tipo_de_Area', '@item.Rodal_Id',this)" />
+
+                    </td>
+                    <td>
+                        @{
+                            tipodearea = 2;
+
+                            if (item.Tipo_de_Area == "Rodal")
+                            {
+                                tipodearea = 1;
+                            }
+
+                            if (item.Tipo_de_Area == "Area de descuento")
+                            {
+                                tipoArea = 3;
+                            }
+                        }
+                        <a href="@Url.Action("IndexRodalPlano", "Form_FormularioTecnicoLocation", new { Guid_id = Guid_id, Finca_id = item.Finca_id, Rodal_id = item.Rodal_Id, Tipo_de_Area = tipodearea } )" target="_blank">@item.Tipo_de_Area <br /> Tecnico y usuario</a>
+
+                    </td>
+                    <td>
+                        @*<a href="@Url.Action("IndexRodalGoogleMaps", "Locacion", new {Rodal_id = item.Rodal_Id } )" target="_blank">Google Mapa</a>*@
+                    </td>
+                    <!--<td>-->
+                    @*<a href="@Url.Action("RetunKMZ", "UploadFiles", new {Rodal_id = item.Rodal_Id } )" target="_blank">Archivo KML</a>*@
+                    <!--</td>-->
+                    <td>
+                        @if ((ViewBag.Estado == 0) || (ViewBag.Estado == 4))
+                        {
+                            <img src="~/Content/icons/trash_green.png" onclick="Borrar_Rodal(@item.Rodal_Id)" width="25" height="25" />
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        @{
+                            tipodearea = 2;
+
+                            if (item.Tipo_de_Area == "Rodal")
+                            {
+                                tipodearea = 1;
+                            }
+
+                            if (item.Tipo_de_Area == "Area de descuento")
+                            {
+                                tipoArea = 3;
+                            }
+                        }
+                        <a href="@Url.Action("IndexRodalPlanoTecnico", "Form_FormularioTecnicoLocation", new { Guid_id = Guid_id, Finca_id = item.Finca_id, Rodal_id = item.Rodal_Id, Tipo_de_Area = tipodearea } )" target="_blank">@item.Tipo_de_Area <br /> Tecnico</a>
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        @{
+                            tipodearea = 2;
+
+                            if (item.Tipo_de_Area == "Rodal")
+                            {
+                                tipodearea = 1;
+                            }
+
+                            if (item.Tipo_de_Area == "Area de descuento")
+                            {
+                                tipoArea = 3;
+                            }
+                        }
+                        <a href="@Url.Action("IndexRodalPlanoUsuario", "Form_FormularioTecnicoLocation", new { Guid_id = Guid_id, Finca_id = item.Finca_id, Rodal_id = item.Rodal_Id, Tipo_de_Area = tipodearea } )" target="_blank">@item.Tipo_de_Area <br /> Solicitante</a>
+
+                    </td>
+
+                </tr>
+
+            }
+
+        </table>
+    </div>
+
+    <div class="titulo-dos">
+        <h4>Datos del Polígono de descuento Técnico/Usuario</h4>
+    </div>
+
+    <div class="col-sm-6 col-md-12">
+        <table class="table">
+            <tr>
+                <th>
+                    Finca Id
+                </th>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Tipo de Area
+                </th>
+                <th>
+                    GTMX
+                </th>
+                <th>
+                    GTMY
+                </th>
+                <th>Calculo Técnico / Usuario</th>
+                <th></th>
+            </tr>
+
+            @foreach (Tbl_API_Sol_Rodal_Descuento_Local itemB in ViewBag.listModelB)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => itemB.Finca_id)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => itemB.Rodal_Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => itemB.Tipo_de_Area)
+                    </td>
+
+                    <td>
+                        @((itemB.GTMX??0).ToString("0"))
+                    </td>
+                    <td>
+                        @((itemB.GTMY??0).ToString("0"))
+                    </td>
+                    <td>
+
+
+                        @{
+                            db_RNFEntities db = new db_RNFEntities();
+
+
+                            Tbl_Sol_Rodal_Descuento tbl_Sol_Rodal = null;
+
+
+                            try
+                            {
+                                tbl_Sol_Rodal = db.Tbl_Sol_Rodal_Descuento.Where(Obj => Obj.Solicitud_id == itemB.Solicitud_id && Obj.Finca_id == itemB.Finca_id && Obj.Rodal_Id == itemB.Rodal_Id && Obj.Rodal_Descuento_Id == itemB.Rodal_Descuento_Id).First();
+                            }
+                            catch (Exception exec)
+                            {
+                                tbl_Sol_Rodal = null;
+                                ViewBag.AreaNoEncontrada = "Area no encontrada";
+                            }
+
+                        }
+
+                        <table>
+                            <tr>
+                                <td>
+                                    @Html.Raw(itemB.AreaTotal.ToString())
+                                </td>
+                                <td>
+                                    @Html.Raw(" ha /")
+                                </td>
+                                <td>
+
+                                    @if (tbl_Sol_Rodal != null)
+                                    {
+                                        @Html.Raw(tbl_Sol_Rodal.AreaTotal.ToString() + " ha ")
+                                    }
+                                    else
+                                    {
+                                        @Html.Raw(ViewBag.AreaNoEncontrada)
+                                    }
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+
+                        <a href="@Url.Action("IndexRodalPlano", "Form_FormularioTecnicoLocation", new { Guid_id = Guid_id, Finca_id = itemB.Finca_id, Rodal_id = itemB.Rodal_Id, Tipo_de_Area = tipodearea } )" target="_blank">@itemB.Tipo_de_Area</a>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        @if ((ViewBag.Estado == 0) || (ViewBag.Estado == 4))
+                        {
+                            <img src="~/Content/icons/trash_green.png" onclick="Borrar_Rodal(@itemB.Rodal_Id)" width="25" height="25" />
+                        }
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+
+<div id="div_PonderacionEvaluacionArea"></div>
+
+<script>
+    $(document).ready(function () {
+            $('#div_PonderacionEvaluacionArea').load("/Form_FormularioTecnico/PonderacionEvaluacionArea?Guid_id=@ViewBag.guidid")
+    });
+
+
+    function ActualizarSigap(Solicitud_id,Finca_id, Tipo_de_Area, Rodal_Id, valor)
+    {
+        console.log(Solicitud_id);
+        console.log(Finca_id);
+        console.log(Tipo_de_Area);
+        console.log(Rodal_Id);
+        console.log(valor);
+
+
+        var dataPOST = {
+            Solicitud_id: Solicitud_id,
+            Finca_id: Finca_id,
+            Tipo_de_Area: Tipo_de_Area,
+            Rodal_Id: Rodal_Id,
+            TipoDeAreaSigap: valor
+        };
+
+
+           $.ajax({
+                type: "POST",
+                url: "@(Url.Action("DefinirTipoDeAreaSIGAP", "Form_FormularioTecnico"))",
+                data: dataPOST,
+                success: function (resultado) {
+                    //location.reload(true)
+
+                    var oJSON = resultado;
+                    var Result = oJSON.Result;
+                    var Mensaje = oJSON.Mensaje;
+                    var Data = oJSON.Data;
+
+
+                    if (Result == 1) {
+                        
+                    } else {
+
+                        alert(Mensaje);
+
+                    }
+
+                    // manejar resultado exitoso
+                },
+               error: function ()
+               {
+                    // manejar error
+               }
+           });
+
+    }
+
+
+    function ActualizarAreaSigap(Solicitud_id, Finca_id, Tipo_de_Area, Rodal_Id, valor) {
+        console.log(Solicitud_id);
+        console.log(Finca_id);
+        console.log(Tipo_de_Area);
+        console.log(Rodal_Id);
+        console.log(valor.value);
+
+        if (isNaN(valor.value)) {
+            alert('Solo puede contener números');
+            valor.value = 0;
+            return;
+
+        }
+
+        var countvalor = valor.value.trim().toLowerCase().split('.');
+
+        if (countvalor.length > 2) {
+            alert('Solo puede contener un punto decimal');
+            valor.value = 0;
+            return;
+        }
+
+
+
+        var dataPOST = {
+            Solicitud_id: Solicitud_id,
+            Finca_id: Finca_id,
+            Tipo_de_Area: Tipo_de_Area,
+            Rodal_Id: Rodal_Id,
+            Medida: valor.value
+        };
+
+
+
+           $.ajax({
+                type: "POST",
+                url: "@(Url.Action("DefinirAreaSIGAP", "Form_FormularioTecnico"))",
+                data: dataPOST,
+                success: function (resultado) {
+                    //location.reload(true)
+
+                    var oJSON = resultado;
+                    var Result = oJSON.Result;
+                    var Mensaje = oJSON.Mensaje;
+                    var Data = oJSON.Data;
+
+
+                    if (Result == 1) {
+
+                    } else {
+                        valor.value = 0
+                        alert(Mensaje);
+
+                    }
+
+                    // manejar resultado exitoso
+                },
+               error: function ()
+               {
+                    // manejar error
+               }
+           });
+
+
+
+    }
+
+</script>
+
+

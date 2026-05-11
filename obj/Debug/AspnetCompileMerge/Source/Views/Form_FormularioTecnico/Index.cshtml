@@ -1,0 +1,339 @@
+﻿@using RNF_Web.Models;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@model Tbl_Sol_Solicitud
+
+<style>
+    .formation {
+        height: auto;
+        max-width: 90%;
+        margin: 30px auto;
+        border-radius: 10px;
+        border-style: solid;
+        border-color: #77DD77;
+        padding: 20px;
+        box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    }
+</style>
+
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@{
+    ViewBag.Title = "Evaluación de Técnicos";
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    Usuario objUs = ViewBag.Session;
+}
+
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+
+
+        $("#myModal").on('show.bs.modal', function () {
+            var modal = $(this)
+            modal.find('.modal-title').text(document.getElementById("Titulo").value);
+            modal.find('.modal-body').html(document.getElementById("Pagina").value);
+        });
+
+        $("#btnHideModal").click(function () {
+            $("#myModal").modal('hide');
+        });
+
+
+        $("#btnHideModal_Close").click(function () {
+            $("#myModal").modal('hide');
+        });
+
+
+    });
+
+    function GenerarDocumentoEvaluacion() {
+        var data = {
+            Solicitud_id: @Model.Solicitud_id,
+            GuidEtapa_id: '@ViewBag.GuidEtapa_id'
+        };
+        var url = "@Url.Action("DescargarEvaluacion", "Form_FormularioTecnico")";
+
+        $.post(url, data).done(function (jsonrespuesta) {
+        var oJSON = JSON.parse(jsonrespuesta);
+        var NombreDocumento = oJSON.Ubicacion;
+        var ubicacioncompleta = "/Archivos_Generados_Que_Pueden_Borrar/" + NombreDocumento;
+
+            window.open(ubicacioncompleta, '_blank');
+
+            var TdHiddeA = document.getElementById("btnFirmarDocumento");
+            TdHiddeA.style.display = "block";
+
+        });
+
+    }
+
+ function FirmarDocumento() {
+
+        var TdHiddeA = document.getElementById("btnFirmarDocumento");
+            TdHiddeA.style.display = "none";
+
+        var TdHiddeB = document.getElementById("EvaluacionTecnicos");
+            TdHiddeB.style.display = "none";
+
+        varFirmaElectronicaUsuario = $('#FirmaElectronicaUsuario').val();
+        varFirmaElectronicaPassword = $('#FirmaElectronicaPassword').val();
+
+        var data = {
+            Guid_id: '@Model.Guid_id',
+            Guidetapa_id: '@ViewBag.GuidEtapa_id',
+            UsuarioFE: varFirmaElectronicaUsuario,
+            PasswordFE: varFirmaElectronicaPassword
+            };
+
+            var url = "@Url.Action("JsonProcesarFirmaElectronica", "Home")";
+             loaderPantalla(true);
+             $.post(url, data).done(function (jsonrespuesta) {
+             loaderPantalla(false);
+             var oJSON = JSON.parse(jsonrespuesta);
+             var NombreDocumento = oJSON.strRespuesta;
+             var CodigoRespuesta = oJSON.CodRespuesta;
+
+                if ((CodigoRespuesta == '0') || (CodigoRespuesta == 0))
+                {
+                    var TdHiddeC = document.getElementById("EvaluacionTecnicos");
+                    TdHiddeC.style.display = "block";
+                    window.open("/Home/FalloFirmaElectronica?FalloFe=" + NombreDocumento, '_blank');
+                }
+                else
+                {
+                   window.open(NombreDocumento, '_blank');
+                }
+
+
+            });
+
+            }
+
+</script>
+<link href="~/Content/assets_section/style.css" rel="stylesheet" />
+<div class="formation">
+
+    <table width="100%">
+        <tr>
+            <td width="50%"></td>
+            <td width="30%">
+            </td>
+            <td width="10%">
+                <button rel="tooltip" title="Regresar" onclick="location.href='@Url.Action("Edit", "Gest_EtapaSolicitud", new { solicitud_id = Model.Solicitud_id, etapa_id = ViewBag.etapa_id, etaparuta_id = ViewBag.etaparuta_id, correlativoetapa_id = ViewBag.correlativoetapa_id })'">
+                    <i><img src="~/Content/icons/regresar.png" style="border-radius: 30%; width: 40px; height: auto" /></i>
+                    <div class="ripple-container"></div>
+                    Regresar
+                </button>
+            </td>
+            <td width="10%"></td>
+        </tr>
+    </table>
+
+
+    @if (Model.Categoria_id == 2)
+    {
+        <a href="/Archivos_Machotes/Boleta_de_desicion.pdf" target="_blank">Flujograma de la boleta de desicion para : @Model.Tbl_Gral_SolicitudConfiguracionTipo.Descripcion </a>
+    }
+
+    @if ((Model.Categoria_id == 3) || (Model.Categoria_id == 4))
+    {
+        <a href="/Archivos_Machotes/Boleta_de_desicion_arboles_frutales.pdf" target="_blank">Flujograma de la boleta de desicion para : @Model.Tbl_Gral_SolicitudConfiguracionTipo.Descripcion</a>
+    }
+
+
+    <br />
+    <strong>*Marque la opción correspondiente</strong>
+    @if ((Model.Categoria_id == 2) || (Model.Categoria_id == 3) || (Model.Categoria_id == 4))
+    {
+        <br />
+        <strong>*Observe el flujograma de decisión para determinar los lineamientos y parámetros de evaluación según el escenario que se le presente</strong>
+    }
+
+    <br />
+    <div id="div_Preguntas"></div>
+
+
+
+    @if (Model.Categoria_id == 2)
+    {
+        <a href="/Archivos_Machotes/Boleta_de_desicion.pdf" target="_blank">Flujograma de la boleta de desicion para : @Model.Tbl_Gral_SolicitudConfiguracionTipo.Descripcion</a>
+    }
+
+    <br />
+    <hr />
+
+    <h3>Resultado de Evaluación</h3>
+    <div id="div_PonderacionEvaluacionTecnico"></div>
+    <br />
+    <table>
+        <tr>
+            <th colspan="4">
+                Credenciales de la firma electrónica
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <br />
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">Usuario</td>
+            <td width="20%">
+                <input type="text" id="FirmaElectronicaUsuario" name="FirmaElectronicaUsuario" value="" />
+            </td>
+            <td width="20%">Password</td>
+            <td width="20%">
+                <input type="password" id="FirmaElectronicaPassword" name="FirmaElectronicaPassword" value="" />
+            </td>
+        </tr>
+    </table>
+    <br />
+
+    <table>
+        <tr>
+            <td>
+                @if (ViewBag.Firmado == false)
+                {
+                    if (ViewBag.Owner == 1)
+                    {
+                        <input type="button" id="EvaluacionTecnicos" name="EvaluacionTecnicos" value="Visualizar" onclick="GenerarDocumentoEvaluacion()" />
+                    }
+                }
+                else
+                {
+
+                    <label>&nbsp;&nbsp;&nbsp;</label>
+                    <a href="~/Archivos_ConFirmaElectronica/@ViewBag.NombreArchivo" target="_blank">Visualizar Archivo firmado</a>
+                    <label>&nbsp;&nbsp;&nbsp;</label>
+                }
+            </td>
+            <td>
+                <button class="btn btn-success" id="btnFirmarDocumento" name="btnFirmarDocumento" onclick="FirmarDocumento()" style="display:none;">Firmar formulario</button>
+            </td>
+            <td>
+
+                <button class="btn btn-secondary" id="btnSalir" name="btnSalir" onclick="location.href='@Url.Action("Edit", "Gest_EtapaSolicitud", new { solicitud_id = Model.Solicitud_id, etapa_id = ViewBag.etapa_id, etaparuta_id = ViewBag.etaparuta_id, correlativoetapa_id = ViewBag.correlativoetapa_id })'">Cerrar</button>
+
+            </td>
+        </tr>
+    </table>
+
+
+    <input type="hidden" id="Pagina" name="Pagina" value="">
+    <input type="hidden" id="Titulo" name="Titulo" value="">
+
+    <div class="container mt-3">
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" width: 700px;>
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Modal Header</h4>
+                        <button type="button" id="btnHideModal" class="btn btn-default">
+                            X
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>The <strong>show.bs.modal</strong>FFFF</p>
+                    </div>
+                    <div id="DatosPersonerias">
+                        <br />
+                        <br />
+                        <br />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnHideModal_Close" class="btn btn-default">
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //Se utiliza para llamar las ubicaciones cuando se ha creado una nueva.
+    function RefrescarVista(strVista) {
+        $('#ViewIntecnova').load(strVista)
+        mostrarMenuLateral()
+    }
+
+    $(document).ready(function () {
+        var myPreguntas = document.getElementById('div_Preguntas');
+        if (myPreguntas) {
+            $('#div_Preguntas').load("/Form_FormularioTecnico/GenerarPreguntas?Solicitud_id=@Model.Solicitud_id&Categoria_id=@Model.Categoria_id&Sub_Categoria_id=@Model.Sub_Categoria_id")
+        }
+        var myPonderacionEvaluacionTecnico = document.getElementById('div_PonderacionEvaluacionTecnico');
+        if (myPonderacionEvaluacionTecnico) {
+            $('#div_PonderacionEvaluacionTecnico').load("/Form_FormularioTecnico/PonderacionEvaluacionTecnico?Guid_id=@Model.Guid_id")
+        }
+    });
+
+    let Pregunta_id = 0;
+    let Respuesta_id = 0;
+    let Observaciones = null;
+    let pregunta_id = 0;
+    let respuesta_id = 0;
+    let observaciones_ = null;
+    let preguntarespuesta = [];
+
+    function alertapregunta_  (preguntaid, respuestaid)  {
+
+        Pregunta_id = preguntaid;
+        Respuesta_id = respuestaid;
+        var habilitarobs = document.getElementById("Observaciones_" + preguntaid);
+        habilitarobs.disabled = false;
+        Observaciones = $("#Observaciones_" + preguntaid).prop("value");
+        //alert('Pregunta ID: ' + Pregunta_id + ' Respuesta ID: ' + Respuesta_id + ' Observaciones: ' + Observaciones);
+        AgregarRespuestas(Pregunta_id, Respuesta_id, Observaciones);
+    }
+
+    function alertaobservaciones_(preguntaid)
+    {
+        Pregunta_id = preguntaid;
+        Respuesta_id = $('input:radio[name=_'+preguntaid+']:checked').val()
+        Observaciones = $("#Observaciones_" + preguntaid).prop("value");
+        //alert('Pregunta ID: ' + Pregunta_id + ' Respuesta ID: ' + Respuesta_id + ' Observaciones: ' + Observaciones);
+        AgregarRespuestas(Pregunta_id, Respuesta_id, Observaciones);
+    }
+
+
+    function AgregarRespuestas(Pregunta_id, Respuesta_id, Observaciones) {
+    var url = "@Url.Action("AgregarPreguntasRespuestas", "Form_FormularioTecnico")";
+        var data = {
+            Solicitud_id: @Model.Solicitud_id,
+            Categoria_id: @Model.Categoria_id,
+            Sub_Categoria_id: @Model.Sub_Categoria_id,
+            Pregunta_id: Pregunta_id,
+            Respuesta_id: Respuesta_id,
+            Observaciones: Observaciones,
+            swcreatedby: @objUs.intUsuario_id,
+            swcreatedbyinterno: @objUs.EsInterno
+        };
+    $.post(url, data).done(function (Listdata) {
+    //  here inicio
+    });
+    }
+
+
+</script>
+

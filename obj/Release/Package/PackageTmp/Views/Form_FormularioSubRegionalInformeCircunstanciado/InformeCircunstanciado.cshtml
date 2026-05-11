@@ -1,0 +1,117 @@
+﻿@using RNF_Web.Models;
+@using System.Data.SqlClient;
+@{
+    Layout = null;
+    string GuidEtapa_id = ViewBag.GuidEtapa_id;
+    string Guid_id = ViewBag.Guid_id;
+    int etapa_id = ViewBag.etapa_id;
+    decimal etaparuta_id = ViewBag.etaparuta_id;
+    int correlativoetapa_id = ViewBag.correlativoetapa_id;
+}
+<style>
+    body {
+        font-family: Arial;
+    }
+
+    /* Style the tab */
+    .tab {
+        overflow: hidden;
+    }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+        }
+
+            /* Change background color of buttons on hover */
+            .tab button:hover {
+                background-color: #ddd;
+            }
+
+            /* Create an active/current tablink class */
+            .tab button.active {
+                background-color: forestgreen;
+                color: white;
+            }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        -webkit-animation: fadeEffect 1s;
+        animation: fadeEffect 1s;
+    }
+</style>
+
+
+
+<div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'InformeCircunstanciado')" id="defaultOpen">Informe Circunstanciado</button>
+    <button class="tablinks" onclick="openCity(event, 'Historial')">Historial</button>
+</div>
+
+
+
+
+<div id="InformeCircunstanciado" class="tabcontent">
+    <div id="div_InformeCircunstanciado"></div>
+</div>
+
+<div id="Historial" class="tabcontent">
+    <br />
+    <div id="CurrentHistorial"></div>
+</div>
+
+
+<script>
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+</script>
+
+
+
+
+<script>
+
+
+    $(document).ready(function () {
+        var CurrentHistorial = document.getElementById("CurrentHistorial");
+
+        if (CurrentHistorial) {
+            $("#CurrentHistorial").load("/Gest_EtapaSolicitud/Historial?Guid_id=@ViewBag.Guid_id&Layout=No");
+        }
+
+        var myAnalisis = document.getElementById("div_InformeCircunstanciado");
+
+        if (myAnalisis) {
+            $("#div_InformeCircunstanciado").load("/Form_FormularioSubRegionalInformeCircunstanciado/InformeCircunstanciado_Generar?Guid_id=@Guid_id&GuidEtapa_id=@GuidEtapa_id&etapa_id=@etapa_id&etaparuta_id=@etaparuta_id&correlativoetapa_id=@correlativoetapa_id");
+        }
+
+
+    })
+
+
+
+</script>
+

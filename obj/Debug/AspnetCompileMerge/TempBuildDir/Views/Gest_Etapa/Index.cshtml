@@ -1,0 +1,133 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Gest_Etapa>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@{
+    ViewBag.Title = "   Etapa";
+
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+}
+
+
+
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-1 col-md-1 col-sm-1">
+
+                <table>
+                    <tr>
+                        <td>
+                            <button rel="tooltip" title="Regresar" onclick="location.href='@Url.Action("Index", "Gest_EtapaRuta")'">
+                                <i><img src="~/Content/icons/regresar.png" style="border-radius: 30%; width: 40px; height: auto" /></i>
+                                <div class="ripple-container"></div>
+                                Regresar
+                            </button>
+
+
+
+                        </td>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </td>
+                        <td>
+                            <button rel="tooltip" title="Agregar" onclick="location.href='@Url.Action("Create", "Gest_Etapa", new {rutaid = ViewBag.rutaid } )'">
+                                <i><img src="~/Content/icons/add_simple.png" style="border-radius: 30%; width: 35px; height: auto" /></i>
+                                <div class="ripple-container"></div>
+                                Agregar
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+
+                <div class="card">
+                    <div class="card-header" data-background-color="blue">
+                        <h4 class="title">Etapas</h4>
+                        <h3> Etapas para la atención a solicitud &nbsp;&nbsp;@ViewBag.NombreRuta</h3>
+                    </div>
+
+
+                    <table class="table">
+                        <tr>
+                            <th>
+                                Id
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Nombre_Etapa)
+                            </th>
+                            <th>
+                                Puesto encargado de esta estapa
+                            </th>
+                            <th>Etapa inicial</th>
+                            <th>No puede procesarse si tiene <br /> una etapa anterior activa en proceso</th>
+                            <th>Respuesta explicita</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Etapa_id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Nombre_Etapa)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Tbl_Seg_Rol.Nombre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EtapaInicialRuta)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RevisarQueNoExistanEtapasPreviasActivas)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Respuesta_Explicita)
+                                </td>
+                                <td>
+                                    <button rel="tooltip" title="Regresar" onclick="location.href='@Url.Action("Index", "Gest_Etapa_Respuesta", new { Etapaid = item.Etapa_id, EtapaRutaid = item.EtapaRuta_id } )'">
+                                        <i><img src="~/Content/icons/ruta.png" style="border-radius: 30%; width: 40px; height: auto" /></i>
+                                        <div class="ripple-container"></div>
+                                        Respuestas
+                                    </button>
+                                </td>
+                                <td>
+                                    <button rel="tooltip" title="Regresar" onclick="location.href='@Url.Action("TodoList", "Gest_Etapa", new { Etapaid = item.Etapa_id, EtapaRutaid = item.EtapaRuta_id } )'">
+                                        <i><img src="~/Content/icons/Solicitudes.png" style="border-radius: 30%; width: 35px; height: auto" /></i>
+                                        <div class="ripple-container"></div>
+                                        Check list
+                                    </button>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    <button rel="tooltip" title="Regresar" onclick="location.href='@Url.Action("ConfigurarEtapa", "Gest_Etapa", new { etapaid = item.Etapa_id, EtapaRutaid = item.EtapaRuta_id } )'">
+                                        <i><img src="~/Content/icons/edit-9-xxl.png" style="border-radius: 30%; width: 35px; height: auto" /></i>
+                                        <div class="ripple-container"></div>
+                                        Editar
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

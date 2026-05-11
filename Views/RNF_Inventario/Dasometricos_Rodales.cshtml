@@ -1,0 +1,37 @@
+﻿@using RNF_Web.Models;
+@model List<Tbl_RNF_Rodal>
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+@*<script src="~/Content/assets/js/jquery.min.js"></script>*@
+
+
+@foreach (var item in Model)
+{
+    <div id="div_RNF_InventarioFincaRodal_1_@item.Rodal_Id"></div>
+    <div id="div_RNF_InventarioFincaRodal_2_@item.Rodal_Id"></div>
+    <div id="div_RNF_InventarioFincaRodal_3_@item.Rodal_Id"></div>
+
+    <script>
+        $(document).ready(function () {
+            var myFincaRodal_1 = document.getElementById('div_RNF_InventarioFincaRodal_1_@item.Rodal_Id');
+            if (myFincaRodal_1) {
+                $('#div_RNF_InventarioFincaRodal_1_@item.Rodal_Id').load("/RNF_Inventario/Dasometricos_Clase?No_Registro=@item.No_Registro&Finca_Id=@item.Finca_id&Rodal_id=@item.Rodal_Id&Clase_id=1");
+            }
+            var myFincaRodal_2 = document.getElementById('div_RNF_InventarioFincaRodal_2_@item.Rodal_Id');
+            if (myFincaRodal_2) {
+                $('#div_RNF_InventarioFincaRodal_2_@item.Rodal_Id').load("/RNF_Inventario/Dasometricos_Clase?No_Registro=@item.No_Registro&Finca_Id=@item.Finca_id&Rodal_id=@item.Rodal_Id&Clase_id=2");
+            }
+            var myFincaRodal_3 = document.getElementById('div_RNF_InventarioFincaRodal_3_@item.Rodal_Id');
+            if (myFincaRodal_3) {
+                $('#div_RNF_InventarioFincaRodal_3_@item.Rodal_Id').load("/RNF_Inventario/Dasometricos_Clase?No_Registro=@item.No_Registro&Finca_Id=@item.Finca_id&Rodal_id=@item.Rodal_Id&Clase_id=3");
+            }
+        });
+    </script>
+}
+
+
+
+
+

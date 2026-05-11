@@ -1,0 +1,177 @@
+﻿@using RNF_Web.Models;
+@model Tbl_EncResp_Encuesta_Documento
+@{
+    Layout = null;//"~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+<table>
+    <tr>
+        <td>
+            <label>
+                <label for="uploadDocumento" id="upfileuploadDocumento" class="btn-next-ic">&nbsp;&nbsp;&nbsp;&nbsp;Seleccionar archivo&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <input type="file" id="uploadDocumento" name="uploadDocumento" accept=".png, .jpg, .bmp" style="display:none">
+            </label>
+        </td>
+        <td>
+            <span id="nombre_Documento"></span>
+            <br />
+            <input type="button" id="btsubirDocumento" class="btn btn-primary btn-outlined" width="100%"
+                   value="Subir archivo" style="display:none" />
+        </td>
+    </tr>
+    <tr>
+    </tr>
+</table>
+
+<div id="div_GestEncuesta_Documento"></div>
+@*<div id="div_FirmarEncuesta"></div>*@
+
+<script>
+    var ArchivoDocumento = ($("#uploadDocumento"))[0].files[0];
+    $(function () {
+
+        $("#uploadDocumento").change(function () {
+            ArchivoDocumento = ($("#uploadDocumento"))[0].files[0];
+            console.log(ArchivoDocumento);
+            document.getElementById("nombre_Documento").innerHTML = ArchivoDocumento.name;
+            var botonSubir = document.getElementById("btsubirDocumento");
+            botonSubir.style.display = "block";
+
+            if ((ArchivoDocumento != "") && (ArchivoDocumento != null)) {
+                botonSubir.classList.add("btn-primary");
+                botonSubir.disabled = false;
+            } else {
+                botonSubir.classList.remove("btn-primary");
+                botonSubir.disabled = true;
+            }
+        })
+
+
+        $("#btsubirDocumento").click(function () {
+            loaderPantalla(true);
+            setTimeout(function () {
+
+                ArchivoDocumento = ($("#uploadDocumento"))[0].files[0];
+                var Archivoext = document.getElementById("uploadDocumento").value;
+                console.log(ArchivoDocumento);
+                var extension = Archivoext.substr((Archivoext.lastIndexOf(".") + 1 - Archivoext.length));
+                extension = extension.toLowerCase();
+
+                console.log(extension);
+
+                if ((extension != "jpg") && (extension != "bmp") && (extension != "png")) {
+                    loaderPantalla(false);
+                    alert('El archivo no es un formato de imagen permitido, use solamente las opciones permitidas');
+                    return;
+                }
+
+                var formData = new FormData();
+
+                function adjuntarDocumento() {
+                    formData.append("upload", ArchivoDocumento);
+                    formData.append("id_encuesta", '@Model.id_encuesta');
+                    formData.append("id_Correlativo", '@Model.id_Correlativo');
+                    formData.append("id_pregunta", '@Model.id_pregunta');
+                    formData.append("swcreatedby", '@Model.swcreatedby');
+                    $.ajax({
+                        url: "../@controllerName/ArchivoAgregar",
+                        type: "POST",
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        async: false,
+                        success: function (data) {
+                            loaderPantalla(false);
+                            refreshPartialEncuestaDocumento();
+                        },
+                        error: function (data) {
+                            console.log(data);
+                            loaderPantalla(false);
+                            alert(data);
+                        }
+                    });
+
+                }
+
+                if (ArchivoDocumento != null) {
+                    adjuntarDocumento();
+                } else {
+                    alert("No se ha seleccionado ningún archivo");
+                }
+
+
+            }, 2000);
+
+
+
+        })
+    })
+
+
+    function eliminarEtapaSolicitudDocumento(id_encuesta, swcreatedby, id_Correlativo, id_pregunta, id_CorrelativoDocumento) {
+
+        var data = {
+            id_encuesta: id_encuesta,
+            swcreatedby: swcreatedby,
+            id_Correlativo: id_Correlativo,
+            id_pregunta: id_pregunta,
+            id_CorrelativoDocumento: id_CorrelativoDocumento
+        };
+
+        var url = '@Url.Action("ArchivoEliminar", controllerName)';
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            var oJSON = RespuestaJSON;
+            var Result = oJSON.Result;
+            var Mensaje = oJSON.Result;
+            if (Result == 1) {
+                refreshPartialEncuestaDocumento();
+            } else {
+                alert(Mensaje);
+            }
+
+        }).fail(function (ErrorJSON) {
+            console.log(ErrorJSON);
+            alert(ErrorJSON);
+        });
+
+    }
+
+
+    function archivoEncuestaDownload(filehref,filename) {
+
+        var element = document.createElement('a');
+        element.setAttribute('href', filehref);
+        element.setAttribute('download',  filename);
+        document.body.appendChild(element);
+        element.click();
+        //document.body.removeChild(element);
+    }
+
+
+
+
+    function refreshPartialEncuestaDocumento() {
+        var div_GestEncuesta_Documento = document.getElementById('div_GestEncuesta_Documento');
+        var div_FirmarEncuesta = document.getElementById('div_FirmarEncuesta');
+        if (div_GestEncuesta_Documento) {
+            $('#div_GestEncuesta_Documento').load('/@controllerName/ArchivosSubidos?id_encuesta=@Model.id_encuesta&swcreatedby=@Model.swcreatedby&id_Correlativo=@Model.id_Correlativo&id_pregunta=@Model.id_pregunta');
+        }
+        if (div_FirmarEncuesta) {
+            $('#div_FirmarEncuesta').load('/EncResp_EncuestaConstancia/FirmarEncuesta?id_encuesta=@Model.id_encuesta&swcreatedby=@Model.swcreatedby&id_Correlativo=@Model.id_Correlativo');
+        }
+
+    }
+
+    $(document).ready(function () {
+        refreshPartialEncuestaDocumento();
+    });
+
+
+</script>

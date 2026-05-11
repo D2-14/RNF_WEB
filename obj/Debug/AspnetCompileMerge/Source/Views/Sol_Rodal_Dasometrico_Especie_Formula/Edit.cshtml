@@ -1,0 +1,120 @@
+﻿@model RNF_Web.Models.Tbl_Sol_Rodal_Dasometrico_Especie_Formula
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+<script src="~/Scripts/jquery-3.6.0.js"></script>
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        $(document).on('change', '#Especie_id', function () {
+
+            var url = "@Url.Action("GetFormulas", "Sol_Rodal_Dasometrico_Especie_Formula")";
+            var varEspecie = $('#Especie_id').val();
+            var data = { especie_id: varEspecie};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#RodalDasometricoEspecieFormula_Id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, formula) {
+                    select.append($('<option/>', {
+                        value: formula.Value,
+                        text: formula.Text
+                    }));
+
+                });
+
+                var strFormula = $('#RodalDasometricoEspecieFormula_Id').children("option:selected").text();
+
+                $('#strFormulario').val(strFormula);
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+
+
+        }); // -----Fin de Change Especie_id
+
+        $(document).on('change', '#RodalDasometricoEspecieFormula_Id', function () {
+            var strFormula = $('#RodalDasometricoEspecieFormula_Id').children("option:selected").text();
+
+            $('#strFormulario').val(strFormula);
+        });
+
+    });
+</script>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container-fluid">
+        <div class="titulo-dos">
+            <h3>Datos de las formulas utilizadas </h3>
+        </div>
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Solicitud_id)
+
+        <table class="table">
+            <tr>
+                <td width="50%">
+                    @Html.LabelFor(model => model.Especie_id, "Especie", htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-12">
+                        @Html.DropDownList("Especie_id", null, htmlAttributes: new { @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.Especie_id, "", new { @class = "text-danger" })
+                    </div>
+                </td>
+                <td width="50%">
+                    <br />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.RodalDasometricoEspecieFormula_Id, "Formula", htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-12">
+                        @Html.DropDownList("RodalDasometricoEspecieFormula_Id", null, htmlAttributes: new { @class = "form-select", @style = "width: 300px;max-width: 300px;" })
+                        @Html.ValidationMessageFor(model => model.RodalDasometricoEspecieFormula_Id, "", new { @class = "text-danger" })
+                    </div>
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.strFormulario, "Formula utilizada en el calculo", htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-12">
+                        @Html.TextAreaFor(model => model.strFormulario, 2, 50, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.strFormulario, "", new { @class = "text-danger" })
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Editar si es necesario.</td>
+            </tr>
+        </table>
+
+
+
+        <div class="col-sm-12 col-md-12" align="right">
+            <h4>@ViewBag.Mensaje</h4>
+            <input type="submit" value="Actualizar" class="btn-next" />
+        </div>
+
+    </div>
+}
+
+

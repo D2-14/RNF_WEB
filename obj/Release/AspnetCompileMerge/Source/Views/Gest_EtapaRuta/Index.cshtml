@@ -1,0 +1,111 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Gest_EtapaRuta>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@{
+    ViewBag.Title = "   Home page";
+
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+}
+
+
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-1 col-md-1 col-sm-1">
+                <button rel="tooltip" title="Regresar" onclick="location.href='@Url.Action("Index", "Main")'">
+                    <i><img src="~/Content/icons/regresar.png" style="border-radius: 30%; width: 35px; height: auto" /></i>
+                    <div class="ripple-container"></div>
+                    Regresar
+                </button>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+
+                <div class="card">
+                    <div class="card-header" data-background-color="blue">
+                        <h4 class="title">Rutas</h4>
+                        <p class="category">Rutas de atención a solicitud</p>
+                    </div>
+
+                    <table class="table table-hover">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.EtapaRuta_id)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Descripcion)
+                            </th>
+                            <th>
+                                Etapas
+                            </th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EtapaRuta_id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Descripcion)
+                                </td>
+
+                                <td>
+                                    <button rel="tooltip" title="Regresar" onclick="location.href='@Url.Action("Index", "Gest_Etapa", new { rutaid = item.EtapaRuta_id })'">
+                                        <i><img src="~/Content/icons/Etapas.png" style="border-radius: 30%; width: 35px; height: auto" /></i>
+                                        <div class="ripple-container"></div>
+                                        Etapas
+                                    </button>
+
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                    <br />
+                    <br />
+
+                    @using (Html.BeginForm("Create", "Gest_EtapaRuta", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <table>
+                            <tr>
+                                <th>
+                                    Agregar nueva ruta
+                                </th>
+                            </tr>
+                            <tr>
+                                <td><br /></td>
+                            </tr>
+                            <tr>
+                                <td>Código:</td>
+                                <td>
+                                    <input type="text" name="R_NewCodigo">
+                                </td>
+                                <td>Nombre:</td>
+                                <td>
+                                    <input type="text" name="R_NewNombre">
+                                </td>
+                                <td>
+                                    <input type="submit" value="Agregar" class="btn btn-primary" />
+                                </td>
+                            </tr>
+                        </table>
+
+                    }
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,129 @@
+﻿@model RNF_Web.Models.Tbl_Gral_Maquinaria_Utilizada
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    Layout = null;
+    ViewBag.Title = "Maquinaria Utilizada";
+    ViewBag.SubTitle = "Ingresar maquinaria utilizada";
+    db_RNFEntities db = new db_RNFEntities();
+    string No_Registro = ViewBag.No_Registro;
+    Tbl_RNF_Registro tbl_RNF_Registro = db.Tbl_RNF_Registro.Where(Obj => Obj.No_Registro == No_Registro).FirstOrDefault();
+
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+
+    EdicionRNFGrants objRNFGrants = (EdicionRNFGrants)Session[Constants.session_EdicionRNFGrants];
+
+}
+
+
+
+
+<script>
+
+    function refreshPartialMaquinariaUtiliizada() {
+
+        $('#listadoMaquinariaUtilizada').load('/RNF_Empresa_Entidad_MaquinariaUtilizada/Index?No_Registro=@No_Registro');
+
+    }
+
+    $(document).ready(function () {
+
+        refreshPartialMaquinariaUtiliizada();
+
+    });
+
+    function AgregarMaquinariaUtilizada()
+    {
+
+        var url = "@Url.Action("AgregarMaquinariaUtilizada", "RNF_Empresa_Entidad_MaquinariaUtilizada")";
+        var No_Registro = '@No_Registro';
+        var MaquinariaUtilizadaId = $('#lstMaquinariaUtilizada').val();
+
+        var data = {
+            No_Registro: No_Registro,
+            MaquinariaUtilizadaId: MaquinariaUtilizadaId
+        };
+
+        $.post(url, data).done(function (jsonRespuesta) {
+
+            var objJSON = JSON.parse(jsonRespuesta);
+            var Cod_Respuesta = objJSON.CodRespuesta;
+            var Texto_Respuesta = objJSON.strRespuesta;
+
+            refreshPartialMaquinariaUtiliizada();
+
+        }).fail(function (jsonRespuesta) {
+            refreshPartialMaquinariaUtiliizada();
+        });
+    }
+
+    function Borrar_MaquinariaUtilizada(No_Registro, MaquinariaUtilizadaId)
+    {
+        var url = "@Url.Action("EliminarMaquinariaUtilizada", "RNF_Empresa_Entidad_MaquinariaUtilizada")";
+
+        var data = {
+            No_Registro: No_Registro,
+            MaquinariaUtilizadaId: MaquinariaUtilizadaId
+        };
+
+        $.post(url, data).done(function (jsonRespuesta) {
+
+            var objJSON = JSON.parse(jsonRespuesta);
+            var Cod_Respuesta = objJSON.CodRespuesta;
+            var Texto_Respuesta = objJSON.strRespuesta;
+
+            refreshPartialMaquinariaUtiliizada();
+
+        }).fail(function (jsonRespuesta) {
+            refreshPartialMaquinariaUtiliizada();
+        });
+
+    }
+
+
+</script>
+
+<br />
+<div style='height: 30px; width: 100%; background-color: #66bb6a; color: white; '>
+    <h4>Listado de Maquinaria Utilizada</h4>
+</div>
+
+@if (objRNFGrants.Agregar)
+{
+    <table width="100%">
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Nombres_Comunes, "Maquinaria Utilizada", htmlAttributes: new { @class = "control-label col-md-12" })
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DropDownList("lstMaquinariaUtilizada", null, htmlAttributes: new { @class = "form-select" })
+            </td>
+
+            <td>
+                <input type="button" class="btn-success" value="Agregar" onclick="AgregarMaquinariaUtilizada()" />
+            </td>
+
+        </tr>
+        <tr>
+            <td></td>
+            <td> <label id="lblMensaje" name="lblMensaje" /></td>
+        </tr>
+    </table>
+}
+
+<div id="listadoMaquinariaUtilizada" name="listadoMaquinariaUtilizada" />
+<hr />
+

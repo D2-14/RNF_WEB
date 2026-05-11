@@ -1,0 +1,313 @@
+﻿@model RNF_Web.Models.Tbl_Gral_SubRegion
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    ViewBag.Title = "Sub Region";
+    ViewBag.SubTitle = "Crear nueva Sub Region";
+    string check = "checked";
+
+}
+
+
+
+<script>
+
+
+    function GrabarSubRegion() {
+
+        var varestado_id = document.querySelector('#Chk_Estado_id');
+
+        var varregion_id = $('#Region_id').val();
+        var varsubregion_id = $('#SubRegion_id').val();
+
+        var varno_subregion = $('#No_SubRegion').val();
+
+        var varnombre_subregion = $('#Nombre_SubRegion').val();
+        var varid_rnf_s = $('#Id_RNF_S').val();
+
+
+        var vardireccion = $('#Direccion').val();
+        var vardepartamentoSubRegion_id = $('#DepartamentoSubRegion_id').val();
+        var varmunicipioSubRegion_id = $('#MunicipioSubRegion_id').val();
+        var vartelefono = $('#Telefono').val();
+
+        var varestado = varestado_id.checked;
+
+        var url = "@Url.Action("GrabarSubRegion", "Gral_SubRegion")";
+
+        var data = { Region_id: varregion_id, SubRegion_id: varsubregion_id, No_SubRegion: varno_subregion, Nombre_SubRegion: varnombre_subregion, Id_RNF_S: varid_rnf_s, Direccion: vardireccion, DepartamentoSubRegion_id: vardepartamentoSubRegion_id, MunicipioSubRegion_id: varmunicipioSubRegion_id, Telefono: vartelefono, Estado_id: varestado };
+    //       , Direccion: vardireccion, DepartamentoSubRegion_id: vardepartamentoSubRegion_id, MunicipioSubRegion_id: varmunicipioSubRegion_id, Telefono: vartelefono, Estado_id: varestado
+    //};
+
+
+        $.post(url, data).done(function (Listdata) {
+        var objJSON = JSON.parse(Listdata);
+        var Cod_Respuesta = objJSON.CodRespuesta;
+        var Texto_Respuesta = objJSON.strRespuesta;
+
+        if (Cod_Respuesta == 0) {
+        $('#lblMensaje').text(Texto_Respuesta);
+        } else if (Cod_Respuesta == 1) {
+        alert(Texto_Respuesta);
+        }
+
+        }).fail(manejarErrorAjax).always(function () {
+        alert('Error no identificado.');
+        });
+
+        }
+
+
+        </script>
+
+
+        @Html.Partial("_PartialPageEncabezado")
+
+        <button class="btn-secondary" style="position: absolute; right: 0;" rel="tooltip" title="Regresar" onclick="location.href='@Url.Action("Edit", "Gral_Region",new { id = Model.Region_id } )'">
+            <i><img src="~/Content/icons/regresar.png" style="border-radius: 30%; width: 35px; height: auto" /></i>
+            <div class="ripple-container"></div>
+        </button>
+
+        <br />
+        <br />
+
+        <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+
+            <div class="container">
+
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                @Html.HiddenFor(model => model.Region_id)
+                @Html.HiddenFor(model => model.SubRegion_id)
+
+                @Html.HiddenFor(model => model.swcreatedby)
+                @Html.HiddenFor(model => model.swdatecreated)
+                @Html.HiddenFor(model => model.swcreatedbyinterno)
+
+                @Html.HiddenFor(model => model.swdateupdated)
+                @Html.HiddenFor(model => model.swupdatedby)
+                @Html.HiddenFor(model => model.swupdatedbyinterno)
+
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.No_SubRegion, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.No_SubRegion, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.No_SubRegion, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Nombre_SubRegion, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Nombre_SubRegion, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Nombre_SubRegion, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Id_RNF_S, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Id_RNF_S, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Id_RNF_S, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Estado_id, "Estado", htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-10">
+                                <label class="switch">
+                                    <input type="checkbox" id="Chk_Estado_id" name="Chk_Estado_id" @if ((bool)Model.Estado_id) { @check }>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Direccion, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.Direccion, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        @Html.LabelFor(model => model.DepartamentoSubRegion_id, "Departamento", htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("DepartamentoSubRegion_id", null, htmlAttributes: new { @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.DepartamentoSubRegion_id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        @Html.LabelFor(model => model.MunicipioSubRegion_id, "Municipio", htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("MunicipioSubRegion_id", null, htmlAttributes: new { @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.MunicipioSubRegion_id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <br />
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                        <label class="text-danger" id="lblMensaje"></label>
+                        <br />
+                        <input type="button" value="Guardar cambios" class="btn btn-success btn-fab btn-round" onclick="GrabarSubRegion()" />
+                    </div>
+                </div>
+
+            </div>
+       
+
+        @Html.Partial("_PartialPageEncabezadoCierre")
+
+
+
+        <script>
+
+    $(document).ready(function () {
+
+           $(document).on('change', '#DepartamentoSubRegion_id', function () {
+            var url = "@Url.Action("GetMunicipios", "Sol_Solicitud")";
+            var Departamento = $('#DepartamentoSubRegion_id').val();
+            var data = { Departamento: Departamento};
+
+                $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#MunicipioSubRegion_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text: municipio.Text
+                    }));
+
+                });
+
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+    });
+
+        </script>
+
+
+        <style>
+            .switch {
+                position: relative;
+                display: inline-block;
+                width: 60px;
+                height: 34px;
+            }
+
+                .switch input {
+                    opacity: 0;
+                    width: 0;
+                    height: 0;
+                }
+
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+                .slider:before {
+                    position: absolute;
+                    content: "";
+                    height: 26px;
+                    width: 26px;
+                    left: 4px;
+                    bottom: 4px;
+                    background-color: white;
+                    -webkit-transition: .4s;
+                    transition: .4s;
+                }
+
+            input:checked + .slider {
+                background-color: #2196F3;
+            }
+
+            input:focus + .slider {
+                box-shadow: 0 0 1px #2196F3;
+            }
+
+            input:checked + .slider:before {
+                -webkit-transform: translateX(26px);
+                -ms-transform: translateX(26px);
+                transform: translateX(26px);
+            }
+
+            /* Rounded sliders */
+            .slider.round {
+                border-radius: 34px;
+            }
+
+                .slider.round:before {
+                    border-radius: 50%;
+                }
+        </style>

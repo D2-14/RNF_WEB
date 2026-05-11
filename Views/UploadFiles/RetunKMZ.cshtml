@@ -1,0 +1,60 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+@{
+    Layout = null;
+}
+
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>How to Create and Save text file in JavaScript</title>
+
+    <script src="~/Scripts/FileSaver.js"></script>
+    <script>
+
+        function saveDynamicDataToFile() {
+            var fileName = document.getElementById("filename").value;
+            var userInput = document.getElementById("myText").value;
+
+            var blob = new Blob([userInput], { type: "text/plain;charset=utf-8" });
+            saveAs(blob, fileName);
+        }
+
+    </script>
+</head>
+<body>
+
+    <img src="~/Content/images/bannerlogo.png" width="10%" style="position: absolute; top: 25px; left: 25px; " />
+
+    <table width="100%" background="/Content/images/wov_.png">
+        <tr>
+            <td width="15%">
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+            </td>
+            <td width="30%">
+                <h1>Generador de archivo KML</h1>
+            </td>
+            <td width="60%">
+            </td>
+        </tr>
+    </table>
+    <br />
+    <textarea id="myText" rows="30" style="min-width:500px;max-width:100%;width:100%;">@ViewBag.KLM</textarea>
+    <br />
+    <input type="text" size="50" name="filename" id="filename" value="@ViewBag.FileName" placeholder="File Name">
+    <button type="button" onclick="saveDynamicDataToFile();">Grabar archivo KML</button>
+
+</body>
+</html>

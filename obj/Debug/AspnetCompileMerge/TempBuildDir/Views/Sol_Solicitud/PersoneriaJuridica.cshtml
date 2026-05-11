@@ -1,0 +1,71 @@
+﻿@model RNF_Web.Models.Tbl_Sol_Solicitud
+@using RNF_Web.Models;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<div class="form-group">
+    @Html.LabelFor(model => model.PersoneriaTipo_id, "Tipo de Personería", htmlAttributes: new { @class = "control-label col-md-12" })
+    <div class="col-md-10">
+        @Html.DropDownList("PersoneriaTipo_id", null, htmlAttributes: new { @class = "form-select" })
+        @Html.ValidationMessageFor(model => model.PersoneriaTipo_id, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div id="DatosPersonerias">
+    <br />
+    <br />
+    <br />
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        var id = $("#PersoneriaTipo_id").val();
+
+        if (id == '1') {
+            //alert('Individual')
+            $('#DatosPersoneria').load('/Sol_PropietarioPersonaIndividual/Create')
+        }
+
+        if (id == '2') {
+            //alert('Juridica')
+            $('#DatosPersoneria').load('/Sol_PropietarioPersonaJuridica/Create')
+        }
+
+        if (id == '0') {
+            //alert('No definido')
+        }
+
+
+    });
+
+
+    $("#PersoneriaTipo_id").on("change", function () {
+        var id = $(this).val();
+
+        if (id == '1') {
+            //  alert('Individual')
+            //
+            $('#DatosPersoneria').load('/Sol_PropietarioPersonaIndividual/Create')
+
+        }
+
+        if (id == '2') {
+            //alert('Juridica')
+            $('#DatosPersoneria').load('/Sol_PropietarioPersonaJuridica/Create')
+        }
+
+        if (id == '0') {
+            //alert('No definido')
+        }
+
+    });
+
+
+</script>
+
+

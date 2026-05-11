@@ -1,0 +1,22 @@
+﻿<link href="~/Content/assets_section/style.css" rel="stylesheet" />
+
+
+<div class="wizard-page-content">
+
+    <div class="wizard-v10-content">
+        <div class="wizard-form">
+            <div class="wizard-header">
+                <h3>@ViewBag.Title</h3>
+                @if (@ViewBag.SubTitle!=null)
+                { 
+                <h4 style="color:white;">@ViewBag.SubTitle</h4>
+                }
+                @if (ViewBag.Mensaje!=null)
+                {<p style="color:red;">@ViewBag.Mensaje</p> }
+             </div>
+            <div class="container">
+
+                <div class="col-md-12">
+                    <div class="card mb-4 border-0">
+
+                        <div class="card-content">

@@ -1,0 +1,160 @@
+﻿@model RNF_Web.Models.Tbl_Gral_Especie
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutSimple.cshtml";
+}
+
+<script src="~/Scripts/jquery-3.6.0.js"></script>
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+
+        $(document).on('change', '#Latifoliada', function () {
+            const Latifoliada = document.querySelector('#Latifoliada');
+            const Conifera = document.querySelector('#Conifera');
+
+            var blconifera;
+            if (Latifoliada.checked = true) { Conifera.checked = false; }
+            else { Conifera.checked = true; }
+
+        }); // -----Fin de Change Grado_Academico_Tecnico
+
+        $(document).on('change', '#Conifera', function () {
+            const Latifoliada = document.querySelector('#Latifoliada');
+            const Conifera = document.querySelector('#Conifera');
+
+            if (Conifera.checked = true) { Latifoliada.checked = false; }
+            else { Latifoliada.checked = true; }
+
+
+        }); // -----Fin de Change Grado_Academico_Tecnico
+
+
+    });
+
+</script>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.swcreatedby)
+    @Html.HiddenFor(model => model.swdatecreated)
+    @Html.HiddenFor(model => model.swcreatedbyinterno)
+    @Html.HiddenFor(model => model.swcreatedbyinterno)
+    @Html.HiddenFor(model => model.swcreatedbyinterno)
+
+
+
+
+    <div class="titulo-dos">
+        <h4>Datos de la especie</h4>
+    </div>
+
+
+    <table class="table table-condensed">
+        <tr>
+            <td>Código</td>
+            <td>
+                @Html.EditorFor(model => model.Especie_Id, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Especie_Id, "", new { @class = "text-danger" })
+
+            </td>
+            <td>Id</td>
+            <td>
+                @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Id, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+
+        <tr>
+            <td>Especie</td>
+            <td>
+                @Html.EditorFor(model => model.Especie_Id, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Especie_Id, "", new { @class = "text-danger" })
+            </td>
+            <td>Nombre científico</td>
+            <td>
+                @Html.EditorFor(model => model.NombreCientifico, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NombreCientifico, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+        <tr>
+            <td>Nombres comunes</td>
+            <td>
+                @Html.EditorFor(model => model.NombresComunes, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NombresComunes, "", new { @class = "text-danger" })
+            </td>
+            <td>Autores</td>
+            <td>
+                @Html.EditorFor(model => model.Autores, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Autores, "", new { @class = "text-danger" })
+
+            </td>
+        </tr>
+        <tr>
+            <td>Sinónimos</td>
+            <td>
+                @Html.EditorFor(model => model.Sinonimos, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Sinonimos, "", new { @class = "text-danger" })
+
+            </td>
+            <td>Familia</td>
+            <td>
+                @Html.EditorFor(model => model.Familia, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Familia, "", new { @class = "text-danger" })
+
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>Conifera</td>
+            <td>
+                @Html.EditorFor(model => Model.Conifera)
+                @Html.ValidationMessageFor(model => model.Conifera, "")
+            </td>
+            <td>Latifoliada</td>
+            <td>
+                @Html.EditorFor(model => model.Latifoliada)
+                @Html.ValidationMessageFor(model => model.Latifoliada, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+        <tr>
+            <td>Arbol frutal</td>
+            <td>
+                @Html.EditorFor(model => model.ArbolFrutal)
+                @Html.ValidationMessageFor(model => model.ArbolFrutal, "", new { @class = "text-danger" })
+            </td>
+            <td>Estado</td>
+            <td>
+                @Html.EditorFor(model => model.Estado_id)
+                @Html.ValidationMessageFor(model => model.ArbolFrutal, "", new { @class = "text-danger" })
+            </td>
+
+        </tr>
+
+    </table>
+
+
+    <div class="col-sm-12 col-md-12" align="right">
+        <h4>@ViewBag.Mensaje</h4>
+        <input type="submit" value="Guardar cambios" class="btn-next" />
+    </div>
+
+}
+

@@ -1,0 +1,22 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Gral_SubRegion>
+@using RNF_Web.Models;
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre_SubRegionCompleto)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre_SubRegionCompleto)
+            </td>
+        </tr>
+    }
+</table>
+
+

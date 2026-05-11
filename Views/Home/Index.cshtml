@@ -1,0 +1,84 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    ViewBag.Title = "   Home page";
+
+    Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div id="tablonRSS" align="center"></div>
+        <div class="col-sm-1 col-md-1">
+        </div>
+        <div class="col-sm-11 col-md-11">
+            <h1>@TempData["MensajeHome"]</h1>
+            <h3>@TempData["MensajeHomeTwo"]</h3>
+        </div>
+    </div>
+</div>
+
+<script>
+    function validarSuscripcionWhatsApp() {
+        var url = '@Url.Action("VerificarWhatsApp", "Home")';
+        var dataPOST = {
+
+        };
+
+        $.post(url, dataPOST).done(function (RespuestaJSON) {
+
+            var oJSON = RespuestaJSON;
+            console.log(oJSON);
+
+            var result = oJSON.result;
+            var message = oJSON.message;
+            var data = oJSON.data;
+            var details = (oJSON.details??false);
+
+            if (result != 1) {
+                alert(message);
+
+                if ((details == true) && (data != null)) {
+
+                    var confirmarEnvio = confirm('¿Desea enviar el mensaje ahora mismo?');
+
+                    if (confirmarEnvio) {
+                        window.open(data);
+                    }
+
+                } else {
+
+                    if (data != null) {
+                        window.open(data);
+                    }
+
+                }
+
+
+            }
+
+        }).fail(function (RespuestaJSON) {
+
+            var oJSON = RespuestaJSON;
+            console.log(oJSON);
+
+            alert('Ocurrió un error 500: ' + oJSON);
+
+        });
+
+    }
+
+    $(document).ready(function () {
+       // validarSuscripcionWhatsApp();
+        var myRSS = document.getElementById('tablonRSS');
+        if (myRSS) {
+            //$('#tablonRSS').load("/Home/FeedRSS");
+            $('#tablonRSS').load("/Home/ListarSolicitudUsuario");
+        }
+    })
+</script>

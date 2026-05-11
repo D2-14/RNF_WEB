@@ -1,0 +1,31 @@
+﻿@using RNF_Web.Models;
+@model Tbl_Sol_Solicitud
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<style>
+    .formation {
+        height: auto;
+        max-width: 90%;
+        margin: 30px auto;
+        border-radius: 10px;
+        border-style: solid;
+        border-color: #77DD77;
+        padding: 20px;
+        box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    }
+</style>
+
+
+@{
+    ViewBag.Title = "Análisis de empresa y entidad";
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    Usuario objUs = ViewBag.Session;
+}
+

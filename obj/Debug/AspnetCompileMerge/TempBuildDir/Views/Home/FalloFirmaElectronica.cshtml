@@ -1,0 +1,34 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+<div class="container-fluid">
+    <img src="~/Content/images/bannerregistro.png" width="100%" />
+
+    <hr />
+
+    <table>
+        <tr>
+            <td>
+                <img src="~/Content/images/dialogerror_92823.png" />
+            </td>
+            <td width="5%">
+            </td>
+            <td>
+                <h1>Fallo en el proceso de firma electrónica.</h1>
+            </td>
+        </tr>
+    </table>
+
+    <h2> <i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Lo sentimos, se ha producido un fallo en el proceso de firmado del documento.</i> </h2>
+
+    <br />
+    <h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Motivo: @ViewBag.FalloFe</h2>
+
+
+</div>
+

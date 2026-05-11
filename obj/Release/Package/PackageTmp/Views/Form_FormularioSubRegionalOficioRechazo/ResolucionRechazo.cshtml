@@ -1,0 +1,501 @@
+﻿@using RNF_Web.Models;
+@model Tbl_Gest_EtapaSolicitud
+
+@{
+    Layout = null;
+    string strDisabled = "disabled";
+    string strSelected = "selected";
+    string Guid_id = ViewBag.Guid_id;
+    string GuidEtapa_id = ViewBag.EtapaSolicitudGuid;
+    int etapa_id = ViewBag.etapa_id;
+    decimal etaparuta_id = ViewBag.etaparuta_id;
+    int correlativoetapa_id = ViewBag.correlativoetapa_id;
+
+    db_RNFEntities db = new db_RNFEntities();
+
+    Tbl_Sol_Solicitud tbl_Sol_Solicitud = db.Tbl_Sol_Solicitud.Where(Obj => Obj.Guid_id == Guid_id).FirstOrDefault();
+
+    int intEtapas = db.Tbl_Gest_EtapaSolicitud.Where(Obj => Obj.Solicitud_Guid_id == Guid_id && Obj.EtapaSolicitud_GUID_id != GuidEtapa_id && Obj.EtapaSolicitudEstado_id == 1).Count();
+    intEtapas = 0;
+    ViewBag.intEtapas = intEtapas;
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+<script>
+
+    function generarResolucion() {
+        var varSolicitud_Guid_id = $('#Solicitud_Guid_id').val();
+        var varEtapaSolicitud_GUID_id = $('#EtapaSolicitud_GUID_id').val();
+        var varEtapa_id = $('#Etapa_id').val();
+        var varEtapaRuta_id = $('#EtapaRuta_id').val();
+        var varCorrelativoEtapa_id = $('#CorrelativoEtapa_id').val();
+        loaderPantalla(true);
+        var data = {
+            Solicitud_Guid_id: varSolicitud_Guid_id,
+            EtapaSolicitud_GUID_id: varEtapaSolicitud_GUID_id,
+            Etapa_id: varEtapa_id,
+            EtapaRuta_id: varEtapaRuta_id,
+            CorrelativoEtapa_id: varCorrelativoEtapa_id
+        }
+        var url = "@Url.Action("GeneraResolucion", "Form_FormularioSubRegionalOficioRechazo")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            loaderPantalla(false);
+
+            var objJSON = JSON.parse(jsonRespuesta);
+            var Texto_Respuesta = objJSON.Ubicacion;
+
+            window.open('/Archivos_Generados_Que_Pueden_Borrar/' + Texto_Respuesta, '_blank');
+
+            var TdHiddeA = document.getElementById("btnFirmarDocumento");
+            TdHiddeA.style.display = "block";
+
+        });
+    }
+
+    function grabarResolucion()
+    {
+        var varSolicitud_id = $('#Solicitud_id').val();
+        var varEtapa_id = $('#Etapa_id').val();
+        var varEtapaRuta_id = $('#EtapaRuta_id').val();
+        var varCorrelativoEtapa_id = $('#CorrelativoEtapa_id').val();
+        var varInforme_Tecnico = $('#Informe_Tecnico').val();
+        var varResolucion = $('#NoResolucion').val();
+        var varSolicitud_Guid_id = $('#Solicitud_Guid_id').val();
+        var varEtapaSolicitud_GUID_id = $('#EtapaSolicitud_GUID_id').val();
+
+        var Resolucion_Aprobadajs = false;
+        var Resolucion_Denegadajs = true;
+        var resultResolucion_Aprobada = $('#EstadoResolucion').val();
+        if (resultResolucion_Aprobada == "aprobar") {
+            Resolucion_Aprobadajs = true;
+            Resolucion_Denegadajs = false;
+        }
+
+        var data =
+        {
+            Solicitud_id: varSolicitud_id,
+            Etapa_id: varEtapa_id,
+            EtapaRuta_id: varEtapaRuta_id,
+            CorrelativoEtapa_id: varCorrelativoEtapa_id,
+            Resolucion_Aprobada: Resolucion_Aprobadajs,
+            Resolucion_Denegada: Resolucion_Denegadajs,
+            Informe_Tecnico: varInforme_Tecnico,
+            No_Resolucion: varResolucion,
+            Solicitud_Guid_id: varSolicitud_Guid_id,
+            EtapaSolicitud_GUID_id: varEtapaSolicitud_GUID_id
+        }
+
+        var url = "@Url.Action("GrabarResolucion", "Form_FormularioSubRegionalOficioRechazo")";
+        var url2 = "@Url.Action("VistaPreviaResolucion", "Form_FormularioSubRegionalOficioRechazo")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+
+            var objJSON = JSON.parse(jsonRespuesta);
+            var varResultado = objJSON.Resultado;
+            $("#verPDF").show();
+
+            $.post(url2, data).done(function (jsonRespuesta) {
+                var objJSON = JSON.parse(jsonRespuesta);
+                var parrafo1 = objJSON.Parrafo1;
+                var parrafo2 = objJSON.Parrafo2;
+                var parrafo3 = objJSON.Parrafo3;
+                var parrafo4 = objJSON.Parrafo4;
+                var parrafo5 = objJSON.Parrafo5;
+                var parrafo6 = objJSON.Parrafo6;
+                var parrafo7 = objJSON.Parrafo7;
+
+                document.getElementById("ta_Parrafo1").value = parrafo1;
+                document.getElementById("ta_Parrafo2").value = parrafo2;
+                document.getElementById("ta_Parrafo3").value = parrafo3;
+                document.getElementById("ta_Parrafo4").value = parrafo4;
+                document.getElementById("ta_Parrafo5").value = parrafo5;
+                document.getElementById("ta_Parrafo6").value = parrafo6;
+                document.getElementById("ta_Parrafo7").value = parrafo7;
+
+                actualizaParrafos();
+
+            });
+
+        });
+    }
+
+    function cambiaEstadoResolucion() {
+        grabarResolucion();
+    }
+
+    function cambiaMensajeResolucion() {
+        grabarResolucion();
+    }
+
+    function reestalecerMensaje() {
+        cambiaEstadoResolucion();
+    }
+
+    function actualizaParrafos() {
+        var Solicitud_Guid_id = $('#Solicitud_Guid_id').val();
+        var EtapaSolicitud_GUID_id = $('#EtapaSolicitud_GUID_id').val();
+        var Solicitud_id = $('#Solicitud_id').val();
+        var Etapa_id = $('#Etapa_id').val();
+        var EtapaRuta_id = $('#EtapaRuta_id').val();
+        var CorrelativoEtapa_id = $('#CorrelativoEtapa_id').val();
+
+
+        var Parrafo_1 = $('#ta_Parrafo1').val();
+        var Parrafo_2 = $('#ta_Parrafo2').val();
+        var Parrafo_3 = $('#ta_Parrafo3').val();
+        var Parrafo_4 = $('#ta_Parrafo4').val();
+        var Parrafo_5 = $('#ta_Parrafo5').val();
+        var Parrafo_6 = $('#ta_Parrafo6').val();
+        var Parrafo_7 = $('#ta_Parrafo7').val();
+
+        var data = {
+            Solicitud_Guid_id: Solicitud_Guid_id,
+            EtapaSolicitud_GUID_id: EtapaSolicitud_GUID_id,
+            Solicitud_id: Solicitud_id,
+            Etapa_id: Etapa_id,
+            EtapaRuta_id: EtapaRuta_id,
+            CorrelativoEtapa_id: CorrelativoEtapa_id,
+            Parrafo_1: Parrafo_1,
+            Parrafo_2: Parrafo_2,
+            Parrafo_3: Parrafo_3,
+            Parrafo_4: Parrafo_4,
+            Parrafo_5: Parrafo_5,
+            Parrafo_6: Parrafo_6,
+            Parrafo_7: Parrafo_7
+        }
+        var url = "@Url.Action("GrabaParrafos", "Form_FormularioSubRegionalOficioRechazo")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var objJSON = JSON.parse(jsonRespuesta);
+
+        });
+
+    }
+
+   function actualizaParrafo1() {
+        actualizaParrafos();
+    }
+
+   function actualizaParrafo2() {
+        actualizaParrafos();
+    }
+
+   function actualizaParrafo5() {
+        actualizaParrafos();
+    }
+
+   function actualizaParrafo7() {
+        actualizaParrafos();
+   }
+
+   function obtenerParrafos() {
+
+
+        var Solicitud_Guid_id = $('#Solicitud_Guid_id').val();
+        var EtapaSolicitud_GUID_id = $('#EtapaSolicitud_GUID_id').val();
+        var Solicitud_id = $('#Solicitud_id').val();
+        var Etapa_id = $('#Etapa_id').val();
+        var EtapaRuta_id = $('#EtapaRuta_id').val();
+        var CorrelativoEtapa_id = $('#CorrelativoEtapa_id').val();
+
+        var data = {
+            Solicitud_Guid_id: Solicitud_Guid_id,
+            EtapaSolicitud_GUID_id: EtapaSolicitud_GUID_id,
+            Solicitud_id: Solicitud_id,
+            Etapa_id: Etapa_id,
+            EtapaRuta_id: EtapaRuta_id,
+            CorrelativoEtapa_id: CorrelativoEtapa_id
+        }
+
+        var url = "@Url.Action("ObtenerParrafos", "Form_FormularioSubRegionalOficioRechazo")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var objJSON = JSON.parse(jsonRespuesta);
+            var parrafo1 = objJSON.Parrafo1;
+            var parrafo2 = objJSON.Parrafo2;
+            var parrafo3 = objJSON.Parrafo3;
+            var parrafo4 = objJSON.Parrafo4;
+            var parrafo5 = objJSON.Parrafo5;
+            var parrafo6 = objJSON.Parrafo6;
+            var parrafo7 = objJSON.Parrafo7;
+
+            document.getElementById("ta_Parrafo1").value = parrafo1;
+            document.getElementById("ta_Parrafo2").value = parrafo2;
+            document.getElementById("ta_Parrafo3").value = parrafo3;
+            document.getElementById("ta_Parrafo4").value = parrafo4;
+            document.getElementById("ta_Parrafo5").value = parrafo5;
+            document.getElementById("ta_Parrafo6").value = parrafo6;
+            document.getElementById("ta_Parrafo7").value = parrafo7;
+
+        })
+
+    }
+
+   function fnc_EnviarRespuesta(varRespuestaid)
+    {
+        varsolicitud_id = '@tbl_Sol_Solicitud.Solicitud_id';
+        varetapa_id = '@etapa_id';
+        varetaparuta_id = '@etaparuta_id';
+        varcorrelativoetapa_id = '@correlativoetapa_id';
+        varMotivo = $('#Motivo').val();
+        varEtapaSolicitud_GUIDid= '@GuidEtapa_id';
+
+
+        var url = "@Url.Action("ActualizaEtapaRespuestaIndexSolicitud", "Form_FormularioSubRegional")";
+
+        var data = { solicitud_id: varsolicitud_id, etapa_id: varetapa_id, etaparuta_id: varetaparuta_id, correlativoetapa_id: varcorrelativoetapa_id, motivo: varMotivo, respuestaid: varRespuestaid, EtapaSolicitud_GUIDid: varEtapaSolicitud_GUIDid };
+        $.post(url, data).done(function (jsonRespuesta) {
+               var objJSON = JSON.parse(jsonRespuesta);
+               var Cod_Respuesta = objJSON.CodRespuesta;
+               var Texto_Respuesta = objJSON.strRespuesta;
+
+
+                if (Cod_Respuesta == 1) {
+                    alert(Texto_Respuesta);
+                    window.location.replace("/Gest_EtapaSolicitud/Index");
+                } else
+                {
+                    $('#lblMensajeFail').text(Texto_Respuesta);
+                    alert(Texto_Respuesta);
+
+                }
+
+           }).fail(manejarErrorAjax).always(function () {
+
+               alert('Error no identificado.');
+            });
+            return false;
+
+    }
+
+   function FirmarDocumento() {
+
+        var TdHiddeA = document.getElementById("btnFirmarDocumento");
+        TdHiddeA.style.display = "none";
+
+        varFirmaElectronicaUsuario = $('#FirmaElectronicaUsuario').val();
+        varFirmaElectronicaPassword = $('#FirmaElectronicaPassword').val();
+
+        var data = {
+            Guid_id: '@ViewBag.Guid_id',
+            Guidetapa_id: '@Model.EtapaSolicitud_GUID_id',
+            UsuarioFE: varFirmaElectronicaUsuario,
+            PasswordFE: varFirmaElectronicaPassword
+        };
+
+    var url = "@Url.Action("JsonProcesarFirmaElectronica", "Home")";
+        loaderPantalla(true);
+        $.post(url, data).done(function (jsonrespuesta) {
+            loaderPantalla(false);
+            var oJSON = JSON.parse(jsonrespuesta);
+            var NombreDocumento = oJSON.strRespuesta;
+            var CodigoRespuesta = oJSON.CodRespuesta;
+
+
+            if ((CodigoRespuesta == '0') || (CodigoRespuesta == 0))
+            {
+                window.open("/Home/FalloFirmaElectronica?FalloFe=" + NombreDocumento, '_blank');
+            }
+            else
+            {
+                window.open(NombreDocumento, '_blank');
+
+
+                var resultResolucion_Aprobada = $('#EstadoResolucion').val();
+                if (resultResolucion_Aprobada == "aprobar") {
+                    fnc_EnviarRespuesta(1);
+                }
+                else
+                {
+                    fnc_EnviarRespuesta(2);
+                }
+
+
+
+
+            }
+
+
+        });
+
+    }
+
+    $(document).ready(function () {
+
+        $("#ta_Parrafo1").hide();
+        $("#ta_Parrafo3").hide();
+        $("#ta_Parrafo4").hide();
+        $("#ta_Parrafo6").hide();
+
+        grabarResolucion();
+    })
+
+</script>
+
+
+@Html.AntiForgeryToken()
+<h4>@ViewBag.Mensaje</h4>
+<div class="container">
+
+    <div class="titulo-dos">
+        <h4>Resolución de Rechazo SubRegional</h4>
+        <h3>@ViewBag.mensaje</h3>
+    </div>
+
+
+
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.HiddenFor(model => model.Solicitud_id)
+    @Html.HiddenFor(model => model.Etapa_id)
+    @Html.HiddenFor(model => model.EtapaRuta_id)
+    @Html.HiddenFor(model => model.CorrelativoEtapa_id)
+    @Html.HiddenFor(model => model.NoResolucion)
+    @Html.HiddenFor(model => model.NoInformeTecnico)
+    @Html.HiddenFor(model => model.Solicitud_Guid_id)
+    @Html.HiddenFor(model => model.EtapaSolicitud_GUID_id)
+
+    <br />
+    @if (ViewBag.intEtapas == 0)
+    {
+        <table>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <input type="button" class="btn btn-success" value="Volver a cargar texto" onclick="reestalecerMensaje()" />
+                </td>
+            </tr>
+        </table>
+    }
+    else
+    {
+
+        <p style="width: 100%; background-color: blue; color: white; font-size:20px; "> Tiene un procedimiento pendiente </p>
+        <p style="width: 100%; background-color: blue; color: white; font-size:20px; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Previo a emitir la resolución u oficio de enmiendas.</p>
+
+    }
+
+
+    <br />
+    <label class="text-danger" id="lblMensaje"></label>
+
+
+    <div id="div_Parrafos">
+        <table class="table">
+            <tr>
+                <td>
+                    <textarea id="ta_Parrafo1" name="ta_Parrafo1" rows="2" cols="30" class="form-control" onchange="actualizaParrafo1()" readonly></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <textarea id="ta_Parrafo2" name="ta_Parrafo2" rows="4" cols="30" class="form-control" onchange="actualizaParrafo2()" readonly></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <textarea id="ta_Parrafo3" name="ta_Parrafo3" rows="5" cols="30" class="form-control" onchange="actualizaParrafo3()" readonly></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <textarea id="ta_Parrafo4" name="ta_Parrafo4" rows="5" cols="30" class="form-control" onchange="actualizaParrafo4()"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h3 align="center">
+                        <strong>
+                            CONSIDERANDO
+                        </strong>
+                    </h3>
+                    <textarea id="ta_Parrafo5" name="ta_Parrafo5" rows="5" cols="30" class="form-control" onchange="actualizaParrafo5()"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <textarea id="ta_Parrafo6" name="ta_Parrafo6" rows="7" cols="30" class="form-control" onchange="actualizaParrafo6()"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h3 align="center">
+                        <strong>
+                            RESUELVE
+                        </strong>
+                    </h3>
+                    <textarea id="ta_Parrafo7" name="ta_Parrafo7" rows="7" cols="30" class="form-control" onchange="actualizaParrafo7()" readonly></textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <table>
+        <tr>
+            <th colspan="2">Datos para la firma electrónica</th>
+        </tr>
+        <tr>
+            <td><br /></td>
+        </tr>
+        <tr>
+            <td width="20%">Usuario</td>
+            <td width="20%">
+                <input type="text" id="FirmaElectronicaUsuario" name="FirmaElectronicaUsuario" value="" />
+            </td>
+            <td width="20%">Password</td>
+            <td width="20%">
+                <input type="password" id="FirmaElectronicaPassword" name="FirmaElectronicaPassword" value="" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <br />
+            </td>
+        </tr>
+    </table>
+
+    @if (ViewBag.intEtapas == 0)
+    {
+        <table width="100%">
+            <tr>
+                <td>
+                    <label id="lblMensajeFail" style="color:red"></label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button class="btn btn-success" onclick="generarResolucion()" name="verPDF" id="verPDF">Visualizar Documento</button>
+                </td>
+                <td>
+                    <button class="btn btn-success" id="btnFirmarDocumento" name="btnFirmarDocumento" onclick="FirmarDocumento()" style="display:none;">Firmar Documento</button>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                    <input type="button" class="btn btn-secondary" value="Cerrar y continuar despues" onclick="Cerrar()" />
+                </td>
+            </tr>
+        </table>
+    }
+    else
+    {
+
+        <p style="width: 100%; background-color: blue; color: white; font-size:20px; "> Tiene un procedimiento pendiente </p>
+        <p style="width: 100%; background-color: blue; color: white; font-size:20px; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Previo a emitir la resolución u oficio de enmiendas.</p>
+
+    }
+</div>
+
+
+
+
+

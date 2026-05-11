@@ -1,0 +1,166 @@
+﻿@using RNF_Web.Models;
+
+@{
+    Layout = "~/Views/Shared/_LayoutMoreSimple.cshtml";
+
+
+
+    if ((Session[Constants.session_Tabulador]??"") == "")
+    {
+        Session[Constants.session_Tabulador] = "defaultArea";
+    }
+
+    long Solicitud_id = ViewBag.Solicitud_id;
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_Sol_Solicitud tbl_Sol_Solicitud = db.Tbl_Sol_Solicitud.Find(Solicitud_id);
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+    fc_Gral_Sol_Configuracion_Result permisosPoligono = db.fc_Gral_Sol_Configuracion(tbl_Sol_Solicitud.Solicitud_id, "Sol_Rodal_Poligono", boolEsInterno).FirstOrDefault();
+    fc_Gral_Sol_Configuracion_Result permisosDasometrico = db.fc_Gral_Sol_Configuracion(tbl_Sol_Solicitud.Solicitud_id, "Sol_Rodal_Dasometricos", boolEsInterno).FirstOrDefault();
+
+
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+<script src="~/Scripts/jquery-3.6.0.js"></script>
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+<style>
+    body {
+        font-family: Arial;
+    }
+
+    /* Style the tab */
+    .tab {
+        overflow: hidden;
+    }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+            border-color: #6C8EAA;
+        }
+
+            /* Change background color of buttons on hover */
+            .tab button:hover {
+                background-color: #ddd;
+                border-radius: .50em;
+                border: .2em solid #fff;
+            }
+
+            /* Create an active/current tablink class */
+            .tab button.active {
+                background-color: #6C8EAA;
+                color: white;
+                border-color: #6C8EAA;
+                border-radius: .50em;
+                border: .2em solid #fff;
+            }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        -webkit-animation: fadeEffect 1s;
+        background: #FAFAC1;
+        animation: fadeEffect 1s;
+        padding: 2em 3em;
+        border-radius: .50em;
+        border: .2em solid #fff;
+        border-color: #6C8EAA;
+    }
+</style>
+
+
+
+<div class="tab">
+    @if ((bool)permisosPoligono.Agregar)
+    {
+        <button class="tablinks" onclick="openCity(event, 'Area')" id="defaultArea">Polígono</button>
+        <button class="tablinks" onclick="openCity(event, 'Descuento')" id="defaultDescuento">Polígonos de descuento</button>
+        @*<button class="tablinks" onclick="openCity(event, 'Parcela')" id="defaultParcela">Centro de parcela</button>*@
+    }
+    @*@if ((bool)permisosDasometrico.Agregar)
+    {
+        <button class="tablinks" onclick="openCity(event, 'Dasometricos')" id="defaultDasometricos">Datos dasométricos</button>
+    }*@
+</div>
+<div id="Area" class="tabcontent">
+    <div id="CargaArea"></div>
+</div>
+
+<div id="Descuento" class="tabcontent">
+    <div id="CargaAreaDescuento"></div>
+</div>
+
+@*
+<div id="Dasometricos" class="tabcontent">
+    <br />
+    <div id="CargaDasometricos"></div>
+</div>
+
+<div id="Parcela" class="tabcontent">
+    <br />
+    <div id="CargaCentroParcela"></div>
+</div>
+*@
+
+
+
+<script>
+
+    $(document).ready(function () {
+        //loaderPantalla(false);
+        $('#CargaArea').load("/Sol_Rodal/UploadExcelAreas?firma=@ViewBag.firma&solicitud_id=" + @ViewBag.Solicitud_id);
+        $('#CargaAreaDescuento').load("/Sol_Rodal/UploadExcelAreasDescuento?firma=@ViewBag.firma&solicitud_id=" + @ViewBag.Solicitud_id);
+        @*
+        $('#CargaDasometricos').load("/Sol_Rodal/UploadDatosDasometricos?firma=@ViewBag.firma&solicitud_id=" + @ViewBag.Solicitud_id);
+        $('#CargaCentroParcela').load("/Sol_Rodal/UploadCentroDeParcela?firma=@ViewBag.firma&solicitud_id=" + @ViewBag.Solicitud_id);
+        *@
+
+        document.getElementById("defaultArea").click();
+    });
+
+</script>
+
+
+
+<script>
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    // Get the element with id="defaultOpen" and click on it
+    /**/
+    document.getElementById('@Session[Constants.session_Tabulador]').click();
+</script>

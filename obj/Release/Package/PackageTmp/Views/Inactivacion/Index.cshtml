@@ -1,0 +1,39 @@
+﻿@using RNF_Web.Models;
+@model List<Tbl_Sol_Solicitud_Categoria>
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<div class="card">
+    <div class="card-header"><h3>Categorías</h3></div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <tr>
+                <th>
+                    Descripción
+                </th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Descripcion
+                    </td>
+                    <td>
+                        @Html.ActionLink("Verificar", "Categoria", new { Categoria_id = item.Categoria_id }, htmlAttributes: new { @class = "btn btn-primary" })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+

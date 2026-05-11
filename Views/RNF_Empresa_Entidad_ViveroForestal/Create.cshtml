@@ -1,0 +1,218 @@
+﻿@model RNF_Web.Models.Tbl_RNF_Empresa_Entidad_Vivero_Forestal
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    ViewBag.Title = "Vivero Forestal";
+    ViewBag.SubTitle = "Ingresar Vivero Forestal";
+    Layout = "~/Views/Shared/_LayoutMoreSimple.cshtml";
+    db_RNFEntities db = new db_RNFEntities();
+
+    string No_Registro = ViewBag.No_Registro;
+
+    Tbl_RNF_Registro tbl_RNF_Registro = db.Tbl_RNF_Registro.Where(Obj => Obj.No_Registro == No_Registro).FirstOrDefault();
+
+    EdicionRNFGrants objRNFGrants = (EdicionRNFGrants)Session[Constants.session_EdicionRNFGrants];
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+
+}
+
+<br />
+<div style='height: 30px; width: 100%; background-color: #66bb6a; color: white; '>
+    <h4>Ingreso de Nuevo Vivero</h4>
+</div>
+
+@if (objRNFGrants.Agregar)
+{
+    <table width="100%">
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Tbl_Gral_Especie.NombreCientifico, "Nombre Cientifico", htmlAttributes: new { @class = "control-label col-md-12" })
+            </td>
+            <td>
+                @Html.LabelFor(model => model.Produccion_Anual_Plantas, "Produccion Anual de Plantas", htmlAttributes: new { @class = "control-label col-md-12" })
+            </td>
+            <td width="15%">
+                @Html.LabelFor(model => model.Nombre_Finca, "Nombre de la Finca", htmlAttributes: new { @class = "control-label col-md-12" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="col-md-12">
+                    @Html.DropDownList("lstEspecie", null, htmlAttributes: new { @class = "form-select" })
+                </div>
+            </td>
+            <td>
+                <div class="col-md-12">
+                    <input type="text" id="ProduccionAnual" name="ProduccionAnual" class="form-control" />
+                </div>
+            </td>
+            <td>
+                <div class="col-md-12">
+                    <input type="text" id="NombreFinca" name="NombreFinca" class="form-control" />
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Departamento_Vivero, "Departamento", htmlAttributes: new { @class = "control-label col-md-4" })
+
+            </td>
+            <td>
+                @Html.LabelFor(model => model.Municipio_Vivero, "Municipio", htmlAttributes: new { @class = "control-label col-md-4" })
+            </td>
+            <td>
+                @Html.LabelFor(model => model.Pais_Procedencia, "Pais", htmlAttributes: new { @class = "control-label col-md-4" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="col-md-12">
+                    @Html.DropDownList("lstDepartamento", null, htmlAttributes: new { @class = "form-select" })
+                </div>
+            </td>
+
+            <td>
+                <div class="col-md-12">
+                    @Html.DropDownList("lstMunicipio", null, htmlAttributes: new { @class = "form-select" })
+                </div>
+            </td>
+
+            <td>
+                <div class="col-md-12">
+                    @Html.DropDownList("lstPais", null, htmlAttributes: new { @class = "form-select" })
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Codigo_RNF, "Codigo RNF", htmlAttributes: new { @class = "control-label col-md-12" })
+            </td>
+            <td>
+                @Html.LabelFor(model => model.Numero_Nota_Control_Semilla_Certificada, "No. Nota Control", htmlAttributes: new { @class = "control-label col-md-12" })
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                <div class="col-md-12">
+                    <input type="text" id="CodigoRNF" name="CodigoRNF" class="form-control" />
+                </div>
+            </td>
+            <td>
+                <div class="col-md-12">
+                    <input type="text" id="NumeroNotaControl" name="NumeroNotaControl" class="form-control" />
+                </div>
+            </td>
+            <td>
+                <input type="button" class="btn-success form-control" value="Agregar" onclick="AgregarViveroForestal()" />
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td> <label id="lblMensaje" name="lblMensaje" /></td>
+        </tr>
+    </table>
+}
+
+
+
+<script src="~/Scripts/jquery-3.6.0.js"></script>
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+        $(document).on('change', '#lstDepartamento', function () {
+
+            var url = "@Url.Action("GetMunicipios", "Sol_Empresa_Entidad_ViveroForestal")";
+            var Departamento = $('#lstDepartamento').val();
+            var data = { Departamento: Departamento};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#lstMunicipio");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text: municipio.Text
+                    }));
+
+                });
+
+
+            });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+
+    });
+
+    function AgregarViveroForestal() {
+
+        var No_Registro = '@No_Registro';
+        var EspecieId = $('#lstEspecie').val();
+        var ProduccionAnual = $('#ProduccionAnual').val();
+        var NombreFinca = $('#NombreFinca').val();
+        var DepartamentoId = $('#lstDepartamento').val();
+        var MunicipioId = $('#lstMunicipio').val();
+        var PaisId = $('#lstPais').val();
+        var CodigoRNF = $('#CodigoRNF').val();
+        var NumeroNotaControl = $('#NumeroNotaControl').val();
+
+        var url = "@Url.Action("AgregarViveroForestal", "RNF_Empresa_Entidad_ViveroForestal")";
+        var data = {
+            No_Registro: No_Registro,
+            EspecieId: EspecieId,
+            ProduccionAnual: ProduccionAnual,
+            NombreFinca: NombreFinca,
+            DepartamentoId: DepartamentoId,
+            MunicipioId: MunicipioId,
+            PaisId: PaisId,
+            CodigoRNF: CodigoRNF,
+            NumeroNotaControl: NumeroNotaControl
+        };
+
+        $.post(url, data).done(function (jsonRespuesta) {
+
+            var objJSON = JSON.parse(jsonRespuesta);
+            var Cod_Respuesta = objJSON.CodRespuesta;
+            var Texto_Respuesta = objJSON.strRespuesta;
+
+            alert(Texto_Respuesta);
+
+            $('#tbodyTransTemp').html(Tabla_Temp_Orig);
+            mensaje.text("");
+
+        });
+
+
+    }
+
+
+</script>
+

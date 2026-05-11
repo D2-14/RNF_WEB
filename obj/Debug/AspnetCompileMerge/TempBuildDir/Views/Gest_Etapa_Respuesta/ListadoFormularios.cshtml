@@ -1,0 +1,68 @@
+﻿@model IEnumerable<RNF_Web.Models.fc_Gest_Sel_Etapa_RespuestaFormulario_Result>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+<br />
+<br />
+<div class="titulo-dos">
+    <h4>Documentos requeridos</h4>
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TipoFormulario_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreDocumento)
+
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Obligatorio)
+        </th>
+        <th>
+            Solicitar
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoFormulario_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreDocumento)
+            </td>
+            <td>
+                @if (item.Obligatorio.Value == true)
+                {
+                    <input type="checkbox" id="CambioObligatorio" name="EstadoActivo" value="Estatus" onclick="CambiarEtapaRespuestaFormularioObligatorio(@item.TipoFormulario_id, false)" checked>
+                }
+                else
+                {
+                    <input type="checkbox" id="CambioObligatorio" name="EstadoActivo" value="Estatus" onclick="CambiarEtapaRespuestaFormularioObligatorio(@item.TipoFormulario_id, true)">
+                }
+
+
+            </td>
+            <td>
+                @if (item.Estado.Value == true)
+                {
+                    <input type="checkbox" id="CambioEstatus" name="EstadoActivo" value="Estatus" onclick="CambiarEtapaRespuestaFormularioEstatus(@item.TipoFormulario_id, false)" checked>
+                }
+                else
+                {
+                    <input type="checkbox" id="CambioEstatus" name="EstadoActivo" value="Estatus" onclick="CambiarEtapaRespuestaFormularioEstatus(@item.TipoFormulario_id, true)">
+                }
+
+
+            </td>
+        </tr>
+    }
+
+</table>

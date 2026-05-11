@@ -1,0 +1,497 @@
+﻿@model RNF_Web.Models.Tbl_Sol_Finca_FuenteSemillera
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Url.Action("Edit_DatosFuenteSemillera", "Sol_Finca_FuenteSemillera")
+}
+
+
+@{
+    Layout = "~/Views/Shared/_LayoutSimple.cshtml";
+
+    string check = "checked";
+
+
+    //ViewBag.Sub_Categoria_id = tbl_sol_Solicitud.Sub_Categoria_id;
+
+    //ViewBag.Sub_Sub_Categoria_id = tbl_sol_Solicitud.Sub_Categoria_id;
+
+    ViewBag.BN = 0;
+    ViewBag.PV = 1;
+
+    if ((ViewBag.Sub_Categoria_id == 1) && (ViewBag.Sub_Sub_Categoria_id == 1))   /*Fuente semillera identificada en bosque natural*/
+    {
+        ViewBag.BN = 1;
+        ViewBag.PV = 0;
+    }
+
+    if ((ViewBag.Sub_Categoria_id == 2) && (ViewBag.Sub_Sub_Categoria_id == 2))    /*Fuente seleccionada de árboles dispersos en bosques naturales de especies latifoliadas*/
+    {
+        ViewBag.BN = 1;
+        ViewBag.PV = 0;
+    }
+
+    if ((ViewBag.Sub_Categoria_id == 2) && (ViewBag.Sub_Sub_Categoria_id == 3))    /*Fuente seleccionada de árboles dispersos en bosques naturales de especies coniferas*/
+    {
+        ViewBag.BN = 1;
+        ViewBag.PV = 0;
+    }
+
+    if ((ViewBag.Sub_Categoria_id == 3) && (ViewBag.Sub_Sub_Categoria_id == 2))     /*Rodal semillero en bosque natural*/
+    {
+        ViewBag.BN = 1;
+        ViewBag.PV = 0;
+    }
+
+    if ((ViewBag.Sub_Categoria_id == 6) && (ViewBag.Sub_Sub_Categoria_id == 2))    /*Fuentes de reproducción de material asexual en bosque natural*/
+    {
+        ViewBag.BN = 1;
+        ViewBag.PV = 0;
+    }
+
+
+
+}
+
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script type="text/javascript" src="~/Scripts/qrcode.js"></script>
+
+
+<script>
+
+    //BosqueIntervenido
+    //divDensidades
+    //divAclareoGenetico
+    //divEnsayo
+
+    $(document).ready(function () {
+
+        var varIniProcedencia = $('#Procedencia_id').val();
+
+        if (varIniProcedencia == '1' || varIniProcedencia == '0') {
+            var TdHiddeA = document.getElementById("local");
+            TdHiddeA.style.display = "block";
+            var TdHiddeB = document.getElementById("extranjera");
+            TdHiddeB.style.display = "none";
+        }
+        else {
+            var TdHiddeB = document.getElementById("extranjera");
+            TdHiddeB.style.display = "block";
+            var TdHiddeA = document.getElementById("local");
+            TdHiddeA.style.display = "none";
+        }
+
+
+        var PresentaAlgunaPlaga = document.querySelector('#PresentaAlgunaPlaga');
+        if (PresentaAlgunaPlaga.checked == false) {
+            var TdHiddeA = document.getElementById("EspecificarPlaga");
+            TdHiddeA.style.display = "none";
+        }
+        else {
+            var TdHiddeA = document.getElementById("EspecificarPlaga");
+            TdHiddeA.style.display = "block";
+        }
+
+
+
+        $(document).on('change', '#FincaProcedenciaDepartamento_id', function () {
+
+            var url = "@Url.Action("GetMunicipios", "Sol_Solicitud")";
+        var Departamento = $('#FincaProcedenciaDepartamento_id').val();
+            var data = { Departamento: Departamento};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#FincaProcedenciaMunicipio_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text: municipio.Text
+                    }));
+
+                });
+
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change FincaProcedenciaDepartamento_id
+
+
+        $(document).on('change', '#PresentaAlgunaPlaga', function () {
+
+            var PresentaAlgunaPlaga = document.querySelector('#PresentaAlgunaPlaga');
+            if (PresentaAlgunaPlaga.checked == false) {
+                var TdHiddeA = document.getElementById("EspecificarPlaga");
+                TdHiddeA.style.display = "none";
+            }
+            else {
+                var TdHiddeA = document.getElementById("EspecificarPlaga");
+                TdHiddeA.style.display = "block";
+            }
+
+        }); // -----Fin de Change PresentaAlgunaPlaga
+
+        $(document).on('change', '#Procedencia_id', function () {
+            var varProcedencia = $('#Procedencia_id').val();
+            if (varProcedencia == '1') {
+                var TdHiddeA = document.getElementById("local");
+                TdHiddeA.style.display = "block";
+                var TdHiddeB = document.getElementById("extranjera");
+                TdHiddeB.style.display = "none";
+            }
+            else {
+                var TdHiddeB = document.getElementById("extranjera");
+                TdHiddeB.style.display = "block";
+                var TdHiddeA = document.getElementById("local");
+                TdHiddeA.style.display = "none";
+            }
+
+        }); // -----Fin de Change Procedencia_id
+
+
+    }); // -- Document ready
+
+
+    function ActualizarDatosFuenteSemillera()
+    {
+        var var_cb_PresentaAlgunaPlaga = document.getElementById("PresentaAlgunaPlaga");
+        var var_cb_BosqueIntervenido = document.getElementById("BosqueIntervenido");
+        var var_cb_AclareoGenetico = document.getElementById("AclareoGenetico");
+
+        var varSolicitud_id = '@Model.Solicitud_id';
+        var varFinca_id = '@Model.Finca_id';
+        var varPresentaAlgunaPlaga = var_cb_PresentaAlgunaPlaga.checked;
+        var varEspecificarPlaga = $('#EspecificarPlaga').val();
+        var varBosqueIntervenido = var_cb_BosqueIntervenido.checked;
+        var varAclareoGenetico = var_cb_AclareoGenetico.checked;
+        var varIngreseDensidadInicial = $('#IngreseDensidadInicial').val();
+        var varIngreseDensidadFinal = $('#IngreseDensidadFinal').val();
+        var varTipoDeEnsayo_id = $('#TipoDeEnsayo_id').val();
+        var varProcedencia_id = $('#Procedencia_id').val();
+        var varFincaProcedenciaNombre = $('#FincaProcedenciaNombre').val();
+        var varFincaProcedenciaAldea = $('#FincaProcedenciaAldea').val();
+        var varFincaProcedenciaDepartamento_id = $('#FincaProcedenciaDepartamento_id').val();
+        var varFincaProcedenciaMunicipio_id = $('#FincaProcedenciaMunicipio_id').val();
+        var varFincaProcedenciaPais_id = $('#FincaProcedenciaPais_id').val();
+        var varRNF_Procedencia = $('#RNF_Procedencia').val();
+        var varRodalesMismaEspecieEspecifique = $('#RodalesMismaEspecieEspecifique').val();
+
+        //alert(varRodalesMismaEspecieEspecifique);
+
+            var data =
+            {
+                Solicitud_id: varSolicitud_id,
+                Finca_id: varFinca_id,
+                PresentaAlgunaPlaga: varPresentaAlgunaPlaga,
+                EspecificarPlaga: varEspecificarPlaga,
+                BosqueIntervenido: varBosqueIntervenido,
+                AclareoGenetico: varAclareoGenetico,
+                IngreseDensidadInicial: varIngreseDensidadInicial,
+                IngreseDensidadFinal: varIngreseDensidadFinal,
+                TipoDeEnsayo_id: varTipoDeEnsayo_id,
+                Procedencia_id: varProcedencia_id,
+                FincaProcedenciaNombre: varFincaProcedenciaNombre,
+                FincaProcedenciaAldea: varFincaProcedenciaAldea,
+                FincaProcedenciaDepartamento_id: varFincaProcedenciaDepartamento_id,
+                FincaProcedenciaMunicipio_id: varFincaProcedenciaMunicipio_id,
+                FincaProcedenciaPais_id: varFincaProcedenciaPais_id,
+                RNF_Procedencia: varRNF_Procedencia,
+                RodalesMismaEspecieEspecifique : varRodalesMismaEspecieEspecifique
+            }
+
+
+            var url = "@Url.Action("Edit_DatosFuenteSemillera", "Sol_Finca_FuenteSemillera")";
+
+            $.post(url, data).done(function (jsonRespuesta) {
+
+                var objJSON = JSON.parse(jsonRespuesta);
+                var Cod_Respuesta = objJSON.CodRespuesta;
+                var Texto_Respuesta = objJSON.strRespuesta;
+
+                if (Cod_Respuesta == 0) {
+                    alert(Texto_Respuesta);
+                    $('#lblMensajeSemillera').text(Texto_Respuesta);
+                } else {
+                    alert(Texto_Respuesta);
+                    $('#lblMensajeSemillera').text(Texto_Respuesta);
+                }
+            });
+
+
+
+    }
+
+</script>
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="titulo-dos">
+            <h4>Datos de la fuente semillera</h4>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col">
+            <p>¿Sanidad del Bosque Presenta plagas o enfermedades?</p>
+            <label class="switch">
+                <input type="checkbox" id="PresentaAlgunaPlaga" @if ((bool)Model.PresentaAlgunaPlaga) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col">
+            <textarea id="EspecificarPlaga" name="EspecificarPlaga" rows="5" cols="80">@Model.EspecificarPlaga</textarea>
+        </div>
+    </div>
+
+    <div class="row mt-2" id="BosqueIntervenido">
+        <div class="col">
+            <p>¿Es un bosque intervenido ?</p>
+            <label class="switch">
+                <input type="checkbox" id="BosqueIntervenido" @if ((bool)Model.BosqueIntervenido) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </div>
+
+    <div class="row mt-2" id="divAclareoGenetico">
+        <div class="col">
+            <p>¿Se ha realizado aclareo genético de las clases?</p>
+            <label class="switch">
+                <input type="checkbox" id="AclareoGenetico" @if ((bool)Model.AclareoGenetico) { @check }>
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </div>
+
+    <div id="divDensidades">
+
+        <div class="row mt-3">
+            <div class="col">
+                <div class="d-grid gap-2">
+                    <p>Ingrese la densidad inicial</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="d-grid gap-2">
+                    @Html.EditorFor(model => model.IngreseDensidadInicial, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="col">
+                <div class="d-grid gap-2">
+                    <p>Ingrese la densidad final</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="d-grid gap-2">
+                    @Html.EditorFor(model => model.IngreseDensidadFinal, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="divEnsayo">
+        <div class="row mt-2">
+            <div class="col">
+                <p>Tipo de ensayo </p>
+                @Html.DropDownList("TipoDeEnsayo_id", null, htmlAttributes: new { @class = "form-select" })
+                @Html.ValidationMessageFor(model => model.TipoDeEnsayo_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col">
+                <p>Procedencia </p>
+                @Html.DropDownList("Procedencia_id", null, htmlAttributes: new { @class = "form-select" })
+                @Html.ValidationMessageFor(model => model.Procedencia_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div id="local">
+            <div class="row mt-2">
+                <div class="col">
+                    <p>Nombre de la finca</p>
+                    @Html.EditorFor(model => model.FincaProcedenciaNombre, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                <div class="col">
+                    <p>Aldea de la finca</p>
+                    @Html.EditorFor(model => model.FincaProcedenciaAldea, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col">
+                    <p>Departamento </p>
+                    @Html.DropDownList("FincaProcedenciaDepartamento_id", null, htmlAttributes: new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.FincaProcedenciaDepartamento_id, "", new { @class = "text-danger" })
+                </div>
+                <div class="col">
+                    <p>Municipio</p>
+                    @Html.DropDownList("FincaProcedenciaMunicipio_id", null, htmlAttributes: new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.FincaProcedenciaMunicipio_id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div id="extranjera">
+            <div class="row mt-2">
+                <div class="col">
+                    <p>País de procedencia </p>
+                    @Html.DropDownList("FincaProcedenciaPais_id", null, htmlAttributes: new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.FincaProcedenciaPais_id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <p>Indique el número de registro de donde proviene </p>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RNF_Procedencia, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RNF_Procedencia, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row mt-2">
+        <div class="col">
+            <p>¿Si existen rodales con árboles de la misma especie alrededor de la fuente? favor especifique :</p>
+            <div class="row mt-2">
+                <div class="col">
+                    <textarea id="RodalesMismaEspecieEspecifique" name="RodalesMismaEspecieEspecifique" rows="5" cols="80">@Model.RodalesMismaEspecieEspecifique</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+                <h1 style="background-color:powderblue;">@TempData["MensajeSolicitudFail"]</h1>
+                <div class="col">
+                </div>
+                <div class="col">
+                    <div class="d-grid gap-2">
+                        <label id="lblMensajeSemillera" name="lblMensajeSemillera"></label>
+                        <input type="button" class="btn-next" onclick="ActualizarDatosFuenteSemillera()" value="Actualizar" />
+                    </div>
+                </div>
+            </div>
+
+</div>
+
+
+        <style>
+            .switch {
+                position: relative;
+                display: inline-block;
+                width: 60px;
+                height: 34px;
+            }
+
+                .switch input {
+                    opacity: 0;
+                    width: 0;
+                    height: 0;
+                }
+
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+                .slider:before {
+                    position: absolute;
+                    content: "";
+                    height: 26px;
+                    width: 26px;
+                    left: 4px;
+                    bottom: 4px;
+                    background-color: white;
+                    -webkit-transition: .4s;
+                    transition: .4s;
+                }
+
+            input:checked + .slider {
+                background-color: #2196F3;
+            }
+
+            input:focus + .slider {
+                box-shadow: 0 0 1px #2196F3;
+            }
+
+            input:checked + .slider:before {
+                -webkit-transform: translateX(26px);
+                -ms-transform: translateX(26px);
+                transform: translateX(26px);
+            }
+
+            /* Rounded sliders */
+            .slider.round {
+                border-radius: 34px;
+            }
+
+                .slider.round:before {
+                    border-radius: 50%;
+                }
+        </style>
+
+
+        <script>
+
+
+    $(document).ready(function () {
+
+
+        if ('@ViewBag.PV' == 1)
+        {
+
+            //BosqueIntervenido
+            //divDensidades
+            //divAclareoGenetico
+            //divEnsayo
+
+            var TdHiddeA = document.getElementById("BosqueIntervenido");
+            TdHiddeA.style.display = "none";
+
+
+        }
+
+        if ('@ViewBag.BN' == 1)
+        {
+
+            //BosqueIntervenido
+            //divDensidades
+            //divAclareoGenetico
+            //divEnsayo
+
+            var TdHiddeA = document.getElementById("divDensidades");
+            TdHiddeA.style.display = "none";
+
+            var TdHiddeB = document.getElementById("divEnsayo");
+            TdHiddeB.style.display = "none";
+
+
+        }
+
+    });
+
+        </script>

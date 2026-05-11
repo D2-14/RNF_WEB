@@ -1,0 +1,114 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_RNF_Finca>
+@using RNF_Web.Models;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@{
+    db_RNFEntities db = new db_RNFEntities();
+}
+@if (Model.Count() > 0)
+{
+    <h3>Registro Actual</h3>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreFinca)
+            </th>
+            <th>
+                Constancia de Propiedad
+            </th>
+            <th>
+                Registro
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActaNotarial_Notario)
+            </th>
+            <th>
+                Nombre de Certificador
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ubicacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AreaTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AreaARegistrar)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreFinca)
+                </td>
+                <td>
+                    @db.Tbl_Sol_FincaConstanciaDePropiedad.Find(item.ConstanciaDePropiedad_id).Descripcion
+                </td>
+                <td>
+                    @if ((item.ConstanciaDePropiedad_id == 1) || (item.ConstanciaDePropiedad_id == 6))
+                    {
+                        @Html.Raw(" Finca : ") @item.RegNumero
+                        @Html.Raw(" Folio : ") @item.RegFolio
+                        @Html.Raw(" Libro : ") @item.RegLibro
+                        @Html.Raw(" Departamento : " + db.Tbl_Gral_DepartamentoRegistro.Find(item.RegDepartamento_id).Departamento)
+                        @*@Html.Raw(" Departamento : ") @item.Tbl_Gral_DepartamentoRegistro.Departamento*@
+                    }
+
+                    @if (item.ConstanciaDePropiedad_id == 2)
+                    {
+                        @Html.Raw(" Notario : ") @item.ActaNotarial_Notario
+                    }
+
+                    @if (item.ConstanciaDePropiedad_id == 3)
+                    {
+                        @Html.Raw(" Notario : ") @item.ActaNotarial_Notario
+                        @Html.Raw(" Certificada por : ") @item.ActaNotarialConCertificacion_NombreDeCertificador
+                    }
+
+                    @if (item.ConstanciaDePropiedad_id == 4)
+                    {
+                        @Html.Raw(" Notario : ") @item.ActaNotarial_Notario
+                        @*@Html.Raw(" Número de escritura : ") @item.ActaNotarialDeEscrituraPublica_Numero*@
+                    }
+
+                    @if (item.ConstanciaDePropiedad_id == 5)
+                    {
+                        @Html.Raw(" Notario : ") @item.ActaNotarial_Notario
+                        @*@Html.Raw(" Número de escritura : ") @item.ActaNotarialDeEscrituraPublica_Numero*@
+                    }
+
+                    @if (item.ConstanciaDePropiedad_id == 7)
+                    {
+                        @Html.Raw(" Notario : ") @item.ActaNotarial_Notario
+                        @*@Html.Raw(" Número de escritura : ") @item.ActaNotarialDeEscrituraPublica_Numero*@
+                    }
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActaNotarial_Notario)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActaNotarialConCertificacion_NombreDeCertificador)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ubicacion)
+                    @db.Tbl_Gral_DepartamentoRegistro.Find(item.DepartamentoFinca_Id).Departamento
+                    @db.Tbl_Gral_Municipio.Find(item.MunicipioFinca_Id).Municipio
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AreaTotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AreaARegistrar)
+                </td>
+            </tr>
+        }
+
+    </table>
+}

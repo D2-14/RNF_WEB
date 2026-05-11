@@ -1,0 +1,241 @@
+﻿@using RNF_Web.Models;
+@model RNF_Web.Models.Tbl_RNF_Empresa_Entidad_Tipo_Registro
+@using System.Data.SqlClient;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+@{
+    Layout = null;
+
+    db_RNFEntities db = new db_RNFEntities();
+    string No_Registro = ViewBag.No_Registro;
+    Tbl_RNF_Registro tbl_RNF_Registro = db.Tbl_RNF_Registro.Where(Obj => Obj.No_Registro == No_Registro).FirstOrDefault();
+    EdicionRNFGrants objRNFGrants = (EdicionRNFGrants)Session[Constants.session_EdicionRNFGrants];
+
+    ViewBag.Estado = tbl_RNF_Registro.Estado_id;
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+}
+
+
+@*<script src="~/Scripts/jquery-3.6.0.js"></script>
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
+
+<script>
+    function limpiarDatosTipoRegistro() {
+        document.getElementById("No_Partida").value = "";
+        document.getElementById("No_Folio").value = "";
+        document.getElementById("No_Libro").value = "";
+        document.getElementById("No_Acta").value = "";
+        document.getElementById("Fecha_Acta").value = "";
+        document.getElementById("REPEJU_De_Id").value = "1";
+    }
+
+    $(document).ready(function () {
+        var tipoRegistro = $('#Tipo_Registro_Id option:selected').text();
+
+        if (tipoRegistro == 'Registro Mercantil') {
+
+            $('#divNoPartida').show();
+            $('#divNoFolio').show();
+            $('#divNoLibro').show();
+            $('#divREPEJUDe').hide();
+            $('#divNoActa').hide();
+            $('#divFechaActa').hide();
+
+        } else if (tipoRegistro == 'Comunal') {
+
+            $('#divNoPartida').hide();
+            $('#divNoFolio').hide();
+            $('#divNoLibro').hide();
+            $('#divREPEJUDe').hide();
+            $('#divNoActa').show();
+            $('#divFechaActa').show();
+
+        } else if (tipoRegistro == 'Municipal') {
+
+            $('#divNoPartida').hide();
+            $('#divNoFolio').hide();
+            $('#divNoLibro').hide();
+            $('#divREPEJUDe').hide();
+            $('#divNoActa').show();
+            $('#divFechaActa').show();
+
+        } else if (tipoRegistro == 'REPEJU') {
+
+            $('#divNoPartida').show();
+            $('#divNoFolio').show();
+            $('#divNoLibro').show();
+            $('#divREPEJUDe').show();
+            $('#divNoActa').hide();
+            $('#divFechaActa').hide();
+
+        } else {
+
+            $('#divNoPartida').show();
+            $('#divNoFolio').hide();
+            $('#divNoLibro').hide();
+            $('#divREPEJUDe').hide();
+            $('#divNoActa').hide();
+            $('#divFechaActa').hide();
+
+        }
+
+        $('#Tipo_Registro_Id').change(function () {
+            limpiarDatosTipoRegistro();
+            var tipoRegistro = $('#Tipo_Registro_Id option:selected').text();
+
+            if (tipoRegistro == 'Registro Mercantil') {
+
+                $('#divNoPartida').show();
+                $('#divNoFolio').show();
+                $('#divNoLibro').show();
+                $('#divREPEJUDe').hide();
+                $('#divNoActa').hide();
+                $('#divFechaActa').hide();
+
+            } else if (tipoRegistro == 'Comunal') {
+
+                $('#divNoPartida').hide();
+                $('#divNoFolio').hide();
+                $('#divNoLibro').hide();
+                $('#divREPEJUDe').hide();
+                $('#divNoActa').show();
+                $('#divFechaActa').show();
+
+            } else if (tipoRegistro == 'Municipal') {
+
+                $('#divNoPartida').hide();
+                $('#divNoFolio').hide();
+                $('#divNoLibro').hide();
+                $('#divREPEJUDe').hide();
+                $('#divNoActa').show();
+                $('#divFechaActa').show();
+
+            } else if (tipoRegistro == 'REPEJU') {
+
+                $('#divNoPartida').show();
+                $('#divNoFolio').show();
+                $('#divNoLibro').show();
+                $('#divREPEJUDe').show();
+                $('#divNoActa').hide();
+                $('#divFechaActa').hide();
+
+            } else {
+
+                $('#divNoPartida').show();
+                $('#divNoFolio').hide();
+                $('#divNoLibro').hide();
+                $('#divREPEJUDe').hide();
+                $('#divNoActa').hide();
+                $('#divFechaActa').hide();
+
+            }
+        });
+
+    });
+</script>
+
+
+<div style='height: 30px; width: 100%; background-color: #66bb6a; color: white; '>
+    <h4>Registro</h4>
+</div>
+<br />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.HiddenFor(model => model.Solicitud_Id)
+    @Html.HiddenFor(model => model.No_Registro)
+    @Html.HiddenFor(model => model.No_RegistroLiteral)
+    @Html.HiddenFor(model => model.No_RegistroCorrelativo)
+
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
+            @Html.LabelFor(model => model.Tipo_Registro_Id, htmlAttributes: new { @class = "control-label col-md-12" })
+            <div class="col-md-12">
+                @Html.DropDownList("Tipo_Registro_Id", null, htmlAttributes: new { @class = "form-select" })
+                @Html.ValidationMessageFor(model => model.Tipo_Registro_Id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="divNoPartida">
+        <div class="col-xs-8 col-md-8">
+            @Html.LabelFor(model => model.No_Partida, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.No_Partida, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.No_Partida, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-xs-4 col-md-4" id="divNoFolio">
+            @Html.LabelFor(model => model.No_Folio, htmlAttributes: new { @class = "control-label col-md-6" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.No_Folio, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.No_Folio, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4 col-md-4" id="divNoLibro">
+            @Html.LabelFor(model => model.No_Libro, htmlAttributes: new { @class = "control-label col-md-6" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.No_Libro, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.No_Libro, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-xs-4 col-md-4" id="divREPEJUDe">
+            @Html.LabelFor(model => model.REPEJU_De_Id,"Tipo de REPEJU", htmlAttributes: new { @class = "control-label col-md-12" })
+            <div class="col-md-10">
+                @Html.DropDownList("REPEJU_De_Id", null, htmlAttributes: new { @class = "form-select" })
+                @Html.ValidationMessageFor(model => model.REPEJU_De_Id, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4 col-md-4" id="divNoActa">
+            @Html.LabelFor(model => model.No_Acta, htmlAttributes: new { @class = "control-label col-md-6" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.No_Acta, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.No_Acta, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-xs-4 col-md-4" id="divFechaActa">
+            @Html.LabelFor(model => model.Fecha_Acta, htmlAttributes: new { @class = "control-label col-md-12" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Fecha_Acta, "{0:dd-MM-yyyy}", new { @class = "dateInput form-control", @placeholder = "dd/mm/yyyy", data_val = false })
+            </div>
+
+        </div>
+    </div>
+
+    <br />
+
+    if (objRNFGrants.Editar)
+    {
+        <div class="col-sm-12 col-md-12" align="right">
+            <input type="submit" value="Guardar cambios" class="btn btn-success" />
+        </div>
+    }
+
+}
+

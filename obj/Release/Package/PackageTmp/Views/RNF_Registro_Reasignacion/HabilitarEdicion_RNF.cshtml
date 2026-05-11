@@ -1,0 +1,78 @@
+﻿@using RNF_Web.Models;
+@model Tbl_RNF_Registro
+@{
+    ViewBag.Title = "Habilitar Edición de RNF a Subregional";
+    DateTime FechaModificacionDisponible, swdatecreated;
+    swdatecreated = DateTime.Now;
+    FechaModificacionDisponible = Model.FechaModificacionDisponible ?? swdatecreated;
+    if (FechaModificacionDisponible <= swdatecreated)
+    {
+        FechaModificacionDisponible = FechaModificacionDisponible.AddDays(1);
+    }
+    ViewBag.FechaHoy = String.Format("{0:yyyy-MM-dd}", swdatecreated);
+    ViewBag.FechaModificacionDisponible = String.Format("{0:yyyy-MM-dd}", FechaModificacionDisponible);
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+@Html.Partial("_PartialPageEncabezado")
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+
+<script>
+    function cambiarHorasDisponibles() {
+        var No_Registro = '@Model.No_Registro';
+        var FechaModificacionDisponible = document.getElementById('FechaModificacionDisponible').value;
+
+
+        var url = '@Url.Action("CambiarTiempoEdicion_RNF", "RNF_Registro_Reasignacion")';
+
+        var data = {
+            No_Registro: No_Registro,
+            FechaModificacionDisponible: FechaModificacionDisponible
+        }
+        var opcion = confirm("¿Está seguro que desea asignar la fecha de modificación disponible del registro " + No_Registro + " a " + FechaModificacionDisponible + "?");
+        if (opcion) {
+            $.post(url, data).done(function (respuestaJSON) {
+                var oJSON = respuestaJSON;
+                var Result = oJSON.Result;
+                var Mensaje = oJSON.Mensaje;
+
+                alert(Mensaje);
+
+            }).fail(function (respuestaError) {
+                console.log(respuestaError);
+                alert(respuestaError);
+            })
+        }
+    }
+</script>
+
+<table class="table table-striped">
+    <tr>
+        <th>Expediente</th>
+        <td>@Model.Expediente</td>
+    </tr>
+    <tr>
+        <th>Registro</th>
+        <td>@Model.No_Registro</td>
+    </tr>
+    <tr>
+        <th>Categoría</th>
+        <td>@Model.Tbl_Sol_Solicitud_Categoria.Descripcion, @Model.Tbl_Sol_Solicitud_Sub_Categoria.Descripcion</td>
+    </tr>
+    <tr>
+        <th>Región y SubRegión</th>
+        <td>@Model.Tbl_Gral_Region.Nombre_Region, @Model.Tbl_Gral_SubRegion.Nombre_SubRegion</td>
+    </tr>
+    <tr>
+        <th>Tiempo de Disponibilidad de Edición</th>
+        @*<td><input type="number" name="name" value="" /></td>*@
+        <td><input type="date" name="FechaModificacionDisponible" id="FechaModificacionDisponible" value="@ViewBag.FechaModificacionDisponible" class="form-control" onchange="consultarDPI()" /></td>
+    </tr>
+</table>
+<input type="button" name="cambiarHorarioEdicion" id="cambiarHorarioEdicion" value="Cambiar Horas Disponibles" onclick="cambiarHorasDisponibles()" class="btn btn-sm btn-success" />
+@Html.Partial("_PartialPageEncabezadoCierre")
+

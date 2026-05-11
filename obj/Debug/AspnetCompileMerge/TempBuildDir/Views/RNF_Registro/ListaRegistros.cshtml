@@ -1,0 +1,345 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_RNF_Registro>
+@using RNF_Web.Models;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    db_RNFEntities db = new db_RNFEntities();
+
+    Usuario objUs = (Usuario)Session["User"];
+    DateTime swdatenow = DateTime.Now;
+    int?[] EstadosValidar = { 3, 4, 5 };
+}
+
+<table class="table">
+    <tr>
+        <th>
+            Registro
+        </th>
+        <th>
+            Expediente
+        </th>
+        <th>
+            Región
+        </th>
+        <th>
+            Categoría
+        </th>
+        <th>
+            Estado
+        </th>
+        <th>
+            Fecha de Vencimiento
+        </th>
+        <th>
+            Fecha de Creación
+        </th>
+        <th>Total @Model.Count()</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.No_Registro
+            </td>
+            <td>
+                @item.Expediente
+            </td>
+            <td>
+                @item.Tbl_Gral_Region.Nombre_Region,
+                <br />
+                @item.Tbl_Gral_SubRegion.Nombre_SubRegion
+
+            </td>
+            <td>
+                @item.Tbl_Sol_Solicitud_Categoria.Descripcion,
+                <br />
+                @item.Tbl_Sol_Solicitud_Sub_Categoria.Descripcion
+            </td>
+            <td>
+                @item.Tbl_RNF_Registro_Estado.Descripcion
+            </td>
+            <td>
+                @item.Fecha_De_Vencimiento
+            </td>
+            <td>
+                @item.swdatecreated
+            </td>
+            <td>
+                <input type="button" class="btn btn-outline-success" name="revisar" value="    Imprimir     " onclick="ImprimirRegistro('@item.Guid_id')" />
+                @*@if ((item.ConstanciaFirmada != null) && (item.ConstanciaFirmada.Trim() != ""))
+                    {
+                        <input type="button" class="btn btn-outline-success" name="revisar" value="    Imprimir     " onclick="ImprimirRegistro('@item.Guid_id')" />
+                    }
+                    else
+                    {
+                        @Html.Raw("Aún no se ha generado constancia")
+                    }*@
+                @if ((EstadosValidar.Contains(item.Estado_id)) || ((item.Solicitud_id < 1) && (item.Estado_id == 1) && ((item.ConstanciaFirmada ?? "").Trim() != "")))
+                {
+
+                    int SolicitudesProceso = db.Database.SqlQuery<int>("select count(*) from Tbl_Sol_Solicitud where No_Registro = @p0 and Estado_id < 6 ", item.No_Registro).FirstOrDefault();
+
+                    <input type="button" class="btn btn-outline-success" name="revisar" value="Inspeccionar" onclick="inspeccionarRegistro('@item.No_Registro')" />
+                    <br />
+
+                    //if (SolicitudesProceso == 0)
+                    //{
+
+                    if (item.Solicitud_id == 0)
+                    {
+                        <input type="button" class="btn btn-outline-primary" name="revisar" value="Primer Actualización" onclick="actualizacionPrimera('@item.No_RegistroLiteral', '@item.No_RegistroCorrelativo', '@item.Categoria_id')" />
+                    }
+                    else
+                    {
+                        <input type="button" class="btn btn-outline-primary" name="revisar" value="Actualización" onclick="actualizacionSegunda('@item.No_RegistroLiteral', '@item.No_RegistroCorrelativo', '@item.Categoria_id')" />
+                    }
+
+                    if (((item.Categoria_id == 5) || (item.Categoria_id == 7) || (item.Categoria_id == 8) || (item.Categoria_id == 9)) && (item.Solicitud_id > 0))
+                    {
+                        <input type="button" class="btn btn-outline-primary" name="revisar" value="Ratificacion" onclick="ratificacionRegistro('@item.No_RegistroLiteral', '@item.No_RegistroCorrelativo', '@item.Categoria_id')" />
+                    }
+
+                    if (item.Categoria_id != 7)
+                    {
+                        <input type="button" class="btn btn-outline-danger" name="revisar"  value="Cancelar Registro" onclick="cancelarRegistro('@item.No_RegistroLiteral', '@item.No_RegistroCorrelativo', '@item.Categoria_id')" />
+                        
+                    }
+
+
+                    <input type="button" class="btn btn-outline-success" name="revisar" value="   Resumen     " onclick="TestReportePV_RNF('@item.No_Registro')" />
+                    @*if (objUs.EsInterno == 1)
+                        {
+                            <a class="btn btn-outline-primary" href="@Url.Action("RegistroEdit","RNF_Registro", new { No_Registro = item.No_Registro })" target="_blank">Modificar</a>
+                        }*@
+
+                }
+
+                @*}
+                    else
+                    {
+
+                    }*@
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+<script>
+    function registroVencido() {
+        activarVisorDeDocumentos('/Content/Machotes/RegistroVencido.pdf');
+    }
+
+
+
+    function ImprimirRegistro(Guid_id) {
+        var url = '@Url.Action("ObtieneInfoRNF", "RNF_Registro")';
+        var data = {
+            Guid_id: Guid_id
+        };
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            var oJSON = RespuestaJSON;
+                console.log("URL_RNF",urlRNF);
+
+            if (oJSON == '') {
+                alert('Registro no encontrado');
+            } else {
+                var urlRNF = '@Url.Action("VisualizarInscripcion", "RNF_Registro")';
+                var params = '?encRegistro=' + encodeURIComponent(oJSON);
+                //window.open(urlRNF + params, '_blank');
+                window.location.href = urlRNF + params;
+
+            }
+
+        })
+
+    //    activarVisorDeDocumentos('/Archivos_ConFirmaElectronica/' + NombreDocumento);
+    }
+
+    function inspeccionarRegistro(noregistro) {
+        var No_Registro = noregistro;
+        var params = "?No_Registro=" + No_Registro;
+        var url = "@Url.Action("RegistroView", "RNF_Registro")";
+        var urltotal = url + params;
+
+        window.open(urltotal, "_blank");
+    }
+
+    function actualizacionPrimera(noregistroliteral, noregistrocorrelativo, categoriaid) {
+    var No_RegistroLiteral = noregistroliteral;
+    var No_RegistroCorrelativo = noregistrocorrelativo;
+    var Categoria_id = categoriaid;
+
+    var data = {
+        No_RegistroLiteral: No_RegistroLiteral,
+        No_RegistroCorrelativo: No_RegistroCorrelativo,
+        Categoria_id: Categoria_id
+    };
+
+    var url = "@Url.Action("PrimerActualizacion", "RNF_Registro")";
+
+    $.post(url, data).done(function (jsonRespuesta) {
+        var oJSON = JSON.parse(jsonRespuesta);
+        var CodRespuesta = oJSON.CodRespuesta;
+
+        if (CodRespuesta == 1) {
+            var NT = oJSON.NumeroTemporal;
+            var NE = oJSON.NumeroExpediente;
+            var solicitud = oJSON.Solicitud;
+            var firma = oJSON.firma;
+            alert("Proceso de actualización iniciada para el expediente: " + NE);
+            location.replace("/Home/SolicitudInsertUpdate/" + solicitud + "?firma=" + firma);
+        } else {
+            var StrMensaje = oJSON.StrMensaje;
+            alert(StrMensaje);
+        }
+    });
+}
+
+    function actualizacionSegunda(noregistroliteral, noregistrocorrelativo, categoriaid) {
+    var No_RegistroLiteral = noregistroliteral;
+    var No_RegistroCorrelativo = noregistrocorrelativo;
+    var Categoria_id = categoriaid;
+
+    var data = {
+        No_RegistroLiteral: No_RegistroLiteral,
+        No_RegistroCorrelativo: No_RegistroCorrelativo,
+        Categoria_id: Categoria_id
+    };
+
+    var url = "@Url.Action("SegundaActualizacion", "RNF_Registro")";
+
+    $.post(url, data).done(function (jsonRespuesta) {
+        var oJSON = JSON.parse(jsonRespuesta);
+        var CodRespuesta = oJSON.CodRespuesta;
+        if (CodRespuesta == 1) {
+            var NT = oJSON.NumeroTemporal;
+            var NE = oJSON.NumeroExpediente;
+            var solicitud = oJSON.Solicitud;
+            var firma = oJSON.firma;
+            alert("Proceso de actualización iniciada para el expediente: " + NE);
+            location.replace("/Home/SolicitudInsertUpdate/" + solicitud + "?firma=" + firma);
+        } else {
+            var StrMensaje = oJSON.StrMensaje;
+            alert(StrMensaje);
+        }
+    });
+
+    }
+
+    function ratificacionRegistro(noregistroliteral, noregistrocorrelativo, categoriaid) {
+
+        var confirmRatificacion = confirm('Si ha verificado que la información registrada en el sistema es la correcta y no requiere modificación, presione "Aceptar"')
+        if (confirmRatificacion) {
+
+            var No_RegistroLiteral = noregistroliteral;
+            var No_RegistroCorrelativo = noregistrocorrelativo;
+            var Categoria_id = categoriaid;
+
+            var data = {
+                No_RegistroLiteral: No_RegistroLiteral,
+                No_RegistroCorrelativo: No_RegistroCorrelativo,
+                Categoria_id: Categoria_id
+            };
+
+            var url = "@Url.Action("SolicitudRatificacion", "RNF_Registro")";
+
+            $.post(url, data).done(function (jsonRespuesta) {
+                var oJSON = JSON.parse(jsonRespuesta);
+                var CodRespuesta = oJSON.CodRespuesta;
+                if (CodRespuesta == 1) {
+                    var NT = oJSON.NumeroTemporal;
+                    var NE = oJSON.NumeroExpediente;
+                    var solicitud = oJSON.Solicitud;
+                    var firma = oJSON.firma;
+                    alert("Proceso de ratificación iniciada para el expediente: " + NE);
+                    location.replace("/Home/SolicitudInsertUpdate/" + solicitud + "?firma=" + firma);
+                } else {
+                    var StrMensaje = oJSON.StrMensaje;
+                    alert(StrMensaje);
+                }
+            });
+        }
+
+    }
+    function cancelarRegistro(noregistroliteral, noregistrocorrelativo, categoriaid) {
+        var No_RegistroLiteral = noregistroliteral;
+        var No_RegistroCorrelativo = noregistrocorrelativo;
+        var Categoria_id = categoriaid;
+
+        var data = {
+            No_RegistroLiteral: No_RegistroLiteral,
+            No_RegistroCorrelativo: No_RegistroCorrelativo,
+            Categoria_id: Categoria_id
+        };
+
+        var url = "@Url.Action("SolicitudCancelacion", "RNF_Registro")";
+
+        var confirmarInactivacion = confirm("¿Está seguro de que desea realizar la cancelación del registro " + No_RegistroLiteral + "-" + No_RegistroCorrelativo + "?");
+        if (confirmarInactivacion) {
+            $.post(url, data).done(function (jsonRespuesta) {
+                var oJSON = JSON.parse(jsonRespuesta);
+                var CodRespuesta = oJSON.CodRespuesta;
+                if (CodRespuesta == 1) {
+                    var NT = oJSON.NumeroTemporal;
+                    var NE = oJSON.NumeroExpediente;
+                    var solicitud = oJSON.Solicitud;
+                    var firma = oJSON.firma;
+                    alert("Proceso de cancelación iniciada para el expediente: " + NE);
+                    location.replace("/Home/SolicitudInsertUpdate/" + solicitud + "?firma=" + firma);
+                } else {
+                    var StrMensaje = oJSON.StrMensaje;
+                    alert(StrMensaje);
+                }
+            }).fail(function (jsonRespuesta) {
+                var oJSON = JSON.parse(jsonRespuesta);
+                loaderPantalla(false);
+                alert("Algo salió mal");
+            });
+
+        } else {
+            alert("Se ha cancelado el proceso de inactivación para el registro " + No_RegistroLiteral + "-" + No_RegistroCorrelativo);
+        }
+
+
+    }
+
+    function TestReportePV_RNF(No_Registro) {
+        var data = {
+            No_Registro: No_Registro
+        };
+
+        var url = '@Url.Action("GenerarFormularioDeSolicitud", "ReportePV_RNF")';
+
+        $.post(url, data).done(function (RespuestaJSON) {
+
+            var oJSON = JSON.parse(RespuestaJSON);
+            var Result = oJSON.Result;
+            var Mensaje = oJSON.Mensaje;
+
+            if (Result == 1) {
+
+                var NombreDocumento = oJSON.Ubicacion;
+                window.open('/Documentos/' + NombreDocumento, '_blank');
+
+
+            } else {
+                alert(Mensaje);
+            }
+
+
+        }).fail(function (ErrorJSON) {
+            console.log(ErrorJSON);
+            alert('Ocurrió un error: ' + ErrorJSON);
+        });
+    }
+
+</script>

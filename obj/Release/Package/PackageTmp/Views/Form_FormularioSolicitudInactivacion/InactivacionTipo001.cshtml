@@ -1,0 +1,435 @@
+﻿@using RNF_Web.Models;
+@using System.Data.SqlClient;
+@model Tbl_Gest_EtapaSolicitud_Inactivacion_Parrafos
+
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    Layout = null;
+
+    db_RNFEntities db = new db_RNFEntities();
+    string GuidEtapa_id = ViewBag.GuidEtapa_id;
+    string Guid_id = ViewBag.Guid_id;
+    int etapa_id = ViewBag.etapa_id;
+    decimal etaparuta_id = ViewBag.etaparuta_id;
+    int correlativoetapa_id = ViewBag.correlativoetapa_id;
+
+    string tipo = (from d in db.Tbl_Gest_EtapaSolicitud_Inactivacion_Tipo
+                   where d.Doc_TecPro_Tipo_id == Model.Doc_TecPro_Tipo_id
+                   select d.Descripcion).FirstOrDefault();
+
+    int intEtapas = db.Tbl_Gest_EtapaSolicitud.Where(Obj => Obj.Solicitud_Guid_id == Guid_id && Obj.EtapaSolicitud_GUID_id != GuidEtapa_id && Obj.EtapaSolicitudEstado_id == 1).Count();
+
+
+    Tbl_Sol_Solicitud tbl_Sol_Solicitud = db.Tbl_Sol_Solicitud.Find(Model.Solicitud_id);
+    SqlParameter[] sqlParams;
+    string p0, p1;
+    p0 = "@Region_id";
+    p1 = "@SubRegion_id";
+    string sqlQuery = $"select [dbo].[Fnc_Gral_NombreSubDirectorRegional]({@p0},{@p1})";
+    sqlParams = new SqlParameter[]
+    {
+    new SqlParameter { ParameterName = p0,  Value = tbl_Sol_Solicitud.Region_id, Direction = System.Data.ParameterDirection.Input },
+    new SqlParameter { ParameterName = p1,  Value = tbl_Sol_Solicitud.SubRegion_id, Direction = System.Data.ParameterDirection.Input }
+            };
+    string NombreSubDirectorRegional = db.Database.SqlQuery<string>(sqlQuery, sqlParams).FirstOrDefault();
+
+    sqlQuery = "SELECT dbo.Fnc_Gral_FechaTxt(getdate())";
+    string strFecha = db.Database.SqlQuery<string>("SELECT dbo.Fnc_Gral_FechaTxt(getdate())").FirstOrDefault();
+
+
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<script>
+
+    function generarSolicitudInactivacion() {
+        var varSolicitud_Guid_id = '@Guid_id';
+        var varEtapaSolicitud_GUID_id = '@GuidEtapa_id';
+        var Doc_TecPro_Tipo_id = '@Model.Doc_TecPro_Tipo_id';
+
+        var data = {
+            Solicitud_Guid_id: varSolicitud_Guid_id,
+            EtapaSolicitud_GUID_id: varEtapaSolicitud_GUID_id,
+            Doc_TecPro_Tipo_id: Doc_TecPro_Tipo_id
+        }
+        var url = "@Url.Action("ObtenerDocumentoInactivacion", "Form_FormularioSolicitudInactivacion")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            loaderPantalla(false);
+
+            var objJSON = jsonRespuesta;
+            var Texto_Respuesta = objJSON.Ubicacion;
+            var Result = objJSON.Result;
+            var Mensaje = objJSON.Mensaje;
+            if (Result == 1) {
+
+                window.open('/Archivos_Generados_Que_Pueden_Borrar/' + Texto_Respuesta, '_blank');
+
+                var TdHiddeA = document.getElementById("btnFirmarDocumento");
+                TdHiddeA.style.display = "block";
+
+            } else {
+                alert(Mensaje);
+            }
+
+        });
+    }
+
+    function actualizaParrafo1() {
+        grabarParrafos();
+    }
+
+    function actualizaParrafo2() {
+        grabarParrafos();
+    }
+
+    function actualizaParrafo3() {
+        grabarParrafos();
+    }
+
+    function actualizaParrafo4() {
+        grabarParrafos();
+    }
+
+    function actualizaParrafo5() {
+        grabarParrafos();
+    }
+
+    function actualizaParrafo6() {
+        grabarParrafos();
+    }
+
+    function actualizaParrafo7() {
+        grabarParrafos();
+    }
+
+    function actualizaParrafo8() {
+        grabarParrafos();
+    }
+
+    function actualizaParrafo9() {
+        grabarParrafos();
+    }
+
+    function actualizaParrafo10() {
+        grabarParrafos();
+    }
+
+    function reiniciarParrafos() {
+
+        var Solicitud_id = '@Model.Solicitud_id';
+        var Doc_TecPro_Tipo_id = '@Model.Doc_TecPro_Tipo_id';
+        var GuidEtapa_id = '@GuidEtapa_id';
+        var Guid_id = '@Guid_id';
+        var etapa_id = '@etapa_id';
+        var etaparuta_id = '@etaparuta_id';
+        var correlativoetapa_id = '@correlativoetapa_id';
+
+        var data = {
+            Solicitud_id: Solicitud_id,
+            Solicitud_Guid_id: Guid_id,
+            GuidEtapa_id: GuidEtapa_id,
+            Doc_TecPro_Tipo_id: Doc_TecPro_Tipo_id,
+            Etapa_id: etapa_id,
+            EtapaRuta_id: etaparuta_id,
+            CorrelativoEtapa_id: correlativoetapa_id
+        }
+        var url = "@Url.Action("ReiniciarParrafos", "Form_FormularioSolicitudInactivacion")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var objJSON = jsonRespuesta;
+
+            var parrafo1 = objJSON.Parrafo_1;
+            var parrafo2 = objJSON.Parrafo_2;
+            var parrafo3 = objJSON.Parrafo_3;
+            var parrafo4 = objJSON.Parrafo_4;
+            var parrafo5 = objJSON.Parrafo_5;
+            var parrafo6 = objJSON.Parrafo_6;
+            var parrafo7 = objJSON.Parrafo_7;
+            var parrafo8 = objJSON.Parrafo_8;
+            var parrafo9 = objJSON.Parrafo_9;
+            var parrafo10 = objJSON.Parrafo_10;
+
+            document.getElementById("ta_Parrafo1").value = parrafo1;
+            document.getElementById("ta_Parrafo2").value = parrafo2;
+            document.getElementById("ta_Parrafo3").value = parrafo3;
+            document.getElementById("ta_Parrafo4").value = parrafo4;
+            document.getElementById("ta_Parrafo5").value = parrafo5;
+            document.getElementById("ta_Parrafo6").value = parrafo6;
+            document.getElementById("ta_Parrafo7").value = parrafo7;
+            document.getElementById("ta_Parrafo8").value = parrafo8;
+            document.getElementById("ta_Parrafo9").value = parrafo9;
+            document.getElementById("ta_Parrafo10").value = parrafo10;
+
+            grabarParrafos();
+
+        }).fail(function (jsonRespuesta) {
+            alert("Ocurrió un error");
+        });
+
+    }
+
+    function grabarParrafos() {
+
+        var Solicitud_id = '@Model.Solicitud_id';
+        var Doc_TecPro_Tipo_id = '@Model.Doc_TecPro_Tipo_id';
+        var GuidEtapa_id = '@GuidEtapa_id';
+        var Guid_id = '@Guid_id';
+        var etapa_id = '@etapa_id';
+        var etaparuta_id = '@etaparuta_id';
+        var correlativoetapa_id = '@correlativoetapa_id';
+
+        var Parrafo_1 = $('#ta_Parrafo1').val();
+        var Parrafo_2 = $('#ta_Parrafo2').val();
+        var Parrafo_3 = $('#ta_Parrafo3').val();
+        var Parrafo_4 = $('#ta_Parrafo4').val();
+        var Parrafo_5 = $('#ta_Parrafo5').val();
+        var Parrafo_6 = $('#ta_Parrafo6').val();
+        var Parrafo_7 = $('#ta_Parrafo7').val();
+        var Parrafo_8 = $('#ta_Parrafo8').val();
+        var Parrafo_9 = $('#ta_Parrafo9').val();
+        var Parrafo_10 = $('#ta_Parrafo10').val();
+
+        var data = {
+            Solicitud_id: Solicitud_id,
+            Solicitud_Guid_id: Guid_id,
+            GuidEtapa_id: GuidEtapa_id,
+            Doc_TecPro_Tipo_id: Doc_TecPro_Tipo_id,
+            Etapa_id: etapa_id,
+            EtapaRuta_id: etaparuta_id,
+            CorrelativoEtapa_id: correlativoetapa_id,
+            Parrafo_1: Parrafo_1,
+            Parrafo_2: Parrafo_2,
+            Parrafo_3: Parrafo_3,
+            Parrafo_4: Parrafo_4,
+            Parrafo_5: Parrafo_5,
+            Parrafo_6: Parrafo_6,
+            Parrafo_7: Parrafo_7,
+            Parrafo_8: Parrafo_8,
+            Parrafo_9: Parrafo_9,
+            Parrafo_10: Parrafo_10
+        }
+
+        var url = "@Url.Action("GrabarParrafos", "Form_FormularioSolicitudInactivacion")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var objJSON = jsonRespuesta;
+
+        }).fail(function (jsonRespuesta) {
+            alert("Ocurrió un error");
+        });
+
+
+    }
+
+    function refreshPartialEnmiendasCreateSolicitudInactivacion() {
+        var Solicitud_id = '@Model.Solicitud_id';
+        var Doc_TecPro_Tipo_id = '@Model.Doc_TecPro_Tipo_id';
+        var params = "?Solicitud_id=" + Solicitud_id + "&Doc_TecPro_Tipo_id=" + Doc_TecPro_Tipo_id;
+
+
+        var urlEnmiendasCreate = "/Form_FormularioSolicitudInactivacion/Enmiendas_Create";
+
+        var myEnmiendasCreate = document.getElementById("div_EnmiendasCreate");
+        if (myEnmiendasCreate) {
+            $("#div_EnmiendasCreate").load(urlEnmiendasCreate + params);
+        }
+
+    }
+
+    function validarParrafosActivos() {
+        var Doc_TecPro_Tipo_id = '@Model.Doc_TecPro_Tipo_id';
+        var Lbl_1 = document.getElementById("lbl_parrafo1");
+        var Lbl_2 = document.getElementById("lbl_parrafo2");
+        var Lbl_3 = document.getElementById("lbl_parrafo3");
+        var Lbl_4 = document.getElementById("lbl_parrafo4");
+        var Lbl_5 = document.getElementById("lbl_parrafo5");
+        var Lbl_6 = document.getElementById("lbl_parrafo6");
+        var Lbl_7 = document.getElementById("lbl_parrafo7");
+        var Lbl_8 = document.getElementById("lbl_parrafo8");
+        var Lbl_9 = document.getElementById("lbl_parrafo9");
+        var Lbl_10 = document.getElementById("lbl_parrafo10");
+        var Parrafo_1 = document.getElementById("ta_Parrafo1");
+        var Parrafo_2 = document.getElementById("ta_Parrafo2");
+        var Parrafo_3 = document.getElementById("ta_Parrafo3");
+        var Parrafo_4 = document.getElementById("ta_Parrafo4");
+        var Parrafo_5 = document.getElementById("ta_Parrafo5");
+        var Parrafo_6 = document.getElementById("ta_Parrafo6");
+        var Parrafo_7 = document.getElementById("ta_Parrafo7");
+        var Parrafo_8 = document.getElementById("ta_Parrafo8");
+        var Parrafo_9 = document.getElementById("ta_Parrafo9");
+        var Parrafo_10 = document.getElementById("ta_Parrafo10");
+        var myEnmiendas = document.getElementById("div_EnmiendasCreate");
+
+        if (Doc_TecPro_Tipo_id == 1) {
+            Lbl_1.innerHTML = "@NombreSubDirectorRegional<br>Dirección Subregional<br/>Instituto Nacional de Bosques -INAB-";
+            Parrafo_8.style.display = "none";
+            Parrafo_9.style.display = "none";
+            Parrafo_10.style.display = "none";
+            myEnmiendas.style.display = "none";
+        } else if (Doc_TecPro_Tipo_id == 2) {
+            Lbl_1.innerHTML = "Señor:";
+            Parrafo_5.style.display = "none";
+            Parrafo_6.style.display = "none";
+            Parrafo_7.style.display = "none";
+            Parrafo_8.style.display = "none";
+            Parrafo_9.style.display = "none";
+            Parrafo_10.style.display = "none";
+        } else if (Doc_TecPro_Tipo_id == 3) {
+            Lbl_1.innerHTML = "Gerente/Junta Directiva<br/>Instituto Nacional de Bosques -INAB-<br/>Ing. (a) / Estimados miembros de Junta Directiva<br/>Reciba un cordial saludo de la Dirección Subregional @tbl_Sol_Solicitud.Tbl_Gral_SubRegion.Nombre_SubRegion";
+            Lbl_2.innerHTML = "Adjunto informe cirncunstanciado";
+            Parrafo_3.style.display = "none";
+            Parrafo_4.style.display = "none";
+            Parrafo_5.style.display = "none";
+            Parrafo_6.style.display = "none";
+            Parrafo_7.style.display = "none";
+            Parrafo_8.style.display = "none";
+            Parrafo_9.style.display = "none";
+            Parrafo_10.style.display = "none";
+            myEnmiendas.style.display = "none";
+        } else if (Doc_TecPro_Tipo_id == 4) {
+            Lbl_1.innerHTML = "Señor:";
+            Parrafo_6.style.display = "none";
+            Parrafo_7.style.display = "none";
+            Parrafo_8.style.display = "none";
+            Parrafo_9.style.display = "none";
+            Parrafo_10.style.display = "none";
+        }
+    }
+
+
+    $(document).ready(function () {
+        validarParrafosActivos();
+        refreshPartialEnmiendasCreateSolicitudInactivacion();
+    });
+
+</script>
+
+
+@Html.AntiForgeryToken()
+<div class="container">
+    <div class="titulo-dos">
+        <h4>@tipo</h4>
+    </div>
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Solicitud_id)
+    @Html.HiddenFor(model => model.Doc_TecPro_Tipo_id)
+
+    <br />
+    <label class="text-danger" id="lblMensaje"></label>
+    <div id="div_Parrafos">
+        <table class="table">
+            <tr>
+                <td>
+                    <input type="button" name="Reiniciar" value="Volver a Cargar Texto" class="btn btn-primary" onclick="reiniciarParrafos()" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label id="lbl_parrafo1"></label>
+                    <br />
+                    <textarea id="ta_Parrafo1" name="ta_Parrafo1" rows="7" cols="30" class="form-control" onchange="actualizaParrafo1()">@Model.Parrafo_1</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label id="lbl_parrafo2"></label>
+                    <br />
+                    <textarea id="ta_Parrafo2" name="ta_Parrafo2" rows="7" cols="30" class="form-control" onchange="actualizaParrafo2()">@Model.Parrafo_2</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label id="lbl_parrafo3"></label>
+                    <br />
+                    <textarea id="ta_Parrafo3" name="ta_Parrafo3" rows="7" cols="30" class="form-control" onchange="actualizaParrafo3()">@Model.Parrafo_3</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label id="lbl_parrafo4"></label>
+                    <br />
+                    <textarea id="ta_Parrafo4" name="ta_Parrafo4" rows="7" cols="30" class="form-control" onchange="actualizaParrafo4()">@Model.Parrafo_4</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label id="lbl_parrafo5"></label>
+                    <br />
+                    <textarea id="ta_Parrafo5" name="ta_Parrafo5" rows="7" cols="30" class="form-control" onchange="actualizaParrafo5()">@Model.Parrafo_5</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label id="lbl_parrafo6"></label>
+                    <br />
+                    <textarea id="ta_Parrafo6" name="ta_Parrafo6" rows="7" cols="30" class="form-control" onchange="actualizaParrafo6()">@Model.Parrafo_6</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label id="lbl_parrafo7"></label>
+                    <br />
+                    <textarea id="ta_Parrafo7" name="ta_Parrafo7" rows="7" cols="30" class="form-control" onchange="actualizaParrafo7()">@Model.Parrafo_7</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label id="lbl_parrafo8"></label>
+                    <br />
+                    <textarea id="ta_Parrafo8" name="ta_Parrafo8" rows="7" cols="30" class="form-control" onchange="actualizaParrafo8()">@Model.Parrafo_8</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label id="lbl_parrafo9"></label>
+                    <br />
+                    <textarea id="ta_Parrafo9" name="ta_Parrafo9" rows="7" cols="30" class="form-control" onchange="actualizaParrafo9()">@Model.Parrafo_9</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label id="lbl_parrafo10"></label>
+                    <br />
+                    <textarea id="ta_Parrafo10" name="ta_Parrafo10" rows="7" cols="30" class="form-control" onchange="actualizaParrafo10()">@Model.Parrafo_10</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="div_EnmiendasCreate"></div>
+                </td>
+            </tr>
+        </table>
+
+
+        <table width="100%">
+            <tr>
+                <td>
+                    <label id="lblMensajeFail" style="color:red"></label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button class="btn btn-success" onclick="generarSolicitudInactivacion()" name="verPDF" id="verPDF">Visualizar Documento</button>
+                </td>
+                <td>
+                    <button class="btn btn-success" id="btnFirmarDocumento" name="btnFirmarDocumento" onclick="FirmarDocumento()" style="display:none;">Firmar Documento</button>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                    <input type="button" class="btn btn-secondary" value="Cerrar y continuar despues" onclick="Cerrar()" />
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+
+</div>

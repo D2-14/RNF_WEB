@@ -1,0 +1,290 @@
+﻿@model RNF_Web.Models.Tbl_Gest_Etapa_Respuesta
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutSimple.cshtml";
+}
+
+<script src="~/Scripts/jquery-3.6.0.js"></script>
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+
+     $(document).ready(function () {
+         var Source = "/Gest_Etapa_Respuesta/ListadoEtapas?etapaid=" + @Model.Etapa_id + "&etaparutaid=" + @Model.EtapaRuta_id+ "&etaparespuestaid=" + @Model.Etapa_Respuesta_id;
+         $('#ListadoEtapas').load(Source)
+
+         var Source = "/Gest_Etapa_Respuesta/ListadoDocumentos?etapaid=" + @Model.Etapa_id + "&etaparutaid=" + @Model.EtapaRuta_id+ "&etaparespuestaid=" + @Model.Etapa_Respuesta_id;
+             $('#ListadoDocumentos').load(Source)
+
+
+         var Source = "/Gest_Etapa_Respuesta/ListadoFormularios?etapaid=" + @Model.Etapa_id + "&etaparutaid=" + @Model.EtapaRuta_id+ "&etaparespuestaid=" + @Model.Etapa_Respuesta_id;
+             $('#ListadoFormularios').load(Source)
+
+     });
+
+</script>
+
+<script>
+
+    function CambiarEtapaRespuesta(varEtapaid, boolNuevoEstado)
+    {
+            $.ajax({
+                type: 'POST',
+                url: "@(Url.Action("CambiarEtapaRespuestaRuta", "Gest_Etapa_Respuesta"))",
+                     dataType: 'json',
+                data: { etapaid: @Model.Etapa_id, etaparutaid: @Model.EtapaRuta_id, etaparespuestaid: @Model.Etapa_Respuesta_id, nuevaetapaid: varEtapaid, estado: boolNuevoEstado },
+                success: function (doc) {
+                },
+                error: function (ex) {
+                alert('Ocurrio un error aqui. ' + ex.status);
+                }
+
+                });
+                return false;
+    }
+
+
+
+    function CambiarEtapaRespuestaDocumentoObligatorio(varDocumentoid, boolNuevoEstado)
+    {
+            $.ajax({
+                type: 'POST',
+                url: "@(Url.Action("CambiarEtapaRespuestaDocumentoObligatorio", "Gest_Etapa_Respuesta"))",
+                     dataType: 'json',
+                data: { etapaid: @Model.Etapa_id, etaparutaid: @Model.EtapaRuta_id, etaparespuestaid: @Model.Etapa_Respuesta_id, TipoDocumentoid: varDocumentoid, estado: boolNuevoEstado },
+                success: function (doc) {
+                },
+                error: function (ex) {
+                alert('Ocurrio un error aqui. ' + ex.status);
+                }
+
+                });
+                return false;
+    }
+
+
+
+    function CambiarEtapaRespuestaFormularioObligatorio(varDocumentoid, boolNuevoEstado)
+    {
+            $.ajax({
+                type: 'POST',
+                url: "@(Url.Action("CambiarEtapaRespuestaFormularioObligatorio", "Gest_Etapa_Respuesta"))",
+                     dataType: 'json',
+                data: { etapaid: @Model.Etapa_id, etaparutaid: @Model.EtapaRuta_id, etaparespuestaid: @Model.Etapa_Respuesta_id, TipoFormularioid: varDocumentoid, estado: boolNuevoEstado },
+                success: function (doc) {
+                },
+                error: function (ex) {
+                alert('Ocurrio un error aqui. ' + ex.status);
+                }
+
+                });
+                return false;
+    }
+
+
+    function CambiarEtapaRespuestaDocumentoEstatus(varDocumentoid, boolNuevoEstado)
+    {
+            $.ajax({
+                type: 'POST',
+                url: "@(Url.Action("CambiarEtapaRespuestaDocumentoEstatus", "Gest_Etapa_Respuesta"))",
+                     dataType: 'json',
+                data: { etapaid: @Model.Etapa_id, etaparutaid: @Model.EtapaRuta_id, etaparespuestaid: @Model.Etapa_Respuesta_id, TipoDocumentoid: varDocumentoid, estado: boolNuevoEstado },
+                success: function (doc) {
+                },
+                error: function (ex) {
+                alert('Ocurrio un error aqui. ' + ex.status);
+                }
+
+                });
+                return false;
+    }
+
+
+    function CambiarEtapaRespuestaFormularioEstatus(varDocumentoid, boolNuevoEstado)
+    {
+            $.ajax({
+                type: 'POST',
+                url: "@(Url.Action("CambiarEtapaRespuestaFormularioEstatus", "Gest_Etapa_Respuesta"))",
+                     dataType: 'json',
+                data: { etapaid: @Model.Etapa_id, etaparutaid: @Model.EtapaRuta_id, etaparespuestaid: @Model.Etapa_Respuesta_id, TipoFormularioid: varDocumentoid, estado: boolNuevoEstado },
+                success: function (doc) {
+                },
+                error: function (ex) {
+                alert('Ocurrio un error aqui. ' + ex.status);
+                }
+
+                });
+                return false;
+    }
+
+</script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container-fluid">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(model => model.Etapa_id)
+        @Html.HiddenFor(model => model.EtapaRuta_id)
+        @Html.HiddenFor(model => model.Etapa_Respuesta_id)
+        @Html.HiddenFor(model => model.swcreatedby)
+        @Html.HiddenFor(model => model.swdatecreated)
+        @Html.HiddenFor(model => model.swcreatedbyinterno)
+
+        @Html.HiddenFor(model => model.swdateupdated)
+        @Html.HiddenFor(model => model.swupdatedby)
+        @Html.HiddenFor(model => model.swupdatedbyinterno)
+
+        <table class="table-borderless" width="100%">
+            <tr>
+                <td colspan="2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ButtonColor, "Color del boton", htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.ButtonColor, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ButtonColor, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Icono, "Icono del boton", htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.Icono, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Icono, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <div class="form-group">
+                        <a href="https://fontawesome.com/v4/icons/" target="_blank">Iconos admisibles</a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EtapaRSS_id, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-12">
+                                @Html.DropDownList("EtapaRSS_id", null, htmlAttributes: new { @class = "form-select" })
+                                @Html.ValidationMessageFor(model => model.EtapaRSS_id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <br />
+                    <div class="col-sm-12 col-md-12">
+                        <label>
+                            Es la respuesta default &nbsp;&nbsp;
+                            @if (Model.Respuesta_default == true)
+                            {
+                                <input type="checkbox" name="ChkRespuesta_default" id="ChkRespuesta_default" checked />
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="ChkRespuesta_default" id="ChkRespuesta_default" />
+                            }
+
+                        </label>
+                    </div>
+                </td>
+                <td>
+                    <div class="col-sm-12 col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Solicitud_Nuevo_Estado_id, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-12">
+                                @Html.DropDownList("Solicitud_Nuevo_Estado_id", null, htmlAttributes: new { @class = "form-select" })
+                                @Html.ValidationMessageFor(model => model.Solicitud_Nuevo_Estado_id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @*RespuestaDeFinalizacion*@
+                    <br />
+                    <div class="col-sm-12 col-md-12">
+                        <label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;Estado &nbsp;&nbsp;
+                            @if (Model.Estado == true)
+                            {<input type="checkbox" name="ChkEstado" id="ChkEstado" checked /> }
+                            else
+                            { <input type="checkbox" name="ChkEstado" id="ChkEstado" />}
+                        </label>
+                    </div>
+                </td>
+                <td>
+                    <br />
+                    <div class="col-sm-12 col-md-12">
+                        <label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;Respuesta de finalización &nbsp;&nbsp;
+                            @if (Model.RespuestaDeFinalizacion == true)
+                            {<input type="checkbox" name="ChkRespuestaDeFinalizacion" id="ChkRespuestaDeFinalizacion" checked /> }
+                            else
+                            { <input type="checkbox" name="ChkRespuestaDeFinalizacion" id="ChkRespuestaDeFinalizacion" />}
+                        </label>
+                    </div>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.CantidadIntentos, "Cantidad de intentos si es mayor que cero, la opción estará disponible al llegar al límite definido", htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CantidadIntentos, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CantidadIntentos, "", new { @class = "text-danger" })
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <br />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Grabar respuesta" class="btn-next" />
+                </td>
+            </tr>
+        </table>
+
+    </div>
+}
+
+<div id="ListadoEtapas"></div>
+<div id="ListadoDocumentos"></div>
+<div id="ListadoFormularios"></div>

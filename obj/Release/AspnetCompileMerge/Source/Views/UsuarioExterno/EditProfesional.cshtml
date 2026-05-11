@@ -1,0 +1,734 @@
+﻿@model RNF_Web.Models.Tbl_Seg_UsuarioExterno
+@using RNF_Web.Models;
+@using System.Data.SqlClient;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+@{
+
+    ViewBag.Title = "   Actualización de datos del solicitante ";
+    ViewBag.SubTitle = null;
+
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_Sol_Solicitud tbl_sol_solicitud = db.Tbl_Sol_Solicitud.Find(Session[Constants.session_Solicitud]);
+    ViewBag.Estado = tbl_sol_solicitud.Estado_id;
+
+
+}
+
+
+
+<script>
+    $(document).ready(function () {
+
+        var intSubCategoria = @ViewBag.SubCategoria;
+        const constGrado_Academico_Tecnico = document.querySelector('#Grado_Academico_Tecnico');
+        const constGrado_Academico_Profesional = document.querySelector('#Grado_Academico_Profesional');
+        const constDatosPostgrado = document.querySelector('#PostGradoMateriaForestal');
+
+        if ((intSubCategoria) == 4) {
+            var TdToShowA = document.getElementById("DatosEspecificarCarrera");
+            TdToShowA.style.display = "block";
+        }
+        else
+        {
+            var TdToHiddeA = document.getElementById("DatosEspecificarCarrera");
+            TdToHiddeA.style.display = "none";
+        }
+
+        if (constGrado_Academico_Profesional.checked) {
+            var TdToHiddeA = document.getElementById("DatosUniversidad");
+            TdToHiddeA.style.display = "block";
+        }
+        else
+        {
+            var TdToHiddeA = document.getElementById("DatosUniversidad");
+            TdToHiddeA.style.display = "none";
+        }
+
+        if (constDatosPostgrado.checked) {
+            var TdToHiddeA = document.getElementById("DatosPostgrado");
+            TdToHiddeA.style.display = "block";
+        }
+        else {
+            var TdToHiddeA = document.getElementById("DatosPostgrado");
+            TdToHiddeA.style.display = "none";
+        }
+
+
+
+
+        $(document).on('change', '#Profesion_id', function () {
+
+            var Valor = document.getElementById("Profesion_id").value;
+
+            if (Valor == 8) {
+                var TdToHiddeA = document.getElementById("DatosUniversidadEspecificar");
+                TdToHiddeA.style.display = "block";
+            }
+            else
+            {
+                var TdToHiddeA = document.getElementById("DatosUniversidadEspecificar");
+                TdToHiddeA.style.display = "none";
+            }
+
+
+        }); // -----Fin de Change Grado_Academico_Tecnico
+
+
+
+        $(document).on('change', '#Grado_Academico_Tecnico', function () {
+            const Grado_Academico_Tecnico = document.querySelector('#Grado_Academico_Tecnico');
+            if (Grado_Academico_Tecnico.checked) {
+                document.querySelector('#Grado_Academico_Profesional').checked = false;
+                document.querySelector('#PostGradoMateriaForestal').checked = false;
+                var TdHiddeA = document.getElementById("DatosUniversidad");
+                TdHiddeA.style.display = "none";
+                var TdHiddeB = document.getElementById("DatosPostgrado");
+                TdHiddeB.style.display = "none";
+
+            }
+            const Grado_Academico_Profesional = document.querySelector('#Grado_Academico_Profesional');
+
+            var url = "@Url.Action("GetProfesion", "Gral_Profesion")";
+            var data = { GAT: Grado_Academico_Tecnico.checked, GAP: Grado_Academico_Profesional.checked, };
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Profesion_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, profesion) {
+                    select.append($('<option/>', {
+                        value: profesion.Value,
+                        text: profesion.Text
+                    }));
+
+                });
+
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+
+        }); // -----Fin de Change Grado_Academico_Tecnico
+
+        $(document).on('change', '#Grado_Academico_Profesional', function () {
+            const Grado_Academico_Profesional = document.querySelector('#Grado_Academico_Profesional');
+            if (Grado_Academico_Profesional.checked) {
+                document.querySelector('#Grado_Academico_Tecnico').checked = false;
+
+                var TdToShowA = document.getElementById("DatosUniversidad");
+                TdToShowA.style.display = "block";
+
+
+            }
+            else
+            {
+                var TdToShowA = document.getElementById("DatosUniversidad");
+                var TdToShowB = document.getElementById("DatosPostgrado");
+
+                TdToShowA.style.display = "none";
+                TdToShowB.style.display = "none";
+                document.getElementById("PostGradoMateriaForestal").checked = false;
+
+            }
+
+            const Grado_Academico_Tecnico = document.querySelector('#Grado_Academico_Tecnico');
+
+            var url = "@Url.Action("GetProfesion", "Gral_Profesion")";
+            var data = { GAT: Grado_Academico_Tecnico.checked, GAP: Grado_Academico_Profesional.checked, };
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Profesion_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, profesion) {
+                    select.append($('<option/>', {
+                        value: profesion.Value,
+                        text: profesion.Text
+                    }));
+
+                });
+
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+
+        }); // -----Fin de Change Grado_Academico_Profesional
+
+        $(document).on('change', '#PostGradoMateriaForestal', function () {
+            const PostGradoMateriaForestal = document.querySelector('#PostGradoMateriaForestal');
+            if (PostGradoMateriaForestal.checked) {
+                var TdToShowA = document.getElementById("DatosPostgrado");
+                TdToShowA.style.display = "block";
+            }
+            else {
+                var TdToShowA = document.getElementById("DatosPostgrado");
+                TdToShowA.style.display = "none";
+            }
+
+        });
+
+
+        $("#Fecha_Nacimiento").datepicker({
+            dateFormat: "dd/mm/yy",
+            yearRange: "-120:+0",
+            changeMonth: true,
+            changeYear: true
+        });
+
+
+        $(document).on('change', '#DepartamentoDPI_id', function () {
+
+            var url = "@Url.Action("GetMunicipios", "Sol_Solicitud")";
+            var Departamento = $('#DepartamentoDPI_id').val();
+            var data = { Departamento: Departamento};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#MunicipioDPI_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text: municipio.Text
+                    }));
+
+                });
+
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+
+        $(document).on('change', '#Departamento_id', function () {
+
+            var url = "@Url.Action("GetMunicipios", "Sol_Solicitud")";
+            var Departamento = $('#Departamento_id').val();
+            var data = { Departamento: Departamento};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Municipio_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text: municipio.Text
+                    }));
+
+                });
+
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+
+
+        $('#myModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        })
+
+        $("#myModal").on('show.bs.modal', function () {
+
+            var modal = $(this)
+            modal.find('.modal-telefono').text("Teléfono a agregar : " + document.getElementById("Telefono_Celular").value + "  Favor verifique.");
+
+        });
+
+
+        $("#btnHideMyModal").click(function () {
+            $("#myModal").modal('hide');
+        });
+
+
+        $("#btnHideMyModal_Close").click(function () {
+            $("#myModal").modal('hide');
+        });
+
+
+    });
+
+</script>
+
+<br />
+
+@Html.Partial("_PartialPageEncabezado")
+
+
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
+
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Estado_id)
+    @Html.HiddenFor(model => model.Usuario_id)
+    @Html.HiddenFor(model => model.swupdatedby)
+    @Html.HiddenFor(model => model.swdateupdated)
+    @Html.HiddenFor(model => model.swupdateUsuarioInterno)
+    @Html.HiddenFor(model => model.CambioPW)
+
+    <br />
+    <div class="container-fluid" style="width:100%;">
+
+        <div style="display:none;">
+
+            <button type="button" style="width:100%; color:green;" data-toggle="collapse" data-target="#Cuenta" hidden>(+) Datos acceso y seguridad&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+            <br />
+            <div id="Cuenta" style="display:none;" style="border: 1px dashed #1bb828;">
+                <br />
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Nombres, htmlAttributes: new { @class = "control-label col-md-10" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Nombres, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Nombres, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Apellidos, htmlAttributes: new { @class = "control-label col-md-10" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Apellidos, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Apellidos, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Correo, "Correo :", htmlAttributes: new { @class = "control-label col-md-10" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Correo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Clave, "Contraseña actual:", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-10">
+                                <input class="form-control input100" type="password" name="Clave" placeholder="Ingrese la Contraseña" value="@Model.Clave">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            &nbsp;&nbsp;Nueva contraseña:
+                            <div class="col-md-10">
+                                <input class="form-control input100" type="password" name="ClaveNueva" placeholder="No ingresar datos si no desea actualizar la contraseña" value="@ViewBag.ClaveConfirmacion">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            &nbsp;&nbsp;Confirmar nueva contraseña:
+                            <div class="col-md-10">
+                                <input class="form-control input100" type="password" name="ClaveConfirmacion" placeholder="Confirmación de Contraseña" value="@ViewBag.ClaveConfirmacion">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Telefono_Celular, "Telefono Celular:", htmlAttributes: new { @class = "control-label col-md-10" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => Model.Telefono_Celular, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Telefono_Celular, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Telefono_Oficina, "Telefono Oficina:", htmlAttributes: new { @class = "control-label col-md-10" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Telefono_Oficina, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Telefono_Oficina, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+
+                    </div>
+
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Telefono_Oficina_Extension, " Extensión:", htmlAttributes: new { @class = "control-label col-md-5" })
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.Telefono_Oficina_Extension, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Telefono_Oficina_Extension, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <br />
+            </div>
+            <br />
+            <button type="button" style="width:100%; color:green;" data-toggle="collapse" data-target="#Generales" hidden>(+) Datos generales del solicitante</button>
+            <br />
+            <div id="Generales" style="display:none;" style="border: 1px dashed #1bb828;">
+                <br />
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Fecha_Nacimiento, "Fecha de nacimiento", htmlAttributes: new { @class = "control-label col-md-6", style = "text-align: left; font-size:18px;" })
+                            <div class="col-md-7">
+                                @Html.TextBoxFor(model => model.Fecha_Nacimiento, "{0:dd-MM-yyyy}", new { @class = "dateInput", @placeholder = "dd/mm/yyyy", data_val = false })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.No_NIT, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.No_NIT, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.No_NIT, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                @Html.LabelFor(model => model.PuebloPertenencia_id, htmlAttributes: new { @class = "control-label col-md-6" })
+                                @Html.DropDownList("PuebloPertenencia_id", null, htmlAttributes: new { @class = "form-select" })
+                                @Html.ValidationMessageFor(model => model.PuebloPertenencia_id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Sexo_id, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("Sexo_id", null, htmlAttributes: new { @class = "form-select" })
+                                @Html.ValidationMessageFor(model => model.Sexo_id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+
+                        <div class="form-group">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DocumentoID_Tipo, htmlAttributes: new { @class = "control-label col-md-6" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("DocumentoID_Tipo", null, htmlAttributes: new { @class = "form-select" })
+                                    @Html.ValidationMessageFor(model => model.DocumentoID_Tipo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.No_Documento, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.No_Documento, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.No_Documento, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DepartamentoDPI_id, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("DepartamentoDPI_id", null, htmlAttributes: new { @class = "form-select" })
+                                @Html.ValidationMessageFor(model => model.DepartamentoDPI_id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MunicipioDPI_id, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("MunicipioDPI_id", null, htmlAttributes: new { @class = "form-select" })
+                                @Html.ValidationMessageFor(model => model.MunicipioDPI_id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+            </div>
+            <br />
+            <button type="button" hidden style="width:100%; color:green;" data-toggle="collapse" data-target="#Direccion">(+) Dirección del solicitante&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+            <br />
+            <div id="Direccion" style="display:none;" style="border: 1px dashed #1bb828;">
+                <br />
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Direccion, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.Direccion, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Departamento_id, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("Departamento_id", null, htmlAttributes: new { @class = "form-select" })
+                                @Html.ValidationMessageFor(model => model.Departamento_id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Municipio_id, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("Municipio_id", null, htmlAttributes: new { @class = "form-select" })
+                                @Html.ValidationMessageFor(model => model.Municipio_id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+
+
+            </div>
+
+
+            <br />
+            <button type="button" hidden style="width:100%; color:green;" data-toggle="collapse" data-target="#Formacion" hidden>(+) Formación y datos laborales&nbsp;&nbsp;&nbsp;</button>
+            <br />
+        </div>
+
+
+        <div id="Formacion">
+            <br />
+
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Grado_Academico_Tecnico, htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.Grado_Academico_Tecnico)
+                                @Html.ValidationMessageFor(model => model.Grado_Academico_Tecnico, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Grado_Academico_Profesional, htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.Grado_Academico_Profesional)
+                                @Html.ValidationMessageFor(model => model.Grado_Academico_Profesional, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Profesion_id, htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-12">
+                            @Html.DropDownList("Profesion_id", null, htmlAttributes: new { @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.Profesion_id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br />
+
+            <div id="DatosEspecificarCarrera">
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EspecificarCarrera, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.EspecificarCarrera, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.EspecificarCarrera, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.No_De_Diploma, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.No_De_Diploma, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.No_De_Diploma, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row" id="DatosUniversidad">
+                <div class="col-sm-12 col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Universidad, htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.Universidad, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Universidad, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.No_Colegiado, htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.No_Colegiado, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.No_Colegiado, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" id="DatosUniversidadEspecificar">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.UniversidadEspecificarCarrera, "Especificar carrera universitaria", htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.UniversidadEspecificarCarrera, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.UniversidadEspecificarCarrera, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PostGradoMateriaForestal, htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.PostGradoMateriaForestal)
+                            @Html.ValidationMessageFor(model => model.PostGradoMateriaForestal, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row" id="DatosPostgrado">
+                <div class="col-sm-12 col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PostGradoUniversidad, htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.PostGradoUniversidad, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.PostGradoUniversidad, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PostGradoEspecialidad, htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.PostGradoEspecialidad, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.PostGradoEspecialidad, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <table class="model-state">
+        @foreach (var item in ViewContext.ViewData.ModelState)
+        {
+            if (item.Value.Errors.Any())
+            {
+                <tr>
+                    <td> <h1 style="background-color:powderblue;">@(string.Join("; ", item.Value.Errors.Select(x => x.ErrorMessage)))</h1></td>
+                </tr>
+            }
+        }
+    </table>
+
+
+    if (ViewBag.Mensaje != "")
+    {
+        <h1 style="background-color:powderblue;">@ViewBag.Mensaje</h1>
+        <p style="color: blue;">@ViewBag.Mensaje_II</p>
+    }
+
+    <br />
+    <div class="form-group">
+
+        <h3 style="background-color:powderblue;">@TempData["Mensaje"]</h3>
+
+        @if ((ViewBag.Estado == 0) || (ViewBag.Estado == 4))
+        {
+
+            <div class="col-sm-12 col-md-12" align="right">
+                <input type="submit" value="Guardar cambios" class="btn btn-success" />
+            </div>
+
+        }
+
+    </div>
+}
+
+
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+
+

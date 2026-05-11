@@ -1,0 +1,58 @@
+﻿@using RNF_Web.Models;
+@model IEnumerable<RNF_Web.Models.Tbl_RNF_Registro_BitacoraHallazgo>
+@{
+    db_RNFEntities db = new db_RNFEntities();
+    Layout = "~/Views/Shared/_LayoutMoreSimple.cshtml";
+    Layout = null;
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<script>
+    function eliminarHallazgo(No_Registro, Bitacora_id, Correlativo_id) {
+        var url = '@Url.Action("EliminarHallazgo", "RNF_Registro_Reasignacion")';
+        var data = {
+            No_Registro: No_Registro,
+            Bitacora_id: Bitacora_id,
+            Correlativo_id: Correlativo_id
+        }
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            var oJSON = RespuestaJSON;
+            var Result = oJSON.Result;
+            var Mensaje = oJSON.Mensaje;
+            if (Result == 1) {
+                location.reload();
+            } else {
+                alert(Mensaje);
+            }
+
+        }).fail(function (Inconveniente) {
+            console.log(Inconveniente);
+            alert('Ocurrió un error, ' + Inconveniente);
+        })
+    }
+</script>
+
+
+<table class="table">
+    <tr>
+        <th>
+            Causales registradas
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DescripcionHallazgo)
+        </td>
+        <td>
+            <input class="btn btn-primary" type="button" id="EliminarHallazgo"  name="EliminarHallazgo" value="Eliminar" onclick="eliminarHallazgo('@item.No_Registro','@item.Bitacora_id','@item.Correlativo_id')" />
+        </td>
+    </tr>
+}
+</table>

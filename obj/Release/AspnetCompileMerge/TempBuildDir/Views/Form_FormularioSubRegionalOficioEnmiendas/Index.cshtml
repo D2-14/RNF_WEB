@@ -1,0 +1,586 @@
+﻿@using RNF_Web.Models;
+@model RNF_Web.Models.Tbl_Gest_EtapaSolicitud
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@{
+    ViewBag.Title = "   Home page";
+    Layout = null;
+    db_RNFEntities db = new db_RNFEntities();
+
+
+    string guidid, guidetapa;
+    guidid = ViewBag.guidsolicitud;
+    guidetapa = ViewBag.guidetapasolicitud;
+
+    Usuario objUs;
+    objUs = (Usuario)Session["User"];
+
+    var Tbl_Gest_Etapa_Respuestas = db.Tbl_Gest_Etapa_Respuesta.Where(Obj => Obj.Etapa_id == Model.Etapa_id && Obj.EtapaRuta_id == Model.EtapaRuta_id && Obj.Estado == true);
+
+
+    int CantidadEnmiendasTecnico = db.Tbl_Gest_EtapaSolicitud_OficioTecnico_Enmienda.Where(Obj => Obj.Solicitud_Guid_id == Model.Solicitud_Guid_id && Obj.Estado_id == true).Count();
+
+    int CantidadEnmiendasJuridicas = db.Tbl_Gest_EtapaSolicitud_OficioJuridico_Enmienda.Where(Obj => Obj.Solicitud_Guid_id == Model.Solicitud_Guid_id && Obj.Estado_id == true).Count();
+
+    int CantidadEnmiendasSubRegional = db.Tbl_Gest_EtapaSolicitud_OficioSubRegional_Enmienda.Where(Obj => Obj.Solicitud_Guid_id == Model.Solicitud_Guid_id && Obj.Estado_id == true).Count();
+
+
+}
+
+<input type="button" id="obtenerPDF" name="obtenerPDF" value="Descargar PDF" class="btn btn-sm btn-success" onclick="abrirPDFSubRegional()" />
+<br />
+<div id="div_CrearCriticas"></div>
+
+<table class="table">
+    <tr>
+        <td>
+            @if (CantidadEnmiendasTecnico > 0)
+            {
+                <div id="div_ListarEnmiendasTecnico"></div>
+            }
+            else
+            {
+                <div id="div_ListarEnmiendasTecnico" hidden></div>
+            }
+        </td>
+        <td>
+            @if (CantidadEnmiendasJuridicas > 0)
+            {
+                <div id="div_ListarEnmiendasJuridico"></div>
+            }
+            else
+            {
+                <div id="div_ListarEnmiendasJuridico" hidden></div>
+            }
+        </td>
+        <td>
+            <div id="div_ListarCriticasSubRegional"></div>
+        </td>
+    </tr>
+</table>
+<div id="div_CrearEnmiendas"></div>
+<div id="div_ListarEnmiendasSubRegional"></div>
+<br />
+<table width="100%">
+    <tr>
+        <td colspan="3">
+            Datos de firma electrónica
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <br />
+        </td>
+    </tr>
+    <tr>
+        <td width="20%">Usuario</td>
+        <td width="20%">
+            <input type="text" id="FirmaElectronicaUsuario" name="FirmaElectronicaUsuario" value="" />
+        </td>
+        <td width="20%">Password</td>
+        <td width="20%">
+            <input type="password" id="FirmaElectronicaPassword" name="FirmaElectronicaPassword" value="" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <br />
+        </td>
+    </tr>
+</table>
+
+
+<table width="100%">
+    <tr>
+        <td width="20%">
+            <input type="button" name="generarDocs" value="Vista previa" class="btn btn-sm btn-success" onclick="descargarEnmiendaSubRegional()" />
+        </td>
+        <td width="80%">
+        </td>
+    </tr>
+
+</table>
+
+<table width="100%" id="btnFirmarDocumento" name="btnFirmarDocumento" style="display: none;">
+    @foreach (Tbl_Gest_Etapa_Respuesta item in Tbl_Gest_Etapa_Respuestas)
+    {
+        <tr>
+            <td width="20%">
+            </td>
+            <td width="80%">
+                <div class="d-grid gad-2">
+                    <button id="BtnContinuar" class="btn-next-ic" style="background-color:blue;" onclick="FirmarDocumento('@item.Etapa_Respuesta_id')">@item.Descripcion</button>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td> &nbsp;</td>
+        </tr>
+    }
+</table>
+
+<script>
+    $(document).ready(function () {
+        $("#obtenerPDF").hide();
+
+        refreshPartialCriticas();
+
+    })
+
+
+
+
+
+    function fnc_EnviarRespuesta(varRespuestaid)
+    {
+        varsolicitud_id = '@Model.Solicitud_id';
+        varetapa_id = '@Model.Etapa_id';
+        varetaparuta_id = '@Model.EtapaRuta_id';
+        varcorrelativoetapa_id = '@Model.CorrelativoEtapa_id';
+        varMotivo = $('#Motivo').val();
+        varEtapaSolicitud_GUIDid= '@Model.EtapaSolicitud_GUID_id';
+
+
+        var url = "@Url.Action("ActualizaEtapaRespuestaIndexSolicitud", "Form_FormularioDirectorRegional")";
+
+        var data = { solicitud_id: varsolicitud_id, etapa_id: varetapa_id, etaparuta_id: varetaparuta_id, correlativoetapa_id: varcorrelativoetapa_id, motivo: varMotivo, respuestaid: varRespuestaid, EtapaSolicitud_GUIDid: varEtapaSolicitud_GUIDid };
+
+        $.post(url, data).done(function (jsonRespuesta) {
+               var objJSON = JSON.parse(jsonRespuesta);
+               var Cod_Respuesta = objJSON.CodRespuesta;
+               var Texto_Respuesta = objJSON.strRespuesta;
+
+
+            if (Cod_Respuesta != 1) {
+                alert(Texto_Respuesta);
+                $('#lblMeModelodelodelsaje').text(Texto_Respuesta);
+            }
+            else
+            {
+                window.location.replace("/Gest_EtapaSolicitud/Index");
+            }
+
+           }).fail(function (RespuestaJSON) {
+
+               alert('Error no identificado.');
+            });
+
+    }
+
+
+
+
+    function FirmarDocumento(RespuestaId) {
+
+        var TdHiddeA = document.getElementById("btnFirmarDocumento");
+        TdHiddeA.style.display = "none";
+
+        varFirmaElectronicaUsuario = $('#FirmaElectronicaUsuario').val();
+        varFirmaElectronicaPassword = $('#FirmaElectronicaPassword').val();
+
+        var data = {
+            Guid_id: '@ViewBag.Guid_id',
+            Guidetapa_id: '@ViewBag.guidetapasolicitud',
+            UsuarioFE: varFirmaElectronicaUsuario,
+            PasswordFE: varFirmaElectronicaPassword
+        };
+
+        var url = "@Url.Action("JsonProcesarFirmaElectronica", "Home")";
+        loaderPantalla(true);
+        $.post(url, data).done(function (jsonrespuesta) {
+            loaderPantalla(false);
+            var oJSON = JSON.parse(jsonrespuesta);
+            var NombreDocumento = oJSON.strRespuesta;
+            var CodigoRespuesta = oJSON.CodRespuesta;
+
+
+            if ((CodigoRespuesta == '0') || (CodigoRespuesta == 0))
+            {
+                window.open("/Home/FalloFirmaElectronica?FalloFe=" + NombreDocumento, '_blank');
+            }
+            else
+            {
+                window.open(NombreDocumento, '_blank');
+
+                fnc_EnviarRespuesta(RespuestaId);  /*Criterio de sistema*/
+
+            }
+
+
+        });
+
+    }
+
+
+
+    function Cerrar() {
+        window.location.replace("/Main/Index");
+    }
+
+    function refreshPartialCriticas() {
+        var myCrearCriticas = document.getElementById("div_CrearCriticas");
+        var myListarEnmiendasTecnico = document.getElementById("div_ListarEnmiendasTecnico");
+        var myListarEnmiendasJuridico = document.getElementById("div_ListarEnmiendasJuridico");
+        var myListarCriticas = document.getElementById("div_ListarCriticasSubRegional");
+        var myListarEnmiendasSubRegional = document.getElementById("div_ListarEnmiendasSubRegional");
+        var myCrearEnmiendas = document.getElementById("div_CrearEnmiendas");
+
+
+        if (myListarEnmiendasTecnico) {
+            $("#div_ListarEnmiendasTecnico").load("/Form_FormularioSubRegionalOficioEnmiendas/ListaEnmiendasTecnico?Guid_id=@guidid&EtapaSolicitudGuid=@guidetapa");
+        }
+
+        if (myListarEnmiendasJuridico) {
+            $("#div_ListarEnmiendasJuridico").load("/Form_FormularioSubRegionalOficioEnmiendas/ListaEnmiendasJuridico?Guid_id=@guidid&EtapaSolicitudGuid=@guidetapa");
+        }
+
+        if (myListarCriticas) {
+            //$("#div_ListarCriticasSubRegional").load("/Form_FormularioSubRegionalOficioEnmiendas/ListaCriticasOficioTecnico?Guid_id=@guidid&EtapaSolicitudGuid=@guidetapa");
+        }
+
+        if (myListarEnmiendasSubRegional) {
+            $("#div_ListarEnmiendasSubRegional").load("/Form_FormularioSubRegionalOficioEnmiendas/ListaEnmiendasOficioSubRegional?Guid_id=@guidid&EtapaSolicitudGuid=@guidetapa");
+        }
+
+        if (myCrearEnmiendas) {
+            $("#div_CrearEnmiendas").load("/Form_FormularioSubRegionalOficioEnmiendas/CreateEnmienda?Guid_id=@guidid&EtapaSolicitudGuid=@guidetapa");
+        }
+    }
+
+    var ubicacionpdf = null;
+
+
+    function abrirPDFSubRegional() {
+        window.open(ubicacionpdf, '_blank');
+    }
+
+    function agregarCriticaSubRegional() {
+        var Solicitud_id = document.getElementById("Solicitud_id").value;
+        var Etapa_id = document.getElementById("Etapa_id").value;
+        var EtapaRuta_id = document.getElementById("EtapaRuta_id").value;
+        var CorrelativoEtapa_id = document.getElementById("CorrelativoEtapa_id").value;
+        var EtapaSolicitud_Guid_id = document.getElementById("EtapaSolicitud_Guid_id").value;
+        var Solicitud_Guid_id = document.getElementById("Solicitud_Guid_id").value;
+        var swcreatedby = document.getElementById("swcreatedby").value;
+        var swcreatedbyinterno = document.getElementById("swcreatedbyinterno").value;
+        var Descripcion = document.getElementById("Descripcion").value;
+
+        if ((Descripcion.trim() == "") || (Descripcion.trim() == null)) {
+            alert("Debe colocar una critica")
+            return;
+        }
+
+        var data = {
+            Solicitud_id: Solicitud_id,
+            Etapa_id: Etapa_id,
+            EtapaRuta_id: EtapaRuta_id,
+            CorrelativoEtapa_id: CorrelativoEtapa_id,
+            EtapaSolicitud_Guid_id: EtapaSolicitud_Guid_id,
+            Solicitud_Guid_id: Solicitud_Guid_id,
+            swcreatedby: swcreatedby,
+            swcreatedbyinterno: swcreatedbyinterno,
+            Descripcion: Descripcion
+        };
+
+        var url = "@Url.Action("GrabarCritica", "Form_FormularioSubRegionalOficioEnmiendas")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+
+            refreshPartialCriticas();
+
+        });
+
+    }
+
+    function eliminarCritica(criticaid) {
+        var EtapaSolicitud_GUID_id = "@guidetapa";
+        var Solicitud_Guid_id = "@guidid";
+        var Critica_id = criticaid;
+        var swupdatedby = @objUs.intUsuario_id;
+
+        var data = {
+            EtapaSolicitud_GUID_id: EtapaSolicitud_GUID_id,
+            Solicitud_Guid_id: Solicitud_Guid_id,
+            Critica_id: Critica_id,
+            swupdatedby: swupdatedby
+        };
+
+        var url = "@Url.Action("EliminarCritica", "Form_FormularioSubRegionalOficioEnmiendas")";
+
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+
+            refreshPartialCriticas();
+
+        });
+
+    }
+
+    function agregarEnmiendaSubRegional() {
+        var Solicitud_id = document.getElementById("Solicitud_id").value;
+        var Etapa_id = document.getElementById("Etapa_id").value;
+        var EtapaRuta_id = document.getElementById("EtapaRuta_id").value;
+        var CorrelativoEtapa_id = document.getElementById("CorrelativoEtapa_id").value;
+        var EtapaSolicitud_GUID_id = document.getElementById("EtapaSolicitud_GUID_id").value;
+        var Solicitud_Guid_id = document.getElementById("Solicitud_Guid_id").value;
+        var swcreatedby = document.getElementById("swcreatedby").value;
+        var swcreatedbyinterno = document.getElementById("swcreatedbyinterno").value;
+        var Descripcion = document.getElementById("Descripcion_Enmienda").value;
+        var Adjudicar = document.getElementById("persona_adjudica").value;
+        var EstadoEnmiendaTecnico_id = false;
+        var EstadoEnmiendaJuridico_id = false;
+        var EstadoEnmiendaSubRegional_id = false;
+
+        if (Adjudicar == "tecnico") {
+            EstadoEnmiendaTecnico_id = true;
+        }
+        if (Adjudicar == "juridico") {
+            EstadoEnmiendaJuridico_id = true;
+        }
+
+        if (Adjudicar == "subregional") {
+            EstadoEnmiendaSubRegional_id = true;
+        }
+
+        if ((Descripcion.trim() == "") || (Descripcion.trim() == null)) {
+            alert("Debe colocar una enmienda")
+            return;
+        }
+
+        var data = {
+            Solicitud_id: Solicitud_id,
+            Etapa_id: Etapa_id,
+            EtapaRuta_id: EtapaRuta_id,
+            CorrelativoEtapa_id: CorrelativoEtapa_id,
+            EtapaSolicitud_GUID_id: EtapaSolicitud_GUID_id,
+            Solicitud_Guid_id: Solicitud_Guid_id,
+            swcreatedby: swcreatedby,
+            swcreatedbyinterno: swcreatedbyinterno,
+            Descripcion: Descripcion,
+            EstadoEnmiendaTecnico_id: EstadoEnmiendaTecnico_id,
+            EstadoEnmiendaSubRegional_id: EstadoEnmiendaSubRegional_id,
+            EstadoEnmiendaJuridico_id: EstadoEnmiendaJuridico_id
+        };
+        //console.log(data);
+        var url = "@Url.Action("GrabarEnmienda", "Form_FormularioSubRegionalOficioEnmiendas")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+
+            refreshPartialCriticas();
+
+        });
+
+    }
+
+    function grabarObservacion(enmiendaid) {
+
+        var Enmienda_id = enmiendaid;
+        var Objecion = document.getElementById("Objecion_" + enmiendaid).value;
+        var EtapaSolicitud_GUID_id = '@guidetapa';
+        var Solicitud_Guid_id = '@guidid';
+        var swcriticadoby = '@objUs.intUsuario_id';
+        var swcriticadobyinterno = true;
+
+        if ((Objecion.trim() == "") || (Objecion.trim() == null)) {
+            alert("Debe colocar una observación")
+            return;
+        }
+
+        var data = {
+            EtapaSolicitud_GUID_id: EtapaSolicitud_GUID_id,
+            Solicitud_Guid_id: Solicitud_Guid_id,
+            Enmienda_id: Enmienda_id,
+            Objecion: Objecion,
+            swcriticadoby: swcriticadoby,
+            swcriticadobyinterno: swcriticadobyinterno
+        }
+
+        var url = "@Url.Action("GrabarObjecion", "Form_FormularioSubRegionalOficioEnmiendas")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+
+            refreshPartialCriticas();
+
+        });
+
+    }
+
+    function descargarEnmiendaSubRegional() {
+
+        loaderPantalla(true);
+        var EtapaSolicitud_GUID_id = '@guidetapa';
+        var Solicitud_Guid_id = '@guidid';
+
+        var data = {
+            EtapaSolicitud_GUID_id: EtapaSolicitud_GUID_id,
+            Solicitud_Guid_id: Solicitud_Guid_id
+        };
+
+        var url = "@Url.Action("GenerarEnmiendaOficioSubRegional", "Form_FormularioSubRegionalOficioEnmiendas")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            loaderPantalla(false);
+            var oJSON = JSON.parse(jsonRespuesta);
+            var Result = oJSON.Result;
+            var Mensaje = oJSON.Mensaje;
+            var NombreDocumento = oJSON.Ubicacion;
+            if (Result == 1) {
+                if (NombreDocumento != null) {
+                    window.open('/Archivos_Generados_Que_Pueden_Borrar/' + NombreDocumento, '_blank');
+
+                    var TdHiddeA = document.getElementById("btnFirmarDocumento");
+                    TdHiddeA.style.display = "block";
+
+                    var TdHiddeB = document.getElementById("BtnContinuar");
+                    TdHiddeB.style.display = "block";
+
+
+                }
+            } else {
+                alert(Mensaje);
+            }
+            refreshPartialCriticas();
+
+        });
+
+    }
+
+    function agregarEnmiendaTecnico_listar(enmiendaid) {
+        var EtapaSolicitud_GUID_id = "@guidetapa";
+        var Solicitud_Guid_id = "@guidid";
+        var Descripcion = document.getElementById("DescripcionTecnica_" + enmiendaid).innerHTML;
+        var EstadoEnmiendaJuridico_id = false;
+        var EstadoEnmiendaTecnico_id = true;
+
+        var data = {
+            EtapaSolicitud_GUID_id: EtapaSolicitud_GUID_id,
+            Solicitud_Guid_id: Solicitud_Guid_id,
+            Descripcion: Descripcion,
+            EstadoEnmiendaJuridico_id: EstadoEnmiendaJuridico_id,
+            EstadoEnmiendaTecnico_id: EstadoEnmiendaTecnico_id
+        }
+
+        var url = "@Url.Action("AgregarEnmiendaSubRegional", "Form_FormularioSubRegionalOficioEnmiendas")";
+
+        $.post(url, data).done(function (jsonRespuesta){
+            refreshPartialCriticas();
+        });
+
+    }
+
+    function agregarEnmiendaJuridico_listar(enmiendaid) {
+        var EtapaSolicitud_GUID_id = "@guidetapa";
+        var Solicitud_Guid_id = "@guidid";
+        var Descripcion = document.getElementById("DescripcionJuridica_" + enmiendaid).innerHTML;
+        var EstadoEnmiendaJuridico_id = true;
+        var EstadoEnmiendaTecnico_id = false;
+
+        var data = {
+            EtapaSolicitud_GUID_id: EtapaSolicitud_GUID_id,
+            Solicitud_Guid_id: Solicitud_Guid_id,
+            Descripcion: Descripcion,
+            EstadoEnmiendaJuridico_id: EstadoEnmiendaJuridico_id,
+            EstadoEnmiendaTecnico_id: EstadoEnmiendaTecnico_id
+        }
+
+        var url = "@Url.Action("AgregarEnmiendaSubRegional", "Form_FormularioSubRegionalOficioEnmiendas")";
+
+        $.post(url, data).done(function (jsonRespuesta){
+            refreshPartialCriticas();
+        });
+
+    }
+
+    function cambioEstadoEnmiendaSubRegional(enmiendaid, correlativoetapaid) {
+        var EtapaSolicitud_GUID_id = "@guidetapa";
+        var Solicitud_Guid_id = "@guidid";
+        var Enmienda_id = enmiendaid;
+
+        var data = {
+            EtapaSolicitud_GUID_id: EtapaSolicitud_GUID_id,
+            Solicitud_Guid_id: Solicitud_Guid_id,
+            Enmienda_id: Enmienda_id,
+            CorrelativoEtapa_id: correlativoetapaid
+        }
+        var url = "@Url.Action("ActualizaEstadoEnmienda", "Form_FormularioSubRegionalOficioEnmiendas")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+            refreshPartialCriticas();
+        });
+    }
+
+</script>
+
+
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+</style>

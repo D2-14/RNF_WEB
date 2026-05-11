@@ -1,0 +1,124 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@{
+    ViewBag.Title = "   Home page";
+    Layout = null;
+}
+
+<style>
+    body {
+        font-family: Arial;
+    }
+
+    /* Style the tab */
+    .tab {
+        overflow: hidden;
+    }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+        }
+
+            /* Change background color of buttons on hover */
+            .tab button:hover {
+                background-color: #ddd;
+            }
+
+            /* Create an active/current tablink class */
+            .tab button.active {
+                background-color: forestgreen;
+                color: white;
+            }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        -webkit-animation: fadeEffect 1s;
+        animation: fadeEffect 1s;
+    }
+</style>
+
+
+<div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'Permisos')" id="defaultOpen">Permisos y gestión de solicitud</button>
+    <button class="tablinks" onclick="openCity(event, 'Enmiendas')">Gestión de enmiendas</button>
+    <button class="tablinks" onclick="openCity(event, 'Historial')">Historial</button>
+</div>
+<div id="Permisos" class="tabcontent">
+    <div id="div_PanelAsignacion"></div>
+</div>
+<div id="Enmiendas" class="tabcontent">
+    <br />
+    <div id="div_Enmiendas"></div>
+</div>
+<div id="Historial" class="tabcontent">
+    <br />
+    <div id="CurrentHistorial"></div>
+</div>
+
+<script>
+
+
+    $(document).ready(function () {
+        var div_PanelAsignacion = document.getElementById("div_PanelAsignacion");
+
+        if (div_PanelAsignacion) {
+            $("#div_PanelAsignacion").load("/App_Visita_Campo/PanelAsignacion?Guid_id=@ViewBag.Guid_id");
+        }
+
+        var div_Enmiendas = document.getElementById("div_Enmiendas");
+
+        if (div_Enmiendas) {
+            $("#div_Enmiendas").load("/Form_FormularioSubRegionalOficioEnmiendas/Index?Guid_id=@ViewBag.Guid_id&EtapaSolicitudGuid=@ViewBag.GuidEtapa_id");
+        }
+
+        var CurrentHistorial = document.getElementById("CurrentHistorial");
+
+        if (CurrentHistorial) {
+            $("#CurrentHistorial").load("/Gest_EtapaSolicitud/Historial?Guid_id=@ViewBag.Guid_id&Layout='No'");
+        }
+
+
+    })
+
+
+
+</script>
+
+<script>
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+</script>
+
+
+
+

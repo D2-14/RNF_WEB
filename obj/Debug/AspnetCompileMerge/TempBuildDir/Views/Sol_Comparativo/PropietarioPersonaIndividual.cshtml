@@ -1,0 +1,79 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_RNF_PropietarioPersonaIndividual>
+@using RNF_Web.Models;
+@{
+    db_RNFEntities db = new db_RNFEntities();
+}
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@if (Model.Count() > 0)
+{
+    <h3>Registro Actual</h3>
+    <table class="table">
+        <tr>
+            <th>
+                Nombres
+            </th>
+            <th>
+                NIT
+            </th>
+            <th>
+                Documento
+            </th>
+            <th>
+                Ubicación de Documento
+            </th>
+            <th>
+                Fecha Nacimiento
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Celular)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Telefono)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombres)
+                    @Html.DisplayFor(modelItem => item.Apellidos)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.No_NIT)
+                </td>
+                <td>
+                    @Html.Raw(db.Tbl_Gral_DocumentoID_Tipo.Find(item.DocumentoID_Tipo).Descripcion + ": " + Html.DisplayFor(modelItem => item.No_Documento))
+
+                </td>
+                <td>
+                    @db.Tbl_Gral_Municipio.Find(item.MunicipioDPI_id).Municipio,
+                    @db.Tbl_Gral_Departamento.Find(item.DepartamentoDPI_id).Departamento
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha_Nacimiento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Celular)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telefono)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+            </tr>
+        }
+
+    </table>
+}

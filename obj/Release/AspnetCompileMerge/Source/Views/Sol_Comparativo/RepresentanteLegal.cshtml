@@ -1,0 +1,71 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_RNF_RepresentanteLegal>
+@using RNF_Web.Models;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@{
+    db_RNFEntities db = new db_RNFEntities();
+}
+
+@if (Model.Count() > 0)
+{
+    <h3>Registro Actual</h3>
+    <table class="table">
+        <tr>
+            <th>
+                Tipo
+            </th>
+            <th>
+                Nombres
+            </th>
+            <th>
+                NIT
+            </th>
+            <th>
+                Documento
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha_Nacimiento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha_FinNombramiento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VigenciaIndefinida)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @db.Tbl_Sol_RepresentanteLegalTipo.Find(item.RepresentanteLegatTipo_id).Descripcion
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombres)
+                    @Html.DisplayFor(modelItem => item.Apellidos)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.No_NIT)
+                </td>
+                <td>
+                    @Html.Raw(db.Tbl_Gral_DocumentoID_Tipo.Find(item.RepresententeDocumentoID_Tipo).Descripcion + ": " + Html.DisplayFor(modelItem => item.RepresentanteNo_Documento))
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha_Nacimiento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha_FinNombramiento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VigenciaIndefinida)
+                </td>
+            </tr>
+        }
+
+    </table>
+}

@@ -1,0 +1,53 @@
+﻿@model IEnumerable<RNF_Web.Models.fc_Gest_Sel_Etapa_RespuestaRuta_Result>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+<br />
+<br />
+<div class="titulo-dos">
+    <h4>Etapas siguientes</h4>
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Etapa_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre_Etapa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Estado)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Etapa_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre_Etapa)
+            </td>
+            <td>
+                @if (item.Estado.Value == true)
+                {
+                    <input type="checkbox" id="CambioEstatus" name="EstadoActivo" value="Estatus" onclick="CambiarEtapaRespuesta(@item.Etapa_id, false)" checked>
+                }
+                else
+                {
+                    <input type="checkbox" id="CambioEstatus" name="EstadoActivo" value="Estatus" onclick="CambiarEtapaRespuesta(@item.Etapa_id, true)">
+                }
+
+
+            </td>
+        </tr>
+    }
+
+</table>
+

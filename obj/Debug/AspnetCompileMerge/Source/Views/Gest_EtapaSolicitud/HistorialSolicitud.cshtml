@@ -1,0 +1,79 @@
+﻿@using RNF_Web.Models;
+@model Tbl_Sol_Solicitud
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@{
+    //Layout = null;
+
+    if (ViewBag.Layout == "Si")
+    {
+        Layout = "~/Views/Shared/_LayoutMoreSimple.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_LayoutMoreSimple.cshtml";
+    }
+    ViewBag.Title = "Etapas por las que ha pasado la solicitud";
+    ViewBag.SubTitle = null;
+}
+
+
+
+
+<div class="titulo-dos">
+    <h4>@ViewBag.Title</h4>
+</div>
+
+
+
+<div id="div_Historial"></div>
+
+<script>
+    $(document).ready(function () {
+        var myHistorial = document.getElementById('div_Historial');
+        if (myHistorial) {
+            $('#div_Historial').load("/Gest_EtapaSolicitud/HistorialSolicitudDetalle?Expediente=@Model.Guid_id");
+        }
+
+        $("#btnHideModal").click(function () {
+
+              $('#section_Link_II').load('@ViewBag.section_Link_II')
+              $('#section_Link_III').load('@ViewBag.section_Link_III')
+              $('#section_Link_IV').load('@ViewBag.section_Link_IV')
+              $('#section_Link_V').load('@ViewBag.section_Link_V')
+
+              $("#myModal").modal('hide');
+        });
+
+
+        $("#btnHideModal_Close").click(function () {
+
+
+              $('#section_Link_II').load('@ViewBag.section_Link_II')
+              $('#section_Link_III').load('@ViewBag.section_Link_III')
+              $('#section_Link_IV').load('@ViewBag.section_Link_IV')
+              $('#section_Link_V').load('@ViewBag.section_Link_V')
+
+
+                $("#myModal").modal('hide');
+        });
+
+    });
+
+
+    $("#myModal").on('show.bs.modal', function () {
+        var modal = $(this)
+        modal.find('.modal-title').text(document.getElementById("Titulo").value);
+        modal.find('.modal-body').html(document.getElementById("Pagina").value);
+    });
+
+
+
+
+</script>

@@ -1,0 +1,104 @@
+﻿@model RNF_Web.Models.Tbl_Gest_EtapaSolicitud
+@using RNF_Web.Models;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@{
+    Layout = null;
+
+    ViewBag.Aprobar = 1;
+    ViewBag.Denegacion = 2;
+    ViewBag.EnmiendaTecnica = 3;
+}
+
+
+<script>
+
+    function Cerrar()
+    {
+        window.location.replace("/Main/Index");
+    }
+
+    function fnc_EnviarRespuesta(varRespuestaid)
+    {
+        varsolicitud_id = '@Model.Solicitud_id';
+        varetapa_id = '@Model.Etapa_id';
+        varetaparuta_id = '@Model.EtapaRuta_id';
+        varcorrelativoetapa_id = '@Model.CorrelativoEtapa_id';
+        varMotivo = $('#Motivo').val();
+        varEtapaSolicitud_GUIDid= '@Model.EtapaSolicitud_GUID_id';
+
+
+        var url = "@Url.Action("ActualizaEtapaRespuestaFormularioRodalDasometricos", "Form_FormularioTecnico")";
+
+        var data = { solicitud_id: varsolicitud_id, etapa_id: varetapa_id, etaparuta_id: varetaparuta_id, correlativoetapa_id: varcorrelativoetapa_id, motivo: varMotivo, respuestaid: varRespuestaid, EtapaSolicitud_GUIDid: varEtapaSolicitud_GUIDid };
+        $.post(url, data).done(function (jsonRespuesta) {
+               var objJSON = JSON.parse(jsonRespuesta);
+               var Cod_Respuesta = objJSON.CodRespuesta;
+               var Texto_Respuesta = objJSON.strRespuesta;
+
+
+                if (Cod_Respuesta == 1) {
+                    alert(Texto_Respuesta);
+                    window.location.replace("/Gest_EtapaSolicitud/Index");
+                } else
+                {
+                    $('#lblMensajeErrorDS').text(Texto_Respuesta);
+                    alert(Texto_Respuesta);
+
+                }
+
+           }).fail(manejarErrorAjax).always(function () {
+
+               alert('Error no identificado.');
+            });
+            return false;
+
+    }
+
+
+</script>
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+<table>
+    <tr>
+        <td colspan="4">
+            <label id="lblMensajeErrorDS" name="lblMensajeErrorDS" style="color:red"></label>
+        </td>
+    </tr>
+    <tr>
+        <td width="20%"></td>
+        <td>
+            @if ((Model.Tbl_Sol_Solicitud.PonderacionEvaluacionTecnicaDasometrica_id == 1) || (Model.Tbl_Sol_Solicitud.PonderacionEvaluacionTecnicaFormulario_id == 1) || (Model.Tbl_Sol_Solicitud.PonderacionEvaluacionTecnicaDeArea_id == 1) || (Model.Tbl_Sol_Solicitud.PonderacionEvaluacionTecnicaDasometrica_id == 3) || (Model.Tbl_Sol_Solicitud.PonderacionEvaluacionTecnicaFormulario_id == 3) || (Model.Tbl_Sol_Solicitud.PonderacionEvaluacionTecnicaDeArea_id == 3))
+            {
+                <button class="btn  btn-success" onclick="fnc_EnviarRespuesta('@ViewBag.Aprobar')" hidden>Aprobar</button>
+            }
+            else
+            {
+                <button class="btn  btn-success" onclick="fnc_EnviarRespuesta('@ViewBag.Aprobar')">Aprobar</button>
+            }
+        </td>
+        <td width="5%"></td>
+        <td>
+            <button class="btn  btn-primary" onclick="fnc_EnviarRespuesta('@ViewBag.EnmiendaTecnica')">Enmienda</button>
+        </td>
+        <td width="5%"></td>
+        <td>
+            <button class="btn  btn-danger" onclick="fnc_EnviarRespuesta('@ViewBag.Denegacion')">Denegar</button>
+        </td>
+        <td width="5%"></td>
+        <td>
+        </td>
+        <td width="20%"></td>
+    </tr>
+</table>
+

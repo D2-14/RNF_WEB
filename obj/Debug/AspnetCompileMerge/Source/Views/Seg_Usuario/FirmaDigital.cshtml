@@ -1,0 +1,92 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+@{
+    string DireccionFirma = ViewBag.DireccionFirma;
+    int idUsuario = ViewBag.idUsuario;
+}
+<h4>Firma Digital</h4>
+
+<table align="center" class="table table-striped">
+    <tr>
+        <td>
+            <div class="input-group">
+                <div class="custom-file">
+                    @*<input class="custom-file-input" type="file" name="Archivo" id="Archivo" accept="image/*">*@
+
+                    <label>
+                        @*<img src="~/Content/icons/btnSubirArchivo.png" id="upfile1" style="cursor:pointer" />*@
+                        <label for="Archivo" id="upfileArchivo" class="btn-next-ic">&nbsp;&nbsp;&nbsp;&nbsp;Seleccionar archivo&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <input type="file" id="Archivo" name="Archivo" style="display:none" accept="image/png">
+                    </label>
+                    <label class="custom-file-label">Seleccionar nueva firma y presionar el boton << Agregar Firma >></label>
+
+                </div>
+                <div class="input-group-append">
+                    <input id="btnSendMsg" type="button" value="Agregar Firma" class="btn btn-primary btn-outlined" />
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @if (DireccionFirma != null)
+            {
+                <img src="@DireccionFirma" alt="Firma Digital de Usuario" />
+            }
+            else
+            {
+                <h1>No hay firma registrada</h1>
+            }
+        </td>
+    </tr>
+</table>
+
+<script>
+    $("#btnSendMsg").click(function () {
+
+
+        var Archivoext = document.getElementById("Archivo").value;
+        Archivo = ($("#Archivo"))[0].files[0];
+        UsuarioID = @idUsuario;
+        var extension = Archivoext.substr((Archivoext.lastIndexOf(".") + 1 - Archivoext.length));
+
+        var dataarchivo = new FormData();
+
+        let adjuntarimagen = () => {
+            console.log("Funcion de adjuntar imagen");
+            dataarchivo.append("Archivo", Archivo);
+            dataarchivo.append("id",UsuarioID);
+            $.ajax({
+                url: "../../Seg_Usuario/FirmaDigital/",
+                type: "POST",
+                data: dataarchivo,
+                contentType: false,
+                processData: false,
+                async: false,
+                success: function (data) {
+                },
+                error: function (data) {
+                }
+            });
+        };
+
+        if (Archivo != null) {
+            if (extension.toLowerCase() != "png") {
+                alert("El formato de la firma debe ser en formato .png")
+            } else {
+                adjuntarimagen();
+                document.location.reload(true);
+            }
+        } else {
+            alert("Adjunte un mapa para poder proceder");
+        }
+
+    })
+
+</script>

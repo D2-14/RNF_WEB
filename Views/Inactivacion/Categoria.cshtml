@@ -1,0 +1,280 @@
+﻿@using RNF_Web.Models;
+@model IEnumerable<RNF_Web.Models.Tbl_RNF_Registro_Inactivacion_Tipo>
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+    string strCheck = "checked";
+    int Categoria_id = ViewBag.Categoria_id;
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+</style>
+
+<table width="100%">
+    <tr>
+        <td width="50%"></td>
+        <td width="30%">
+        </td>
+        <td width="10%">
+            <button rel="tooltip" title="Refrescar" onclick="location.reload()">
+                <i><img src="~/Content/icons/refresh.png" style="border-radius: 30%; width: 40px; height: auto" /></i>
+                <div class="ripple-container"></div>
+                Refrescar
+            </button>
+        </td>
+        <td width="10%">
+            <button rel="tooltip" title="Regresar" onclick="location.href='@Url.Action("", controllerName)'">
+                <i><img src="~/Content/icons/regresar.png" style="border-radius: 30%; width: 40px; height: auto" /></i>
+                <div class="ripple-container"></div>
+                Regresar
+            </button>
+        </td>
+    </tr>
+</table>
+
+<div>
+    <input type="button" class="btn btn-primary" id="AgregarTipo" name="AgregarTipo" value="Agregar Tipo de Inactivación" onclick="agregarTipo()" />
+    <div class="card">
+        <div class="card-body">
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Descripcion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UsuarioInterno)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UsuarioExterno)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    if (item.UsuarioInterno == null)
+                    {
+                        item.UsuarioInterno = false;
+                    }
+                    if (item.UsuarioExterno == null)
+                    {
+                        item.UsuarioExterno = false;
+                    }
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </td>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" id="UsuarioInterno_@item.TipoInactivacion_id" name="UsuarioInterno_@item.TipoInactivacion_id" onchange="cambioOpcion(@item.TipoInactivacion_id)" @if (item.UsuarioInterno == true) { @strCheck } />
+                                <span class="slider round"></span>
+                            </label>
+                        </td>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" id="UsuarioExterno_@item.TipoInactivacion_id" name="UsuarioExterno_@item.TipoInactivacion_id" onchange="cambioOpcion(@item.TipoInactivacion_id)" @if (item.UsuarioExterno == true) { @strCheck } />
+                                <span class="slider round"></span>
+                            </label>
+                        </td>
+                        <td>
+                            <input type="button" class="btn btn-danger" value="Eliminar" onclick="EliminarTipo(@item.TipoInactivacion_id)" />
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden" id="Pagina" name="Pagina" value="">
+<input type="hidden" id="Titulo" name="Titulo" value="">
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="btnHideModal" class="btn btn-default" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <div class="h_iframe">
+                </div>
+            </div>
+            <div id="DatosPersonerias"></div>
+            <div class="modal-footer">
+                <button type="button" id="btnHideModal_Close" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    $(document).ready(function () {
+
+        $("#btnHideModal").click(function () {
+
+            location.reload();
+            $("#myModal").modal('hide');
+        });
+
+
+        $("#btnHideModal_Close").click(function () {
+
+            location.reload();
+            $("#myModal").modal('hide');
+        });
+
+
+        $('#myModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        })
+
+        $("#myModal").on('show.bs.modal', function () {
+            var modal = $(this)
+            modal.find('.modal-title').text(document.getElementById("Titulo").value);
+            modal.find('.h_iframe').html(document.getElementById("Pagina").value);
+        });
+    });
+
+    function openModalPartial(Source, Titulo) {
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '"frameborder="0" width="1000px" height="1200px"></iframe>';
+        document.getElementById("Titulo").value = Titulo;
+        $("#myModal").modal("show");
+    }
+
+    function agregarTipo() {
+        var Source = '@Url.Action("AgregarTipo",controllerName, new {Categoria_id = Categoria_id})';
+        var Titulo = 'Bitácora de Registro';
+        openModalPartial(Source, Titulo);
+    }
+
+    function cambioOpcion(TipoInactivacion_id) {
+        var Categoria_id = @Categoria_id;
+        var UsuarioInterno = document.getElementById('UsuarioInterno_' + TipoInactivacion_id);
+        var UsuarioExterno = document.getElementById('UsuarioExterno_' + TipoInactivacion_id);
+        var url = '@Url.Action("CambiarEstadoInactivacion", controllerName)';
+        var data = {
+            Categoria_id: Categoria_id,
+            TipoInactivacion_id: TipoInactivacion_id,
+            UsuarioInterno: UsuarioInterno.checked,
+            UsuarioExterno: UsuarioExterno.checked
+        };
+        console.log(data);
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            var oJSON = RespuestaJSON;
+            var Result = oJSON.Result;
+            var Mensaje = oJSON.Mensaje;
+            if (Result == 1)
+            {
+            }
+            else
+            {
+                alert(Mensaje);
+                location.reload();
+            }
+
+        }).fail(function (ErrorJSON) {
+            console.log(ErrorJSON);
+            alert('Ocurrió un error: ' + ErrorJSON);
+        });
+
+    }
+
+    function EliminarTipo(TipoInactivacion_id) {
+        var Categoria_id = @Categoria_id;
+        var data = {
+            Categoria_id: Categoria_id,
+            TipoInactivacion_id: TipoInactivacion_id
+        };
+        var url = '@Url.Action("EliminarTipoInactivacion", controllerName)';
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            var oJSON = RespuestaJSON;
+            var Result = oJSON.Result;
+            var Mensaje = oJSON.Mensaje;
+            if (Result == 1) {
+                location.reload();
+            } else {
+                alert(Mensaje);
+            }
+
+        }).fail(function (ErrorJSON) {
+            console.log(ErrorJSON);
+            alert('Ocurrió un error: ' + ErrorJSON);
+        })
+
+    }
+</script>

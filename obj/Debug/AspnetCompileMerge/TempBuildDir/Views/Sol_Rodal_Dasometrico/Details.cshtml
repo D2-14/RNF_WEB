@@ -1,0 +1,152 @@
+﻿@model RNF_Web.Models.Tbl_Sol_Rodal_Dasometrico
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Tbl_Sol_Rodal_Dasometrico</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Anio_Establecimiento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Anio_Establecimiento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cantidad_Arboles)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cantidad_Arboles)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Densidad_ha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Densidad_ha)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DAP_Promedio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DAP_Promedio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Altura_Promedio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Altura_Promedio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Volumen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Volumen)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estado_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.swcreatedby)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.swcreatedby)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.swdatecreated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.swdatecreated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.swcreatedbyinterno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.swcreatedbyinterno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.swupdatedby)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.swupdatedby)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.swdateupdated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.swdateupdated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.swupdatedbyinterno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.swupdatedbyinterno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tbl_Gral_Especie.NombreCientifico)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tbl_Gral_Especie.NombreCientifico)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tbl_Sol_Rodal.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tbl_Sol_Rodal.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tbl_Sol_Rodal_Dasometrico_EstadoFitosanitario.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tbl_Sol_Rodal_Dasometrico_EstadoFitosanitario.Descripcion)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

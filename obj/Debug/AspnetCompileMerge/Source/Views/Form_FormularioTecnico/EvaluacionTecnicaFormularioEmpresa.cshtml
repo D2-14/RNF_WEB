@@ -1,0 +1,226 @@
+﻿@model RNF_Web.Models.Tbl_Sol_Solicitud
+@using RNF_Web.Models;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@{
+
+    string srcimage64 = String.Format("data:image/png;base64,{0}", Convert.ToBase64String(ViewBag.BytesQR));
+
+}
+<style>
+    .formation {
+        height: auto;
+        max-width: 90%;
+        margin: 30px auto;
+        border-radius: 10px;
+        border-style: solid;
+        border-color: #77DD77;
+        padding: 20px;
+        box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    }
+
+
+    #a_Navegacionaceptar:link, #a_Navegacionaceptar:visited {
+        background-color: forestgreen;
+        color: white;
+        margin: 30px auto;
+        border-radius: 10px;
+        padding: 15px 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    #a_Navegacionaceptar:hover, #a_Navegacionaceptar:active {
+        background-color: limegreen;
+    }
+
+    #a_Navegacionaceptar {
+        margin: auto;
+        width: 50%;
+        border: 3px solid green;
+        padding: 10px;
+    }
+
+
+    #a_NavegacionEnmienda:link, #a_NavegacionEnmienda:visited {
+        background-color: cornflowerblue;
+        color: white;
+        margin: 30px auto;
+        border-radius: 10px;
+        padding: 15px 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    #a_NavegacionEnmienda:hover, #a_NavegacionEnmienda:active {
+        background-color: deepskyblue;
+    }
+
+    #a_NavegacionEnmienda {
+        margin: auto;
+        width: 50%;
+        border: 3px solid green;
+        padding: 10px;
+    }
+
+
+    #a_Navegaciondenegar:link, #a_Navegaciondenegar:visited {
+        background-color: #e54131;
+        color: white;
+        margin: 30px auto;
+        border-radius: 10px;
+        padding: 15px 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    #a_Navegaciondenegar:hover, #a_Navegaciondenegar:active {
+        background-color: #d15a4e;
+    }
+
+    #a_Navegaciondenegar {
+        margin: auto;
+        width: 50%;
+        border: 3px solid green;
+        padding: 10px;
+    }
+
+    #a_Navegacionsalir:link, #a_Navegacionsalir:visited {
+        background-color: gray;
+        color: white;
+        margin: 30px auto;
+        border-radius: 10px;
+        padding: 15px 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+
+    #a_Navegacionsalir:hover, #a_Navegacionsalir:active {
+        background-color: darkgray;
+    }
+
+
+    #a_Navegacionsalir {
+        margin: auto;
+        width: 50%;
+        border: 3px solid green;
+        padding: 10px;
+    }
+</style>
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<table>
+    <tr>
+        <td width="10%">
+        </td>
+        <td width="10%">
+            <img src="@srcimage64" height="200" width="200" />
+        </td>
+        <td width="10%">
+        </td>
+        <td width="50%">
+        </td>
+        <td width="10%">
+        </td>
+    </tr>
+    <tr>
+        <td width="10%">
+        </td>
+        <td width="10%">
+        </td>
+        <td width="10%">
+        </td>
+        <td width="50%">
+            @Model.Guid_id
+        </td>
+    </tr>
+</table>
+
+
+<div class="formation">
+    <table class="table-condensed" width="100%">
+        <tbody>
+            <tr>
+                <td colspan="4">
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td colspan="3" rowspan="3" align="center">
+                    <h4>Acceso para </h4>
+                    <h4>gestionar los datos de empresa</h4>
+                </td>
+                <td>
+                </td>
+                <td rowspan="3" align="center">
+                    <a href="/Sol_Empresa_Entidad/CreateTecnico?solicitud_id=@Model.Solicitud_id&firma=@Model.Guid_id&etapa_id=@ViewBag.etapa_id&etaparuta_id=@ViewBag.etaparuta_id&correlativoetapa_id=@ViewBag.correlativoetapa_id">
+
+
+                        @if ((ViewBag.Owner == 0) || (ViewBag.ModoVista == "1"))
+                        {
+                            <button class="btn  btn-primary">Revisar</button>
+                        }
+                        else
+                        {
+                            <button class="btn  btn-primary">Gestionar</button>
+                        }
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td rowspan="3">
+                    <a href="#">
+                        <img src="~/Content/icons/DocumentoEmpresa.jpg" width="100" alt="ÁNALISIS DE EMPRESA O ENTIDAD">
+                    </a>
+                </td>
+                <td colspan="4">
+                    <h4>
+                        ANÁLISIS DE EMPRESA
+                    </h4>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <strong>
+                        Presione el boton para realizar la revisión de empresa.
+                    </strong>
+                    <br>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+
+

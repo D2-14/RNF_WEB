@@ -1,0 +1,64 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_RNF_Empresa_Entidad_Maquinaria_Utilizada>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    Layout = null;
+    ViewBag.Title = "Maquinaria Utilizada";
+    ViewBag.SubTitle = "Listado de Maquinaria Utilizada";
+    db_RNFEntities db = new db_RNFEntities();
+    string No_Registro = ViewBag.No_Registro;
+    Tbl_RNF_Registro tbl_RNF_Registro = db.Tbl_RNF_Registro.Where(Obj => Obj.No_Registro == No_Registro).FirstOrDefault();
+
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+
+    EdicionRNFGrants objRNFGrants = (EdicionRNFGrants)Session[Constants.session_EdicionRNFGrants];
+}
+
+
+
+<br />
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            Nombre
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Gral_Maquinaria_Utilizada.Nombre_Tecnico)
+            </td>
+            <td>
+                @if (objRNFGrants.Borrar)
+                {
+                    <img src="~/Content/icons/trash_green.png" onclick="Borrar_MaquinariaUtilizada('@item.No_Registro', @item.Maquinaria_Utilizada_id)" width="25" height="25" />
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+<script>
+
+    $(document).ready(function () {
+
+    });
+
+</script>

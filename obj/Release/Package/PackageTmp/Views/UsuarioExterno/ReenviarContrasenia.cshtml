@@ -1,0 +1,116 @@
+﻿@using RNF_Web.Models
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+
+    ViewBag.Title = "   Reenviar contraseña de Usuario";
+    ViewBag.SubTitle = " ";
+
+    Layout = "~/Views/Shared/_LayoutBanner.cshtml";
+
+    Random rand = new Random();
+    TempData["Random"] = rand.Next();
+    ViewBag.Random = TempData["Random"];
+    Session[Constants.session_Captcha] = TempData["Random"];
+
+
+}
+<br />
+<br />
+@Html.Partial("_PartialPageEncabezado")
+<div class="container">
+
+
+    <img src="~/Content/images/bannerregistro.png" width="100%" />
+
+
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+        </div>
+        <div class="col-sm-5 col-md-5">
+        </div>
+        <div class="col-sm-1 col-md-1">
+            <button class="btn-secondary" style="position: absolute; right: 0;" rel="tooltip" title="Regresar" onclick="location.href='@Url.Action("Index", "Login")'">
+                <i><img src="~/Content/icons/regresar.png" style="border-radius: 30%; width: 35px; height: auto" /></i>
+                <div class="ripple-container"></div>
+            </button>
+        </div>
+    </div>
+
+    <br />
+    <div class="row">
+
+        <div class="col-md-12">
+            Email
+            <br />
+            <div class="form-group">
+                Ingrese el correo registrado
+                <div class="col-md-10">
+                    <input class="form-control input100" type="text" id="email" mame="email" placeholder="Ingresa tu correo (email)" value="">
+                </div>
+            </div>
+        </div>
+
+        @*<div class="col-md-12">
+                Numero de confirmacion
+                <div class="form-group">
+                    <br />
+                    No soy un Robot: <img src="/UsuarioExterno/WriteTextAsImage/?id=@ViewBag.Random" />
+                    <br />
+                    <br />
+                    <div class="col-md-10">
+                        <input class="form-control input100" type="text" id="Random" name="Random" placeholder="Ingresa el numero indicado arriba" value="">
+                    </div>
+                </div>
+            </div>*@
+
+    </div>
+
+    <br />
+    <h1>@TempData["Error"]</h1>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+        </div>
+        <div class="col-sm-12 col-md-3">
+        </div>
+        <div class="col-sm-12 col-md-3">
+            <button class="btn btn-link" type="button" onclick="location.href='@Url.Action("ReenviarContrasenia","UsuarioExterno")?mail=' + $('#email').val()+'&clave=' + $('#Random').val() ">Enviar contraseña.</button>
+        </div>
+    </div>
+
+</div>
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+
+
+
+<script>
+ $(document).ready(function () {
+        verificarCorreos();
+    });
+
+
+
+    function verificarCorreos() {
+        var url = "@Url.Action("GestionaWhatsapp", "Home")";
+        var data = {
+
+        }
+
+        $.post(url, data).done(function (jsonRespuesta) {
+        var objJSON = JSON.parse(jsonRespuesta);
+        var Resultado = objJSON.Resultado
+        console.log(Resultado);
+        }).fail(function (jsonRespuesta) {
+        var objJSON = JSON.parse(jsonRespuesta);
+        var Resultado = objJSON.Resultado
+        console.log(Resultado);
+        });
+    }
+
+</script>

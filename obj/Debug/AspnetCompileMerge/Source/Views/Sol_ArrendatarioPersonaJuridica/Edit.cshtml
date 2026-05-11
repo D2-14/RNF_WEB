@@ -1,0 +1,212 @@
+﻿@model RNF_Web.Models.Tbl_Sol_ArrendatarioPersonaJuridica
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutSimple.cshtml";
+
+
+    db_RNFEntities db = new db_RNFEntities();
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    Usuario objUs = (Usuario)Session["User"];
+    long solicitud_id = ViewBag.solicitud_id;
+    Tbl_Sol_Solicitud tbl_Sol_Solicitud = db.Tbl_Sol_Solicitud.Find(solicitud_id);
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+    fc_Gral_Sol_Configuracion_Result permisos = db.fc_Gral_Sol_Configuracion(tbl_Sol_Solicitud.Solicitud_id, "Sol_Arrendatario", boolEsInterno).FirstOrDefault();
+
+}
+
+<script src="~/Scripts/jquery-3.6.0.js"></script>
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+
+
+    $(document).ready(function () {
+
+        $(document).on('change', '#DepartamentoEmpresa_id', function () {
+
+            var url = "@Url.Action("GetMunicipios", "Sol_Solicitud")";
+            var Departamento = $('#DepartamentoEmpresa_id').val();
+            var data = { Departamento: Departamento};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#MunicipioEmpresa_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text:  municipio.Text
+                    }));
+
+                });
+
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+
+    }); // -----Fin
+
+</script>
+
+
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.HiddenFor(model => model.Solicitud_id)
+    @Html.HiddenFor(model => model.UsuarioExterno_id)
+    @Html.HiddenFor(model => model.swcreatedby)
+    @Html.HiddenFor(model => model.swdatecreated)
+    @Html.HiddenFor(model => model.swcreatedbyinterno)
+
+    @Html.HiddenFor(model => model.swdateupdated)
+    @Html.HiddenFor(model => model.swupdatedby)
+    @Html.HiddenFor(model => model.swupdatedbyinterno)
+    @Html.HiddenFor(model => model.Estado_id)
+
+
+
+
+
+    <div class="titulo-dos">
+        <h4>Datos de la entidad.</h4>
+    </div>
+    <br />
+    <table class="table table-condensed">
+        <tr>
+            <td width="50%">
+                @Html.LabelFor(model => model.PersonaJuridicaTipo_Id, "Tipo de Entidad", htmlAttributes: new { @class = "control-label col-md-12" })
+            </td>
+            <td width="50%">
+                @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-12" })
+            </td>
+        </tr>
+        <tr>
+            <td width="50%">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.DropDownList("PersonaJuridicaTipo_Id", null, htmlAttributes: new { @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.PersonaJuridicaTipo_Id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+            <td width="50%">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td width="50%">
+                @Html.LabelFor(model => model.No_NIT, "No. NIT", htmlAttributes: new { @class = "control-label col-md-12" })
+            </td>
+            <td width="50%">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="1">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.No_NIT, new { htmlAttributes = new { @class = "form-control", @maxlength = "13" } })
+                        @Html.ValidationMessageFor(model => model.No_NIT, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td width="50%">
+                @Html.LabelFor(model => model.DireccionEmpresa, "Dirección", htmlAttributes: new { @class = "control-label col-md-12" })
+            </td>
+            <td width="50%">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.DireccionEmpresa, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DireccionEmpresa, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td width="50%">
+                @Html.LabelFor(model => model.DepartamentoEmpresa_id, "Departamento", htmlAttributes: new { @class = "control-label col-md-12" })
+            </td>
+            <td width="50%">
+                @Html.LabelFor(model => model.MunicipioEmpresa_id, "Municipio", htmlAttributes: new { @class = "control-label col-md-12" })
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.DropDownList("DepartamentoEmpresa_id", null, htmlAttributes: new { @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.DepartamentoEmpresa_id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.DropDownList("MunicipioEmpresa_id", null, htmlAttributes: new { @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.MunicipioEmpresa_id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+    </table>
+
+    <br />
+
+    <h3 style="background-color: powderblue; color: red;">@TempData["Mensaje"]</h3>
+
+
+    if ((bool)permisos.Editar)
+    {
+        <div class="col-sm-12 col-md-12" align="right">
+            <input type="submit" value="Grabar..." class="btn-next" />
+        </div>
+    }
+    else
+    {
+        <h3> ** El estatus actual no permite modificar o editar  datos</h3>
+    }
+    <br />
+
+}

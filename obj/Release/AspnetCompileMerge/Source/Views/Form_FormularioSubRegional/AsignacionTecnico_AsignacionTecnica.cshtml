@@ -1,0 +1,71 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+
+<script>
+
+
+
+    function AsignarTecnico() {
+        var varTecnico = $('#Tecnicos').val();
+
+
+        alert("Asignación de técnico realizada con éxito.");
+
+    }
+
+
+</script>
+
+
+
+<h3>
+    Asignación técnica y jurídica
+</h3>
+<hr />
+<br />
+
+<h3>
+    Asignación técnica
+</h3>
+
+<h3>@ViewBag.TecnicoAsigando </h3>
+
+@Html.DropDownList("Tecnicos", null, htmlAttributes: new { @class = "form-select" })
+
+<br />
+
+    &nbsp;&nbsp;&nbsp;&nbsp;
+<img id="imgAddme" src="~/Content/icons/EnviarMail.png" onmouseover="this.style.cursor='hand'" onmouseout="this.style.cursor='default'" onclick="AsignarTecnico()" width="380" height="auto" />
+
+<hr />
+<br />
+<br />
+
+<h3>
+    Asignación jurídica
+</h3>
+<h3>@ViewBag.JuridicoAsigando </h3>
+
+@Html.DropDownList("Juridico", null, htmlAttributes: new { @class = "form-select" })
+<br />
+<table>
+    <tr>
+        <td>
+            <h4>Número de nombramiento</h4>
+        </td>
+        <td>
+            &nbsp;&nbsp;&nbsp;&nbsp; <input type="text" id="No_Nombramiento" name="No_Nombramiento" value="@ViewBag.JuridicoAsignadoNombramiento" />
+        </td>
+    </tr>
+</table>
+<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;
+<img id="imgAddme" src="~/Content/icons/EnviarMail.png" onmouseover="this.style.cursor='hand'" onmouseout="this.style.cursor='default'" onclick="AsignarJuridico()" width="380" height="auto" />
+
+

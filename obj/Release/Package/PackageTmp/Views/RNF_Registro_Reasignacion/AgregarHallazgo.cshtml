@@ -1,0 +1,103 @@
+﻿@using RNF_Web.Models;
+@model RNF_Web.Models.Tbl_RNF_Registro_BitacoraHallazgo
+@{ 
+    int ActivarLayout = ViewBag.ActivarLayout;
+    if(ActivarLayout == 0)
+    {
+        Layout = null;
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_LayoutMoreSimple.cshtml";
+    }
+}
+@if(Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<script>
+    function agregarHallazgo() {
+        var No_Registro = '@Model.No_Registro';
+        var No_RegistroLiteral = '@Model.No_RegistroLiteral';
+        var No_RegistroCorrelativo = '@Model.No_RegistroCorrelativo';
+        var Solicitud_id = '@Model.Solicitud_id';
+        var Bitacora_id = '@Model.Bitacora_id';
+        var DescripcionHallazgo = document.getElementById("DescripcionHallazgo").value;
+
+        if ((DescripcionHallazgo == null) || (DescripcionHallazgo.trim() == '')) {
+            alert("Error, no puede registrar un hallazgo en blanco, asegúrese de registrar la información");
+            return;
+        }
+
+        var url = '@Url.Action("RegistrarHallazgo", "RNF_Registro_Reasignacion")';
+
+        var data = {
+            No_Registro: No_Registro,
+            No_RegistroLiteral: No_RegistroLiteral,
+            No_RegistroCorrelativo: No_RegistroCorrelativo,
+            Solicitud_id: Solicitud_id,
+            Bitacora_id: Bitacora_id,
+            DescripcionHallazgo: DescripcionHallazgo
+        }
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            var oJSON = RespuestaJSON;
+            var Result = oJSON.Result;
+            var Mensaje = oJSON.Mensaje;
+
+            if (Result == 1) {
+                refeshPartialHallazgoRNF();
+            } else {
+                alert(Mensaje);
+            }
+
+        }).fail(function () {
+        });
+
+    }
+
+    function refeshPartialHallazgoRNF() {
+        var div_ListaHallazgos_RNF = document.getElementById('div_ListaHallazgos_RNF');
+        if (div_ListaHallazgos_RNF) {
+            $('#div_ListaHallazgos_RNF').load('/RNF_Registro_Reasignacion/HallazgoBitacora?No_Registro=@Model.No_Registro&Bitacora_id=@Model.Bitacora_id');
+        }
+        var DescripcionHallazgo = document.getElementById("DescripcionHallazgo");
+        DescripcionHallazgo.value = '';
+    }
+
+
+    $(document).ready(function () {
+        refeshPartialHallazgoRNF();
+    });
+</script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.No_Registro)
+    @Html.HiddenFor(model => model.No_RegistroLiteral)
+    @Html.HiddenFor(model => model.No_RegistroCorrelativo)
+    @Html.HiddenFor(model => model.Solicitud_id)
+    @Html.HiddenFor(model => model.Bitacora_id)
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-horizontal">
+        <hr />
+        <div class="form-group">
+            @Html.LabelFor(model => model.DescripcionHallazgo,"Causales", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <textarea id="DescripcionHallazgo" name="DescripcionHallazgo" class = "form-control" placeholder="Descripción"></textarea>
+                @Html.ValidationMessageFor(model => model.DescripcionHallazgo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="Create" class="btn btn-success" onclick="agregarHallazgo()"/>
+            </div>
+        </div>
+    </div>
+}
+
+<div id="div_ListaHallazgos_RNF"></div>

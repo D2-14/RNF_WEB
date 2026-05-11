@@ -1,0 +1,90 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+<div id="section_ExcelRodal">
+    @model System.Data.DataTable
+    @using System.Data;
+    @using RNF_Web.Models;
+    @using System.Data.SqlClient;
+
+    @{
+
+        string guidid = ViewBag.Guid_id;
+        int etapa_id = ViewBag.etapa_id;
+        decimal etaparuta_id = ViewBag.etaparuta_id;
+        int correlativoetapa_id = ViewBag.correlativoetapa_id;
+        db_RNFEntities db = new db_RNFEntities();
+        Tbl_Sol_Solicitud tbl_sol_solicitud = (from d in db.Tbl_Sol_Solicitud
+                                               where d.Guid_id == guidid
+                                               select d).FirstOrDefault();
+
+        int Estado = (int)tbl_sol_solicitud.Estado_id;
+
+        ViewBag.Title = "   Datos de polígono ";
+    }
+
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <div style='height: 30px; width: 100%; background-color: green; color: white; ' align="center">
+        <h4 class="title">&nbsp;&nbsp;&nbsp;@ViewBag.Title</h4>
+    </div>
+
+    <br />
+
+
+    <table class="table" align="center">
+        <tr>
+            <td>
+                <input type="button" onclick="descargarDatosPoligonos()" class="btn btn-primary" value="Coordenadas de la solicitud" />
+            </td>
+            <td>
+                <a href="~/Content/Machotes/DatosPoligono_EnBlanco_Tecnico.xlsx">
+                    <button class="btn btn-primary">
+                        Formato para carga de coordenadas <br> 
+                        de áreas y árboles en linea
+                    </button>
+                </a>
+            </td>
+            <td>
+                <a href="~/Content/Machotes/DatosPoligono_EnBlancoAreaDescuento_Tecnico.xlsx">
+                    <button class="btn btn-primary">
+                        Formato para carga de coordenadas <br />
+                        de áreas de descuento
+                    </button>
+                </a>
+            </td>
+        </tr>
+    </table>
+
+<script>
+
+        function descargarDatosPoligonos() {
+
+                    var url = "@Url.Action("DescargaDatosPoligonos", "Form_FormularioTecnico")";
+                    var Guid_id = '@ViewBag.Guid_id';
+                    var data = {
+                    Guid_id: Guid_id
+                    }
+
+                    $.post(url, data).done(function (jsonRespuesta) {
+                    var objJSON = JSON.parse(jsonRespuesta);
+                    var Ubicacion = objJSON.Ubicacion;
+
+                        // window.open(Ubicacion, '_blank');
+                        download(Ubicacion, "FormularioGenerado.xlsx")
+                    });
+
+            }
+
+</Script>

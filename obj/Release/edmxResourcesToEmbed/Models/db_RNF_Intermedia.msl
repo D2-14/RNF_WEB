@@ -1,0 +1,352 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="db_RNF_IntermediaModelStoreContainer" CdmEntityContainer="db_RNF_IntermediaEntities">
+    <EntitySetMapping Name="Tbl_API_Categoria_Intermedia">
+      <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Categoria_Intermedia">
+        <MappingFragment StoreEntitySet="Tbl_API_Categoria_Intermedia">
+          <ScalarProperty Name="Categoria_id" ColumnName="Categoria_id" />
+          <ScalarProperty Name="PinpepOld_Modalidad" ColumnName="PinpepOld_Modalidad" />
+          <ScalarProperty Name="Probosque_Modalidad" ColumnName="Probosque_Modalidad" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_ExpedienteOficio_FasePermitida">
+      <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_ExpedienteOficio_FasePermitida">
+        <MappingFragment StoreEntitySet="Tbl_API_ExpedienteOficio_FasePermitida">
+          <ScalarProperty Name="Id_Fase" ColumnName="Id_Fase" />
+          <ScalarProperty Name="NombreFase" ColumnName="NombreFase" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_PinpepOld_EspeciesForestales">
+      <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_PinpepOld_EspeciesForestales">
+        <MappingFragment StoreEntitySet="Tbl_API_PinpepOld_EspeciesForestales">
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="RodalId" ColumnName="RodalId" />
+          <ScalarProperty Name="Correlativo_id" ColumnName="Correlativo_id" />
+          <ScalarProperty Name="NombreEspecie" ColumnName="NombreEspecie" />
+          <ScalarProperty Name="ArbolesPorHa" ColumnName="ArbolesPorHa" />
+          <ScalarProperty Name="Area" ColumnName="Area" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_PinpepOld_Expediente">
+      <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_PinpepOld_Expediente">
+        <MappingFragment StoreEntitySet="Tbl_API_PinpepOld_Expediente">
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="ProyectoId" ColumnName="ProyectoId" />
+          <ScalarProperty Name="Expediente" ColumnName="Expediente" />
+          <ScalarProperty Name="Modalidad" ColumnName="Modalidad" />
+          <ScalarProperty Name="Region" ColumnName="Region" />
+          <ScalarProperty Name="SubRegion" ColumnName="SubRegion" />
+          <ScalarProperty Name="UltimaFaseCertificada" ColumnName="UltimaFaseCertificada" />
+          <ScalarProperty Name="UltimaAreaCertificada" ColumnName="UltimaAreaCertificada" />
+          <ScalarProperty Name="Migrado" ColumnName="Migrado" />
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="DPI_Titular" ColumnName="DPI_Titular" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_PinpepOld_Finca">
+      <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_PinpepOld_Finca">
+        <MappingFragment StoreEntitySet="Tbl_API_PinpepOld_Finca">
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="FincaMunicipio" ColumnName="FincaMunicipio" />
+          <ScalarProperty Name="FincaDepartamento" ColumnName="FincaDepartamento" />
+          <ScalarProperty Name="FincaUbicacion" ColumnName="FincaUbicacion" />
+          <ScalarProperty Name="FincaLugar" ColumnName="FincaLugar" />
+          <ScalarProperty Name="FincaRefX" ColumnName="FincaRefX" />
+          <ScalarProperty Name="FincaRefY" ColumnName="FincaRefY" />
+          <ScalarProperty Name="AreaAprobada" ColumnName="AreaAprobada" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_PinpepOld_InformeTecnico">
+      <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_PinpepOld_InformeTecnico">
+        <MappingFragment StoreEntitySet="Tbl_API_PinpepOld_InformeTecnico">
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="NumeroInforme" ColumnName="NumeroInforme" />
+          <ScalarProperty Name="PDFInforme" ColumnName="PDFInforme" />
+          <ScalarProperty Name="PDFInforme_Local" ColumnName="PDFInforme_Local" />
+          <ScalarProperty Name="UltimaFaseCertificada" ColumnName="UltimaFaseCertificada" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_PinpepOld_Propietarios">
+      <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_PinpepOld_Propietarios">
+        <MappingFragment StoreEntitySet="Tbl_API_PinpepOld_Propietarios">
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="NoDPI" ColumnName="NoDPI" />
+          <ScalarProperty Name="Nit" ColumnName="Nit" />
+          <ScalarProperty Name="NombreCompleto" ColumnName="NombreCompleto" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_PinpepOld_PropietariosGrupal">
+      <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_PinpepOld_PropietariosGrupal">
+        <MappingFragment StoreEntitySet="Tbl_API_PinpepOld_PropietariosGrupal">
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="Id_PropietarioGrupal" ColumnName="Id_PropietarioGrupal" />
+          <ScalarProperty Name="NoDPI" ColumnName="NoDPI" />
+          <ScalarProperty Name="NombreCompleto" ColumnName="NombreCompleto" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_PinpepOld_Representante">
+      <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_PinpepOld_Representante">
+        <MappingFragment StoreEntitySet="Tbl_API_PinpepOld_Representante">
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="NoDPI" ColumnName="NoDPI" />
+          <ScalarProperty Name="NombreCompleto" ColumnName="NombreCompleto" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_PinpepOld_Rodales">
+      <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_PinpepOld_Rodales">
+        <MappingFragment StoreEntitySet="Tbl_API_PinpepOld_Rodales">
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Area" ColumnName="Area" />
+          <ScalarProperty Name="EspeciesProteger" ColumnName="EspeciesProteger" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_PinpepOld_Rodales_Poligonos">
+      <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_PinpepOld_Rodales_Poligonos">
+        <MappingFragment StoreEntitySet="Tbl_API_PinpepOld_Rodales_Poligonos">
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="Correlativo" ColumnName="Correlativo" />
+          <ScalarProperty Name="GeometriaGTM" ColumnName="GeometriaGTM" />
+          <ScalarProperty Name="PDFPol" ColumnName="PDFPol" />
+          <ScalarProperty Name="PODPol_Local" ColumnName="PODPol_Local" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_PinpepOld_Rodales_PoligonosDescuento">
+      <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_PinpepOld_Rodales_PoligonosDescuento">
+        <MappingFragment StoreEntitySet="Tbl_API_PinpepOld_Rodales_PoligonosDescuento">
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="Correlativo" ColumnName="Correlativo" />
+          <ScalarProperty Name="Id_Correlativo" ColumnName="Id_Correlativo" />
+          <ScalarProperty Name="GeometriaGTM" ColumnName="GeometriaGTM" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Probosque_EspeciesForestales">
+      <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Probosque_EspeciesForestales">
+        <MappingFragment StoreEntitySet="Tbl_API_Probosque_EspeciesForestales">
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Correlativo_id" ColumnName="Correlativo_id" />
+          <ScalarProperty Name="Area" ColumnName="Area" />
+          <ScalarProperty Name="NombreCientifico" ColumnName="NombreCientifico" />
+          <ScalarProperty Name="FechaPlantacion" ColumnName="FechaPlantacion" />
+          <ScalarProperty Name="CicloDeCorta" ColumnName="CicloDeCorta" />
+          <ScalarProperty Name="DensidadFinal" ColumnName="DensidadFinal" />
+          <ScalarProperty Name="DensidadInicial" ColumnName="DensidadInicial" />
+          <ScalarProperty Name="Mixtaje" ColumnName="Mixtaje" />
+          <ScalarProperty Name="DistanciaES" ColumnName="DistanciaES" />
+          <ScalarProperty Name="DistanciaEP" ColumnName="DistanciaEP" />
+          <ScalarProperty Name="DensidadActual" ColumnName="DensidadActual" />
+          <ScalarProperty Name="Supervivencia" ColumnName="Supervivencia" />
+          <ScalarProperty Name="PlantasSanas" ColumnName="PlantasSanas" />
+          <ScalarProperty Name="PlantacionDPA" ColumnName="PlantacionDPA" />
+          <ScalarProperty Name="PlantacionAltura" ColumnName="PlantacionAltura" />
+          <ScalarProperty Name="PlantasAfectadas" ColumnName="PlantasAfectadas" />
+          <ScalarProperty Name="PlantasEnfermedad" ColumnName="PlantasEnfermedad" />
+          <ScalarProperty Name="PlantasFuego" ColumnName="PlantasFuego" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Probosque_Expediente">
+      <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Probosque_Expediente">
+        <MappingFragment StoreEntitySet="Tbl_API_Probosque_Expediente">
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="ProyectoId" ColumnName="ProyectoId" />
+          <ScalarProperty Name="Expediente" ColumnName="Expediente" />
+          <ScalarProperty Name="Modalidad" ColumnName="Modalidad" />
+          <ScalarProperty Name="TipoProyecto" ColumnName="TipoProyecto" />
+          <ScalarProperty Name="Region" ColumnName="Region" />
+          <ScalarProperty Name="SubRegion" ColumnName="SubRegion" />
+          <ScalarProperty Name="UltimaFaseCertificada" ColumnName="UltimaFaseCertificada" />
+          <ScalarProperty Name="UltimaAreaCertificada" ColumnName="UltimaAreaCertificada" />
+          <ScalarProperty Name="Migrado" ColumnName="Migrado" />
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="DPI_Titular" ColumnName="DPI_Titular" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Probosque_Finca">
+      <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Probosque_Finca">
+        <MappingFragment StoreEntitySet="Tbl_API_Probosque_Finca">
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="FincaNombre" ColumnName="FincaNombre" />
+          <ScalarProperty Name="FincaMunicipio" ColumnName="FincaMunicipio" />
+          <ScalarProperty Name="FincaDepartamento" ColumnName="FincaDepartamento" />
+          <ScalarProperty Name="FincaUbicacion" ColumnName="FincaUbicacion" />
+          <ScalarProperty Name="FincaRefX" ColumnName="FincaRefX" />
+          <ScalarProperty Name="FincaRefY" ColumnName="FincaRefY" />
+          <ScalarProperty Name="FincaTipoPropiedad" ColumnName="FincaTipoPropiedad" />
+          <ScalarProperty Name="FincaActaMunicipal" ColumnName="FincaActaMunicipal" />
+          <ScalarProperty Name="FincaArrendamiento" ColumnName="FincaArrendamiento" />
+          <ScalarProperty Name="FincaActaNotarial" ColumnName="FincaActaNotarial" />
+          <ScalarProperty Name="AreaFinca" ColumnName="AreaFinca" />
+          <ScalarProperty Name="AreaAprobada" ColumnName="AreaAprobada" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Probosque_FincaRegistroPropiedad">
+      <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Probosque_FincaRegistroPropiedad">
+        <MappingFragment StoreEntitySet="Tbl_API_Probosque_FincaRegistroPropiedad">
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Numero" ColumnName="Numero" />
+          <ScalarProperty Name="Folio" ColumnName="Folio" />
+          <ScalarProperty Name="Libro" ColumnName="Libro" />
+          <ScalarProperty Name="Municipalidad" ColumnName="Municipalidad" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="TipoRegistroPropiedad" ColumnName="TipoRegistroPropiedad" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Probosque_InformeTecnico">
+      <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Probosque_InformeTecnico">
+        <MappingFragment StoreEntitySet="Tbl_API_Probosque_InformeTecnico">
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="UltimaFaseCertificada" ColumnName="UltimaFaseCertificada" />
+          <ScalarProperty Name="NumeroInforme" ColumnName="NumeroInforme" />
+          <ScalarProperty Name="PDFInforme" ColumnName="PDFInforme" />
+          <ScalarProperty Name="PDFInforme_Local" ColumnName="PDFInforme_Local" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Probosque_Propietario_PersonaIndividual">
+      <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Probosque_Propietario_PersonaIndividual">
+        <MappingFragment StoreEntitySet="Tbl_API_Probosque_Propietario_PersonaIndividual">
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="CUI" ColumnName="CUI" />
+          <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+          <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Probosque_Propietario_PersonaJuridica">
+      <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Probosque_Propietario_PersonaJuridica">
+        <MappingFragment StoreEntitySet="Tbl_API_Probosque_Propietario_PersonaJuridica">
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="Nit" ColumnName="Nit" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="TipoPersonaJ" ColumnName="TipoPersonaJ" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Probosque_RepresentanteLegal">
+      <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Probosque_RepresentanteLegal">
+        <MappingFragment StoreEntitySet="Tbl_API_Probosque_RepresentanteLegal">
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="CUI" ColumnName="CUI" />
+          <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+          <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Probosque_Rodales">
+      <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Probosque_Rodales">
+        <MappingFragment StoreEntitySet="Tbl_API_Probosque_Rodales">
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PoligonoId" ColumnName="PoligonoId" />
+          <ScalarProperty Name="Area" ColumnName="Area" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Probosque_Rodales_Documentos">
+      <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Probosque_Rodales_Documentos">
+        <MappingFragment StoreEntitySet="Tbl_API_Probosque_Rodales_Documentos">
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="Correlativo_id" ColumnName="Correlativo_id" />
+          <ScalarProperty Name="PDFPol" ColumnName="PDFPol" />
+          <ScalarProperty Name="PDFPol_Local" ColumnName="PDFPol_Local" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Probosque_Rodales_Poligonos">
+      <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Probosque_Rodales_Poligonos">
+        <MappingFragment StoreEntitySet="Tbl_API_Probosque_Rodales_Poligonos">
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="RodalId" ColumnName="RodalId" />
+          <ScalarProperty Name="PoligonoId" ColumnName="PoligonoId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Orden" ColumnName="Orden" />
+          <ScalarProperty Name="GTMX" ColumnName="GTMX" />
+          <ScalarProperty Name="GTMY" ColumnName="GTMY" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Probosque_Rodales_PoligonosDescuento">
+      <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Probosque_Rodales_PoligonosDescuento">
+        <MappingFragment StoreEntitySet="Tbl_API_Probosque_Rodales_PoligonosDescuento">
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="RodalId" ColumnName="RodalId" />
+          <ScalarProperty Name="PoligonoId" ColumnName="PoligonoId" />
+          <ScalarProperty Name="Area_id" ColumnName="Area_id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Orden" ColumnName="Orden" />
+          <ScalarProperty Name="GTMX" ColumnName="GTMX" />
+          <ScalarProperty Name="GTMY" ColumnName="GTMY" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_Categoria">
+      <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_Categoria">
+        <MappingFragment StoreEntitySet="Tbl_Categoria">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Categoria_Probosque" ColumnName="Categoria_Probosque" />
+          <ScalarProperty Name="Categoria_PinpepOld" ColumnName="Categoria_PinpepOld" />
+          <ScalarProperty Name="Categoria_id" ColumnName="Categoria_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="BuscaValorEnBBDD" FunctionName="db_RNF_IntermediaModel.Store.BuscaValorEnBBDD" />
+    <FunctionImportMapping FunctionImportName="SP_Limpiar_PinpepOld" FunctionName="db_RNF_IntermediaModel.Store.SP_Limpiar_PinpepOld" />
+    <FunctionImportMapping FunctionImportName="SP_Limpiar_Probosque" FunctionName="db_RNF_IntermediaModel.Store.SP_Limpiar_Probosque" />
+    <FunctionImportMapping FunctionImportName="SP_Limpiar_Todo" FunctionName="db_RNF_IntermediaModel.Store.SP_Limpiar_Todo" />
+    <FunctionImportMapping FunctionImportName="SP_MigrarPinpepOld" FunctionName="db_RNF_IntermediaModel.Store.SP_MigrarPinpepOld">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_IntermediaModel.SP_MigrarPinpepOld_Result">
+          <ScalarProperty Name="respuesta" ColumnName="respuesta" />
+          <ScalarProperty Name="mensaje" ColumnName="mensaje" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_MigrarPinpepOld_Bck_20230807" FunctionName="db_RNF_IntermediaModel.Store.SP_MigrarPinpepOld_Bck_20230807">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_IntermediaModel.SP_MigrarPinpepOld_Bck_20230807_Result">
+          <ScalarProperty Name="respuesta" ColumnName="respuesta" />
+          <ScalarProperty Name="mensaje" ColumnName="mensaje" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_MigrarProbosque" FunctionName="db_RNF_IntermediaModel.Store.SP_MigrarProbosque">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_IntermediaModel.SP_MigrarProbosque_Result">
+          <ScalarProperty Name="respuesta" ColumnName="respuesta" />
+          <ScalarProperty Name="mensaje" ColumnName="mensaje" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_MigrarProbosque_Bk_20230621_K1" FunctionName="db_RNF_IntermediaModel.Store.SP_MigrarProbosque_Bk_20230621_K1">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_IntermediaModel.SP_MigrarProbosque_Bk_20230621_K1_Result">
+          <ScalarProperty Name="respuesta" ColumnName="respuesta" />
+          <ScalarProperty Name="mensaje" ColumnName="mensaje" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_MiniLimpiarExpediente_Probosque" FunctionName="db_RNF_IntermediaModel.Store.SP_MiniLimpiarExpediente_Probosque" />
+  </EntityContainerMapping>
+</Mapping>

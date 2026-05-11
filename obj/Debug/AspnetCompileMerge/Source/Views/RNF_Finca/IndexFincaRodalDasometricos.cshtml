@@ -1,0 +1,390 @@
+﻿@using RNF_Web.Models;
+@using System.Data.SqlClient;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+@{
+    string Guid_id = ViewBag.Guid_id;
+    db_RNFEntities db = new db_RNFEntities();
+
+    Tbl_RNF_Registro tbl_RNF_Registro = db.Tbl_RNF_Registro.Where(Obj => Obj.No_Registro == Guid_id).FirstOrDefault();
+
+    ViewBag.SolicitudGuid = tbl_RNF_Registro.GuidSolicitud_id;
+
+    ViewBag.Solicitud_id = tbl_RNF_Registro.Solicitud_id;
+
+    int Categoria_id = tbl_RNF_Registro.Categoria_id ?? 0;
+
+    int intCategoriaPlantacion = db.Tbl_Sol_Solicitud_Categoria.Where(Obj => Obj.Descripcion.Contains("semilleras") && Obj.Categoria_id == tbl_RNF_Registro.Categoria_id).Count();
+
+    int intCategoriaPlantacionesForestales = db.Tbl_Sol_Solicitud_Categoria.Where(Obj => Obj.Categoria_id == tbl_RNF_Registro.Categoria_id && (Obj.Descripcion.Contains("Plantaciones forestales") || Obj.Descripcion.Contains("Sistemas agroforestales") || Obj.Descripcion.Contains("Plantaciones de arboles frutales"))).Count();
+
+    ViewBag.intCategoriaPlantacion = intCategoriaPlantacion;
+
+    ViewBag.intCategoriaPlantacionesForestales = intCategoriaPlantacionesForestales;
+
+    ViewBag.Categoria_id = Categoria_id;
+
+    ViewBag.AreaTotalFincas = tbl_RNF_Registro.AreaTotalFincas ?? 0;
+
+
+    ViewBag.AreaTotalFincasSegunFincas = db.Tbl_RNF_Finca.Where(Obj => Obj.No_Registro == tbl_RNF_Registro.No_Registro).Sum(Obj => Obj.AreaTotal);
+
+
+    ViewBag.intCantidadFincas = db.Tbl_RNF_Finca.Where(Obj => Obj.No_Registro == tbl_RNF_Registro.No_Registro).Count();
+
+    EdicionRNFGrants objRNFGrants = (EdicionRNFGrants)Session[Constants.session_EdicionRNFGrants];
+
+    Usuario objUs = new Usuario();
+    objUs = (Usuario)Session["User"];
+}
+
+
+
+<script>
+    $(document).ready(function () {
+
+        actualizar();
+
+        $(document).on('change', '#SubRegionFinca_id', function () {
+            actualizar();
+        });
+
+        $(document).on('change', '#RegionFinca_id', function () {
+            var url = "@Url.Action("GetSubRegion", "Sol_Solicitud")";
+            var Region = $('#RegionFinca_id').val();
+            var data = { Region: Region};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#SubRegionFinca_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text:  municipio.Text
+                    }));
+
+                });
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlRegion
+
+    });
+
+
+
+    function actualizar()
+    {
+        var varRegionFinca_id = $('#RegionFinca_id').val();
+        var varSubRegionFinca_id = $('#SubRegionFinca_id').val();
+        var Guid_id = '@Guid_id';
+        var data = {
+            regionid: varRegionFinca_id,
+            subregionid: varSubRegionFinca_id,
+            Guid_id: Guid_id
+        };
+
+
+        var url = "@Url.Action("actualizarregion", "RNF_Finca")";
+
+             $.post(url, data).done(function (jsonRespuesta) {
+
+                var objJSON = JSON.parse(jsonRespuesta);
+                var Cod_Respuesta = objJSON.CodRespuesta;
+                var Texto_Respuesta = objJSON.strRespuesta;
+
+                if (Cod_Respuesta == 0) {
+                    $('#lblMensaje').text(Texto_Respuesta);
+                } else if (Cod_Respuesta == 1) {
+                    alert(Texto_Respuesta);
+
+                }
+            });
+
+    }
+
+    function actualizarArea()
+    {
+
+        var varArea = $('#inputArea').val();
+        var Guid_id = '@Guid_id';
+        var data = {
+            areafinca: varArea,
+            Guid_id: Guid_id
+        };
+
+
+        var url = "@Url.Action("actualizarArea", "RNF_Finca")";
+
+             $.post(url, data).done(function (jsonRespuesta) {
+
+                var objJSON = JSON.parse(jsonRespuesta);
+                var Cod_Respuesta = objJSON.CodRespuesta;
+                var Texto_Respuesta = objJSON.strRespuesta;
+
+                if (Cod_Respuesta == 0) {
+                    $('#lblMensaje').text(Texto_Respuesta);
+                } else if (Cod_Respuesta == 1) {
+                    refreshPartialViewGestor();
+                    //location.reload();
+                    //window.location.replace("/RNF_Registro/RegistroView/?No_RegistroLiteral=@tbl_RNF_Registro.No_RegistroLiteral&No_RegistroCorrelativo=@tbl_RNF_Registro.No_RegistroCorrelativo");
+                    //var TdHiddeA = document.getElementById("section_Finca");
+                    //TdHiddeA.style.display = "block";
+
+                    //$('#lblMensaje').text(Texto_Respuesta);
+                    //reload();
+                }
+            });
+
+    }
+
+
+</script>
+
+@if (objRNFGrants.Editar)
+{
+
+    <table>
+        <tr>
+            <td>
+                <h4 id="InputArea">Área total de las fincas (ha):</h4>
+            </td>
+            <td>
+                <input type="number" id="inputArea" name="inputArea" value="@ViewBag.AreaTotalFincas" />
+            </td>
+            <td>
+                <input type="button" value="Definir área" class="btn btn-success" onclick="actualizarArea()" />
+            </td>
+            <td>
+                <h4 id="lblMensaje">  Área total definida:@ViewBag.AreaTotalFincas (ha)</h4>
+            </td>
+
+        </tr>
+
+    </table>
+}
+else
+{
+    <table>
+        <tr>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+                <h4 id="lblMensaje">  Área total definida:@ViewBag.AreaTotalFincas (ha)</h4>
+            </td>
+
+        </tr>
+
+    </table>
+
+}
+
+@if (ViewBag.AreaTotalFincas == 0)
+{
+    <div id="section_Finca" style="display: none"></div>
+}
+else
+{
+    <div id="section_Finca"></div>
+}
+
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@if (((ViewBag.Categoria_id == 2) || (ViewBag.Categoria_id == 3) || (ViewBag.Categoria_id == 4)) && (ViewBag.intCantidadFincas > 0))
+{
+    <div class="container-fluid">
+        <div style='height: 30px; width: 100%; background-color: #66bb6a; color: white; '>
+            <h4>Dirección en la que desea realizar la gestión.</h4>
+        </div>
+        @if (objRNFGrants.Editar)
+        {
+            <div class="row">
+
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group">
+                        Región
+                        <div class="col-md-10">
+                            @Html.DropDownList("RegionFinca_id", null, htmlAttributes: new { @class = "form-select" })
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group">
+                        Sub-Región
+                        <div class="col-md-10">
+                            @Html.DropDownList("SubRegionFinca_id", null, htmlAttributes: new { @class = "form-select" })
+                            <a href="http://www.inab.gob.gt/index.php/quienes-somos/oficinas-inab" target="_blank"> Consultar directorio</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="row">
+            <div class="col-sm-7 col-md-7" align="right">
+            </div>
+            <div class="col-sm-4 col-md-4" align="right">
+            </div>
+            <div class="col-sm-1 col-md-1" align="right">
+            </div>
+
+        </div>
+    </div>
+
+    <br />
+}
+
+
+@if (ViewBag.AreaTotalFincas == 0)
+{
+    <div id="section_Rodal" style="display: none"></div>
+    <div id="section_Rodal_Descuento" style="display: none"></div>
+}
+else
+{
+    <div id="section_Rodal"></div>
+    <div id="section_Rodal_Descuento"></div>
+}
+
+
+
+@if (ViewBag.AreaTotalFincas == 0)
+{
+    <div id="section_RodalDasometricos" style="display: none"></div>
+}
+else
+{
+    <div id="section_RodalDasometricos"></div>
+}
+
+@if (ViewBag.AreaTotalFincas == 0)
+{
+    <div id="section_Rodal_Inventario" style="display: none"></div>
+}
+else
+{
+    if (ViewBag.intCategoriaPlantacion == 0)
+    {
+        <div id="section_Rodal_Inventario" style="display: none"></div>
+    }
+    else
+    {
+        <div id="section_Rodal_Inventario"></div>
+    }
+}
+
+
+@if (ViewBag.AreaTotalFincas == 0)
+{
+    <div id="section_Dasometrico_Formula" style="display: none"></div>
+}
+else
+{
+
+    if (ViewBag.intCategoriaPlantacionesForestales == 0)
+    {
+        <div id="section_Dasometrico_Formula" style="display: none "></div>
+    }
+    else
+    {
+        <div id="section_Dasometrico_Formula"></div>
+    }
+}
+
+
+<div class="row mb-4">
+    <div id="div_EspeciesForestales_Probosque"></div>
+    <div id="div_EspeciesForestales_PinpepOld"></div>
+    <div id="div_EspeciesProteger_PinpepOld"></div>
+    @if (tbl_RNF_Registro.Procedencia_secorf)
+    {
+        <div id="div_EspeciesForestales_Secorf"></div>
+    }
+</div>
+
+<script>
+        $(document).ready(function () {
+            var div_EspeciesForestales_Probosque = document.getElementById("div_EspeciesForestales_Probosque");
+            var div_EspeciesForestales_PinpepOld = document.getElementById("div_EspeciesForestales_PinpepOld");
+            var div_EspeciesProteger_PinpepOld = document.getElementById("div_EspeciesProteger_PinpepOld");
+            var div_EspeciesForestales_Secorf = document.getElementById("div_EspeciesForestales_Secorf");
+
+            if (div_EspeciesForestales_Probosque) {
+                $('#div_EspeciesForestales_Probosque').load('/RNF_Finca_ProcedenciaExterna/Probosque_EspeciesForestales?No_Registro=@tbl_RNF_Registro.No_Registro');
+            }
+            if (div_EspeciesForestales_PinpepOld) {
+                $('#div_EspeciesForestales_PinpepOld').load('/RNF_Finca_ProcedenciaExterna/PinpepOld_EspeciesForestales?No_Registro=@tbl_RNF_Registro.No_Registro');
+            }
+            if (div_EspeciesProteger_PinpepOld) {
+                $('#div_EspeciesProteger_PinpepOld').load('/RNF_Finca_ProcedenciaExterna/PinpepOld_EspeciesProteger?No_Registro=@tbl_RNF_Registro.No_Registro');
+            }
+            if (div_EspeciesForestales_Secorf) {
+                $('#div_EspeciesForestales_Secorf').load('/RNF_Finca_ProcedenciaExterna/Secorf_EspeciesForestales?No_Registro=@tbl_RNF_Registro.No_Registro');
+            }
+
+        });
+</script>
+<!--<br />
+<table>
+    <tr>
+        <td width="50%"></td>
+        <td></td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>-->
+            @*@if (objRNFGrants.Editar)
+                {
+                    <input type="submit" value="Siguiente" class="btn btn-success" onclick="Refresh()" />
+                    <img src="~/Content/icons/click_hand.gif" width="80" />
+                }*@
+        <!--</td>
+    </tr>
+</table>-->
+
+
+<script>
+
+    $(document).ready(function () {
+        var complementoView = "?Guid_id=@Guid_id&No_Registro=@Guid_id";
+        $('#section_Finca').load('/RNF_Finca/Index/' + complementoView);
+        $('#section_Rodal').load('/RNF_Rodal/Index/' + complementoView);
+        $('#section_Rodal_Descuento').load('/RNF_Rodal/IndexDescuento/' + complementoView);
+        $('#section_RodalDasometricos').load('/RNF_Rodal_Dasometrico/Index' + complementoView);
+        $('#section_Rodal_Inventario').load('/RNF_Rodal_Inventario/Index/' + complementoView);
+        $('#section_Dasometrico_Formula').load('/RNF_Rodal_Dasometrico_Especie_Formula/Index/' + complementoView);
+
+    });
+
+    function reload() {
+        $('#section_Rodal').load('/RNF_Rodal/Index/?Guid_id=@Guid_id')
+
+    }
+
+
+</script>
+
+

@@ -1,0 +1,172 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Gest_EtapaSolicitud_To_doList>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Url.Action("EtapaSolicitud_To_DoList", "Gest_EtapaSolicitud")
+}
+
+
+@{
+
+    Layout = null;
+}
+
+
+
+
+@Html.Partial("_PartialPageEncabezado")
+
+<script>
+
+    function fnc_change(varsolicitud_id, varetapa_id, varetaparuta_id, varcorrelativoetapa_id, varto_do_id, varopcion, varvalor)
+    {
+
+        var url = "@Url.Action("ActualizaTodoListEstatus", "Gest_EtapaSolicitud")";
+
+        var data = { solicitud_id: varsolicitud_id, etapa_id: varetapa_id, etaparuta_id: varetaparuta_id, correlativoetapa_id: varcorrelativoetapa_id, to_do_id: varto_do_id, opcion: varopcion, valor: varvalor};
+
+           $.post(url, data).done(function () {
+
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+            return false;
+
+    }
+
+    function fnc_changeTxt(varsolicitud_id, varetapa_id, varetaparuta_id, varcorrelativoetapa_id, varto_do_id, varText)
+    {
+
+        var url = "@Url.Action("ActualizaTodoListObservacion", "Gest_EtapaSolicitud")";
+
+        var data = { solicitud_id: varsolicitud_id, etapa_id: varetapa_id, etaparuta_id: varetaparuta_id, correlativoetapa_id: varcorrelativoetapa_id, to_do_id: varto_do_id, observacion: varText};
+
+           $.post(url, data).done(function () {
+
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+            return false;
+
+    }
+
+
+</script>
+
+@if (Model.First().Etapa_id == 1)
+{
+
+    <table class="table" width="100%">
+        <tr>
+            <th width="30%">
+                @Html.DisplayNameFor(model => model.Tbl_Gest_Etapa_To_doList.Descripcion)
+            </th>
+            <th width="2%" class="text-center">
+            </th>
+            <th width="2%" class="text-center">
+            </th>
+            <th width="2%" class="text-center">
+            </th>
+            <th width="60%">
+                @Html.DisplayNameFor(model => model.Observaciones)
+            </th>
+            <th width="10%">
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tbl_Gest_Etapa_To_doList.Descripcion)
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                    <textarea id="Text_@item.To_do_id" cols="40" onchange="fnc_changeTxt(@item.Solicitud_id, @item.Etapa_id, @item.EtapaRuta_id, @item.CorrelativoEtapa_id,@item.To_do_id, this.value)">@item.Observaciones</textarea>
+
+                </td>
+            </tr>
+        }
+
+    </table>
+
+
+}
+else
+{
+    <table class="table" width="100%">
+        <tr>
+            <th width="30%">
+                @Html.DisplayNameFor(model => model.Tbl_Gest_Etapa_To_doList.Descripcion)
+            </th>
+            <th width="5%" class="text-center">
+                @Html.DisplayNameFor(model => model.No)
+            </th>
+            <th width="5%" class="text-center">
+                @Html.DisplayNameFor(model => model.No_Aplica)
+            </th>
+            <th width="5%" class="text-center">
+                @Html.DisplayNameFor(model => model.Si)
+            </th>
+            <th width="30%">
+                @Html.DisplayNameFor(model => model.Observaciones)
+            </th>
+            <th width="10%">
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tbl_Gest_Etapa_To_doList.Descripcion)
+                </td>
+                <td>
+                    @if (item.No == true)
+                    {
+                        <input type="radio" id="html" name="fav_language_@item.To_do_id" onchange="fnc_change(@item.Solicitud_id, @item.Etapa_id, @item.EtapaRuta_id, @item.CorrelativoEtapa_id,@item.To_do_id,'No',1)" value="No" checked>
+                    }
+                    else
+                    {
+                        <input type="radio" id="html" name="fav_language_@item.To_do_id" onchange="fnc_change(@item.Solicitud_id, @item.Etapa_id, @item.EtapaRuta_id, @item.CorrelativoEtapa_id,@item.To_do_id,'No',1)" value="No">
+                    }
+                </td>
+                <td>
+                    @if (item.No_Aplica == true)
+                    {
+                        <input type="radio" id="html" name="fav_language_@item.To_do_id" onchange="fnc_change(@item.Solicitud_id, @item.Etapa_id, @item.EtapaRuta_id, @item.CorrelativoEtapa_id,@item.To_do_id,'No Aplica',1)" value="No Aplica" checked>
+                    }
+                    else
+                    {
+                        <input type="radio" id="html" name="fav_language_@item.To_do_id" onchange="fnc_change(@item.Solicitud_id, @item.Etapa_id, @item.EtapaRuta_id, @item.CorrelativoEtapa_id,@item.To_do_id,'No Aplica',1)" value="No Aplica">
+                    }
+                </td>
+                <td>
+                    @if (item.Si == true)
+                    {
+                        <input type="radio" id="html" name="fav_language_@item.To_do_id" onchange="fnc_change(@item.Solicitud_id, @item.Etapa_id, @item.EtapaRuta_id, @item.CorrelativoEtapa_id,@item.To_do_id,'Si',1)" value="Si" checked>
+                    }
+                    else
+                    {
+                        <input type="radio" id="html" name="fav_language_@item.To_do_id" onchange="fnc_change(@item.Solicitud_id, @item.Etapa_id, @item.EtapaRuta_id, @item.CorrelativoEtapa_id,@item.To_do_id,'Si',1)" value="Si">
+                    }
+                </td>
+                <td>
+                    <input type="text" id="Text_@item.To_do_id" onchange="fnc_changeTxt(@item.Solicitud_id, @item.Etapa_id, @item.EtapaRuta_id, @item.CorrelativoEtapa_id,@item.To_do_id, this.value)" value="@item.Observaciones" />
+
+                </td>
+
+            </tr>
+        }
+
+    </table>
+}
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+

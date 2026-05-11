@@ -1,0 +1,343 @@
+﻿@using RNF_Web.Models;
+@model Tbl_RNF_Registro
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    DateTime fechahoraactual = DateTime.Now;
+    ViewBag.FechaInicio = String.Format("{0:yyyy-MM-dd}", fechahoraactual.AddYears(1));
+}
+
+
+<div id="div_CreateConRegion"></div>
+
+<script>
+    $(document).ready(function () {
+
+        $(document).on('change', '#Departamento_id', function () {
+
+            var url = "@Url.Action("GetMunicipios", "Sol_Solicitud")";
+            var Departamento = $('#Departamento_id').val();
+            var data = { Departamento: Departamento};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Municipio_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text: municipio.Text
+                    }));
+
+                });
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+
+        $(document).on('change', '#Region_id', function () {
+
+            var url = "@Url.Action("GetSubRegion", "Sol_Solicitud")";
+            var Region = $('#Region_id').val();
+            var data = { Region: Region};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#SubRegion_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text:  municipio.Text
+                    }));
+
+                });
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlRegion
+
+
+        $(document).on('change', '#Categoria_id', function () {
+
+            var url = "@Url.Action("GetSubCategorias", "Sol_Solicitud")";
+            var Categoria = $('#Categoria_id').val();
+            var data = { Categoria: Categoria};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Sub_Categoria_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, SubCategoria) {
+                    select.append($('<option/>', {
+                        value: SubCategoria.Value,
+                        text: SubCategoria.Text
+                    }));
+
+                });
+
+                $('#Sub_Categoria_id').change()
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+        $(document).on('change', '#Sub_Categoria_id', function () {
+            var Contador = 0;
+            var url = "@Url.Action("GetSubSubCategorias", "Sol_Solicitud")";
+            var Categoria = $('#Categoria_id').val();
+            var SubCategoria = $('#Sub_Categoria_id').val();
+
+            if ((Categoria == 1) && (SubCategoria == 2)) {
+                location.replace("/UsuarioExterno/VisualizarMapa")
+            }
+
+            var data = { Categoria: Categoria, SubCategoria: SubCategoria  };
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Sub_Sub_Categoria_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+
+                $.each(Listdata, function (index, SubSubCategoria) {
+                    Contador = Contador + 1;
+                    select.append($('<option/>', {
+                        value: SubSubCategoria.Value,
+                        text: SubSubCategoria.Text
+                    }));
+
+                });
+
+                if (Contador < 1) {
+                    select.append($('<option/>', {
+                        value: '0',
+                        text: '-- No Aplica --'
+                    }));
+                }
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+
+    }); // -----Fin de document ready function
+</script>
+
+<script>
+    function consultarDPI() {
+        var crearRegistro = document.getElementById("crearRegistro");
+        var DPI_Nuevo = document.getElementById("DPI_Titular").value;
+
+        var data = {
+            DPI_Nuevo: DPI_Nuevo
+        };
+        var url = "@Url.Action("ConsultarDPINuevoTitular", "RNF_Registro_Reasignacion")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+            var cod_respuesta = oJSON.cod_respuesta;
+            var datos_dpi = oJSON.datos_dpi;
+            console.log(oJSON);
+            if (cod_respuesta == 1) {
+                //crearRegistro.disabled = false;
+            } else {
+                alert("DPI inválido o usuario externo no existe");
+                //crearRegistro.disabled = true;
+            }
+
+        });
+    }
+
+    function crearRegistro() {
+        var Fecha_De_Vencimiento = document.getElementById("Fecha_De_Vencimiento").value;
+        var cb_Categoria_id = document.getElementById("Categoria_id");
+        var cb_Sub_Categoria_id = document.getElementById("Sub_Categoria_id");
+        var cb_Sub_Sub_Categoria_id = document.getElementById("Sub_Sub_Categoria_id");
+        var cb_Region_id = document.getElementById("Region_id");
+        var cb_SubRegion_id = document.getElementById("SubRegion_id");
+
+
+        var DPI_Titular = document.getElementById("DPI_Titular").value;
+        var Categoria_id = cb_Categoria_id.value;
+        var Sub_Categoria_id = cb_Sub_Categoria_id.value;
+        var Sub_Sub_Categoria_id = cb_Sub_Sub_Categoria_id.value;
+        var Region_id = cb_Region_id.value;
+        var SubRegion_id = cb_SubRegion_id.value;
+
+
+
+        var data = {
+            Fecha_De_Vencimiento: Fecha_De_Vencimiento,
+            Categoria_id: Categoria_id,
+            Sub_Categoria_id: Sub_Categoria_id,
+            Sub_Sub_Categoria_id: Sub_Sub_Categoria_id,
+            Region_id: Region_id,
+            SubRegion_id: SubRegion_id,
+            DPI_Titular: DPI_Titular
+        };
+
+        var url = "@Url.Action("CrearNuevoRegistro","RNF_Gestor")";
+
+        if (Categoria_id == 0) {
+            alert("Debe seleccionar la categoría correspondiente");
+            return;
+        }
+
+        if (Region_id == 0) {
+            alert("Debe seleccionar la región correspondiente");
+            return;
+        }
+
+
+        $.post(url, data).done(function (jsonRespuesta) {
+
+            var oJSON = JSON.parse(jsonRespuesta);
+            var CodRespuesta = oJSON.CodRespuesta;
+            var StrRespuesta = oJSON.StrRespuesta;
+            var StrRegistro = oJSON.StrRegistro;
+
+            if (CodRespuesta == 1) {
+
+                window.open('/RNF_Gestor/Index?No_Registro=' + StrRegistro, '_self');
+
+            } else {
+
+                alert(StrRespuesta);
+
+            }
+
+        }).fail(function () {
+
+
+
+        });
+
+    }
+</script>
+
+
+<div class="container-fluid">
+    <div class="titulo-dos">
+        <h4> Tipo de Registro</h4>
+    </div>
+
+    <br />
+    <div id="MostrarCategoria">
+
+        <div class="row mt-2">
+            <div class="col">
+                @Html.LabelFor(model => model.Fecha_De_Vencimiento, "Fecha de Vencimiento", htmlAttributes: new { @class = "control-label col-md-12" })
+                <input type="date" id="Fecha_De_Vencimiento" name="Fecha_De_Vencimiento" value="@ViewBag.FechaInicio" class="form-control" />
+                @*@Html.EditorFor(model => model.Fecha_De_Vencimiento, new { htmlAttributes = new { @class = "form-control" } })*@
+
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col">
+                @Html.LabelFor(model => model.DPI_Titular, "DPI de Titular", htmlAttributes: new { @class = "control-label col-md-12" })
+                @Html.EditorFor(model => model.DPI_Titular, new { htmlAttributes = new { @class = "form-control", onchange = "consultarDPI()", Value = "0000000000000" } })
+                @Html.ValidationMessageFor(model => model.DPI_Titular, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+        <div id="Procedencia" style="display: none;">
+
+            <br />
+            <div class="titulo-dos">
+                <h4> Procedencia</h4>
+            </div>
+
+
+        </div>
+    </div>
+
+    <br />
+
+    <div id="MostrarCategoria">
+
+        <div class="row mt-2">
+            <div class="col">
+                @Html.LabelFor(model => model.Categoria_id, "Categoría", htmlAttributes: new { @class = "control-label col-md-12" })
+                @Html.DropDownList("Categoria_id", null, htmlAttributes: new { @class = "form-select" })
+                @Html.HiddenFor(m => m.Categoria_id)
+                @Html.ValidationMessageFor(model => model.Categoria_id, "", new { @class = "text-danger" })
+
+                @Html.LabelFor(model => model.Sub_Categoria_id, "Sub Categoría", htmlAttributes: new { @class = "control-label col-md-12" })
+                @Html.DropDownList("Sub_Categoria_id", null, htmlAttributes: new { @class = "form-select" })
+                @Html.HiddenFor(m => m.Sub_Categoria_id)
+                @Html.ValidationMessageFor(model => model.Sub_Categoria_id, "", new { @class = "text-danger" })
+
+                @Html.LabelFor(model => model.Sub_Sub_Categoria_id, "Especificación", htmlAttributes: new { @class = "control-label col-md-12" })
+                @Html.DropDownList("Sub_Sub_Categoria_id", null, htmlAttributes: new { @class = "form-select" })
+                @Html.HiddenFor(m => m.Sub_Sub_Categoria_id)
+                @Html.ValidationMessageFor(model => model.Sub_Sub_Categoria_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div id="Procedencia" style="display: none;">
+
+            <br />
+            <div class="titulo-dos">
+                <h4> Procedencia</h4>
+            </div>
+
+
+        </div>
+    </div>
+
+    <br />
+
+    <div id="MostrarRegion">
+        <div class="titulo-dos">
+            <h4>Dirección en la que desea realizar la gestión.</h4>
+        </div>
+        <div class="row mt-2">
+            <div class="col">
+                @Html.LabelFor(model => model.Region_id, "Región", htmlAttributes: new { @class = "control-label col-md-12" })
+                @Html.DropDownList("Region_id", null, htmlAttributes: new { @class = "form-select" })
+                @Html.ValidationMessageFor(model => model.Region_id, "", new { @class = "text-danger" })
+
+                @Html.LabelFor(model => model.SubRegion_id, "Sub-Región", htmlAttributes: new { @class = "control-label col-md-12" })
+                @Html.DropDownList("SubRegion_id", null, htmlAttributes: new { @class = "form-select" })
+                @Html.ValidationMessageFor(model => model.SubRegion_id, "", new { @class = "text-danger" })
+                <a href="http://www.inab.gob.gt/index.php/quienes-somos/oficinas-inab" target="_blank"> Consultar directorio</a>
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <div class="titulo-dos">
+        <input type="button" class="btn btn-success" name="crearRegistro" id="crearRegistro" value="Crear Registro" onclick="crearRegistro()" />
+    </div>
+
+</div>
+
+<br />

@@ -1,0 +1,42 @@
+﻿
+<script>
+    function download(filename, NombreDescarga) {
+
+        var element = document.createElement('a');
+        element.setAttribute('href', filename);
+        element.setAttribute('download', NombreDescarga);
+        document.body.appendChild(element);
+        element.click();
+        //document.body.removeChild(element);
+    }
+</script>
+
+<!DOCTYPE html>
+<html>
+<head>
+
+
+    <link href="/Content/Layout.css" rel="stylesheet" />
+    <link href="/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Content/assets/js/jquery.min.js"></script>
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">*@
+
+
+</head>
+
+<body>
+
+    @RenderBody()
+
+</body>
+</html>
+
+<script>
+    window.addEventListener("beforeunload", function (e) {
+        document.cookie = "ASP.NET_SessionId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    });
+</script>
+
+
+
+

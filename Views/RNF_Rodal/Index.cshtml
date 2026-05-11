@@ -1,0 +1,300 @@
+﻿@using RNF_Web.Models;
+@using System.Data.SqlClient;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+<div id="section_Rodal">
+    @model IEnumerable<RNF_Web.Models.Tbl_RNF_Rodal>
+
+    @{
+        string Guid_id = ViewBag.Guid_id;
+        db_RNFEntities db = new db_RNFEntities();
+        Tbl_RNF_Registro tbl_rnf_registro = db.Tbl_RNF_Registro.Where(Obj => Obj.No_Registro == Guid_id).FirstOrDefault();
+
+        ViewBag.AreaTotalDescuento = db.Tbl_RNF_Rodal_Descuento.Where(Obj => Obj.No_Registro == tbl_rnf_registro.No_Registro).Sum(Obj => Obj.AreaTotal);
+
+        ViewBag.AreaTotalDescuento = ViewBag.AreaTotalDescuento ?? 0;
+
+
+
+        ViewBag.AreaTotal = db.Tbl_RNF_Rodal.Where(Obj => Obj.No_Registro == tbl_rnf_registro.No_Registro).Sum(Obj => Obj.AreaTotal);
+        ViewBag.AreaTotalCalculadaSistema = db.Tbl_RNF_Rodal.Where(Obj => Obj.No_Registro == tbl_rnf_registro.No_Registro).Sum(Obj => Obj.AreaTotalCalculadaSistema);
+
+
+        ViewBag.AreaTotal = ViewBag.AreaTotal ?? 0;
+        ViewBag.AreaTotalCalculadaSistema = ViewBag.AreaTotalCalculadaSistema ?? 0;
+
+
+        ViewBag.AreaTotalEfectiva = ViewBag.AreaTotal - ViewBag.AreaTotalDescuento;
+
+
+        ViewBag.CantidadFincas = db.Tbl_RNF_Finca.Where(Obj => Obj.No_Registro == tbl_rnf_registro.No_Registro).Count();
+
+        if (ViewBag.CantidadFincas > 0)
+        {
+
+            ViewBag.MaxFincaId = db.Tbl_RNF_Finca.Where(Finca => Finca.No_Registro == tbl_rnf_registro.No_Registro).Max(u => u.Finca_Id);
+
+        }
+        else
+        {
+            ViewBag.MaxFincaId = 0;
+        }
+
+        EdicionRNFGrants objRNFGrants = (EdicionRNFGrants)Session[Constants.session_EdicionRNFGrants];
+        //EdicionSolicitudGrants objGrant = (EdicionSolicitudGrants)Session[Constants.session_EdicionSolicitudGrants];
+
+    }
+
+
+    <script type="text/javascript">
+        function popUp(URL) {
+            //    window.open(URL, 'Nombre de la ventana', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=1,width=1000,height=500,left = 300,top = 50');
+
+            Editar_Rodal(URL);
+
+        }
+
+        function PlanoXFinca()
+        {
+            var MaxFincaId = @ViewBag.MaxFincaId;
+            var NoFinca = $('#No_FincaRevisar').val();
+
+            if (NoFinca == 0)
+            {
+                alert('El número de finca no debe ser cero, debe ser valido, entre 1 y ' + MaxFincaId + ',  acorde al ID de la finca para la que desea el plano')
+            }
+            else
+            if (NoFinca > MaxFincaId)
+            {
+                alert('El número de finca debe ser valido, entre 1 y ' + MaxFincaId + ',  acorde al ID de la finca para la que desea el plano')
+            }
+            else
+            {
+                window.open('/RNF_Locacion/IndexRodalPlanoVertical?No_Registro=@tbl_rnf_registro.No_Registro&Finca_id=' + NoFinca + '&Rodal_id=0', '_blank');
+            }
+
+        }
+
+    </script>
+    @if (objRNFGrants.Editar)
+    {
+        <div class="row mt-2">
+            <div class="col">
+            </div>
+            <div class="col">
+            </div>
+            <div class="col text-center">
+                <div class="d-grid gap-2">
+
+                    <button class="btn-next-ic" onclick="AgregarPoligonos(); return false;">
+                        <i class="fa in fa-plus-circle" aria-hidden="true"></i><br />Agregar polígonos, áreas de descuento y/ó datos dasométricos
+                    </button>
+                </div>
+            </div>
+            <div>
+            </div>
+        </div>
+    }
+
+    <br />
+
+    <div class="container-fluid">
+        <div style='height: 30px; width: 100%; background-color: #66bb6a; color: white; '>
+            <h4>@Html.Raw(Constants.Titulo_Rodal_Linea)</h4>
+        </div>
+
+        <br />
+        <div class="row">
+
+            <table>
+                <tr>
+                    <td>
+                        <a href="@Url.Action("IndexRodal", "RNF_Locacion", new { Guid_id = tbl_rnf_registro.No_Registro, Rodal_id = 0 } )" target="_blank">Mapa de ubicación</a>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("IndexRodalGoogleMaps", "RNF_Locacion", new { Guid_id = tbl_rnf_registro.No_Registro, Rodal_id = 0 } )" target="_blank">Mapa de ubicación Google</a>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("IndexRodalPlanoVertical", "RNF_Locacion", new { No_Registro = tbl_rnf_registro.No_Registro, Finca_id = 0, Rodal_id = 0 } )" target="_blank">Plano completo</a>
+                    </td>
+                    <td>
+                        No. Finca
+                        <input type="text" id="No_FincaRevisar" name="No_FincaRevisar" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" value="0" />
+                        <input type="button" value="Plano por finca" onclick="PlanoXFinca()" />
+                    </td>
+                </tr>
+            </table>
+
+            @*<a href="@Url.Action("RetunKMZ", "UploadFiles", new {Rodal_id = 0 } )" target="_blank">Archivo KML</a>*@
+
+        </div>
+
+        <div class="col-sm-6 col-md-12">
+
+            <table class="table">
+                <tr>
+                    <th>
+                        Finca Id
+                    </th>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Tipo_de_Area)
+                    </th>
+                    <th>
+                        Area total(ha)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.GTMX)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.GTMY)
+                    </th>
+                    <th>Polígono</th>
+                    <th></th>
+                    <th></th>
+                    <th>
+                        @if (tbl_rnf_registro.Procedencia_secorf)
+                        {
+                            @Html.Raw("Secorf Tipo Rodal")
+                        }
+                    </th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Finca_id)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rodal_Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tbl_Sol_Rodal_Tipo.Descripcion)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.AreaTotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GTMX)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GTMY)
+                </td>
+                <td>
+                    @if (item.Tbl_RNF_Rodal_Poligono.Count() > 0)
+                    {
+                        <img src="~/Content/icons/si.png" width="25" height="25" />
+                    }
+
+                </td>
+                <td>
+                    <a href="@Url.Action("IndexRodalPlanoVertical", "RNF_Locacion", new { No_Registro = tbl_rnf_registro.No_Registro, Finca_id = item.Finca_id, Rodal_id = item.Rodal_Id, Tipo = item.Tipo_de_Area } )" target="_blank">Plano</a>
+                </td>
+                <td>
+                    @if (objRNFGrants.Borrar)
+                    {
+                        <img src="~/Content/icons/trash_green.png" onclick="Borrar_Rodal('@item.No_Registro', @item.Finca_id, @item.Tipo_de_Area, @item.Rodal_Id)" width="25" height="25" />
+                    }
+                </td>
+                <td>
+                    @if (tbl_rnf_registro.Procedencia_secorf)
+                    {
+                        if (item.Secorf_TipoRegistro_id != null)
+                        {
+                            @(item.Tbl_Gral_Secorf_TipoRegistro.Descripcion??"")
+                        }
+                    }
+                    @*<img src="~/Content/icons/edit-9-xxl.png" onclick="Editar_Rodal('/Sol_Rodal/Edit/@item.Rodal_Id')" width="30" height="30" />*@
+                </td>
+            </tr>
+                }
+                <hr />
+                <hr />
+                <tr>
+                    <td></td>
+                    <th>Área total</th>
+                    <th>@ViewBag.AreaTotal</th>
+                    <td>
+                    </td>
+                </tr>
+                <tr>
+                    <td> <br /></td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <th>Área total</th>
+                    <th>@ViewBag.AreaTotal</th>
+                    <th>
+                        Área de descuento
+                    </th>
+                    <th>
+                        @ViewBag.AreaTotalDescuento
+                    </th>
+                    <th>
+                        =   Área de efectiva
+                    </th>
+                    <th>
+                        @ViewBag.AreaTotalEfectiva
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td colspan="2">
+                    </td>
+                    <td colspan="3">
+
+                        @*@if (objRNFGrants.Editar)
+                        {
+                            <h6>Click en la imagen para agregar información requerida</h6>
+                        }*@
+
+                    </td>
+                    <td>
+                        @*<span class="pull-right">
+                            <img src="~/Content/icons/cargadearchivos.png" style="cursor:pointer" onclick="AgregarPoligonos()" width="50" height="50" />
+                        </span>*@
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div>
+        @foreach (var item in ViewBag.Inconvenientes)
+        {
+            <table>
+                <tr>
+                    <td width="10%">
+                    </td>
+                    <td width="80%">
+                        <p style="color:blue">@item.Descripcion</p>
+                    </td>
+                    <td width="10%">
+                    </td>
+                </tr>
+            </table>
+        }
+
+    </div>
+
+</div>
+
+

@@ -1,0 +1,183 @@
+﻿@model RNF_Web.Models.Tbl_Sol_Solicitud
+@using RNF_Web.Models;
+@using System.Data.SqlClient;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+
+@{
+
+    db_RNFEntities db = new db_RNFEntities();
+    long lngSolicitud_id = Model.Solicitud_id;
+
+    Tbl_Sol_Solicitud tbl_sol_solicitud = db.Tbl_Sol_Solicitud.Find(ViewBag.Sol_id);
+    ViewBag.Estado = tbl_sol_solicitud.Estado_id;
+
+    ViewBag.PropietarioIndividual = db.Tbl_Sol_PropietarioPersonaIndividual.Where(obj => obj.Solicitud_id == lngSolicitud_id && obj.Estado_id == true).Count();
+
+    ViewBag.PropietarioJuridico = db.Tbl_Sol_PropietarioPersonaJuridica.Where(obj => obj.Solicitud_id == lngSolicitud_id && obj.Estado_id == true).Count();
+
+    ViewBag.ArrendatarioIndividual = db.Tbl_Sol_ArrendatarioPersonaIndividual.Where(obj => obj.Solicitud_id == lngSolicitud_id && obj.Estado_id == true).Count();
+
+    ViewBag.ArrendatarioJuridico = db.Tbl_Sol_ArrendatarioPersonaJuridica.Where(obj => obj.Solicitud_id == lngSolicitud_id && obj.Estado_id == true).Count();
+
+    ViewBag.RepresentanteLegal = db.Tbl_Sol_RepresentanteLegal.Where(obj => obj.Solicitud_id == lngSolicitud_id && obj.Estado_id == 1).Count();
+
+    ViewBag.RepresentanteLegalM = db.Tbl_Sol_RepresentanteLegal.Where(obj => obj.Solicitud_id == tbl_sol_solicitud.Solicitud_id && obj.RepresentanteLegatTipo_id == 1 && obj.Estado_id == 1).Count();
+
+
+}
+
+<script>
+
+    $(document).ready(function () {
+
+        $('#section_Propietario').load('/Sol_Solicitud/IndexPropietario?id=@ViewBag.Sol_id&firma=@ViewBag.Guid_id');
+
+        $('#section_Arrendatario').load('/Sol_Solicitud/IndexArrendatario?id=@ViewBag.Sol_id&firma=@ViewBag.Guid_id');
+
+        $('#section_Representante').load('/Sol_RepresentanteLegal/Index?id=@ViewBag.Sol_id&firma=@ViewBag.Guid_id');
+
+        $('#section_RepresentanteJ').load('/Sol_RepresentanteLegal/IndexMandatario?id=@ViewBag.Sol_id&firma=@ViewBag.Guid_id');
+
+        $(document).on('change', '#Mandatario', function () {
+            var Constancia = $('#Mandatario').val();
+
+
+            var TdToShowA = document.getElementById("section_Representante");
+            var TdToShowB = document.getElementById("siguiente");
+
+            if (Constancia == 'Si') {
+                TdToShowA.style.display = "block";
+                TdToShowB.style.display = "none";
+            }
+            else {
+                TdToShowA.style.display = "none";
+                TdToShowB.style.display = "block";
+
+            }
+
+        });
+
+
+        $(document).on('change', '#MandatarioJ', function () {
+            var Constancia = $('#MandatarioJ').val();
+
+
+            var TdToShowA = document.getElementById("section_RepresentanteJ");
+
+            if (Constancia == 'Si') {
+                TdToShowA.style.display = "block";
+            }
+            else {
+                TdToShowA.style.display = "none";
+
+            }
+
+        });
+
+
+
+    });
+
+</script>
+
+
+<div id="section_Propietario"></div>
+
+@if ((tbl_sol_solicitud.Categoria_id >= 6.00) && (tbl_sol_solicitud.Categoria_id < 7.00))
+{
+    <div id="section_Arrendatario"></div>
+}
+else
+{
+    <div id="section_Arrendatario" hidden></div>
+}
+
+
+<div class="row">
+    <div class="col">
+        @if (((ViewBag.PropietarioIndividual > 0) && (ViewBag.RepresentanteLegal == 0)))
+        {
+            <label for="Mandatario"> Cuenta con mandatario:</label>
+            <select name="Mandatario" id="Mandatario" class="form-control">
+                <option value="ND">-- Seleccione --</option>
+                <option value="Si">Si</option>
+                <option value="No">No</option>
+            </select>
+            <br />
+            <br />
+            <div id="section_Representante" style="display:none"></div>
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        @if ((ViewBag.PropietarioIndividual > 0) && (ViewBag.PropietarioIndividual > 0))
+        {
+            <div id="section_Representante"></div>
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        @if (ViewBag.PropietarioJuridico > 0)
+        {
+            <div id="section_Representante"></div>
+
+            if (ViewBag.RepresentanteLegalM > 0)
+            {
+                <div id="section_RepresentanteJ"></div>
+            }
+            else
+            {
+                <label for="MandatarioJ"> Cuenta con mandatario:</label>
+                <select name="MandatarioJ" id="MandatarioJ" class="form-control">
+                    <option value="ND">-- Seleccione --</option>
+                    <option value="Si">Si</option>
+                    <option value="No">No</option>
+                </select>
+                <br />
+                <br />
+                <div id="section_RepresentanteJ" style="display:none"></div>
+            }
+        }
+    </div>
+</div>
+<br />
+<br />
+
+<div class="row">
+    <div class="col">
+        <div class="d-grid gap-2">
+            @if ((ViewBag.Estado == 0))
+            {
+                <input type="button" value="Cancelar el proceso" class="btn-cancel" onclick="EliminarSolicitud('0')" />
+            }
+        </div>
+    </div>
+    <div class="col">
+        <div class="d-grid gap-2">
+            @if ((ViewBag.Estado == 0) || (ViewBag.Estado == 4))
+            {
+                <input type="button" onclick="location.href='/home/Index';" value="Cerrar y continuar despues" class="btn-warn" />
+            }
+            else
+            {
+                <input type="button" onclick="location.href='/home/Index';" value="Cerrar" class="btn-warn" />
+            }
+        </div>
+    </div>
+    <div class="col">
+        <div class="d-grid gap-2">
+            @if (((ViewBag.Estado == 0) || (ViewBag.Estado == 4)) && (ViewBag.PropietarioIndividual > 0 || (ViewBag.PropietarioJuridico > 0 && ViewBag.RepresentanteLegal > 0)))
+            {
+                <input id="siguiente" type="submit" value="Siguiente" class="btn-next" onclick="Refresh()" />
+            }
+        </div>
+    </div>
+</div>

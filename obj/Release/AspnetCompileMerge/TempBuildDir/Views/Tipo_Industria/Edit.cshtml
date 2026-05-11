@@ -1,0 +1,196 @@
+﻿@model RNF_Web.Models.Tbl_Gral_Tipo_Industria
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutSimple.cshtml";
+    ViewBag.Title = "Tipo Industria";
+    ViewBag.SubTitle = "Editar Tipo Industria";
+}
+
+@Html.Partial("_PartialPageEncabezado")
+
+<button class="btn-secondary" style="position: absolute; right: 0;" rel="tooltip" title="Regresar" onclick="location.href='@Url.Action("Index", "Tipo_Industria")'">
+    <i><img src="~/Content/icons/regresar.png" style="border-radius: 30%; width: 35px; height: auto" /></i>
+    <div class="ripple-container"></div>
+</button>
+
+<br />
+<br />
+
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.HiddenFor(model => model.Tipo_Industria_Id)
+    @Html.HiddenFor(model => model.swdatecreated)
+    @Html.HiddenFor(model => model.swdateupdated)
+
+
+    <div class="container">
+
+
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nombre_Tecnico, " Nombre técnico", htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Nombre_Tecnico, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Nombre_Tecnico, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nombres_Comunes, " Nombres comunes", htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Nombres_Comunes, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Nombres_Comunes, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table>
+            <tr>
+                <td> &nbsp; </td>
+            </tr>
+
+            <tr>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>Industria Forestal</td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.Industria_Forestal)
+                </td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>Depósitos de Productos Forestales</td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.Deposito_Forestal)
+                </td>
+            </tr>
+            <tr>
+                <td> &nbsp; </td>
+            </tr>
+
+            <tr>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>Centro de Acopio de Productos Forestales</td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.Centro_Acopio)
+                </td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>Víveros Forestales</td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.Viveros_Forestales)
+                </td>
+            </tr>
+            <tr>
+                <td> &nbsp; </td>
+            </tr>
+
+            <tr>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>Exportadoras e Importadoras de Productos Forestales</td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.Exporta_Importa_Producto_Forestal)
+                </td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>Productos Forestales No Maderables</td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.Producto_Forestal_No_Maderable)
+                </td>
+            </tr>
+            <tr>
+                <td> &nbsp; </td>
+            </tr>
+
+            <tr>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>Repobladoras Forestales</td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.Repobladoras_Forestales)
+                </td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>Consultoras Forestales</td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.Consultora_Forestal)
+                </td>
+            </tr>
+
+        </table>
+
+        <br />
+        <br />
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+            </div>
+            <div class="col-sm-12 col-md-3">
+            </div>
+            <div class="col-sm-12 col-md-3">
+                @TempData["RollMessage"]
+                <input type="submit" value="Guardar cambios" class="btn btn-success btn-fab btn-round" />
+            </div>
+        </div>
+        <br />
+        <br />
+    </div>
+
+}
+
+
+@Html.Partial("_PartialPageEncabezadoCierre")

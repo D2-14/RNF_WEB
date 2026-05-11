@@ -1,0 +1,129 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_EncResp_Encuesta>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+<script>
+
+    function loadDivs_RNF(nombrediv, urldiv) {
+        var myBool = document.getElementById(nombrediv);
+        if (myBool) {
+            $("#" + nombrediv).load(urldiv);
+        }
+    }
+
+    function CrearNuevoMonitoreo()
+    {
+
+        var data = {
+            No_Registro:'@ViewBag.No_Registro',
+            Guid_id: '@ViewBag.Guid_id'
+        };
+
+
+        var url = "@Url.Action("RealizarEncuesta", "EncResp_Encuesta")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = jsonRespuesta;
+            console.log(oJSON);
+            var Result = oJSON.Result;
+
+            if (Result == 1) {
+                var guid_id = oJSON.guid_id;
+
+                var div_RNF_Monitoreo = "div_RNF_Monitoreo";
+                var url_RNF_ComplementoGenerico = "?No_Registro=@ViewBag.No_Registro&Guid_id=@ViewBag.Guid_id";
+                var controllerRNF_Monitoreo = "/EncResp_Encuesta"
+
+
+                loadDivs_RNF(div_RNF_Monitoreo, controllerRNF_Monitoreo + "/Index" + url_RNF_ComplementoGenerico);
+
+
+            }
+            else {
+                alert(oJSON.Mensaje);
+            }
+        }).fail(function (error) {
+            alert(error);
+        });
+
+    }
+
+
+
+
+</script>
+
+
+
+
+<div class="gap-2 d-grid">
+    <button onclick="CrearNuevoMonitoreo()"> Crear Nuevo</button>
+</div>
+
+<table class="table table-striped">
+    <tr>
+
+        <th>
+            Nombre de encuesta
+        </th>
+        <th>
+            Fecha de inicio
+        </th>
+        <th>
+            Fecha final
+        </th>
+        <th>
+            Estado
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Enc_Encuesta.descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fecha_inicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fecha_final)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_EncResp_Encuesta_Estado.Descripcion)
+            </td>
+            <td>
+
+                <a class="nav-link" href="@Url.Action("PreguntaActual","EncResp_EncuestaRespuesta", new {id_encuesta= item.id_encuesta, swcreatedby = item.swcreatedby, id_correlativo = item.id_Correlativo})">
+                    &nbsp;&nbsp;&nbsp;<img id="BtnEditarEncuesta" src="~/Content/icons/edit-9-xxl.png" width="50" />
+                </a>
+            </td>
+            <td>
+                @if (item.id_estado == 2)
+                {
+                    <input type="button" value="Imprimir" class="btn btn-success" onclick="ImprimeEncuesta('@item.id_encuesta', '@item.swcreatedby', '@item.id_Correlativo')" />
+                }
+                else
+                {
+                    <h6 class="alert-warning">No se puede imprimir si no esta en estado finalizado</h6>
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+
+
+
+
+
+

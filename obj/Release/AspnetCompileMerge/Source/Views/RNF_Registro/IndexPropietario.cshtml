@@ -1,0 +1,235 @@
+﻿@model IEnumerable<RNF_Web.Models.fc_RNF_Sel_ListadoDePropietario_Result>
+@using RNF_Web.Models;
+@using System.Data.SqlClient;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+
+    db_RNFEntities db = new db_RNFEntities();
+    string Guid_id = ViewBag.Guid_id;
+    Tbl_RNF_Registro tbl_RNF_Registro = db.Tbl_RNF_Registro.Where(Obj => Obj.No_Registro == Guid_id).FirstOrDefault();
+    //Tbl_Sol_Solicitud tbl_sol_solicitud = db.Tbl_Sol_Solicitud.Find(Session[Constants.session_Solicitud]);
+
+    ViewBag.Estado = tbl_RNF_Registro.Estado_id;
+    EdicionSolicitudGrants objGrant = (EdicionSolicitudGrants)Session[Constants.session_EdicionSolicitudGrants];
+    EdicionRNFGrants objRNFGrants = (EdicionRNFGrants)Session[Constants.session_EdicionRNFGrants];
+
+    ViewBag.PropietarioJuridico = db.Tbl_RNF_PropietarioPersonaJuridica.Where(obj => obj.No_Registro == tbl_RNF_Registro.No_Registro && obj.Estado_id == true).Count();
+}
+
+<script>
+
+
+    $(document).on('change', '#Personeria', function () {
+
+        var Personeria = $('#Personeria').val();
+
+        if (Personeria == 1)  /*individual*/ {
+            var TdToShowA = document.getElementById("ClickYoPropietario");
+            TdToShowA.innerText = "<< Click en la imagen para agregarme como propietario >>";
+            TdToShowA.style = "color:blue; "
+            TdToShowA.hidden = false;
+
+            var TdToShowA = document.getElementById("ClickPropietario");
+            TdToShowA.innerText = "<< Click en la imagen para agregar propietario >>";
+            TdToShowA.style = "color:blue; "
+            TdToShowA.hidden = false;
+
+            document.getElementById("imgAddme").src = "/Content/icons/addme_II.png";
+            document.getElementById("imgPropietario").style.visibility = 'Visible';
+        }
+        else if (Personeria == 2) {
+            var TdToShowA = document.getElementById("ClickPropietario");
+            TdToShowA.innerText = "Click en la imagen para agregarme como propietario";
+            TdToShowA.style = "color:black; "
+            TdToShowA.hidden = true;
+
+
+            var TdToShowA = document.getElementById("ClickYoPropietario");
+            TdToShowA.innerText = "Click en la imagen para agregar propietario jurídico";
+            TdToShowA.style = "color:black; "
+
+            document.getElementById("imgAddme").src = "/Content/icons/add-empresa.png";
+
+            document.getElementById("imgPropietario").style.visibility = 'hidden';
+
+        } else {
+            var TdToShowA = document.getElementById("ClickYoPropietario");
+            TdToShowA.innerText = "<< Click en la imagen para agregarme como propietario >>";
+            TdToShowA.style = "color:blue; "
+            TdToShowA.hidden = true;
+
+            var TdToShowA = document.getElementById("ClickPropietario");
+            TdToShowA.innerText = "<< Click en la imagen para agregar propietario >>";
+            TdToShowA.style = "color:blue; "
+            TdToShowA.hidden = true;
+
+            document.getElementById("imgAddme").src = "/Content/icons/addme_II.png";
+            document.getElementById("imgPropietario").style.visibility = 'hidden';
+            document.getElementById("imgAddme").style.visibility = 'hidden';
+        }
+
+
+
+        function VerifAgregarme_Como_PropietarioRepresentante(solicitud, tipo)
+        {
+            var Personeria = $('#Personeria').val();
+
+            if (Personeria == 1)
+            {
+                Agregarme_Como_PropietarioRepresentante(solicitud, tipo)
+            }
+            else
+            {
+                Agregar_Propietario()
+            }
+        }
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+
+
+
+</script>
+
+
+<div class="container-fluid">
+
+
+    @*ViewBag.PropietarioJuridico>0   No pueden haber varios propietarios juridicos y no aplica agregar propietario individual*@
+
+    @if ((objRNFGrants.Agregar))
+    {
+        <div class="row">
+            <div class="col-xs-3 col-md-3">
+                @Html.Label("Seleccione tipo de propietario a agregar", new { @class = "control-label" })
+            </div>
+            <div class="col-xs-3 col-md-3">
+                @Html.DropDownList("Personeria", null, htmlAttributes: new { @class = "form-select", style = "width:100%;" })
+            </div>
+
+            <div class="col-xs-1 col-md-1">
+                <span class="pull-right">
+                    <img id="imgAddme" src="~/Content/icons/addme_II.png" onclick="Agregarme_Como_PropietarioRepresentante('@ViewBag.Guid_id', 1)" width="40" height="40" />
+                </span>
+            </div>
+            <div class="col-xs-2 col-md-2">
+                <p id="ClickYoPropietario">Click en la imagen para agregar propietario</p>
+            </div>
+            <div class="col-xs-1 col-md-1">
+                <span class="pull-right">
+                    <img id="imgPropietario" src="~/Content/icons/add-user-9-xxl.png" onclick="Agregar_Propietario('@ViewBag.Guid_id')" width="40" height="40" />
+                </span>
+            </div>
+            <div class="col-xs-2 col-md-2">
+                <p id="ClickPropietario">Click en la imagen para agregar propietario</p>
+            </div>
+
+        </div>
+
+    }
+
+
+
+    <hr />
+    <div style='height: 30px; width: 100%; background-color: #66bb6a; color: white; '>
+        <h4>Datos del propietario(s)</h4>
+    </div>
+    <br />
+
+    <div class="row">
+        <div class="col-xs-6 col-md-6">
+        </div>
+        <div class="col-xs-2 col-md-2">
+        </div>
+        <div class="col-xs-2 col-md-2">
+        </div>
+        <div class="col-xs-1 col-md-1">
+        </div>
+    </div>
+
+
+    <div class="col-sm-6 col-md-12">
+        <table class="table">
+            <tr>
+
+                <th class="border-1">
+                    @Html.DisplayNameFor(model => model.Personeria)
+                </th>
+                <th class="border-1">
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </th>
+
+                <th class="border-1">
+                    Documento
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Personeria)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.Raw(item.TipoIdentificacion +  " " + item.NoIdentificacion)
+                    </td>
+
+                    @if (item.Personeria_id == 1)
+                    {
+                        <td width="10%">
+                            @if (objRNFGrants.Editar)
+                            {
+                                <img src="~/Content/icons/edit-9-xxl.png" onclick="Editar_PropietarioIndividual('@item.No_Registro', @item.PersonaJuridica_Id)" width="25" height="25" />
+                            }
+                        </td>
+                    }
+                    else
+                    {
+                        <td width="10%">
+                            @if (objRNFGrants.Editar)
+                            {
+                                <img src="~/Content/icons/edit-9-xxl.png" onclick="Editar_PropietarioJuridico('@item.No_Registro', @item.PersonaJuridica_Id)" width="25" height="25" />
+                            }
+                        </td>
+                    }
+
+
+                    @if (item.Personeria_id == 1)
+                    {
+                        <td width="10%">
+                            @if (objRNFGrants.Borrar)
+                            {
+                                <img src="~/Content/icons/trash_green.png" onclick="Eliminar_PropietarioIndividual('@item.No_Registro', @item.PersonaJuridica_Id)" width="25" height="25" />
+                            }
+                        </td>
+                    }
+                    else
+                    {
+                        <td width="10%">
+                            @if (objRNFGrants.Borrar)
+                            {
+                                <img src="~/Content/icons/trash_green.png" onclick="Eliminar_PropietarioJuridico('@item.No_Registro', @item.PersonaJuridica_Id)" width="25" height="25" />
+                            }
+                        </td>
+                    }
+
+                </tr>
+            }
+        </table>
+
+
+        <br />
+
+    </div>
+
+</div>

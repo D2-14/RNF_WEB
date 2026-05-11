@@ -1,0 +1,20 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+<div class="container-fluid">
+    <h2>Región no asignada en INAB</h2>
+    <hr />
+    <span>
+        <h4>Debe llamar al INAB para que sea agregada la sub región que debe atender este municipio.</h4>
+        <hr />
+        <h4>Llama al 2321-4510 en horario de lunes a viernes de 8:00 AM a 4:30 PM.</h4>
+        <h4>Departamento: @TempData["NombeDepartamento"] Municipio: @TempData["NombeMunicipio"] </h4>
+    </span>
+
+</div>
+

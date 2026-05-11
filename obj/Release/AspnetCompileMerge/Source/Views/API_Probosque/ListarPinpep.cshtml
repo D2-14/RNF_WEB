@@ -1,0 +1,191 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@using RNF_Web.Models;
+
+@model PagedList<Tbl_Sol_Solicitud>
+
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    string asignacion = "";
+    string procedencia = "";
+    string strFlechas = " ▼▲";
+
+    db_RNFEntities db = new db_RNFEntities();
+
+    string SortOrder = ViewBag.CurrentSort;
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+<div class="wizard-page-content">
+    <div class="wizard-v10-content">
+        <div class="wizard-form">
+            <div class="wizard-header">
+                <div align="center" class="form-group">
+                    @using (Html.BeginForm(actionName, controllerName, FormMethod.Get))
+                    {
+                        <table class="table table-striped">
+                            <tr>
+                                <th scope="col" class="form-label">DPI de Titular</th>
+                                <th scope="col" class="form-label">Expediente</th>
+                                <th scope="col" class="form-label">Modalidad</th>
+                                <th scope="col" class="form-label">Fase</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                            </tr>
+                            <tr>
+                                <th scope="row"><input type="text" class="form-control" name="DPI_Titular" id="DPI_Titular" value="@ViewBag.DPI_Titular" /></th>
+                                <th scope="row"><input type="text" class="form-control" name="Expediente" id="Expediente" value="@ViewBag.Expediente" /></th>
+                                <th scope="row"><input type="text" class="form-control" name="Modalidad" id="Modalidad" value="@ViewBag.Modalidad" /></th>
+                                <td scope="row"><input type="text" class="form-control" name="Fase" id="Fase" value="@ViewBag.Fase" /></td>
+                                <td><input type="submit" class="btn btn-primary" value="Buscar" /></td>
+                                <td><a class="btn btn-primary" href="@Url.Action("BuscarPinpepOld","API_Probosque")">Nuevo</a></td>
+                            </tr>
+                        </table>
+                    }
+                </div>
+            </div>
+            <div class="wizard-header">
+
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <h3>Listado de expedientes Pinpep</h3>
+                        </td>
+                        <td>
+                            <a href="/Home">
+                                <label style="font-size:30px; color:white; font-weight:bold ">X</label>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+            <table class="table">
+                <tr>
+                    <th>
+                        No. expediente o <br /> No. temporal
+                    </th>
+                    <th>
+                        Gestión y <br /> Sub Categoría
+                    </th>
+                    <th>
+                        Estado
+                    </th>
+                    <th>
+                        @Html.ActionLink("Fecha de creación", actionName, new { sortOrder = ViewBag.sortswdatecreated, DPI_Titular = ViewBag.DPI_Titular, Expediente = ViewBag.Expediente, Modalidad = ViewBag.Modalidad, Fase = ViewBag.Fase })
+                        @if ((SortOrder == "swdatecreated") || (SortOrder == "swdatecreated_desc"))
+                        {
+                            @Html.Raw(strFlechas);
+                        }
+                    </th>
+                    <th>
+                        @Html.ActionLink("DPI de Titular", actionName, new { sortOrder = ViewBag.sortDPI_Titular, DPI_Titular = ViewBag.DPI_Titular, Expediente = ViewBag.Expediente, Modalidad = ViewBag.Modalidad, Fase = ViewBag.Fase })
+                        @if ((SortOrder == "DPI_Titular") || (SortOrder == "dpi_titular_desc"))
+                        {
+                            @Html.Raw(strFlechas);
+                        }
+                    </th>
+                    <th>
+                        @Html.ActionLink("Fase", actionName, new { sortOrder = ViewBag.sortFase, DPI_Titular = ViewBag.DPI_Titular, Expediente = ViewBag.Expediente, Modalidad = ViewBag.Modalidad, Fase = ViewBag.Fase })
+                        @if ((SortOrder == "Fase") || (SortOrder == "fase_desc"))
+                        {
+                            @Html.Raw(strFlechas);
+                        }
+                    </th>
+                    <th>
+                        @Html.ActionLink("Modalidad", actionName, new { sortOrder = ViewBag.sortModalidad, DPI_Titular = ViewBag.DPI_Titular, Expediente = ViewBag.Expediente, Modalidad = ViewBag.Modalidad, Fase = ViewBag.Fase })
+                        @if ((SortOrder == "Modalidad") || (SortOrder == "modalidad_desc"))
+                        {
+                            @Html.Raw(strFlechas);
+                        }
+                    </th>
+                    <th>
+                        @Html.ActionLink("Expediente Origen", actionName, new { sortOrder = ViewBag.sortExpediente, DPI_Titular = ViewBag.DPI_Titular, Expediente = ViewBag.Expediente, Modalidad = ViewBag.Modalidad, Fase = ViewBag.Fase })
+                        @if ((SortOrder == "Expediente") || (SortOrder == "expediente_desc"))
+                        {
+                            @Html.Raw(strFlechas);
+                        }
+                    </th>
+                    <th>
+                        @Html.ActionLink("Pinpep Origen", actionName, new { sortOrder = ViewBag.sortPinpepOrigen, DPI_Titular = ViewBag.DPI_Titular, Expediente = ViewBag.Expediente, Modalidad = ViewBag.Modalidad, Fase = ViewBag.Fase })
+                        @if ((SortOrder == "PinpepOld") || (SortOrder == "PinpepNew"))
+                        {
+                            @Html.Raw(strFlechas);
+                        }
+                    </th>
+
+                </tr>
+
+                @foreach (var item in Model)
+                {
+            <tr>
+                <td>
+                    @if (item.Solicitud_NumeroExpediente != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.Solicitud_NumeroExpediente)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Solicitud_NumeroTemporal)
+                    }
+
+                </td>
+                <td>
+                    @{
+                        asignacion = db.Database.SqlQuery<string>("SELECT dbo.fnc_Sol_TipoDeGestionDesc(@p0)", item.SolicitudTipo_id).FirstOrDefault();
+                    }
+
+                    @asignacion,
+                    <br />
+                    @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud_Sub_Categoria.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud_Estado.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.swdatecreated)
+                </td>
+                <td>
+                    @item.DPI_Titular
+                </td>
+                <td>
+                    @item.Procedencia_Fase
+                </td>
+                <td>
+                    @item.Procedencia_Modalidad
+                </td>
+                <td>
+                    @item.Procedencia_Expediente
+                </td>
+                <td>
+                    @if (item.Procedencia_PinpepOld)
+                    {
+                        @Html.Raw("Anterior")
+                    }
+                    else
+                    {
+                        @Html.Raw("Nuevo")
+                    }
+                </td>
+
+            </tr>
+                }
+
+            </table>
+
+            <div class="card-content table-responsive" align="center">
+                <p>Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount</p>
+                @Html.PagedListPager(Model, page => Url.Action(actionName, new { page, sortOrder = ViewBag.CurrentSort, DPI_Titular = ViewBag.DPI_Titular, Expediente = ViewBag.Expediente, Modalidad = ViewBag.Modalidad, Fase = ViewBag.Fase }))
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,208 @@
+﻿@model RNF_Web.Models.Tbl_Sol_RepresentanteLegal
+@using RNF_Web.Models;
+
+
+@{
+
+    Layout = "~/Views/Shared/_LayoutSimple.cshtml";
+    Usuario objUs = new Usuario();
+    objUs.intUsuario_id = 0;
+    objUs = (Usuario)Session["User"];
+    bool EsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        EsInterno = true;
+    }
+    db_RNFEntities db = new db_RNFEntities();
+    long solicitud_id = ViewBag.solicitud_id;
+    Tbl_Sol_Solicitud tbl_Sol_Solicitud = db.Tbl_Sol_Solicitud.Find(solicitud_id);
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    fc_Gral_Sol_Configuracion_Result permisos = db.fc_Gral_Sol_Configuracion(tbl_Sol_Solicitud.Solicitud_id, controllerName, EsInterno).FirstOrDefault();
+
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+
+<script src="~/Scripts/jquery-3.6.0.js"></script>
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+<script>
+    function OcultarFechaFinNombramiento() {
+
+        // Get the checkbox
+        var checkBox = document.getElementById("ChkVigenciaIndefinida");
+        //// Get the output text
+        var TDToHidde = document.getElementById("Td_FechaFin");
+
+        //// If the checkbox is checked, display the output text
+        if (checkBox.checked == true) {
+            TDToHidde.style.display = "none";
+        } else {
+            TDToHidde.style.display = "block";
+        }
+    }
+</script>
+
+
+<script>
+
+    $(document).ready(function () {
+
+
+        $("#Fecha_Nacimiento").datepicker({
+            dateFormat: "dd/mm/yy",
+            yearRange: "-120:+0",
+            changeMonth: true,
+            changeYear: true
+        });
+
+
+
+        $("#Fecha_InicioNombramiento").datepicker({
+
+            dateFormat: "dd/mm/yy",
+            yearRange: "-90:+0",
+
+            changeMonth: true,
+            changeYear: true
+        });
+
+        $("#Fecha_FinNombramiento").datepicker({
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true
+        });
+
+
+    });
+
+</script>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.HiddenFor(model => model.Solicitud_id)
+
+    @Html.HiddenFor(model => model.UsuarioExterno_id)
+    @Html.HiddenFor(model => model.swcreatedby)
+    @Html.HiddenFor(model => model.swdatecreated)
+    @Html.HiddenFor(model => model.swcreatedbyinterno)
+
+    @Html.HiddenFor(model => model.swdateupdated)
+    @Html.HiddenFor(model => model.swupdatedby)
+    @Html.HiddenFor(model => model.swupdatedbyinterno)
+    @Html.HiddenFor(model => model.Estado_id)
+    @Html.HiddenFor(model => model.No_NIT)
+    @Html.HiddenFor(model => model.Fecha_Nacimiento)
+
+
+
+    <hr />
+    <div class="titulo-dos">
+        <h4>Datos del mandatario</h4>
+    </div>
+    <br />
+
+    <div class="container-fluid">
+        <table class="table table-condensed border-0" width="80%">
+            <tr>
+
+                <td width="50%">
+                    @Html.LabelFor(model => model.RepresentanteLegatTipo_id, htmlAttributes: new { @class = "control-label col-md-10" })
+                    @Html.DropDownList("RepresentanteLegatTipo_id", null, htmlAttributes: new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.RepresentanteLegatTipo_id, "", new { @class = "text-danger" })
+                </td>
+                <td width="50%">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                   @* @Html.LabelFor(model => model.Nombres, htmlAttributes: new { @class = "control-label col-md-12" })*@
+                    @Html.Label("nombreMandatario", "Nombre(s) del mandatario", htmlAttributes: new { @class = "control-label col-md-12" })
+                    @Html.EditorFor(model => model.Nombres, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Nombres, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    @*@Html.LabelFor(model => model.Apellidos, htmlAttributes: new { @class = "control-label col-md-12" })*@
+                    @Html.Label("apellidoMandatario", "Apellido(s) del mandatario", htmlAttributes: new { @class = "control-label col-md-12" })
+                    @Html.EditorFor(model => model.Apellidos, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Apellidos, "", new { @class = "text-danger" })
+                </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.RepresententeDocumentoID_Tipo, htmlAttributes: new { @class = "control-label col-md-12" })
+                @Html.DropDownList("RepresententeDocumentoID_Tipo", null, htmlAttributes: new { @class = "form-select" })
+                @Html.ValidationMessageFor(model => model.RepresententeDocumentoID_Tipo, "", new { @class = "text-danger" })
+            </td>
+            <td>
+                @Html.LabelFor(model => model.RepresentanteNo_Documento, htmlAttributes: new { @class = "control-label col-md-12" })
+                @Html.EditorFor(model => model.RepresentanteNo_Documento, new { htmlAttributes = new { @class = "form-select", @maxlength = "13" } })
+                @Html.ValidationMessageFor(model => model.RepresentanteNo_Documento, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+        @*<tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.Fecha_Nacimiento, htmlAttributes: new { @class = "control-label col-md-12" })
+                    @Html.EditorFor(model => model.Fecha_Nacimiento, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Fecha_Nacimiento, "", new { @class = "text-danger" })
+                </td>
+            </tr>*@
+<tr>
+                <td>
+                    @Html.LabelFor(model => model.Fecha_InicioNombramiento, htmlAttributes: new { @class = "control-label col-md-12" })
+                    @Html.EditorFor(model => model.Fecha_InicioNombramiento, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Fecha_InicioNombramiento, "", new { @class = "text-danger" })
+                </td>
+                <td id="Td_FechaFin">
+                    @Html.LabelFor(model => model.Fecha_FinNombramiento, htmlAttributes: new { @class = "control-label col-md-12" })
+                    @Html.EditorFor(model => model.Fecha_FinNombramiento, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Fecha_FinNombramiento, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @if (Model.VigenciaIndefinida == true)
+                    {
+                        <label>
+                            <input type="checkbox" name="ChkVigenciaIndefinida" id="ChkVigenciaIndefinida" onclick="OcultarFechaFinNombramiento()" checked> Vigencia indefinida.
+                        </label>
+                        <br>
+                    }
+                    else
+                    {
+                        <label>
+                            <input type="checkbox" name="ChkVigenciaIndefinida" id="ChkVigenciaIndefinida" onclick="OcultarFechaFinNombramiento()"> Vigencia indefinida.
+                        </label>
+                        <br>
+                    }
+
+                    @*<label><input type="checkbox" id="VigenciaIndefinida" values="@model.VigenciaIndefinida"> Vigencia indefinida. </label><br>*@
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <h3 style="background-color:powderblue;">@TempData["Mensaje"]</h3>
+
+    <div class="col-sm-12 col-md-12" align="right">
+        @if ((bool)permisos.Agregar)
+        {
+            <input type="submit" value="Grabar..." class="btn-next" />
+        }
+        </div>
+
+}
+
+

@@ -1,0 +1,123 @@
+﻿@using RNF_Web.Models;
+@model Tbl_Sol_Solicitud
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+<style>
+    .formation {
+        height: auto;
+        max-width: 90%;
+        margin: 30px auto;
+        border-radius: 10px;
+        border-style: solid;
+        border-color: #77DD77;
+        padding: 20px;
+        box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    }
+</style>
+
+
+@{
+    ViewBag.Title = "Evaluación de Áreas";
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    Usuario objUs = ViewBag.Session;
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+
+
+        $("#myModal").on('show.bs.modal', function () {
+            var modal = $(this)
+            modal.find('.modal-title').text(document.getElementById("Titulo").value);
+            modal.find('.modal-body').html(document.getElementById("Pagina").value);
+        });
+
+        $("#btnHideModal").click(function () {
+            $("#myModal").modal('hide');
+        });
+
+
+        $("#btnHideModal_Close").click(function () {
+            $("#myModal").modal('hide');
+        });
+
+
+    });
+
+
+
+</script>
+<link href="~/Content/assets_section/style.css" rel="stylesheet" />
+<div class="formation">
+
+    <table width="100%">
+        <tr>
+            <td width="50%"></td>
+            <td width="30%">
+            </td>
+            <td width="10%">
+                <button rel="tooltip" title="Regresar" onclick="location.href='@Url.Action("Edit", "Gest_EtapaSolicitud", new { solicitud_id = Model.Solicitud_id, etapa_id = ViewBag.etapa_id, etaparuta_id = ViewBag.etaparuta_id, correlativoetapa_id = ViewBag.correlativoetapa_id })'">
+                    <i><img src="~/Content/icons/regresar.png" style="border-radius: 30%; width: 40px; height: auto" /></i>
+                    <div class="ripple-container"></div>
+                    Regresar
+                </button>
+            </td>
+            <td width="10%"></td>
+        </tr>
+    </table>
+
+    <table>
+        <tr>
+            <td colspan="2">
+                <div id="div_DescargaArchivos"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="div_DescargaCargaArchivos"></div>
+            </td>
+            <td>
+                <div id="div_DescargaCargaArchivosDescuento"></div>
+            </td>
+        </tr>
+    </table>
+
+    @Html.Raw(TempData["ObservacionesCarga"])
+    <div id="div_PonderacionEvaluacionArea"></div>
+
+    <div id="div_Revisar"></div>
+
+
+    <script>
+
+    $(document).ready(function () {
+
+        var myPonderacionEvaluacionTecnico = document.getElementById('div_PonderacionEvaluacionArea');
+        if (myPonderacionEvaluacionTecnico) {
+            $('#div_DescargaArchivos').load("/Form_FormularioTecnico/DownloadDatosPoligonoTecnico?Guid_id=@Model.Guid_id&etapa_id=@ViewBag.etapa_id&etaparuta_id=@ViewBag.etaparuta_id&correlativoetapa_id=@ViewBag.correlativoetapa_id")
+            $('#div_DescargaCargaArchivos').load("/Form_FormularioTecnico/UploadDatosPoligonoTecnico?Guid_id=@Model.Guid_id&etapa_id=@ViewBag.etapa_id&etaparuta_id=@ViewBag.etaparuta_id&correlativoetapa_id=@ViewBag.correlativoetapa_id")
+            $('#div_DescargaCargaArchivosDescuento').load("/Form_FormularioTecnico/UploadDatosPoligonoDescuentoTecnico?Guid_id=@Model.Guid_id&etapa_id=@ViewBag.etapa_id&etaparuta_id=@ViewBag.etaparuta_id&correlativoetapa_id=@ViewBag.correlativoetapa_id")
+            $('#div_Revisar').load("/Form_FormularioTecnico/Revisar?Guid_id=@Model.Guid_id&etapa_id=@ViewBag.etapa_id&etaparuta_id=@ViewBag.etaparuta_id&correlativoetapa_id=@ViewBag.correlativoetapa_id")
+        }
+    });
+
+    </script>
+
+

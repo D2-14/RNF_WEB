@@ -1,0 +1,158 @@
+﻿@using RNF_Web.Models;
+@{
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_Sol_Solicitud tbl_sol_solicitud = db.Tbl_Sol_Solicitud.Find(Session[Constants.session_Solicitud]);
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    controllerName = "Sol_Empresa_Entidad";
+    string Nombre_Div = "div_Sol_Permisos_Sol_EmpresaEntidad_Region";
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+    fc_Gral_Sol_Configuracion_Result permisos = db.fc_Gral_Sol_Configuracion(tbl_sol_solicitud.Solicitud_id, controllerName, boolEsInterno).FirstOrDefault();
+
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+    <div id="@Nombre_Div"></div>
+}
+
+<script>
+    $(document).ready(function () {
+        $(document).on('change', '#RegionEmpresa_id', function () {
+            var url = "@Url.Action("GetSubRegion", "Sol_Solicitud")";
+            var Region = $('#RegionEmpresa_id').val();
+            var data = { Region: Region};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#SubRegionEmpresa_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text:  municipio.Text
+                    }));
+
+                });
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlRegion
+
+    });
+
+
+
+    function actualizarRegionSubRegionEmpresaEntidad()
+    {
+
+        var varRegionFinca_id = $('#RegionEmpresa_id').val();
+        var varSubRegionFinca_id = $('#SubRegionEmpresa_id').val();
+        
+        var varNotificacion_Direccion = document.getElementById('Notificacion_DireccionEmpresa').value;
+        var varNotificacion_Departamento_id = $('#Notificacion_Departamento_id').val();
+        var varNotificacion_Municipio_id = $('#Notificacion_Municipio_id').val();
+
+        var data = {
+            regionid: varRegionFinca_id,
+            subregionid: varSubRegionFinca_id,
+            Notificacion_Direccion: varNotificacion_Direccion,
+            Notificacion_Departamento_id: varNotificacion_Departamento_id,
+            Notificacion_Municipio_id: varNotificacion_Municipio_id
+        };
+
+
+        var url = "@Url.Action("actualizarregion", "Sol_RegionSubRegion")";
+
+             $.post(url, data).done(function (jsonRespuesta) {
+
+                var objJSON = JSON.parse(jsonRespuesta);
+                var Cod_Respuesta = objJSON.CodRespuesta;
+                var Texto_Respuesta = objJSON.strRespuesta;
+
+                if (Cod_Respuesta == 0) {
+                    $('#lblMensaje').text(Texto_Respuesta);
+                    alert('Actualización realizada');
+                } else if (Cod_Respuesta == 1) {
+                    alert(Texto_Respuesta);
+                }
+            });
+
+    }
+
+
+</script>
+
+<div class="titulo-dos">
+    <h4>Dirección en la que desea realizar la gestión.</h4>
+</div>
+<div class="row mt-2">
+    <div class="col">
+        Región
+        @Html.DropDownList("RegionEmpresa_id", null, htmlAttributes: new { @class = "form-select" })
+    </div>
+    <div class="col">
+        Sub-Región
+        @Html.DropDownList("SubRegionEmpresa_id", null, htmlAttributes: new { @class = "form-select" })
+        <a href="http://www.inab.gob.gt/index.php/quienes-somos/oficinas-inab" target="_blank"> Consultar directorio</a>
+    </div>
+
+    <div class="row">
+        <div class="titulo-dos">
+            <h4>Dirección de notificación</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <div class="col-md-12">
+                    Dirección de notificación
+                    <input class="form-control text-box single-line" id="Notificacion_DireccionEmpresa" name="Notificacion_DireccionEmpresa" type="text" value="@ViewBag.Notificacion_Direccion">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <div class="col-md-10">
+                    Departamento
+                    @Html.DropDownList("Notificacion_Departamento_id", null, htmlAttributes: new { @class = "form-select" })
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <div class="col-md-10">
+                    Municipio
+                    @Html.DropDownList("Notificacion_Municipio_id", null, htmlAttributes: new { @class = "form-select" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="row mt-2 mb-2">
+    <div class="col-md-10">
+
+    </div>
+    <div class="col">
+
+        @if ((bool)permisos.Editar)
+        {
+            <input type="button" value="Actualizar" class="btn-next" onclick="actualizarRegionSubRegionEmpresaEntidad()" />
+        }
+
+    </div>
+</div>
+
+

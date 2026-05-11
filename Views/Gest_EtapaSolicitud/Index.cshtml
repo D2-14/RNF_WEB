@@ -1,0 +1,339 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Gest_EtapaSolicitud>
+
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    ViewBag.Title = "Bandeja de solicitudes";
+    ViewBag.SubTitle = null;
+    db_RNFEntities db = new db_RNFEntities();
+    string colorestatus = "";
+    DateTime swdatenow = DateTime.Now;
+    DateTime swdateinicio = ViewBag.swdateinicio;
+    DateTime swdatefinal = ViewBag.swdatefinal;
+
+    ViewBag.fecha_inicio = String.Format("{0:yyyy-MM-dd}", swdateinicio);
+    ViewBag.fecha_fin = String.Format("{0:yyyy-MM-dd}", swdatefinal);
+    string check = "checked";
+    int Pendientes = 0;
+    int Finalizados = 0;
+
+    if (ViewBag.Pendientes != null)
+    {
+        Pendientes = 1;
+    }
+    if (ViewBag.Finalizados != null)
+    {
+        Finalizados = 1;
+    }
+    string Nombre_Etapa = ViewBag.Nombre_Etapa;
+    Console.WriteLine(ViewBag.Nombre_Etapa);
+    Console.WriteLine(Nombre_Etapa);
+
+    long usuarioid = 0;
+    string nombreusuario = "";
+
+    int counttodolist = 0;
+}
+
+<script>
+
+    String.fromHtmlEntities = function (string) {
+        return (string + "").replace(/&#\d+;/gm, function (s) {
+            return String.fromCharCode(s.match(/\d+/gm)[0]);
+        })
+    };
+
+    function loaddivparamsbusqueda() {
+        loaderPantalla(true);
+        var paramsbusqueda = document.getElementById('paramsbusqueda');
+        if (paramsbusqueda) {
+            var url = '@Url.Action("IndexParams", "Gest_EtapaSolicitud")';
+            var Pendientes = @Pendientes;
+            var Finalizados = @Finalizados;
+
+            var fecha_inicio = '@ViewBag.fecha_inicio';
+            var fecha_fin = '@ViewBag.fecha_fin';
+            var Nombre_Etapa = String.fromHtmlEntities('@Nombre_Etapa');
+            Nombre_Etapa = encodeURI(Nombre_Etapa);
+
+            var params = '?fecha_inicio=' + fecha_inicio + '&fecha_fin=' + fecha_fin + '&Nombre_Etapa_Param=' + Nombre_Etapa;// + Nombre_Etapa;
+            if (Pendientes != 0) {
+                params += '&Pendientes=' + Pendientes;
+            }
+            if (Finalizados != 0) {
+                params += '&Finalizados=' + Finalizados;
+            }
+            console.log(url + params);
+            $('#paramsbusqueda').load(url + params);
+        }
+    }
+
+    $(document).ready(function () {
+
+        loaddivparamsbusqueda();
+
+        $("#btnHideModal").click(function () {
+
+                $('#section_Link_II').load('@ViewBag.section_Link_II')
+                $('#section_Link_III').load('@ViewBag.section_Link_III')
+                $('#section_Link_IV').load('@ViewBag.section_Link_IV')
+                $('#section_Link_V').load('@ViewBag.section_Link_V')
+
+                $("#myModal").modal('hide');
+        });
+
+
+        $("#btnHideModal_Close").click(function () {
+
+
+                $('#section_Link_II').load('@ViewBag.section_Link_II')
+                $('#section_Link_III').load('@ViewBag.section_Link_III')
+                $('#section_Link_IV').load('@ViewBag.section_Link_IV')
+                $('#section_Link_V').load('@ViewBag.section_Link_V')
+
+
+                $("#myModal").modal('hide');
+        });
+
+    });
+
+
+    $('#myModal').modal({
+        backdrop: 'static',
+        keyboard: false
+    })
+
+    $("#myModal").on('show.bs.modal', function () {
+        var modal = $(this)
+        modal.find('.modal-title').text(document.getElementById("Titulo").value);
+        modal.find('.modal-body').html(document.getElementById("Pagina").value);
+    });
+
+
+    function VisualizarSolicitud(varguid_id, varetapaid,varetaparutaid,varcorrelativo) {
+        var Source = "/Home/SolicitudEtapaView?guid_id=" + varguid_id + "&etapaid=" + varetapaid + "&etaparutaid=" + varetaparutaid + "&correlativo=" + varcorrelativo+"";
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Revision de solicitud';
+        $("#myModal").modal("show");
+
+    }
+
+</script>
+
+
+@Html.Partial("_PartialPageEncabezado")
+
+<div id="paramsbusqueda"></div>
+
+<table class="table">
+    <tr>
+        <th width="10%">
+            Número
+        </th>
+        <th>
+            Fecha de la solicitud
+        </th>
+        <th>
+            Fecha de la etapa
+        </th>
+        <th>
+            Acción requerida
+        </th>
+        <th>
+            Tipo de solicitud
+        </th>
+        <th>
+         Solicitante
+        </th>
+        <th>
+            Procesar <br />
+            etapa
+        </th>
+        <th>
+            Historial
+        </th>
+        <th>
+            Revisar <br />
+            solicitud
+        </th>
+        <th>
+            Estado
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        counttodolist = db.Tbl_Gest_EtapaSolicitud_To_doList.Where(Obj => Obj.Solicitud_id == item.Solicitud_id && Obj.EtapaRuta_id == item.EtapaRuta_id && (Obj.Observaciones??"").Trim() != "").Count();
+
+        <tr>
+
+            <td>
+                @if (item.Tbl_Sol_Solicitud.Solicitud_NumeroExpediente != null)
+                {
+                    @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud.Solicitud_NumeroExpediente)
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud.Solicitud_NumeroTemporal)
+                }
+                <br />
+                Ref.@item.Solicitud_id
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud.swdateupdated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.swdatecreated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Gest_Etapa.Nombre_Etapa)
+                @if (counttodolist > 0)
+                {
+                    <br />
+                    List<Tbl_Gest_EtapaSolicitud_To_doList> tbl_Gest_EtapaSolicitud_To_DoLists = db.Tbl_Gest_EtapaSolicitud_To_doList.Where(Obj => Obj.Solicitud_id == item.Solicitud_id && Obj.EtapaRuta_id == item.EtapaRuta_id && (Obj.Observaciones ?? "").Trim() != "").ToList();
+                    <table>
+                        @foreach (var todo in tbl_Gest_EtapaSolicitud_To_DoLists)
+                        {
+                            <tr>
+                                <strong>
+                                    -> @todo.Observaciones
+                                </strong>
+                            </tr>
+                        }
+                    </table>
+                }
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud.Tbl_Gral_SolicitudConfiguracionTipo.DescripcionEnOficio)
+                -
+                @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud.Tbl_Sol_Solicitud_Categoria.Descripcion)
+                -
+                @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud.Tbl_Sol_Solicitud_Sub_Categoria.Descripcion)
+            </td>
+            <td>
+
+                @if (item.swcreatedbyinterno != null)
+                {
+                    if ((bool)item.swcreatedbyinterno)
+                    {
+                        usuarioid = (long)item.swcreatedby;
+                        Tbl_Seg_Usuario tbl_Seg_Usuario = (from d in db.Tbl_Seg_Usuario
+                                                           where d.Usuario_id == usuarioid
+                                                           select d).FirstOrDefault();
+                        if (tbl_Seg_Usuario != null)
+                        {
+                            nombreusuario = (tbl_Seg_Usuario.Nombre ?? "") + " " + (tbl_Seg_Usuario.Apellidos ?? "");
+                            @Html.Raw("Personal Interno: " + nombreusuario)
+                        }
+                    }
+                    else
+                    {
+                        usuarioid = (long)item.swcreatedby;
+                        Tbl_Seg_UsuarioExterno tbl_Seg_Usuario = (from d in db.Tbl_Seg_UsuarioExterno
+                                                                  where d.Usuario_id == usuarioid
+                                                                  select d).FirstOrDefault();
+                        if (tbl_Seg_Usuario != null)
+                        {
+                            nombreusuario = (tbl_Seg_Usuario.Nombres ?? "") + " " + (tbl_Seg_Usuario.Apellidos ?? "");
+                            @Html.Raw("Usuario: " + nombreusuario)
+                        }
+                    }
+                }
+
+            </td>
+            <td>
+                @if (item.EtapaSolicitudEstado_id != 3)
+                {
+                    <button class="btn" rel="tooltip" title="Revisar" onclick="location.href='@Url.Action("Edit","Gest_EtapaSolicitud", new { solicitud_id = item.Solicitud_id, etapa_id = item.Etapa_id, etaparuta_id = item.EtapaRuta_id, correlativoetapa_id = item.CorrelativoEtapa_id})'">
+                        <i><img src="~/Content/icons/edit-9-xxl.png" style="border-radius: 25%; width: 35px; height: auto" /></i>
+                        <div class="ripple-container"></div>
+                    </button>
+                }
+                else
+                {
+                    <label>Etapa finalizada</label>
+                }
+            </td>
+            <td>
+
+                <button class="btn" rel="tooltip" title="Revisar" onclick="window.open('/Gest_EtapaSolicitud/HistorialSolicitud?Guid_id=@item.Tbl_Sol_Solicitud.Guid_id')">
+                    <i><img src="~/Content/icons/workflow.png" style="border-radius: 25%; width: 35px; height: auto" /></i>
+                    <div class="ripple-container"></div>
+                </button>
+
+            </td>
+            <td>
+
+                <button class="btn" rel="tooltip" title="Revisar" onclick="window.open('/Home/SolicitudEtapaView?guid_id=@item.Tbl_Sol_Solicitud.Guid_id&etapaid=@item.Etapa_id&etaparutaid=@item.EtapaRuta_id&correlativo=@item.CorrelativoEtapa_id')">
+                    <i><img src="~/Content/icons/etapas.png" style="border-radius: 25%; width: 35px; height: auto" /></i>
+                    <div class="ripple-container"></div>
+                </button>
+            </td>
+            <td>
+                @{
+                    colorestatus = db.Database.SqlQuery<string>("SELECT dbo.Fcn_Gest_EtapaColor(@p0,@p1,@p2,@p3)", item.Solicitud_id, item.Etapa_id, item.EtapaRuta_id, item.CorrelativoEtapa_id).FirstOrDefault();
+                }
+                @if (item.EtapaSolicitudEstado_id != 3)
+                {
+                    if (colorestatus != "Indefinido")
+                    {
+                        colorestatus = "Content/icons/Semaforo_" + colorestatus + ".png";
+                        <img src="~/@colorestatus" width="35" />
+                    }
+                }
+            </td>
+
+
+        </tr>
+
+
+
+
+
+    }
+
+</table>
+
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+
+
+<input type="hidden" id="Pagina" name="Pagina" value="">
+<input type="hidden" id="Titulo" name="Titulo" value="">
+<div class="container mt-3">
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" width: 700px;>
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Header</h4>
+                    <button type="button" id="btnHideModal" class="btn btn-default">
+                        X
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>The <strong>show.bs.modal</strong> asdfasdf.</p>
+                </div>
+                <div id="DatosPersonerias">
+                    <br />
+                    <br />
+                    <br />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnHideModal_Close" class="btn btn-default">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

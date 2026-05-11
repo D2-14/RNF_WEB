@@ -1,0 +1,512 @@
+﻿@using RNF_Web.Models;
+@model RNF_Web.Models.Tbl_Gest_EtapaSolicitud
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+
+@{
+    ViewBag.Title = "   Home page";
+    Layout = null;
+
+    string guidid, guidetapa;
+    guidid = ViewBag.guidsolicitud;
+    guidetapa = ViewBag.guidetapasolicitud;
+
+    Usuario objUs;
+    objUs = (Usuario)Session["User"];
+
+}
+
+
+
+<script>
+
+    var ubicacionpdf = null;
+
+    function refreshPartialEnmiendas() {
+        var myCrearEnmiendas = document.getElementById("div_CrearEnmiendas");
+        var myListarEnmiendas = document.getElementById("div_ListarEnmiendas");
+
+        if (myCrearEnmiendas) {
+            $("#div_CrearEnmiendas").load("/Form_FormularioTecnicoOficioTecnico_Enmienda/Create?Guid_id=@guidid&EtapaSolicitudGuid=@guidetapa");
+        }
+
+        if (myListarEnmiendas) {
+            $("#div_ListarEnmiendas").load("/Form_FormularioTecnicoOficioTecnico_Enmienda/ListaEnmiendasOficioTecnico_Enmienda?Guid_id=@guidid&EtapaSolicitudGuid=@guidetapa");
+        }
+    }
+
+    function agregarEnmienda() {
+        var Solicitud_id = document.getElementById("Solicitud_id").value;
+        var Etapa_id = document.getElementById("Etapa_id").value;
+        var EtapaRuta_id = document.getElementById("EtapaRuta_id").value;
+        var CorrelativoEtapa_id = document.getElementById("CorrelativoEtapa_id").value;
+        var EtapaSolicitud_GUID_id = document.getElementById("EtapaSolicitud_GUID_id").value;
+        var Solicitud_Guid_id = document.getElementById("Solicitud_Guid_id").value;
+        var swcreatedby = document.getElementById("swcreatedby").value;
+        var swcreatedbyinterno = document.getElementById("swcreatedbyinterno").value;
+        var Descripcion = document.getElementById("Descripcion").value;
+
+        var TdHiddeA = document.getElementById("btnFirmarDocumento");
+        TdHiddeA.style.display = "none";
+
+        var TdHiddeB = document.getElementById("btnconsolidar");
+        TdHiddeB.style.display = "none";
+
+
+        if ((Descripcion.trim() == "") || (Descripcion.trim() == null)) {
+            alert("Debe colocar una enmienda")
+            return;
+        }
+
+        var data = {
+            Solicitud_id: Solicitud_id,
+            Etapa_id: Etapa_id,
+            EtapaRuta_id: EtapaRuta_id,
+            CorrelativoEtapa_id: CorrelativoEtapa_id,
+            EtapaSolicitud_GUID_id: EtapaSolicitud_GUID_id,
+            Solicitud_Guid_id: Solicitud_Guid_id,
+            swcreatedby: swcreatedby,
+            swcreatedbyinterno: swcreatedbyinterno,
+            Descripcion: Descripcion
+        };
+
+        var url = "@Url.Action("GrabarEnmienda", "Form_FormularioTecnicoOficioTecnico_Enmienda")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+
+            refreshPartialEnmiendas();
+
+        });
+
+    }
+
+    function eliminarEnmienda(enmiendaid) {
+        var EtapaSolicitud_GUID_id = "@guidetapa";
+        var Solicitud_Guid_id = "@guidid";
+        var Enmienda_id = enmiendaid
+
+        var url = "@Url.Action("EliminarEnmienda", "Form_FormularioTecnicoOficioTecnico_Enmienda")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+
+            refreshPartialEnmiendas();
+
+        });
+
+        var data = {
+            EtapaSolicitud_GUID_id: EtapaSolicitud_GUID_id,
+            Solicitud_Guid_id: Solicitud_Guid_id,
+            Enmienda_id: Enmienda_id
+        };
+
+    }
+
+    function cambioEstadoEnmienda(enmiendaid) {
+        var EtapaSolicitud_GUID_id = "@guidetapa";
+        var Solicitud_Guid_id = "@guidid";
+        var Enmienda_id = enmiendaid;
+        var swupdatedby = @objUs.intUsuario_id;
+
+        var TdHiddeA = document.getElementById("btnFirmarDocumento");
+        TdHiddeA.style.display = "none";
+
+        var TdHiddeB = document.getElementById("btnconsolidar");
+        TdHiddeB.style.display = "none";
+
+
+        var Estado_id = document.getElementById("estado_" + enmiendaid).checked;
+
+        var data = {
+            EtapaSolicitud_GUID_id: EtapaSolicitud_GUID_id,
+            Solicitud_Guid_id: Solicitud_Guid_id,
+            Enmienda_id: Enmienda_id,
+            Estado_id: Estado_id,
+            swupdatedby: swupdatedby
+        };
+
+        var url = "@Url.Action("ActualizaEstadoEnmienda", "Form_FormularioTecnicoOficioTecnico_Enmienda")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+
+            refreshPartialEnmiendas();
+
+        });
+
+    }
+
+    function abrirPDF() {
+        window.open(ubicacionpdf, '_blank');
+    }
+
+    function descargarEnmienda() {
+
+        var EtapaSolicitud_GUID_id = "@guidetapa";
+        var Solicitud_Guid_id = "@guidid";
+
+        var data = {
+            EtapaSolicitud_GUID_id: EtapaSolicitud_GUID_id,
+            Solicitud_Guid_id: Solicitud_Guid_id
+        };
+
+        var url = "@Url.Action("ObtenerEnmiendaOficioTecnico_Enmienda", "Form_FormularioTecnicoOficioTecnico_Enmienda")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+            var Result = oJSON.Result;
+            var Mensaje = oJSON.Mensaje;
+
+
+            //var archivopdf = NombreDocumento + ".pdf";
+            //ubicacionpdf = archivopdf;
+            if (Result == 1) {
+
+                $("#btnconsolidar").show();
+
+                var NombreDocumento = oJSON.Ubicacion;
+
+                window.open('/Archivos_Generados_Que_Pueden_Borrar/' + NombreDocumento, '_blank');
+
+            } else {
+                alert(Mensaje);
+            }
+
+            refreshPartialEnmiendas();
+
+        });
+
+    }
+
+
+
+
+    function Consolidar() {
+        var data = {
+            Guid_id: '@guidid',
+            Guidetapa_id: '@guidetapa',
+            TipoDocumento_id: 19
+        };
+
+    var url = "@Url.Action("jsonUnificar", "Unificar")";
+
+        $.post(url, data).done(function (jsonrespuesta) {
+            var oJSON = JSON.parse(jsonrespuesta);
+            var NombreDocumento = oJSON.strRespuesta;
+
+            window.open(NombreDocumento, '_blank');
+
+            var TdHiddeA = document.getElementById("btnFirmarDocumento");
+            TdHiddeA.style.display = "block";
+
+        });
+
+    }
+
+
+    function fnc_EnviarRespuesta(varRespuestaid)
+    {
+        varsolicitud_id = '@Model.Solicitud_id';
+        varetapa_id = '@Model.Etapa_id';
+        varetaparuta_id = '@Model.EtapaRuta_id';
+        varcorrelativoetapa_id = '@Model.CorrelativoEtapa_id';
+        varMotivo = $('#Motivo').val();
+        varEtapaSolicitud_GUIDid= '@Model.EtapaSolicitud_GUID_id';
+
+        //16
+        var url = "@Url.Action("ActualizaEtapaRespuestaIndexSolicitud", "Form_FormularioTecnico")";
+
+        var data = { solicitud_id: varsolicitud_id, etapa_id: varetapa_id, etaparuta_id: varetaparuta_id, correlativoetapa_id: varcorrelativoetapa_id, motivo: varMotivo, respuestaid: varRespuestaid, EtapaSolicitud_GUIDid: varEtapaSolicitud_GUIDid };
+        $.post(url, data).done(function (jsonRespuesta) {
+               var objJSON = JSON.parse(jsonRespuesta);
+               var Cod_Respuesta = objJSON.CodRespuesta;
+               var Texto_Respuesta = objJSON.strRespuesta;
+
+
+                if (Cod_Respuesta == 1) {
+                    window.location.replace("/Gest_EtapaSolicitud/Index");
+                } else {
+
+                    $('#lblMensaje').text(Texto_Respuesta);
+                    alert(Texto_Respuesta);
+                }
+
+           }).fail(manejarErrorAjax).always(function () {
+
+               alert('Error no identificado.');
+            });
+            return false;
+
+    }
+
+
+
+    function FirmarDocumento() {
+
+        var TdHiddeA = document.getElementById("btnFirmarDocumento");
+        TdHiddeA.style.display = "none";
+
+        varFirmaElectronicaUsuario = $('#FirmaElectronicaUsuario').val();
+        varFirmaElectronicaPassword = $('#FirmaElectronicaPassword').val();
+
+        var data = {
+            Guid_id: '@ViewBag.Guid_id',
+            Guidetapa_id: '@Model.EtapaSolicitud_GUID_id',
+            UsuarioFE: varFirmaElectronicaUsuario,
+            PasswordFE: varFirmaElectronicaPassword
+        };
+
+    var url = "@Url.Action("JsonProcesarFirmaElectronica", "Home")";
+        loaderPantalla(true);
+        $.post(url, data).done(function (jsonrespuesta) {
+            loaderPantalla(false);
+            var oJSON = JSON.parse(jsonrespuesta);
+            var NombreDocumento = oJSON.strRespuesta;
+            var CodigoRespuesta = oJSON.CodRespuesta;
+
+
+            if ((CodigoRespuesta == '0') || (CodigoRespuesta == 0))
+            {
+                window.open("/Home/FalloFirmaElectronica?FalloFe=" + NombreDocumento, '_blank');
+            }
+            else
+            {
+                window.open(NombreDocumento, '_blank');
+
+                fnc_EnviarRespuesta(1);
+
+            }
+
+
+        });
+
+    }
+
+
+</script>
+
+
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+</style>
+
+
+
+
+<style>
+    body {
+        font-family: Arial;
+    }
+
+    /* Style the tab */
+    .tab {
+        overflow: hidden;
+    }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+        }
+
+            /* Change background color of buttons on hover */
+            .tab button:hover {
+                background-color: #ddd;
+            }
+
+            /* Create an active/current tablink class */
+            .tab button.active {
+                background-color: forestgreen;
+                color: white;
+            }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        -webkit-animation: fadeEffect 1s;
+        animation: fadeEffect 1s;
+    }
+</style>
+
+
+<div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'Resolucion')" id="defaultOpen">Dictamen técnico</button>
+    <button class="tablinks" onclick="openCity(event, 'Analisis')">Análisis técnico</button>
+</div>
+
+<div id="Resolucion" class="tabcontent">
+
+
+    <div id="UploadAnexos"> </div>
+    <div id="div_CrearEnmiendas"></div>
+    <div id="div_ListarEnmiendas"></div>
+
+    <table width="100%">
+        <tr>
+            <th colspan="2">Datos para la firma electrónica</th>
+        </tr>
+        <tr>
+            <td><br /></td>
+        </tr>
+        <tr>
+            <td width="20%">Usuario</td>
+            <td width="20%">
+                <input type="text" id="FirmaElectronicaUsuario" name="FirmaElectronicaUsuario" value="" />
+            </td>
+            <td width="20%">Password</td>
+            <td width="20%">
+                <input type="password" id="FirmaElectronicaPassword" name="FirmaElectronicaPassword" value="" />
+            </td>
+        </tr>
+    </table>
+    <br />
+    <table>
+        <tr>
+            <td>
+                <input type="button" name="generarDocs" value="Vista previa" class="btn btn-sm btn-success" onclick="descargarEnmienda()" />
+            </td>
+            <td>
+                <button class="btn btn-success" id="btnconsolidar" name="btnconsolidar" onclick="Consolidar()" style="display:none;">Reporte con Anexos</button>
+            </td>
+            <td>
+                <button class="btn btn-success" id="btnFirmarDocumento" name="btnFirmarDocumento" onclick="FirmarDocumento()" style="display:none;">Firmar enmiendas</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="button" name="EnviarARevision" value="Enviar a revisión previo formalizar enmiendas" class="btn btn-sm btn-success" onclick="fnc_EnviarRespuesta(2)" />
+            </td>
+            <td>
+                <input type="button" name="Regresar" value="Regresar a la opción de aprobación y denegación" class="btn btn-sm btn-success" onclick="fnc_EnviarRespuesta(3)" />
+            </td>
+        </tr>
+    </table>
+
+</div>
+<div id="Analisis" class="tabcontent">
+    <div id="div_Analisis"></div>
+</div>
+
+
+<script>
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+</script>
+
+
+
+<script>
+
+    $(document).ready(function () {
+        $("#obtenerPDF").hide();
+
+        var myCrearEnmiendas = document.getElementById("div_CrearEnmiendas");
+        var myListarEnmiendas = document.getElementById("div_ListarEnmiendas");
+
+        $("#div_Analisis").load("/Form_FormularioTecnico/EvaluacionTecnicaFormularioRodalDasometricos?Guid_id=@Model.Solicitud_Guid_id&GuidEtapa_id=@Model.EtapaSolicitud_GUID_id&etapa_id=@Model.Etapa_id&etaparuta_id=@Model.EtapaRuta_id&correlativoetapa_id=@Model.CorrelativoEtapa_id&ModoVista=1");
+
+        $('#UploadAnexos').load('/UploadFiles/UploadedAnexos?Guid_id=' + '@guidid')
+
+
+        if (myCrearEnmiendas) {
+            $("#div_CrearEnmiendas").load("/Form_FormularioTecnicoOficioTecnico_Enmienda/Create?Guid_id=@guidid&EtapaSolicitudGuid=@guidetapa");
+        }
+
+        if (myListarEnmiendas) {
+            $("#div_ListarEnmiendas").load("/Form_FormularioTecnicoOficioTecnico_Enmienda/ListaEnmiendasOficioTecnico_Enmienda?Guid_id=@guidid&EtapaSolicitudGuid=@guidetapa");
+        }
+    })
+
+
+</script>

@@ -1,0 +1,234 @@
+﻿@using RNF_Web.Models;
+@model RNF_Web.Models.Tbl_Gest_EtapaSolicitud_Documento
+@{
+    db_RNFEntities db = new db_RNFEntities();
+    string Guid_id = ViewBag.Guid_id;
+    string GuidEtapa_id = ViewBag.GuidEtapa_id;
+    int etapa_id = ViewBag.etapa_id;
+    decimal etaparuta_id = ViewBag.etaparuta_id;
+    int correlativoetapa_id = ViewBag.correlativoetapa_id;
+    long Solicitud_id = ViewBag.Solicitud_id;
+
+    Tbl_Sol_Solicitud tbl_Sol_Solicitud = db.Tbl_Sol_Solicitud.Find(Solicitud_id);
+
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+    Layout = null;
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<script>
+    var ArchivoDocumento = ($("#uploadDocumento"))[0].files[0];
+    $(function () {
+
+        $("#uploadDocumento").change(function () {
+            ArchivoDocumento = ($("#uploadDocumento"))[0].files[0];
+            console.log(ArchivoDocumento);
+            document.getElementById("nombre_Documento").innerHTML = ArchivoDocumento.name;
+            var botonSubir = document.getElementById("btsubirDocumento");
+            botonSubir.style.display = "block";
+
+            if ((ArchivoDocumento != "") && (ArchivoDocumento != null)) {
+                botonSubir.classList.add("btn-primary");
+                botonSubir.disabled = false;
+            } else {
+                botonSubir.classList.remove("btn-primary");
+                botonSubir.disabled = true;
+            }
+        })
+
+
+        $("#btsubirDocumento").click(function () {
+            loaderPantalla(true);
+            setTimeout(function () {
+
+                ArchivoDocumento = ($("#uploadDocumento"))[0].files[0];
+                console.log(ArchivoDocumento);
+
+                var formData = new FormData();
+
+                function adjuntarDocumento() {
+                    formData.append("upload", ArchivoDocumento);
+                    formData.append("Solicitud_id", '@tbl_Sol_Solicitud.Solicitud_id');
+                    formData.append("Etapa_id", '@etapa_id');
+                    formData.append("EtapaRuta_id", '@etaparuta_id');
+                    formData.append("CorrelativoEtapa_id", '@correlativoetapa_id');
+                    $.ajax({
+                        url: "../@controllerName/AgregarDocumento",
+                        type: "POST",
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        async: false,
+                        success: function (data) {
+                            loaderPantalla(false);
+                            refreshPartialEtapaSolicitudDocumento()
+                        },
+                        error: function (data) {
+                            console.log(data);
+                            loaderPantalla(false);
+                            alert(data);
+                        }
+                    });
+
+                }
+
+                if (ArchivoDocumento != null) {
+                    adjuntarDocumento();
+                } else {
+                    alert("No se ha seleccionado ningún archivo");
+                }
+
+
+            }, 2000);
+
+
+
+        })
+    })
+
+</script>
+<script>
+
+    function agregarEtapaSolicitudDocumento() {
+        var Solicitud_id = '@tbl_Sol_Solicitud.Solicitud_id';
+        var Etapa_id = '@etapa_id';
+        var EtapaRuta_id = '@etaparuta_id';
+        var CorrelativoEtapa_id = '@correlativoetapa_id';
+        var data = {
+            Solicitud_id: Solicitud_id,
+            Etapa_id: Etapa_id,
+            EtapaRuta_id: EtapaRuta_id,
+            CorrelativoEtapa_id: CorrelativoEtapa_id
+        }
+
+        var url = '@Url.Action("AgregarDocumento", controllerName)';
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            var oJSON = RespuestaJSON;
+            var Result = oJSON.Result;
+            var Mensaje = oJSON.Result;
+            if (Result == 1) {
+                refreshPartialEtapaSolicitudDocumento()
+            } else {
+                alert(Mensaje);
+            }
+
+        }).fail(function (ErrorJSON) {
+            console.log(ErrorJSON);
+            alert(ErrorJSON);
+        });
+    }
+
+    function eliminarEtapaSolicitudDocumento(Documento_id) {
+        var Solicitud_id = '@tbl_Sol_Solicitud.Solicitud_id';
+        var Etapa_id = '@etapa_id';
+        var EtapaRuta_id = '@etaparuta_id';
+        var CorrelativoEtapa_id = '@correlativoetapa_id';
+        var Documento_id = Documento_id;
+        var data = {
+            Solicitud_id: Solicitud_id,
+            Etapa_id: Etapa_id,
+            EtapaRuta_id: EtapaRuta_id,
+            CorrelativoEtapa_id: CorrelativoEtapa_id,
+            Documento_id: Documento_id
+        }
+
+        var url = '@Url.Action("EliminarDocumento", controllerName)';
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            var oJSON = RespuestaJSON;
+            var Result = oJSON.Result;
+            var Mensaje = oJSON.Result;
+            if (Result == 1) {
+                refreshPartialEtapaSolicitudDocumento()
+            } else {
+                alert(Mensaje);
+            }
+
+        }).fail(function (ErrorJSON) {
+            console.log(ErrorJSON);
+            alert(ErrorJSON);
+        });
+
+    }
+
+
+    function refreshPartialEtapaSolicitudDocumento(){
+        var div_GestEtapaSolicitud_Documento = document.getElementById('div_GestEtapaSolicitud_Documento');
+        if (div_GestEtapaSolicitud_Documento) {
+            $('#div_GestEtapaSolicitud_Documento').load('/@controllerName/DocumentoLista?GuidEtapa_id=@GuidEtapa_id&Guid_id=@Guid_id&etapa_id=@etapa_id&etaparuta_id=@etaparuta_id&correlativoetapa_id=@correlativoetapa_id');
+        }
+
+    }
+
+    $(document).ready(function () {
+        refreshPartialEtapaSolicitudDocumento();
+    });
+
+</script>
+
+
+
+@*@using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <h4>Agregar Documento</h4>
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.FileName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.FileName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.FileName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="button" value="Agregar" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }*@
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+<table>
+    <tr>
+        <th>
+            <h3>@Model.Tbl_Gest_EtapaSolicitud.Tbl_Gest_Etapa.Documentos_RequeridosDescripcion</h3>
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <label>
+                @*<img src="~/Content/icons/btnSubirArchivo.png" id="upfile1" style="cursor:pointer" />*@
+
+                <label for="uploadDocumento" id="upfileuploadDocumento" class="btn-next-ic">&nbsp;&nbsp;&nbsp;&nbsp;Seleccionar archivo&nbsp;&nbsp;&nbsp;&nbsp;</label>
+
+                <input type="file" id="uploadDocumento" name="uploadDocumento" style="display:none">
+            </label>
+        </td>
+        <td>
+            <span id="nombre_Documento"></span>
+            <br />
+            <input type="button" id="btsubirDocumento" class="btn btn-primary btn-outlined" width="100%"
+                   value="Subir archivo" style="display:none" />
+        </td>
+    </tr>
+    <tr>
+    </tr>
+</table>
+
+<div id="div_GestEtapaSolicitud_Documento"></div>
+<hr />

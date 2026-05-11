@@ -1,0 +1,54 @@
+﻿
+@model RNF_Web.Models.Tbl_Sol_Solicitud
+@using RNF_Web.Models;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+<script>
+
+    function GenerarReport()
+    {
+        window.open('http://localhost:61244/Documentos/PVIndividual-5-8-2022.pdf', '_blank');
+    }
+
+
+    function GenerarReportesUnificados() {
+        window.open('http://localhost:61244/Unificar/Unificar?Guid_id=@Model.Guid_id&TipoDocumento_id=19&ArchivoUnificar=%2FDocumentos%2FPVIndividual-5-8-2022.pdf', '_blank');
+    }
+
+
+</script>
+
+
+<div id="generareporte"></div>
+
+<button onclick="GenerarReport()">Visualizar reporte</button>
+
+<button onclick="GenerarReportesUnificados()">Visualizar reporte</button>
+
+
+<script>
+    $(document).ready(function () {
+
+        var url = "@Url.Action("GenerarPlantacionVoluntariaJuridico", "Form_FormularioTecnicoReporte")";
+        var data = {
+            Solicitud_id: @Model.Solicitud_id
+        };
+        $.post(url, data).done(function (jsonrespuesta) {
+    //  here inicio
+        var oJSON = JSON.parse(jsonrespuesta);
+        var NombreDocumento = oJSON.Ubicacion;
+        var ubicacioncompleta = NombreDocumento;
+        //var link = window.location;
+
+        //link.href = ubicacioncompleta;
+        window.open(ubicacioncompleta, '_blank');
+    });
+        $('#generareporte').load('http://localhost:61244/Form_FormularioTecnicoReporteAprobacion/GenerarPVJuridico_PDF?solicitud_id=@Model.Solicitud_id')
+    }
+</script>

@@ -1,0 +1,12 @@
+﻿@model RNF_Web.Models.Tbl_Gral_Cultivo
+
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+<div>
+    <img src="@ViewBag.QRCodeImage" alt="Reserva QR" style="height:200px; width: 200px" />
+</div>

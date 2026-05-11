@@ -1,0 +1,92 @@
+﻿@using RNF_Web.Models;
+
+@{
+    Layout = null;
+    DateTime swdatenow = DateTime.Now;
+    DateTime swdateinicio = ViewBag.swdateinicio;
+    DateTime swdatefinal = ViewBag.swdatefinal;
+
+    ViewBag.fecha_inicio = String.Format("{0:yyyy-MM-dd}", swdateinicio);
+    ViewBag.fecha_fin = String.Format("{0:yyyy-MM-dd}", swdatefinal);
+    string check = "checked";
+    int Pendientes = 0;
+    int Finalizados = 0;
+    if (ViewBag.Pendientes != null)
+    {
+        Pendientes = 1;
+    }
+    if (ViewBag.Finalizados != null)
+    {
+        Finalizados = 1;
+    }
+    string Nombre_Etapa = ViewBag.Nombre_Etapa;
+
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@using (Html.BeginForm(actionName: "Index", controllerName: "Gest_EtapaSolicitud", method: FormMethod.Get, htmlAttributes: new { id = "IndexParametrizado" }))
+{
+    <div align="center">
+        <table class="table table-striped" border="1">
+            <tr>
+                <td width="33%">
+                    <div class="form-check form-switch" style="text-align: left; font-size:20px;">
+                        <input type="checkbox" class="form-check-input" id="Pendientes" name="Pendientes" value="1" @if (ViewBag.Pendientes != null) { @check } onchange="actualizarParamsBusqueda()">
+                        <label class="form-check-label" for="Pendientes">Pendientes</label>
+                    </div>
+                </td>
+                <td width="33%">
+                    <div class="form-check form-switch" style="text-align: left; font-size: 20px;">
+                        <input type="checkbox" class="form-check-input" id="Finalizados" name="Finalizados" value="1" @if (ViewBag.Finalizados != null) { @check } onchange="actualizarParamsBusqueda()">
+                        <label class="form-check-label" for="Finalizados">Finalizados</label>
+                    </div>
+                </td>
+                <td width="33%">
+                    <label>Etapa de la Solicitud</label>
+                    @Html.DropDownList("Nombre_Etapa_Param", null, htmlAttributes: new { @class = "form-select", onchange = "actualizarParamsBusqueda()" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Fecha de Inicio</label>
+                    <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" value="@ViewBag.fecha_inicio" onchange="actualizarParamsBusqueda()" />
+                </td>
+                <td>
+                    <label>Fecha de Fin</label>
+                    <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" value="@ViewBag.fecha_fin" onchange="actualizarParamsBusqueda()" />
+                </td>
+                <td>
+                </td>
+            </tr>
+        </table>
+    </div>
+}
+
+
+<script>
+    function actualizarParamsBusqueda() {
+        var fecha_inicio = document.getElementById('fecha_inicio').value;
+        var fecha_fin = document.getElementById('fecha_fin').value;
+        var fecha_inicioSplitted = fecha_inicio.split("-")
+        var anioinicio = fecha_inicioSplitted[0];
+        var fecha_finSplitted = fecha_fin.split("-")
+        var aniofin = fecha_finSplitted[0];
+
+        if ((anioinicio < 2000) || (aniofin < 2000)) {
+            console.log(anioinicio);
+            console.log(aniofin);
+            return;
+        }
+
+        $("#IndexParametrizado").submit();
+    }
+
+    $(document).ready(function () {
+        loaderPantalla(false);
+    })
+</script>

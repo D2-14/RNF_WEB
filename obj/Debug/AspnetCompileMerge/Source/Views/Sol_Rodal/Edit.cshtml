@@ -1,0 +1,406 @@
+﻿@using RNF_Web.Models;
+@using System.Data.SqlClient;
+@model RNF_Web.Models.Tbl_Sol_Rodal
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+
+    db_RNFEntities db = new db_RNFEntities();
+
+    ViewBag.Title = "Create";
+
+    Tbl_Sol_Solicitud tbl_sol_solicitud = db.Tbl_Sol_Solicitud.Find(Session[Constants.session_Solicitud]);
+
+
+    int intSubCategoria = db.Tbl_Sol_Solicitud_Sub_Categoria.Where(Obj => Obj.Categoria_id == tbl_sol_solicitud.Categoria_id && Obj.Sub_Categoria_id == tbl_sol_solicitud.Sub_Categoria_id && (Obj.Descripcion.Contains("linea") || Obj.Descripcion.Contains("línea"))).Count();
+    int intSubSubCategoria = db.Tbl_Sol_Solicitud_Sub_Sub_Categoria.Where(Obj => Obj.Categoria_id == tbl_sol_solicitud.Categoria_id && Obj.Sub_Categoria_id == tbl_sol_solicitud.Sub_Categoria_id && Obj.Sub_Sub_Categoria_id == tbl_sol_solicitud.Sub_Sub_Categoria_id && (Obj.Descripcion.Contains("linea") || Obj.Descripcion.Contains("línea"))).Count();
+
+    if ((intSubCategoria > 0) || (intSubSubCategoria > 0))
+    {
+        ViewBag.ArbolesEnLinea = 1;
+    }
+    else
+    {
+        ViewBag.ArbolesEnLinea = 0;
+    }
+
+
+    try
+    {
+        if (db.Tbl_Sol_Solicitud_Categoria.Where(Cat => Cat.Categoria_id == tbl_sol_solicitud.Categoria_id && Cat.Descripcion.Contains("agroforestales")).Count() > 0)
+        {
+            ViewBag.Agroforestal = 1;
+
+        }
+        else
+        {
+            ViewBag.Agroforestal = 0;
+
+        }
+
+    }
+    catch
+    {
+        ViewBag.Agroforestal = 0;
+    }
+
+    ViewBag.Estado = tbl_sol_solicitud.Estado_id;
+
+}
+
+
+<script src="~/Scripts/jquery-3.6.0.js"></script>
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+
+<script>
+    $(document).ready(function () {
+
+        const tmArea_SIGAP = document.querySelector('#Area_SIGAP');
+        const tmNo_Sigap = document.querySelector('#No_Sigap');
+
+        if (tmArea_SIGAP.checked) {
+            var TdHiddeA = document.getElementById("No_Sigap");
+            TdHiddeA.checked = false
+        }
+        else {
+            var TdHiddeA = document.getElementById("No_Sigap");
+            TdHiddeA.checked = true
+
+        }
+
+
+
+        const Procedencia_Pinpep = document.querySelector('#Procedencia_Pinpep');
+        const Procedencia_Probosque = document.querySelector('#Procedencia_Probosque');
+        const Procedencia_Pinfor = document.querySelector('#Procedencia_Pinfor');
+        const ShowOrHide = document.getElementById("Procedencia");
+
+
+        $(document).on('change', '#Procedencia_Pinpep', function () {
+            if (Procedencia_Pinpep.checked) {
+                Procedencia_Probosque.checked = false;
+                Procedencia_Pinfor.checked = false;
+            }
+        });
+
+
+        $(document).on('change', '#Procedencia_Probosque', function () {
+            if (Procedencia_Probosque.checked) {
+                Procedencia_Pinpep.checked = false;
+                Procedencia_Pinfor.checked = false;
+            }
+        });
+
+        $(document).on('change', '#Procedencia_Pinfor', function () {
+            if (Procedencia_Pinfor.checked) {
+                Procedencia_Probosque.checked = false;
+                Procedencia_Pinpep.checked = false;
+            }
+        });
+
+
+        const Colecta_De_Datos_X_Censo = document.querySelector('#Colecta_De_Datos_X_Censo');
+        if (Colecta_De_Datos_X_Censo.checked) {
+            document.querySelector('#Colecta_De_Datos_X_Muestreo').checked = false;
+            var TdHiddeA = document.getElementById("DatosMuestreo");
+            TdHiddeA.style.display = "none";
+
+        }
+        else {
+            document.querySelector('#Colecta_De_Datos_X_Muestreo').checked = true;
+            var TdHiddeA = document.getElementById("DatosMuestreo");
+            TdHiddeA.style.display = "block";
+        }
+
+        const Colecta_De_Datos_X_Muestreo = document.querySelector('#Colecta_De_Datos_X_Muestreo');
+        if (Colecta_De_Datos_X_Muestreo.checked) {
+            document.querySelector('#Colecta_De_Datos_X_Censo').checked = false;
+            var TdHiddeA = document.getElementById("DatosMuestreo");
+            TdHiddeA.style.display = "block";
+
+        }
+        else {
+            document.querySelector('#Colecta_De_Datos_X_Censo').checked = true;
+            var TdHiddeA = document.getElementById("DatosMuestreo");
+            TdHiddeA.style.display = "none";
+        }
+
+
+        const AreaSIGAP = document.querySelector('#Area_SIGAP');
+        if (AreaSIGAP.checked) {
+            var TdHiddeA = document.getElementById("CategoriaSIGAP");
+            TdHiddeA.style.display = "block";
+        }
+        else {
+            var TdHiddeA = document.getElementById("CategoriaSIGAP");
+            TdHiddeA.style.display = "none";
+        }
+
+
+
+        $(document).on('change', '#Colecta_De_Datos_X_Censo', function () {
+            const Colecta_De_Datos_X_Censo = document.querySelector('#Colecta_De_Datos_X_Censo');
+            if (Colecta_De_Datos_X_Censo.checked) {
+                document.querySelector('#Colecta_De_Datos_X_Muestreo').checked = false;
+                var TdHiddeA = document.getElementById("DatosMuestreo");
+                TdHiddeA.style.display = "none";
+
+            }
+            else {
+                document.querySelector('#Colecta_De_Datos_X_Muestreo').checked = true;
+                var TdHiddeA = document.getElementById("DatosMuestreo");
+                TdHiddeA.style.display = "block";
+            }
+
+        });
+
+        $(document).on('change', '#Colecta_De_Datos_X_Muestreo', function () {
+            const Colecta_De_Datos_X_Muestreo = document.querySelector('#Colecta_De_Datos_X_Muestreo');
+            if (Colecta_De_Datos_X_Muestreo.checked) {
+                document.querySelector('#Colecta_De_Datos_X_Censo').checked = false;
+                var TdHiddeA = document.getElementById("DatosMuestreo");
+                TdHiddeA.style.display = "block";
+
+            }
+            else {
+                document.querySelector('#Colecta_De_Datos_X_Censo').checked = true;
+                var TdHiddeA = document.getElementById("DatosMuestreo");
+                TdHiddeA.style.display = "none";
+            }
+
+
+        });
+
+
+        $(document).on('change', '#Area_SIGAP', function () {
+            const AreaSIGAP = document.querySelector('#Area_SIGAP');
+            if (AreaSIGAP.checked) {
+                document.querySelector('#No_Sigap').checked = false;
+                var TdHiddeA = document.getElementById("CategoriaSIGAP");
+                TdHiddeA.style.display = "block";
+            }
+            else {
+                document.querySelector('#No_Sigap').checked = true;
+                var TdHiddeA = document.getElementById("CategoriaSIGAP");
+                TdHiddeA.style.display = "none";
+            }
+
+
+        });
+
+        $(document).on('change', '#No_Sigap', function () {
+            const NoAreaSIGAP = document.querySelector('#No_Sigap');
+            if (NoAreaSIGAP.checked) {
+                document.querySelector('#Area_SIGAP').checked = false;
+                var TdHiddeA = document.getElementById("CategoriaSIGAP");
+                TdHiddeA.style.display = "none";
+            }
+            else {
+                document.querySelector('#Area_SIGAP').checked = true;
+                document.querySelector('#No_Sigap').checked = false;
+                var TdHiddeA = document.getElementById("CategoriaSIGAP");
+                TdHiddeA.style.display = "block";
+            }
+
+        });
+
+
+
+    });
+</script>
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+    <div class="container">
+        <div class="titulo-dos">
+            <h4>
+                @Html.Raw(Constants.Titulo_Rodal_Linea)
+            </h4>
+        </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(model => model.Solicitud_id)
+        @Html.HiddenFor(model => model.swcreatedby)
+        @Html.HiddenFor(model => model.swdatecreated)
+        @Html.HiddenFor(model => model.swcreatedbyinterno)
+        @Html.HiddenFor(model => model.GTMX)
+        @Html.HiddenFor(model => model.GTMY)
+        @Html.HiddenFor(model => model.AreaTotalCalculadaSistema)
+        @Html.HiddenFor(model => model.AreaRegion_Id)
+        @Html.HiddenFor(model => model.AreaProtegida_Id)
+
+
+        @Html.HiddenFor(model => model.swdateupdated)
+        @Html.HiddenFor(model => model.swupdatedby)
+        @Html.HiddenFor(model => model.swupdatedbyinterno)
+
+        @Html.HiddenFor(model => model.Procedencia_Pinfor)
+        @Html.HiddenFor(model => model.Procedencia_Pinpep)
+        @Html.HiddenFor(model => model.Procedencia_Probosque)
+        @Html.HiddenFor(model => model.Procedencia_AnioInicial)
+        @Html.HiddenFor(model => model.Procedencia_AnioFinal)
+
+
+        <table class="table table-condensed">
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.Rodal_Id, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Rodal_Id, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.Rodal_Id, "", new { @class = "text-danger" })
+                    </div>
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.Tipo_de_Area, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("Tipo_de_Area", null, htmlAttributes: new { @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.Tipo_de_Area, "", new { @class = "text-danger" })
+                    </div>
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.AreaTotal, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.AreaTotal, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.AreaTotal, "", new { @class = "text-danger" })
+                    </div>
+                </td>
+                <td>
+                    @if (ViewBag.ArbolesEnLinea == 1)
+                    {
+                        @Html.LabelFor(model => model.Longitud_Total, "Longitud total", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Longitud_Total, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Longitud_Total, "", new { @class = "text-danger" })
+                        </div>
+                    }
+                    else
+                    {
+                        @Html.HiddenFor(model => model.Longitud_Total);
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><hr /></td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.Colecta_De_Datos_X_Censo, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.Colecta_De_Datos_X_Censo)
+                            @Html.ValidationMessageFor(model => model.Colecta_De_Datos_X_Censo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.Colecta_De_Datos_X_Muestreo, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.Colecta_De_Datos_X_Muestreo)
+                            @Html.ValidationMessageFor(model => model.Colecta_De_Datos_X_Muestreo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <br />
+                </td>
+                <td>
+                    <div id="DatosMuestreo" style="display:none">
+                        @Html.LabelFor(model => model.Colecta_De_Datos_X_Muestreo_No_Parcelas, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Colecta_De_Datos_X_Muestreo_No_Parcelas, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Colecta_De_Datos_X_Muestreo_No_Parcelas, "", new { @class = "text-danger" })
+                        </div>
+                        <br />
+                        @Html.LabelFor(model => model.Colecta_De_Datos_X_Muestreo_Area_Parcelas, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Colecta_De_Datos_X_Muestreo_Area_Parcelas, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Colecta_De_Datos_X_Muestreo_Area_Parcelas, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><hr /></td>
+            </tr>
+            <tr>
+                <td colspan="1">
+                    @Html.LabelFor(model => model.Area_SIGAP, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            SI
+                            @Html.EditorFor(model => model.Area_SIGAP)
+                            @Html.ValidationMessageFor(model => model.Area_SIGAP, "", new { @class = "text-danger" })
+                            NO
+                            <input type="checkbox" id="No_Sigap" name="No_Sigap" value="No_Sigap">
+                        </div>
+                    </div>
+
+                </td>
+                <td>
+                    <div id="CategoriaSIGAP" style="display:none">
+                        @Html.LabelFor(model => model.CategoriaSIGAP_Id, "Categoría SIGAP", htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("CategoriaSIGAP_Id", null, htmlAttributes: new { @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.CategoriaSIGAP_Id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    @if (ViewBag.Agroforestal == 1)
+                    {
+                        @Html.LabelFor(model => model.CultivoSAF_Id, "Tipo de Cultivo SAF", htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("CultivoSAF_Id", null, htmlAttributes: new { @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.CultivoSAF_Id, "", new { @class = "text-danger" })
+                        </div>
+                    }
+                    else
+                    {
+                        <input type="text" id="CultivoSAF_Id" value="0" hidden />
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+
+            </tr>
+            <tr>
+                <td colspan="2"><hr /></td>
+            </tr>
+
+
+        </table>
+
+        <div class="col-sm-12 col-md-12" align="right">
+            @if ((ViewBag.Estado == 0) || (ViewBag.Estado == 4))
+            {
+                <input type="submit" value="Actualizar" class="btn-next" />
+            }
+        </div>
+    </div>
+}
+
+
+

@@ -1,0 +1,88 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+@model List<Tbl_Sol_Finca>
+@{
+    Layout = null;
+    long Solicitud_id = ViewBag.Solicitud_id;
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_Sol_Solicitud tbl_Sol_Solicitud = db.Tbl_Sol_Solicitud.Find(Solicitud_id);
+    long fincaid = 0;
+    int count = 0;
+}
+
+@foreach (var item in Model)
+{
+    fincaid = item.Finca_Id;
+    try
+    {
+        count = db.fc_Sol_Sel_Rodal_ValidacionesDiametrica(Solicitud_id, fincaid).Count();
+
+    }
+    catch
+    {
+        count = 0;
+    }
+    <hr style="height:10px" />
+    if (count > 0)
+    {
+        <div align="center">
+            <strong>Localización de la plantación en coordenadas GTM (punto centro del rodal)</strong>
+        </div>
+        <table class="table" align="center" border="1" style="text-align:center;">
+            <tr><td>
+                    Finca
+                </td>
+                <td>
+                    <strong>GTMX</strong>
+                </td>
+                <td>
+                    <strong>GTMY</strong>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @item.NombreFinca
+                </td>
+                <td>
+                    @((item.GTMX??0).ToString("0"))
+                </td>
+                <td>
+                    @((item.GTMY??0).ToString("0"))
+                </td>
+            </tr>
+        </table>
+        <div id="div_EstimacionVolumen_@item.Finca_Id"></div>
+        if (tbl_Sol_Solicitud.Categoria_id != 6)
+        {
+            <script>
+                $(document).ready(function () {
+                    var myEstimacionVolumen_@item.Finca_Id = document.getElementById('div_EstimacionVolumen_@item.Finca_Id');
+                    if (myEstimacionVolumen_@item.Finca_Id)
+                    {
+                        $('#div_EstimacionVolumen_@item.Finca_Id').load("/ReportePV/EstimacionVolumen?Solicitud_id=@Solicitud_id&Finca_Id=@item.Finca_Id")
+                    }
+                });
+            </script>
+        }
+        else
+        {
+            <script>
+                $(document).ready(function () {
+                    var myEstimacionVolumen_@item.Finca_Id = document.getElementById('div_EstimacionVolumen_@item.Finca_Id');
+                    if (myEstimacionVolumen_@item.Finca_Id)
+                    {
+                        $('#div_EstimacionVolumen_@item.Finca_Id').load("/ReportePV/EstimacionVolumen_FuenteSemillera?Solicitud_id=@Solicitud_id&Finca_Id=@item.Finca_Id")
+                    }
+                });
+            </script>
+        }
+    }
+
+
+}

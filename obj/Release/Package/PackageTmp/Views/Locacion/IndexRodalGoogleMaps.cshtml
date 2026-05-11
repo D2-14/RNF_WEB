@@ -1,0 +1,213 @@
+﻿@model IEnumerable<RNF_Web.Models.fc_Sol_Sel_RodalPoligono_Result>
+@using RNF_Web.Models;
+
+@*@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}*@
+
+<style>
+    #map {
+        position: relative;
+        width: 100%;
+        height: 100vh
+    }
+</style>
+
+
+@{
+    Layout = "~/Views/Shared/_LayoutBanner.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4" style="overflow: scroll;">
+            <div class="list-group" id="list-tab" role="tablist">
+                @foreach (var exec in Model.GroupBy(e => e.PROPERTY))
+                {
+                    <a class="list-group-item list-group-item-action disabled" data-toggle="list" role="tab"><b>@exec.Key</b></a>
+                    foreach (var loc in Model.Where(l => l.PROPERTY == exec.Key).GroupBy(g => g.NO_GRAPHIC))
+                    {
+                        var strColor = Model.Where(l => l.PROPERTY == exec.Key).Max(u => u.COLOR);
+                        <script type="text/javascript">
+                                $(document).ready(function () {
+                                    Coor(@loc.Key,"green");
+                             });
+                        </script>
+                    }
+                }
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div id="map"></div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+        let map;
+        let exec = [];
+        let colorfull = [];
+        let tipoArea = [];
+        let limits = [];
+        let names = [];
+
+
+    function test(t, c) {
+        let col = 'favcolor+' + c;
+        document.getElementById(col).value = t.value;
+    }
+
+    const slct = (id) => {
+        let s = 'btn+' + id;
+        let b = 'btdl+' + id;
+        document.getElementById(s).style.display = 'none';
+        document.getElementById(b).style.display = 'block';
+    }
+
+        const dlt = (ID_COOR, SColor) => {
+        let miResultado = [];
+        let co = ID_COOR;
+        let feed;
+        fetch("@Url.Content("~/Locacion/ObtenerRodalCoordenadas")")
+            .then(function (res) {
+                return res.json();
+            })
+            .then(function (miJson) {
+                for (let i = 0; i < miJson.length; i++) {
+                    if (miJson[i].NO_GRAPHIC == co) {
+                        let longitude = parseFloat(miJson[i].LAT);
+                        let latitude = parseFloat(miJson[i].LON);
+                        feed = { lat: longitude, lng: latitude };
+                        miResultado.push(feed);
+                        limits.shift(feed);
+                    }
+                }
+                exec.shift(miResultado)
+                colorfull.shift(SColor)
+                tipoArea.shift()
+                ActionMap(exec, colorfull);
+                let s = 'btn+' + ID_COOR;
+                let b = 'btdl+' + ID_COOR;
+                document.getElementById(s).style.display = 'block';
+                document.getElementById(b).style.display = 'none';
+            })
+    }
+
+    function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 7,
+            center: { lat: 16, lng: -90 }
+        });
+    }
+
+    const ActionMap = (data, color, tipoArea, alt) => {
+        initMap();
+        if (data != undefined) {
+            for (let i = 0; i <= data.length; i++) {
+                
+                if ((tipoArea[i] === 'R') || (tipoArea[i] === 'RDesc')) {
+
+                 const polygons = new google.maps.Polygon({
+                         paths: data[i],
+                         strokeColor: color[i],
+                         strokeOpacity: 0.8,
+                         strokeWeight: 2,
+                         fillColor: color[i],
+                         fillOpacity: 0.35,
+                     });
+                        
+                 attachPolygonInfoWindow(polygons)
+                 
+                 function attachPolygonInfoWindow(polygon) {
+                     var infoWindow = new google.maps.InfoWindow();
+                     google.maps.event.addListener(polygon, 'mouseover', function (e) {
+                         infoWindow.setContent("'" + alt[i] + "'");
+                         var latLng = e.latLng;
+                         infoWindow.setPosition(latLng);
+                         infoWindow.open(map);
+                     });
+                 }
+                 
+                     polygons.setMap(map);
+                }else{
+                    const linea = new google.maps.Polyline({
+                        path: data[i],
+                        geodesic: true,
+                        strokeColor: color[i],
+                        strokeOpacity: 1.0,
+                        strokeWeight: 2,
+                      });
+                    
+                    attachLineInfoWindow(linea)
+                                     
+                     function attachLineInfoWindow(line) {
+                         var infoWindow = new google.maps.InfoWindow();
+                         google.maps.event.addListener(line, 'mouseover', function (e) {
+                             infoWindow.setContent("'" + alt[i] + "'");
+                             var latLng = e.latLng;
+                             infoWindow.setPosition(latLng);
+                             infoWindow.open(map);
+                         });
+                     }
+                      linea.setMap(map);
+                }
+
+            }
+            
+            let lati = [];
+            let long = [];
+            for (let i = 0; i < limits.length; i++) {
+                lati.push(limits[i].lat);
+                long.push(limits[i].lng);
+            }
+
+            latmin = Math.min(...lati);
+            latmax = Math.max(...lati);
+            lonmin = Math.min(...long);
+            lonmax = Math.max(...long);
+            let bounds = new google.maps.LatLngBounds({ lat: latmin, lng: lonmin }, { lat: latmax, lng:lonmax});
+            map.fitBounds(bounds);
+
+        }
+    }
+
+    const Coor = (ID_COOR, SColor) => {
+        let miResultado = [];
+        let co = ID_COOR;
+        let feed;
+        let strTipo;
+        let nNombre;
+        fetch("@Url.Content("~/Locacion/ObtenerRodalCoordenadas")")
+            .then(function (res) {
+                return res.json();
+            })
+            .then(function (miJson) {
+                for (let i = 0; i < miJson.length; i++) {
+                    if (miJson[i].NO_GRAPHIC == co) {
+                        let longitude = parseFloat(miJson[i].LAT);
+                        let latitude = parseFloat(miJson[i].LON);
+                        strTipo = miJson[i].Tipo_Area;
+                        nNombre = miJson[i].REG;
+                        feed = { lat: longitude, lng: latitude};
+                        miResultado.push(feed);
+                        limits.push(feed);
+                    }
+                }
+                tipoArea.push(strTipo);
+                names.push(nNombre);
+                exec.push(miResultado)
+                colorfull.push(SColor)
+                ActionMap(exec, colorfull, tipoArea, names);
+            })
+    }
+
+
+</script>
+
+@*       https://whatismyipaddress.com/      Cual es mi IP *@
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8RFe_vn1QgzerlR--icNYUurV3VmnRxE&callback=initMap&v=weekly" async></script>
+

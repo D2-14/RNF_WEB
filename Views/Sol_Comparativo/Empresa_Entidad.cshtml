@@ -1,0 +1,85 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_RNF_Empresa_Entidad>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EmpresaEntidadTipo_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.No_NIT)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DireccionEmpresa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DepartamentoEmpresaEntidad_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MunicipioEmpresaEntidad_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Telefono)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GTMX)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GTMY)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UsuarioExterno_id)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmpresaEntidadTipo_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.No_NIT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DireccionEmpresa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DepartamentoEmpresaEntidad_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MunicipioEmpresaEntidad_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefono)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GTMX)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GTMY)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioExterno_id)
+            </td>
+        </tr>
+    }
+
+</table>

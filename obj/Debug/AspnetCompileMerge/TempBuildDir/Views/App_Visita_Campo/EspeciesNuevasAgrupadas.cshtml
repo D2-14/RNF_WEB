@@ -1,0 +1,88 @@
+﻿@using RNF_Web.Models;
+@model List<fc_Reporte_Auditorias_ArbolesNuevosAgrupados_PromedioDAP_y_Altura_Result>
+@{
+
+
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+
+@if (Model.Count() > 0)
+{
+    <h1 align="center">
+        Especies nuevas agrupadas
+    </h1>
+    <table class="table table-striped table-hover" border="1">
+        <thead>
+            <tr>
+                <th>
+                    Finca
+                </th>
+                <th>
+                    Rodal
+                </th>
+                <th>
+                    Tipo de Area
+                </th>
+                <th>
+                    Número de Parcela
+                </th>
+                <th>
+                    Cantidad de Árboles
+                </th>
+                <th>
+                    Especie
+                </th>
+                <th>
+                    DAP Promedio
+                </th>
+                <th>
+                    Altura Promedio
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @item.Finca_id
+                </td>
+                <td>
+                    @item.Rodal_id
+                </td>
+                <td>
+                    @item.Tipo_de_Area
+                </td>
+                <td>
+                    @item.No_Parcela
+                </td>
+                <td>
+                    @item.Arboles
+                </td>
+                <td>
+                    @item.Especie
+                </td>
+                <td>
+                    @((item.DAP_Promedio ?? 0).ToString("0.00"))
+                </td>
+                <td>
+                    @((item.Altura_Promedio??0).ToString("0.00"))
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p align="center">
+        <strong>No se encontraron especies nuevas agrupadas</strong>
+    </p>
+}
+

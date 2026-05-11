@@ -1,0 +1,143 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Gral_Carga>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Solicitud_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Finca_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rodal_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AreaProtegida_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Departamento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Municipio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Region)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sub_Region)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.swdatecreated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.swcreatedby)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.swcreatedbyinterno)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CODIGO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CodReg)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CodSubreg)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Depto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.No_Registro)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.No_RegistroLiteral)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.No_RegistroCorrelativo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Observaciones)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tbl_Gral_Carga_Estatus.Descripcion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tbl_Gral_CargaTipo.Descripcion)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Solicitud_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Finca_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rodal_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AreaProtegida_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Departamento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Municipio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Region)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sub_Region)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.swdatecreated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.swcreatedby)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.swcreatedbyinterno)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CODIGO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodReg)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodSubreg)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Depto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.No_Registro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.No_RegistroLiteral)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.No_RegistroCorrelativo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observaciones)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Gral_Carga_Estatus.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Gral_CargaTipo.Descripcion)
+            </td>
+            <td>
+                @Html.ActionLink("Ver", "Gral_CargaDetalle", new { Tipo_Carga_id = item.Tipo_Carga_id, Carga_id = item.Carga_id }) |
+            </td>
+        </tr>
+    }
+
+</table>

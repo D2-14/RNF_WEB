@@ -1,0 +1,46 @@
+﻿
+
+<script>
+    function download(filename, NombreDescarga) {
+
+        var element = document.createElement('a');
+        element.setAttribute('href', filename);
+        element.setAttribute('download', NombreDescarga);
+        document.body.appendChild(element);
+        element.click();
+        //document.body.removeChild(element);
+    }
+</script>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="~/Content/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/assets/css/Login-Form-Clean.css">
+    <link rel="stylesheet" href="~/Content/assets/css/styles.css">
+    <script src="~/Content/assets/js/index.js"></script>
+
+    <script src="~/Scripts/chosen.jquery.js"></script>
+
+    <script src="~/Content/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Content/assets/js/jquery.min.js"></script>
+
+</head>
+<body>
+
+    @RenderBody()
+
+
+</body>
+</html>
+
+<script>
+    window.addEventListener("beforeunload", function (e) {
+        document.cookie = "ASP.NET_SessionId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    });
+</script>

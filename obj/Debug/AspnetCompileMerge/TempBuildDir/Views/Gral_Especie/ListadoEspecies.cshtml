@@ -1,0 +1,73 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Gral_Especie>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutSimple.cshtml";
+    ViewBag.Title = "Especies";
+    ViewBag.SubTitle = "Listado de especies";
+}
+
+<form asp-controller="Gral_Especie" asp-action="ListadoEspecies">
+    <br />
+    <table>
+        <tr>
+            <td>
+                Especie/Nombre :
+            </td>
+            <td>
+                <input type="text" name="strBusqueda" id="strBusqueda" value="@ViewBag.strBusqueda" />
+            </td>
+            <td>
+                <input type="submit" value="Buscar" />
+            </td>
+        </tr>
+    </table>
+    <br />
+</form>
+
+<table class="table">
+    <tr>
+        <th>
+            Especie
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreCientifico)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombresComunes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sinonimos)
+        </th>
+        <th></th>
+        <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    </tr>
+
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Especie_Id
+            </td>
+            <td>
+                @item.NombreCientifico
+            </td>
+            <td>
+                @item.NombresComunes
+            </td>
+            <td>
+                @item.Sinonimos
+            </td>
+            <th></th>
+            <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+        </tr>
+
+
+    }
+</table>

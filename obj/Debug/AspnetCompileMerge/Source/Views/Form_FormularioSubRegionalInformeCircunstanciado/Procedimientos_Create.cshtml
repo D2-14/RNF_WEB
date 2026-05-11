@@ -1,0 +1,54 @@
+﻿@using RNF_Web.Models;
+@model RNF_Web.Models.Tbl_Gest_EtapaSolicitud_InformeCircunstanciado_Procedimientos
+@{
+    Layout = null;
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<script>
+    function refreshPartialProcedimientoLista() {
+        var div_ProcedimientosLista = document.getElementById('div_ProcedimientosLista');
+        if (div_ProcedimientosLista) {
+            $('#div_ProcedimientosLista').load('/Form_FormularioSubRegionalInformeCircunstanciado/Procedimientos_Lista?Solicitud_id=@Model.Solicitud_id');
+        }
+    }
+    $(document).ready(function () {
+        refreshPartialProcedimientoLista();
+    });
+</script>
+
+
+<h4>Contenido del expediente</h4>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Solicitud_id)
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.LabelFor(model => model.Procedimiento, htmlAttributes: new { @class = "control-label col-md-10" })
+        </th>
+        <td>
+            <textarea class="form-control" id="Procedimiento" name="Procedimiento" maxlength="8000" rows="5"></textarea>
+            @Html.ValidationMessageFor(model => model.Procedimiento, "", new { @class = "text-danger" })
+        </td>
+    </tr>
+    <tr>
+        <th></th>
+        <td>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="button" value="Guardar cambios" class="btn btn-primary" onclick="agregarProcedimiento()"/>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+}
+
+<div id="div_ProcedimientosLista"></div>

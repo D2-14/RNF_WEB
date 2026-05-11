@@ -1,0 +1,263 @@
+﻿@using RNF_Web.Models;
+@using System.Data.SqlClient;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Url.Action("Index", "Sol_Finca")
+}
+
+
+@{
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_Sol_Solicitud tbl_sol_solicitud = db.Tbl_Sol_Solicitud.Find(Session[Constants.session_Solicitud]);
+    EdicionSolicitudGrants objGrant = (EdicionSolicitudGrants)Session[Constants.session_EdicionSolicitudGrants];
+
+    ViewBag.Estado = tbl_sol_solicitud.Estado_id;
+
+    string Nombre_Div = "div_Sol_Permisos_Sol_Finca_index";
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+    fc_Gral_Sol_Configuracion_Result permisos = db.fc_Gral_Sol_Configuracion(tbl_sol_solicitud.Solicitud_id, controllerName, boolEsInterno).FirstOrDefault();
+}
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <div id="@Nombre_Div"></div>
+}
+
+
+<div id="section_Finca">
+    @model IEnumerable<RNF_Web.Models.Tbl_Sol_Finca>
+    <div class="titulo-dos">
+        <h4>Datos de la Finca(s)</h4>
+    </div>
+    <br />
+
+    @if ((bool)permisos.Agregar)
+    {
+
+<div class="row mt-2">
+    <div class="col">
+    </div>
+    <div class="col">
+    </div>
+    <div class="col text-center">@*  *@
+        <div class="d-grid gap-2">
+
+            <button class="btn-next-ic" onclick="Agregar_Finca(); return false;" id="ClickPropietario">
+                <i class="fa in fa-plus" aria-hidden="true"></i><br />Agregar Finca
+            </button>
+
+            <a href="/Content/SoporteAudioVisualUsuario/005_Fincas.mp4" target="_blank">
+                <img width="50" height="auto" src="~/Content/icons/VideoTutoria.gif" />
+            </a>
+
+        </div>
+    </div>
+    <div>
+    </div>
+</div>
+
+
+
+
+    @*<div class="row mt-2 mb-2">
+            <div class="col-md-6">
+
+            </div>
+            <div class="col">
+                <div class="d-grid gap-2">
+                    <button class="btn-next-ic" onclick="Agregar_Finca(); return false;" id="ClickPropietario">
+                        <i class="fa in fa-plus" aria-hidden="true"></i><br />Agregar Finca
+                    </button>
+                </div>
+            </div>
+            <div class="col">
+                <a href="/Content/SoporteAudioVisualUsuario/005_Fincas.mp4" target="_blank">
+                    <img width="50" height="auto" src="~/Content/icons/VideoTutoria.gif" />
+                </a>
+            </div>
+        </div>*@
+    }
+
+    <div class="col-sm-6 col-md-12">
+        <div class="table-responsive">
+            <table class="table">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">
+                        Finca Nombre
+                    </th>
+                    <th scope="col">
+                        Constancia
+                    </th>
+                    <th scope="col">
+                        Registro
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Ubicacion)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.AreaTotal)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.AreaARegistrar)
+                    </th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Finca_Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NombreFinca)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tbl_Sol_FincaConstanciaDePropiedad.Descripcion)
+                        </td>
+                        <td>
+                            @if ((item.ConstanciaDePorpiedad_id == 1) || (item.ConstanciaDePorpiedad_id == 6))
+                            {
+                                @Html.Raw(" Finca : ")
+                                @item.RegNumero
+                                @Html.Raw(" Folio : ")
+                                @item.RegFolio
+                                @Html.Raw(" Libro : ")
+                                @item.RegLibro
+                                @Html.Raw(" Departamento : ")
+                                @item.Tbl_Gral_DepartamentoRegistro.Departamento
+                            }
+
+                            @if (item.ConstanciaDePorpiedad_id == 2)
+                            {
+                                @Html.Raw(" Notario : ")
+                                @item.ActaNotarial_Notario
+                            }
+
+                            @if (item.ConstanciaDePorpiedad_id == 3)
+                            {
+                                @Html.Raw(" Notario : ")
+                                @item.ActaNotarial_Notario
+                                @Html.Raw(" Certificada por : ")
+                                @item.ActaNotarialConCertificacion_NombreDeCertificador
+                            }
+
+                            @if (item.ConstanciaDePorpiedad_id == 4)
+                            {
+                                @Html.Raw(" Notario : ")
+                                @item.ActaNotarial_Notario
+                                @Html.Raw(" Número de escritura : ")
+                                @item.ActaNotarialDeEscrituraPublica_Numero
+                            }
+
+                            @if (item.ConstanciaDePorpiedad_id == 5)
+                            {
+                                @Html.Raw(" Notario : ")
+                                @item.ActaNotarial_Notario
+                                @Html.Raw(" Número de escritura : ")
+                                @item.ActaNotarialDeEscrituraPublica_Numero
+                            }
+
+                            @if (item.ConstanciaDePorpiedad_id == 7)
+                            {
+                                @Html.Raw(" Notario : ")
+                                @item.ActaNotarial_Notario
+                                @Html.Raw(" Número de escritura : ")
+                                @item.ActaNotarialDeEscrituraPublica_Numero
+                            }
+
+
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tbl_Gral_Departamento.Departamento)
+                            @Html.DisplayFor(modelItem => item.Tbl_Gral_Municipio.Municipio)
+                            @Html.DisplayFor(modelItem => item.Ubicacion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AreaTotal)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AreaARegistrar)
+                        </td>
+
+                        <td>
+                            @if ((bool)permisos.Editar)
+                            {
+                                <div class="div-icons-table" onclick="Editar_Finca(@item.Finca_Id)">
+                                    <i class="fa in fa-edit" aria-hidden="true"></i>
+                                </div>
+                            }
+                        </td>
+                        <td>
+                            @if ((bool)permisos.Borrar)
+                            {
+                                <div class="div-icons-table" onclick="Borrar_Finca(@item.Finca_Id)">
+                                    <i class="fa in fa-trash-o" aria-hidden="true"></i>
+                                </div>
+                            }
+                        </td>
+
+                    </tr>
+                }
+                <hr />
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <th>Área total de las fincas (ha)</th>
+                    <th>@ViewBag.AreaTotalFincasSegunFincas</th>
+                    <th>@ViewBag.TotalAreaARegistrar</th>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td colspan="2">@ViewBag.FincaMensaje</td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    @if (objGrant.boolEtapaView)
+    {
+        <div id="div_Finca_RNF"></div>
+    }
+
+</div>
+<script>
+    function visualizarPermisos(solicitudid, controllername, esinterno, nombrediv) {
+        var solicitudId = solicitudid;
+        var controllerName = controllername;
+        var esInterno = esinterno;
+
+        var mySolPermisos = document.getElementById(nombrediv);
+        if (mySolPermisos) {
+            $("#" + nombrediv).load("/Gral_SolicitudConfiguracion/PermisosRecibidos?Solicitud_id=" + solicitudId + "&controllerName=" + controllerName + "&EsInterno=" + esInterno);
+        }
+
+    }
+
+    $(document).ready(function () {
+        var myFincaRNF = document.getElementById("div_Finca_RNF");
+        if (myFincaRNF) {
+            $("#div_Finca_RNF").load("/Sol_Comparativo/Finca?Solicitud_id=@tbl_sol_solicitud.Solicitud_id");
+        }
+
+        visualizarPermisos('@tbl_sol_solicitud.Solicitud_id', '@controllerName', '@objUs.EsInterno', '@Nombre_Div');
+    });
+
+</script>

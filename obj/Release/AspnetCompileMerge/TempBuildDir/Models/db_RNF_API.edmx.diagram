@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b4c5c2f360ca4d9c92d8f303c6217bba" Name="Diagram1">
+        <EntityTypeShape EntityType="db_RNF_APIModel.Tbl_API_Gral_Especie" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_APIModel.Tbl_API_Sol_Finca" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_APIModel.Tbl_API_Sol_Rodal" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_APIModel.Tbl_API_Sol_Rodal_Dasometrico" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_APIModel.Tbl_API_Sol_Rodal_Dasometrico_CentroParcela_Local" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_APIModel.Tbl_API_Sol_Rodal_Dasometrico_Local" Width="1.5" PointX="6.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_APIModel.Tbl_API_Sol_Rodal_Dasometrico_Manual" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_APIModel.Tbl_API_Sol_Rodal_Dasometrico_ValidacionesDiametrica_Local" Width="1.5" PointX="8.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_APIModel.Tbl_API_Sol_Rodal_Descuento" Width="1.5" PointX="2.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_APIModel.Tbl_API_Sol_Rodal_Descuento_Local" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_APIModel.Tbl_API_Sol_Rodal_Descuento_Poligono" Width="1.5" PointX="10.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_APIModel.Tbl_API_Sol_Rodal_Descuento_Poligono_Local" Width="1.5" PointX="10.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_APIModel.Tbl_API_Sol_Rodal_Local" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_APIModel.Tbl_API_Sol_Rodal_Poligono" Width="1.5" PointX="12.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_APIModel.Tbl_API_Sol_Rodal_Poligono_Local" Width="1.5" PointX="14.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_APIModel.Tbl_API_Sol_Solicitud" Width="1.5" PointX="0.75" PointY="14.75" IsExpanded="true" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

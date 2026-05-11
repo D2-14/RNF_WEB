@@ -1,0 +1,87 @@
+﻿@using RNF_Web.Models;
+@model IEnumerable<RNF_Web.Models.Tbl_RNF_Finca_Secorf_EspeciesForestales>
+@{ 
+    db_RNFEntities db = new db_RNFEntities();
+}
+@if(Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@if (Model.Count() > 0) {
+    <table class="table">
+        <tr>
+            <th>
+                Finca
+            </th>
+            <th>
+                Rodal
+            </th>
+            <th>
+                Tipo de Area
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Area_ha)
+            </th>
+            <th>
+                Especie
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DAP)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Altura)
+            </th>
+            <th>
+                Densidad ha
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Volumen)
+            </th>
+            <th>
+                Año de Establecimiento
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Finca_id
+                </td>
+                <td>
+                    @item.Rodal_id
+                </td>
+                <td>
+                    @item.Tbl_Sol_Rodal_Tipo.Descripcion
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Area_ha)
+                </td>
+                <td>
+                    @item.Tbl_Gral_Especie.NombreCientifico
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DAP)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Altura)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Densidad_ha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Volumen)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Anio_Establecimiento)
+                </td>
+                <td>
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+

@@ -1,0 +1,32 @@
+﻿@using RNF_Web.Models;
+@model string
+
+@{
+    Layout = "~/Views/Shared/_LayoutMoreSimple.cshtml";
+
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+<script>
+    $(document).ready(function () {
+        var Ubicacion = '@Model';
+        var ifDoc = document.getElementById("ifDoc");
+        ifDoc.src = 'data:application/pdf;base64,' + Ubicacion;
+    });
+
+
+</script>
+<div id="div_Documento">
+    <iframe ID="ifDoc" frameborder="0" style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" width="100%"></iframe>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,78 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+<script>
+
+    function AsignarJuridica() {
+        var varJuridico = $('#Juridico').val();
+        var varNo_Nombramiento = $('#No_Nombramiento').val();
+        var varGuid_id = '@ViewBag.Guid_id';
+
+        if (varNo_Nombramiento == '' || varNo_Nombramiento == 'NaN') {
+            $('#lblMensaje').text('Por favor. Debe de indicar el numero de nombramiento.');
+        }
+        else
+        {
+            var data = {
+                juridico: varJuridico,
+                nombramiento: varNo_Nombramiento,
+                Guid_id: varGuid_id
+            }
+
+
+            var url = "@Url.Action("AsignacionJurista", "Form_FormularioSubRegional")";
+
+
+            $.post(url, data).done(function (jsonRespuesta) {
+
+                var objJSON = JSON.parse(jsonRespuesta);
+                var Cod_Respuesta = objJSON.CodRespuesta;
+                var Texto_Respuesta = objJSON.strRespuesta;
+
+                if (Cod_Respuesta == 1) {
+                    $('#autoFormulario').load('/Form_FormularioSubRegional/AsignacionTecnico_AsignacionJuridica' + '?Guid_id='+varGuid_id)
+                } else
+                {
+
+                    $('#lblMensaje').text(Texto_Respuesta);
+                    alert(Texto_Respuesta);
+
+                }
+            });
+
+        }
+
+
+    }
+
+
+</script>
+
+<h3>
+    Asignación jurídica
+</h3>
+<h3>@ViewBag.JuridicoAsigando </h3>
+
+@Html.DropDownList("Juridico", null, htmlAttributes: new { @class = "form-select" })
+<br />
+<table>
+    <tr>
+        <td>
+            <h4>Número de nombramiento</h4>
+        </td>
+        <td>
+            &nbsp;&nbsp;&nbsp;&nbsp; <input type="text" id="No_Nombramiento" name="No_Nombramiento" value="@ViewBag.JuridicoAsignadoNombramiento">&nbsp;&nbsp;&nbsp;Nombramiento: @ViewBag.JuridicoAsignadoNombramiento</>
+        </td>
+    </tr>
+</table>
+<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;
+<img id="imgAddme" src="~/Content/icons/EnviarMail.png" onmouseover="this.style.cursor='hand'" onmouseout="this.style.cursor='default'" onclick="AsignarJuridica()" width="380" height="auto" />
+<br />
+<br />
+<br />

@@ -1,0 +1,307 @@
+﻿@using RNF_Web.Models;
+@using PagedList;
+@using PagedList.Mvc;
+@model PagedList<fc_RNF_Buscar_RegistroInscrito_Result>
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@{
+    Usuario objUs = (Usuario)Session[Constants.session_User];
+    db_RNFEntities db = new db_RNFEntities();
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+
+    string strNo_Registro = ViewBag.strNo_Registro;
+    string strExpediente = ViewBag.strExpediente;
+    string strDPI_Titular = ViewBag.strDPI_Titular;
+    string strMotosierra = ViewBag.strMotosierra;
+    string strNombrePropietario = ViewBag.strNombrePropietario;
+    string strApellidoPropietario = ViewBag.strApellidoPropietario;
+    string strFlechas = " ▼▲";
+    string SortOrder = ViewBag.CurrentSort;
+    string lblNoRegistro = "No. Registro";
+    string lblExpediente = "Expediente";
+    string lblFechaVencimiento = "Fecha de Vencimiento";
+    string lblDPITitular = "DPI de Titular";
+    string lblTitular = "Titular";
+    string lblEstado = "Estado";
+    string rnfreplace = "";
+
+    int intAdministradorRol = db.Database.SqlQuery<int>("select max(AdministradorRNF) from Tbl_Gral_PerfilesRol").FirstOrDefault();
+    int intSubRegionaRol = db.Database.SqlQuery<int>("select max(SubRegional) from Tbl_Gral_PerfilesRol").FirstOrDefault();
+    int intDirectorRegionalRol = db.Database.SqlQuery<int>("select max(Regional) from Tbl_Gral_PerfilesRol").FirstOrDefault();
+
+    fc_Seg_Sel_RolUsuario_Result fc_RolAdminsitrador = db.fc_Seg_Sel_RolUsuario(objUs.intUsuario_id, 1).Where(Obj => Obj.Rol_id == intAdministradorRol).FirstOrDefault();
+    fc_Seg_Sel_RolUsuario_Result fc_RolSubRegional = db.fc_Seg_Sel_RolUsuario(objUs.intUsuario_id, 1).Where(Obj => Obj.Rol_id == intSubRegionaRol).FirstOrDefault();
+    fc_Seg_Sel_RolUsuario_Result fc_RolDirectorRegional = db.fc_Seg_Sel_RolUsuario(objUs.intUsuario_id, 1).Where(Obj => Obj.Rol_id == intDirectorRegionalRol).FirstOrDefault();
+
+
+    bool RolSubRegional = false;
+    bool RolDirectorRegional = false;
+    bool RolAdministrador = false;
+
+    if (fc_RolAdminsitrador != null)
+    {
+        RolAdministrador = true;
+    }
+    if (fc_RolSubRegional != null)
+    {
+        RolSubRegional = true;
+    }
+    if (fc_RolDirectorRegional != null)
+    {
+        RolDirectorRegional = true;
+    }
+
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+<script>
+    function openModalPartial(Source, Titulo) {
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '"frameborder="0" width="1000px" height="1200px"></iframe>';
+        document.getElementById("Titulo").value = Titulo;
+        $("#myModal").modal("show");
+    }
+
+    function transferirTitular(varkey) {
+        var Source = "/RNF_Registro_Reasignacion/CambiarTitular?No_Registro=" + varkey;
+        var Titulo = 'Transferir titular mediante DPI';
+        openModalPartial(Source, Titulo);
+    }
+
+    function habilitarEdicion_RNF(no_registro) {
+        var Source = "/RNF_Registro_Reasignacion/HabilitarEdicion_RNF?No_Registro=" + no_registro;
+        var Titulo = 'Habilitar Edición de RNF a Subregional';
+        openModalPartial(Source, Titulo);
+    }
+
+</script>
+
+<div>
+    @using (Html.BeginForm(actionName, controllerName, FormMethod.Get, new { id = "FormRNFReasignacion" }))
+    {
+        <table class="table table-striped">
+            <tr>
+                <th>No. Registro</th>
+                <th>Expediente</th>
+                <th>DPI de Titular</th>
+                <th>Nombre de Propietario</th>
+                <th>Apellido de Propietario</th>
+                <th>N° Serie Motosierra</th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" id="No_Registro" name="No_Registro" value="@strNo_Registro" class="form-control" placeholder="PV-1" />
+                </td>
+                <td>
+                    <input type="text" id="Expediente" name="Expediente" value="@strExpediente" class="form-control" placeholder="Exp.1" />
+                </td>
+                <td>
+                    <input type="text" id="DPI_Titular" name="DPI_Titular" value="@strDPI_Titular" class="form-control" placeholder="1234567890123" />
+                </td>
+                <td>
+                    <input type="text" id="NombrePropietario" name="NombrePropietario" value="@strNombrePropietario" class="form-control" placeholder="Juan" />
+                </td>
+                <td>
+                    <input type="text" id="ApellidoPropietario" name="ApellidoPropietario" value="@strApellidoPropietario" class="form-control" placeholder="Pérez" />
+                </td>
+                <td>
+                    <input type="text" id="Motosierra" name="Motosierra" value="@strMotosierra" class="form-control" placeholder="18888285" />
+                </td>
+                <td>
+                    <input type="submit" value="Buscar" class="btn btn-success" />
+                </td>
+                <td>
+                    @if ((RolAdministrador) || (RolDirectorRegional) || (RolSubRegional))
+                    {
+                        <input type="button" value="Crear Nuevo Registro" class="btn btn-success" onclick="location.replace('@Url.Action("Create","RNF_Gestor")')" />
+
+                    }
+                </td>
+            </tr>
+        </table>
+    }
+</div>
+
+@*<div id="div_ListaRNFBuscar"></div>*@
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink(lblNoRegistro, actionName, new { sortOrder = ViewBag.NoRegistro, No_Registro = strNo_Registro, Expediente = strExpediente, DPI_Titular = strDPI_Titular })
+            @if ((SortOrder == "NoRegistro") || (SortOrder == "noregistro_desc"))
+            {
+                @Html.Raw(strFlechas);
+            }
+        </th>
+        <th>
+            Histórico
+        </th>
+        <th>
+            @Html.ActionLink(lblExpediente, actionName, new { sortOrder = ViewBag.Expediente, No_Registro = strNo_Registro, Expediente = strExpediente, DPI_Titular = strDPI_Titular })
+            @if ((SortOrder == "Expediente") || (SortOrder == "expediente_desc"))
+            {
+                @Html.Raw(strFlechas);
+            }
+        </th>
+        <th>
+            @Html.ActionLink(lblFechaVencimiento, actionName, new { sortOrder = ViewBag.FechaVencimiento, No_Registro = strNo_Registro, Expediente = strExpediente, DPI_Titular = strDPI_Titular })
+            @if ((SortOrder == "FechaVencimiento") || (SortOrder == "fechavencimiento_desc"))
+            {
+                @Html.Raw(strFlechas);
+            }
+        </th>
+        <th>
+            @Html.ActionLink(lblDPITitular, actionName, new { sortOrder = ViewBag.DPITitular, No_Registro = strNo_Registro, Expediente = strExpediente, DPI_Titular = strDPI_Titular })
+            @if ((SortOrder == "DPITitular") || (SortOrder == "dpititular_desc"))
+            {
+                @Html.Raw(strFlechas);
+            }
+        </th>
+        <th>
+            @Html.ActionLink(lblTitular, actionName, new { sortOrder = ViewBag.Titular, No_Registro = strNo_Registro, Expediente = strExpediente, DPI_Titular = strDPI_Titular })
+            @if ((SortOrder == "Titular") || (SortOrder == "titular_desc"))
+            {
+                @Html.Raw(strFlechas);
+            }
+        </th>
+        <th>
+            Estado
+        </th>
+        <th>
+            Tipo de Registro
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.No_Registro)
+            </td>
+            <td>
+                @{
+                    rnfreplace = item.No_Registro.Replace("-", "_");
+                }
+                <div id="historico_@rnfreplace"></div>
+                <script>
+            $(document).ready(function () {
+                loadDivs('historico_@rnfreplace', '@Url.Action("HistoricoRNF", controllerName, new { No_Registro = item.No_Registro})');
+            });
+                </script>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Expediente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fecha_De_Vencimiento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DPI_Titular)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titular)
+            </td>
+            <td>
+                @item.Estado
+            </td>
+            <td>
+                @item.InscripcionTipo
+            </td>
+            <td>
+                @if ((item.MismaRegion ?? false) || item.Categoria_id == 7)
+                {
+                    if ((RolAdministrador) || (RolDirectorRegional) || (RolSubRegional))
+                    {
+                        <input type="button" name="habilitaredicion" value="Habilitar Edición" class="btn btn-sm btn-primary" onclick="habilitarEdicion_RNF('@item.No_Registro'); " />
+                    }
+                    <a type="button" class="btn btn-sm btn-primary" href="@Url.Action("","RNF_Gestor", new { No_Registro = item.No_Registro })">Inspeccionar</a>
+                }
+                else
+                {
+                    @Html.Raw("Registro correspondiente a región " + item.No_SubRegion + " " + item.SubRegion)
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+<div class="card-content table-responsive" align="center">
+    <p>Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount</p>
+    @Html.PagedListPager(Model, page => Url.Action(actionName, new { page, sortOrder = ViewBag.CurrentSort, No_Registro = strNo_Registro, Expediente = strExpediente, DPI_Titular = strDPI_Titular, Motosierra = strMotosierra, NombrePropietario = strNombrePropietario, ApellidoPropietario = strApellidoPropietario }))
+</div>
+
+<input type="hidden" id="Pagina" name="Pagina" value="">
+<input type="hidden" id="Titulo" name="Titulo" value="">
+<div class="container mt-3">
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" id="btnHideModal" class="btn-next" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="h_iframe">
+                    </div>
+                </div>
+                <div id="DatosPersonerias"></div>
+                <div class="modal-footer">
+                    <button type="button" id="btnHideModal_Close" class="btn-next" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function loadDivs(nombrediv, urldiv) {
+        var myBool = document.getElementById(nombrediv);
+        if (myBool) {
+            $("#" + nombrediv).load(urldiv);
+        }
+    };
+
+    $(document).ready(function () {
+
+        $('#myModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        })
+
+        $("#myModal").on('show.bs.modal', function () {
+            var modal = $(this)
+            modal.find('.modal-title').text(document.getElementById("Titulo").value);
+            modal.find('.modal-body').html(document.getElementById("Pagina").value);
+        });
+
+
+        $("#btnHideModal").click(function () {
+
+            $("#myModal").modal('hide');
+        });
+
+
+        $("#btnHideModal_Close").click(function () {
+
+            $("#myModal").modal('hide');
+        });
+
+
+    });
+
+
+
+
+</script>

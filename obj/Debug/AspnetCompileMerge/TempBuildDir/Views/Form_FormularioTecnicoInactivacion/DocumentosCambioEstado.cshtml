@@ -1,0 +1,284 @@
+﻿@using RNF_Web.Models;
+@model IEnumerable<RNF_Web.Models.Tbl_RNF_Registro_BitacoraDocumento>
+@{
+    db_RNFEntities db = new db_RNFEntities();
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    Layout = null;
+    long usuarioid = 0;
+    string nombreusuario = "";
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<script>
+
+    function hide_myModal() {
+        $("#imgModal").modal('hide');
+    }
+
+    function Mostrar(No_Registro, Bitacora_id, Documento_id, filename) {
+        $.ajax({
+            type: 'POST',
+            url: "@(Url.Action("Obtenerhref", "RNF_Registro_Reasignacion"))",
+            dataType: 'json',
+            data: { No_Registro: No_Registro, Bitacora_id: Bitacora_id, Documento_id: Documento_id },
+            success: function (doc) {
+
+
+                var imgDoc = document.getElementById("imDoc");
+                var ifDoc = document.getElementById("ifDoc");
+                var miHref = document.getElementById("miHref");
+
+                if (filename.split(".")[1] == "pdf" || filename.split(".")[1] == "PDF" ||
+                    filename.split(".")[1] == "jpg" || filename.split(".")[1] == "JPG" ||
+                    filename.split(".")[1] == "bmp" || filename.split(".")[1] == "BMP" ||
+                    filename.split(".")[1] == "png" || filename.split(".")[1] == "PNG" ||
+                    filename.split(".")[1] == "gif" || filename.split(".")[1] == "GIF") {
+
+                    if (filename.split(".")[1] == "pdf" || filename.split(".")[1] == "PDF") {
+                        imgDoc.src = "";
+                        ifDoc.src = doc;
+                        ifDoc.style.visibility = "visible";
+                        miHref.href = doc;
+                        $("#imgModal").modal('show');
+                    }
+                    else {
+
+                        ifDoc.src = "";
+                        imgDoc.src = doc;
+                        miHref.href = doc;
+                        $("#imgModal").modal('show');
+                        ifDoc.style.visibility = "hidden";
+                    }
+                }
+                else {
+                    window.location.href = doc;
+                }
+
+            },
+            error: function (ex) {
+                alert('error. ' + ex.status);
+            }
+
+        });
+        return false;
+
+    }
+
+    function Borrar(No_Registro, Bitacora_id, Documento_id) {
+
+        var data = {
+            No_Registro: No_Registro,
+            Bitacora_id: Bitacora_id,
+            Documento_id: Documento_id
+        };
+
+        var url = '@Url.Action("EliminarDocumentosCambioEstado", "RNF_Registro_Reasignacion")';
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            var oJSON = RespuestaJSON;
+            var Result = oJSON.Result;
+            var Mensaje = oJSON.Mensaje;
+            if (Result == 1) {
+                location.reload();
+            } else {
+                alert(Mensaje);
+            }
+        }).fail(function (ErrorJSON) {
+            console.log(ErrorJSON);
+            alert("Error: " + ErrorJSON.fail);
+        });
+
+        return false;
+
+    }
+
+    var uploadDocumentoBitacora = ($("#uploadDocumentoBitacora"))[0].files[0];
+    $(function () {
+
+        $("#uploadDocumentoBitacora").change(function () {
+            uploadDocumentoBitacora = ($("#uploadDocumentoBitacora"))[0].files[0];
+            console.log(uploadDocumentoBitacora);
+            var botonSubir = document.getElementById("btsubir");
+            if ((uploadDocumentoBitacora != "") && (uploadDocumentoBitacora != null)) {
+                botonSubir.classList.add("btn-primary");
+                botonSubir.style.display = "block";
+            } else {
+                botonSubir.classList.remove("btn-primary");
+                botonSubir.disabled = true;
+            }
+        })
+
+
+
+        $("#btsubir").click(function () {
+            loaderPantalla(true);
+            setTimeout(function () {
+
+                uploadDocumentoBitacora = ($("#uploadDocumentoBitacora"))[0].files[0];
+                console.log(uploadDocumentoBitacora);
+
+                var formData = new FormData();
+
+
+                function adjuntarImagenDasometricos() {
+                    formData.append("upload", uploadDocumentoBitacora);
+                    formData.append("No_Registro", '@ViewBag.No_Registro');
+                    formData.append("Bitacora_id", '@ViewBag.Bitacora_id');
+                    $.ajax({
+                        url: '@Url.Action("AgregarDocumentoBitacora", "Form_FormularioTecnicoInactivacion")',
+                        type: "POST",
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        async: false,
+                        success: function (data) {
+                            loaderPantalla(false);
+                            location.reload();
+                        },
+                        error: function (data) {
+                            console.log(data);
+                            loaderPantalla(false);
+                            location.reload();
+                        }
+                    });
+
+                }
+
+                if (uploadDocumentoBitacora != null) {
+                    adjuntarImagenDasometricos();
+                } else {
+                    alert("No se ha seleccionado ningún archivo");
+                }
+
+
+            }, 2000);
+
+
+
+        })
+    })
+
+</script>
+
+
+@Html.Raw(ViewBag.MensajeDocumento)
+
+<table width="100%">
+    <tr>
+        <th>
+            <h4>
+                <strong>
+                    Agregar el informe técnico sobre las causales
+                </strong>
+            </h4>
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <label>
+                <img src="~/Content/icons/btnSubirArchivo.png" width="180" height="auto" id="upfile1" style="cursor:pointer" />
+                <input type="file" id="uploadDocumentoBitacora" name="uploadDocumentoBitacora" style="display:none" accept="application/pdf">
+            </label>
+        </td>
+        <td>
+            <input type="button" id="btsubir" class="btn btn-primary btn-outlined" width="100%" value="Subir archivo" />
+        </td>
+    </tr>
+</table>
+
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                Nombre de Archivo
+            </th>
+            <th>
+                Fecha de Creación
+            </th>
+            <th>
+                Registrado por
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreArchivo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.swdatecreated)
+                </td>
+                <td>
+                    @if ((bool)item.swcreatedbyinterno)
+                    {
+                        usuarioid = (long)item.swcreatedby;
+                        Tbl_Seg_Usuario tbl_Seg_Usuario = (from d in db.Tbl_Seg_Usuario
+                                                           where d.Usuario_id == usuarioid
+                                                           select d).FirstOrDefault();
+                        if (tbl_Seg_Usuario != null)
+                        {
+                            nombreusuario = (tbl_Seg_Usuario.Nombre ?? "") + " " + (tbl_Seg_Usuario.Apellidos ?? "");
+                            @Html.Raw("Personal Interno: " + nombreusuario)
+                        }
+                    }
+                    else
+                    {
+                        usuarioid = (long)item.swcreatedby;
+                        Tbl_Seg_UsuarioExterno tbl_Seg_Usuario = (from d in db.Tbl_Seg_UsuarioExterno
+                                                                  where d.Usuario_id == usuarioid
+                                                                  select d).FirstOrDefault();
+                        if (tbl_Seg_Usuario != null)
+                        {
+                            nombreusuario = (tbl_Seg_Usuario.Nombres ?? "") + " " + (tbl_Seg_Usuario.Apellidos ?? "");
+                            @Html.Raw("Usuario: " + nombreusuario)
+                        }
+                    }
+                </td>
+                <td>
+                    <img src="~/Content/icons/ver.png" onclick="Mostrar('@item.No_Registro', '@item.Bitacora_id', '@item.Documento_id', '@item.NombreArchivo')" width="50" />
+                    <img src="~/Content/icons/trash_green.png" type="button" onclick="Borrar('@item.No_Registro', '@item.Bitacora_id', '@item.Documento_id')" value="eliminar" width="30" />
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
+
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" id="imgModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" width: 700px;>
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="hide_myModal()">
+                    X
+                </button>
+                <h4 class="modal-title">Vista preliminar del documento cargado</h4>
+            </div>
+            <div class="modal-body">
+                @*<a ID="miHref" name="miHref" href="" target="_blank">Ver en pagina Completa</a>*@
+
+                <a ID="miHref" name="miHref" href="" target="_blank" style="display:none">Ver en pagina Completa</a>
+                <button class="btn-next" onclick="MostrarCompleta()">Mostrar en página completa</button>
+
+
+                <img src="~/Content/icons/click_hand.gif" width="80" />
+                <img style="max-height:1000px;max-width:800px;height:auto;width:auto;" id="imDoc" Visible="false" />
+                <iframe ID="ifDoc" style="height:600px;width:800px;" visible="false"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" onclick="hide_myModal()">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,288 @@
+﻿@using RNF_Web.Models;
+@{
+    db_RNFEntities db = new db_RNFEntities();
+
+    ViewBag.Title = "Create";
+
+
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@*<script src="~/Scripts/jquery-3.6.0.js"></script>*@
+@*<script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/qrcode.js"></script>*@
+
+<script>
+    $(document).ready(function () {
+
+        $(document).on('change', '#Departamento_id', function () {
+
+            var url = "@Url.Action("GetMunicipios", "Sol_Solicitud")";
+            var Departamento = $('#Departamento_id').val();
+            var data = { Departamento: Departamento};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Municipio_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text: municipio.Text
+                    }));
+
+                });
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+
+        $(document).on('change', '#Region_id', function () {
+
+            var url = "@Url.Action("GetSubRegion", "Sol_Solicitud")";
+            var Region = $('#Region_id').val();
+            var data = { Region: Region};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#SubRegion_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text:  municipio.Text
+                    }));
+
+                });
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlRegion
+
+
+        $(document).on('change', '#Categoria_id', function () {
+
+            var url = "@Url.Action("GetSubCategoriasProbosque", "API_Probosque")";
+            var Categoria = $('#Categoria_id').val();
+            var data = { Categoria: Categoria};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Sub_Categoria_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, SubCategoria) {
+                    select.append($('<option/>', {
+                        value: SubCategoria.Value,
+                        text: SubCategoria.Text
+                    }));
+
+                });
+
+                $('#Sub_Categoria_id').change()
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+        $(document).on('change', '#Sub_Categoria_id', function () {
+            var Contador = 0;
+            var url = "@Url.Action("GetSubSubCategoriasProbosque", "API_Probosque")";
+            var Categoria = $('#Categoria_id').val();
+            var SubCategoria = $('#Sub_Categoria_id').val();
+
+            if ((Categoria == 1) && (SubCategoria == 2)) {
+                location.replace("/UsuarioExterno/VisualizarMapa")
+            }
+
+            var data = { Categoria: Categoria, SubCategoria: SubCategoria  };
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Sub_Sub_Categoria_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+
+                $.each(Listdata, function (index, SubSubCategoria) {
+                    Contador = Contador + 1;
+                    select.append($('<option/>', {
+                        value: SubSubCategoria.Value,
+                        text: SubSubCategoria.Text
+                    }));
+
+                });
+
+                if (Contador < 1) {
+                    select.append($('<option/>', {
+                        value: '0',
+                        text: '-- No Aplica --'
+                    }));
+                }
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+
+        asignacionRegionSubRegion();
+
+    }); // -----Fin de document ready function
+
+    function asignacionRegionSubRegion() {
+        var NoRegion = document.getElementById("lbl_Region_Probosque").textContent;
+        var NoRegionSplitted = NoRegion.split(" ")
+
+        var NoSubRegion = document.getElementById("lbl_SubRegion_Probosque").textContent;
+        var NoSubRegionSplitted = NoSubRegion.split(" ")
+
+        var No_Region = NoRegionSplitted[0].trim();
+        var No_SubRegion = NoSubRegionSplitted[0].trim();
+
+        var data = {
+            No_Region: No_Region,
+            No_SubRegion: No_SubRegion
+        }
+
+        var url = '@Url.Action("VerificarRegionSubRegion", "API_Probosque")';
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = jsonRespuesta;
+            console.log(oJSON);
+            var Region_id = document.getElementById("Region_id");
+
+
+            Region_id.value = oJSON.Region_id;
+
+            var url = "@Url.Action("GetSubRegion", "Sol_Solicitud")";
+            var Region = $('#Region_id').val();
+            var data = { Region: Region};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#SubRegion_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text:  municipio.Text
+                    }));
+
+                });
+            }).fail(function () {
+            });
+
+
+            setTimeout(function () {
+                var SubRegion_id = document.getElementById("SubRegion_id");
+                SubRegion_id.value = oJSON.SubRegion_id;
+            },1000)
+
+        }).fail(function (error) {
+            alert(error);
+        });
+
+
+    }
+</script>
+
+<style>
+    .textarea-label {
+        display: block;
+        /* border, padding, and other styles go here,
+    don't set the height, and don't use floats or positioning */
+    }
+
+        .textarea-label textarea {
+            margin: 0;
+            outline: 0 none;
+            padding: 0;
+            width: 100%;
+        }
+</style>
+
+<div class="container-fluid">
+    <div class="titulo-dos">
+        <h4> Tipo de Solicitud</h4>
+    </div>
+
+    <br />
+    <div id="MostrarCategoria">
+
+        <div class="row mt-2">
+            <div class="col">
+                <label class="control-label col-md-12">Categoría</label>
+                @Html.DropDownList("Categoria_id", null, htmlAttributes: new { @class = "form-select" })
+
+                <label class="control-label col-md-12">Sub Categoría</label>
+                @Html.DropDownList("Sub_Categoria_id", null, htmlAttributes: new { @class = "form-select" })
+
+                <label class="control-label col-md-12">Especificación</label>
+                @Html.DropDownList("Sub_Sub_Categoria_id", null, htmlAttributes: new { @class = "form-select" })
+            </div>
+        </div>
+
+        <div id="Procedencia" style="display: none;">
+
+            <br />
+            <div class="titulo-dos">
+                <h4> Procedencia</h4>
+            </div>
+
+
+        </div>
+    </div>
+
+    <br />
+
+    <div id="MostrarRegion">
+        <div class="titulo-dos">
+            <h4>Dirección en la que se realiza la gestión.</h4>
+        </div>
+        <div class="row mt-2">
+            <div class="col">
+                <label class="control-label col-md-12">Región</label>
+                @Html.DropDownList("Region_id", null, htmlAttributes: new { @class = "form-select" })
+
+                <label class="control-label col-md-12">Sub-Región</label>
+                @Html.DropDownList("SubRegion_id", null, htmlAttributes: new { @class = "form-select" })
+                <a href="http://www.inab.gob.gt/index.php/quienes-somos/oficinas-inab" target="_blank"> Consultar directorio</a>
+            </div>
+        </div>
+    </div>
+    <br />
+</div>
+
+<br />
+
+

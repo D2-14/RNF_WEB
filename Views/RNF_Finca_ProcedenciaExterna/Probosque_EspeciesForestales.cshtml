@@ -1,0 +1,61 @@
+﻿@using RNF_Web.Models;
+@model List<Tbl_RNF_Finca_Probosque_EspeciesForestales>
+@{
+    Layout = null;
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@if (Model.Count() > 0)
+{
+<table class="table">
+    <tr>
+        <th>
+            Finca
+        </th>
+        <th>
+            Correlativo
+        </th>
+        <th>
+            Especie
+        </th>
+        <th>
+            Fecha de Plantación
+        </th>
+        <th>
+            Densidad Actual
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Finca_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Correlativo_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreCientifico)
+            </td>
+            <td>
+                @if (item.FechaPlantacion != null)
+                {
+                    @(((DateTime)item.FechaPlantacion).ToString("dd/MM/yyyy"))
+                }
+                else
+                {
+                    @Html.Raw("-----")
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DensidadActual)
+            </td>
+        </tr>
+    }
+
+</table>
+}
+

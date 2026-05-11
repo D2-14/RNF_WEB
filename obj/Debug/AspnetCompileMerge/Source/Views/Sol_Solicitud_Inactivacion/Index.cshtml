@@ -1,0 +1,44 @@
+﻿@using RNF_Web.Models;
+@model Tbl_Sol_Solicitud
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+@{
+    bool mostrar = ViewBag.mostrar;
+}
+
+@if (mostrar)
+{
+<table class="table">
+    <tr>
+        <th width="100%" colspan="2">
+            Solicitud de Cancelación. Describa el motivo_.
+        </th>
+    </tr>
+    <tr style="display:none;">
+        <th>
+            Motivo de Cancelación
+        </th>
+        <th>
+            @Html.DropDownList("TipoInactivacion_id", null, htmlAttributes: new { @class = "form-select" })
+            @Html.ValidationMessageFor(model => model.TipoInactivacion_id, "", new { @class = "text-danger" })
+        </th>
+    </tr>
+    <tr>
+        <td width="100%" colspan="2">
+            <textarea name="motivoInactivacion" id="motivoInactivacion" placeholder="Motivo de Cancelación" class="form-control" rows="5">@Model.Descripcion_Inactivacion</textarea>
+        </td>
+    </tr>
+</table>
+<div class="row">
+    <div class="col">
+        <div class="d-grid gap-2">
+            <button class="btn-next-ic" onclick="procesoInactivacion(); return false;">
+                <i class="fa in fa-print" aria-hidden="true"></i><br>Imprimir formulario de inactivación
+            </button>
+        </div>
+    </div>
+</div>
+
+}

@@ -1,0 +1,224 @@
+﻿@using RNF_Web.Models;
+@model string
+@{
+    Layout = null;
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+<h4 id="Mensaje_Probosque"></h4>
+<table id="table_Probosque" class=" table table-striped">
+    <tr>
+        <th>
+            Expediente
+        </th>
+        <th>
+            Nombre de Finca
+        </th>
+        <th>
+            Modalidad
+        </th>
+        <th>
+            Tipo de Propietario
+        </th>
+        <th>
+            Ultima Area Certificada
+        </th>
+        <th>
+            Ultima Fase Certificada
+        </th>
+        <th></th>
+    </tr>
+    <tr>
+        <td>
+            <label class="form-label" id="lbl_Expediente_Probosque"></label>
+        </td>
+        <td>
+            <label class="form-label" id="lbl_FincaNombre_Probosque"></label>
+        </td>
+        <td>
+            <label class="form-label" id="lbl_Modalidad_Probosque"></label>
+        </td>
+        <td>
+            <label class="form-label" id="lbl_TipoPropietario_Probosque"></label>
+        </td>
+        <td>
+            <label class="form-label" id="lbl_UltimaAreaCertificada_Probosque"></label>
+        </td>
+        <td>
+            <label class="form-label" id="lbl_UltimaFaseCertificada_Probosque"></label>
+        </td>
+        <td>
+            <input type="button" class="btn btn-primary" id="Solicitud_Probosque" name="Solicitud_Probosque" value="Ingresar Expediente" onclick="IngresarSolicitud_Probosque('@Model')" style="visibility:hidden;" />
+        </td>
+    </tr>
+</table>
+
+<table id="table_ExpedienteProbosque" class="table table-striped" style="visibility:hidden;">
+    <tr>
+        <th>
+            <label class="control-label col-md-12">DPI de Titular</label>
+        </th>
+        <td colspan="2">
+            <input type="text" id="DPI_Titular" name="DPI_Titular" class="form-control" onchange="consultarDPI()" />
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <label class="control-label col-md-12">Nombre de Propietario</label>
+        </th>
+        <td colspan="2">
+            <input type="text" id="Nombre" name="Nombre" class="form-control" readonly />
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Tipo de Proyecto
+        </th>
+        <th>
+            Región
+        </th>
+        <th>
+            SubRegión
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <label class="form-label" id="lbl_TipoProyecto_Probosque"></label>
+        </td>
+        <td>
+            <label class="form-label" id="lbl_Region_Probosque"></label>
+        </td>
+        <td>
+            <label class="form-label" id="lbl_SubRegion_Probosque"></label>
+        </td>
+    </tr>
+</table>
+<div id="div_CreateConRegion"></div>
+<div align="right">
+    <input type="button" id="iniciarSolicitud" name="iniciarSolicitud" value="Iniciar Solicitud" class="btn btn-success" style="visibility:hidden;" onclick="CrearSolicitud()" />
+</div>
+
+
+<script>
+    var faseValidada = false;
+
+    function validarFaseCertificada(Fase) {
+        var data = {
+            Fase: Fase
+        };
+        var url = '@Url.Action("ValidarFaseCertificada", controllerName)';
+        faseValidada = false;
+        $.post(url, data).done(function (RespuestaJSON) {
+            faseValidada = RespuestaJSON;
+            console.log("Controlador:", controllerName);
+            console.log("faseValidada_Funcion:",faseValidada);
+            console.log(RespuestaJSON);
+        }).fail(function (RespuestaJSON) {
+            faseValidada = false;
+        });
+
+    }
+
+
+    var Solicitud_Probosque = document.getElementById("Solicitud_Probosque");
+
+    function agregarPropietarioIndividual_Probosque() {
+
+    }
+
+    function agregarPropietarioJuridico_Probosque() {
+
+    }
+
+    $(document).ready(function () {
+
+        Solicitud_Probosque.style.visibility = "hidden";
+
+        var Expediente = '@Model';
+        var url = "@Url.Action("GetExpedienteProbosque","API_Probosque")";
+
+
+        if ((Expediente.trim() != "") || (Expediente != null))
+        {
+            var data = {
+                Expediente: Expediente
+            };
+
+            console.log(data);
+
+            $.post(url, data).done(function (jsonRespuesta) {
+                var oJSON = JSON.parse(jsonRespuesta);
+                var Mensaje = oJSON.Mensaje;
+                var table_Probosque = document.getElementById("table_Probosque");
+                var Result = oJSON.Result;
+
+                console.log(oJSON);
+
+                if (Result != 1) {
+
+                    Solicitud_Probosque.style.visibility = "hidden";
+                    table_Probosque.style.visibility = "hidden";
+
+                } else {
+
+                    var Data = oJSON.Data;
+                    var proyecto = Data.proyecto;
+                    var Modalidad = proyecto.Modalidad;
+                    var TipoProyecto = proyecto.TipoProyecto;
+                    var TipoPropietario = proyecto.TipoPropietario;
+                    var FincaNombre = proyecto.FincaNombre;
+                    var UltimaAreaCertificada = proyecto.UltimaAreaCertificada;
+                    var UltimaFaseCertificada = proyecto.UltimaFaseCertificada;
+
+
+
+                    validarFaseCertificada(UltimaFaseCertificada);
+
+                    console.log(UltimaFaseCertificada);
+                    console.log("ValidarFasse:",faseValidada);
+                   
+
+                    setTimeout(function () {
+                        //if (faseValidada) {
+                        if (validarFaseCertificada) {
+                            console.log('Activar Botón de Expediente');
+                            Solicitud_Probosque.style.visibility = "visible";
+                        }
+                    }, 500);
+
+
+                    Expediente = proyecto.Expediente;
+
+                    var lbl_Expediente = document.getElementById("lbl_Expediente_Probosque");
+                    var lbl_FincaNombre = document.getElementById("lbl_FincaNombre_Probosque");
+                    var lbl_TipoPropietario = document.getElementById("lbl_TipoPropietario_Probosque");
+                    var lbl_UltimaAreaCertificada = document.getElementById("lbl_UltimaAreaCertificada_Probosque");
+                    var lbl_Modalidad = document.getElementById("lbl_Modalidad_Probosque");
+                    var lbl_UltimaFaseCertificada = document.getElementById("lbl_UltimaFaseCertificada_Probosque");
+                    //var lbl_TipoProyecto = document.getElementById("lbl_TipoProyecto_Probosque");
+
+                    lbl_Expediente.innerHTML = Expediente;
+                    lbl_FincaNombre.innerHTML = FincaNombre;
+                    lbl_TipoPropietario.innerHTML = TipoPropietario;
+                    lbl_UltimaAreaCertificada.innerHTML = UltimaAreaCertificada;
+                    lbl_UltimaFaseCertificada.innerHTML = UltimaFaseCertificada;
+                    lbl_Modalidad.innerHTML = Modalidad;
+                    //lbl_TipoProyecto.innerHTML = TipoProyecto;
+
+                }
+
+            }).fail(function (jsonRespuesta) {
+
+                var oJSON = JSON.parse(jsonRespuesta);
+                var oJSON = jsonRespuesta;
+
+            });
+        }
+
+    });
+</script>

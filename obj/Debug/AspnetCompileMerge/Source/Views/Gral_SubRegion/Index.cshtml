@@ -1,0 +1,83 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Gral_SubRegion>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+@{
+    ViewBag.Title = "Sub Region";
+
+    ViewBag.Title = "Sub Regiones asignadas";
+
+}
+
+
+
+@Html.Partial("_PartialPageEncabezadodetails")
+
+<button class="btn-secondary" style="position: absolute; right: 0;" rel="tooltip" title="Agregar" onclick="location.href='@Url.Action("Create", "Gral_SubRegion",new { id = Model.First().Region_id })'">
+    <i><img src="~/Content/icons/add_simple.png" style="border-radius: 30%; width: 35px; height: auto" /></i>
+    <div class="ripple-container"></div>
+</button>
+<br />
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.No_SubRegion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre_SubRegion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Id_RNF_S)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Telefono)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Direccion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Estado_id)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.No_SubRegion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre_SubRegion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id_RNF_S)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefono)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Direccion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado_id)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { region_id = item.Region_id, subregionid = item.SubRegion_id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+
+

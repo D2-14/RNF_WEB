@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="db_WhatsappModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Tbl_Meta_Mensajes">
+    <Key>
+      <PropertyRef Name="from" />
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="from" Type="bigint" Nullable="false" />
+    <Property Name="id" Type="bigint" Nullable="false" />
+    <Property Name="timestamp" Type="bigint" />
+    <Property Name="timestamp_dt" Type="datetime" />
+    <Property Name="type" Type="varchar" MaxLength="50" />
+    <Property Name="body" Type="nvarchar" MaxLength="4000" />
+    <Property Name="latitude" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="longitude" Type="decimal" Precision="25" Scale="12" />
+    <Property Name="caption" Type="nvarchar" MaxLength="4000" />
+    <Property Name="mime_type" Type="varchar" MaxLength="500" />
+    <Property Name="sha256" Type="varchar" MaxLength="300" />
+    <Property Name="id_image" Type="varchar" MaxLength="1500" />
+    <Property Name="swcreatedby" Type="bigint" />
+    <Property Name="swdatecreated" Type="datetime" />
+    <Property Name="swupdatedby" Type="bigint" />
+    <Property Name="swdateupdated" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Tbl_Meta_ParametrosGenerales">
+    <Key>
+      <PropertyRef Name="Entidad_id" />
+    </Key>
+    <Property Name="Entidad_id" Type="int" Nullable="false" />
+    <Property Name="Direccion_URL" Type="varchar" MaxLength="300" />
+    <Property Name="Longitud_Celular" Type="int" />
+    <Property Name="Menu" Type="varchar(max)" />
+    <Property Name="MenuVacio" Type="varchar(max)" />
+    <Property Name="VisualizarInformacionDesarrollo" Type="bit" Nullable="false" />
+    <Property Name="WhatsappVersion" Type="varchar" MaxLength="20" />
+    <Property Name="WhatsappToken" Type="varchar" MaxLength="1000" Nullable="false" />
+    <Property Name="WhatsappID" Type="varchar" MaxLength="100" />
+    <Property Name="WhatsappTelefono" Type="varchar" MaxLength="50" />
+    <Property Name="WhatsappTextoDefault" Type="varchar" MaxLength="1500" />
+  </EntityType>
+  <!--Errores durante la generación:
+advertencia 6013: La tabla o vista 'db_Whatsapp.dbo.Tbl_Meta_Prueba' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
+        <EntityType Name="Tbl_Meta_Prueba">
+          <Property Name="ID_PRUEBA" Type="int" />
+          <Property Name="DESCRIPCION" Type="varchar" MaxLength="8000" />
+        </EntityType>-->
+  <EntityType Name="Tbl_Meta_ValidarTelefono">
+    <Key>
+      <PropertyRef Name="Telefono_id" />
+    </Key>
+    <Property Name="Telefono_id" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Verificado" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tbl_Seg_Parametros">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Token" Type="varchar" MaxLength="50" />
+    <Property Name="InstanceId" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Tbl_Whatsapp_Mensajes">
+    <Key>
+      <PropertyRef Name="Whatsapp_id" />
+    </Key>
+    <Property Name="Whatsapp_id" Type="bigint" Nullable="false" />
+    <Property Name="DestinoTipo" Type="varchar" MaxLength="20" />
+    <Property Name="Destino" Type="varchar" MaxLength="11" />
+    <Property Name="Mensaje" Type="varchar" MaxLength="1500" />
+    <Property Name="estado" Type="bit" />
+    <Property Name="swdatecreated" Type="datetime" />
+    <Property Name="swdateupdated" Type="datetime" />
+    <Property Name="ProcesoQueLaGenero" Type="varchar" MaxLength="150" />
+  </EntityType>
+  <Function Name="Fc_Meta_MensajesPendientesAutorizados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Whatsapp_id" Type="bigint" Nullable="false" />
+          <Property Name="DestinoTipo" Type="varchar" MaxLength="20" />
+          <Property Name="Destino" Type="varchar" MaxLength="11" />
+          <Property Name="Mensaje" Type="varchar" MaxLength="1500" />
+          <Property Name="estado" Type="bit" />
+          <Property Name="swdatecreated" Type="datetime" />
+          <Property Name="swdateupdated" Type="datetime" />
+          <Property Name="ProcesoQueLaGenero" Type="varchar" MaxLength="150" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="SP_Meta_ValidarTelefono" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Telefono_id" Type="varchar" Mode="In" />
+  </Function>
+  <EntityContainer Name="db_WhatsappModelStoreContainer">
+    <EntitySet Name="Tbl_Meta_Mensajes" EntityType="Self.Tbl_Meta_Mensajes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_Meta_ParametrosGenerales" EntityType="Self.Tbl_Meta_ParametrosGenerales" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_Meta_ValidarTelefono" EntityType="Self.Tbl_Meta_ValidarTelefono" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_Seg_Parametros" EntityType="Self.Tbl_Seg_Parametros" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_Whatsapp_Mensajes" EntityType="Self.Tbl_Whatsapp_Mensajes" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

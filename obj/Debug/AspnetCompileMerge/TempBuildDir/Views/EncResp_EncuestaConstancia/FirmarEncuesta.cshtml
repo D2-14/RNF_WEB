@@ -1,0 +1,133 @@
+﻿@using RNF_Web.Models;
+
+@{
+    Layout ="~/Views/Shared/_LayoutMoreSimple.cshtml";
+
+    int id_encuesta = ViewBag.id_encuesta;
+    long swcreatedby = ViewBag.swcreatedby;
+    int id_Correlativo = ViewBag.id_Correlativo;
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<script>
+    function FirmarDocumento() {
+
+        var TdHiddeA = document.getElementById("btnFirmarDocumento");
+        TdHiddeA.style.display = "none";
+
+        varFirmaElectronicaUsuario = $('#FirmaElectronicaUsuario').val();
+        varFirmaElectronicaPassword = $('#FirmaElectronicaPassword').val();
+
+        var id_encuesta = '@id_encuesta';
+        var swcreatedby = '@swcreatedby';
+        var id_Correlativo = '@id_Correlativo';
+
+        var data = {
+            id_encuesta: id_encuesta,
+            swcreatedby: swcreatedby,
+            id_Correlativo: id_Correlativo,
+            UsuarioFE: varFirmaElectronicaUsuario,
+            PasswordFE: varFirmaElectronicaPassword
+        };
+
+    var url = "@Url.Action("JsonProcesarFirmaElectronica", controllerName)";
+        loaderPantalla(true);
+
+        $.post(url, data).done(function (jsonrespuesta) {
+            var oJSON = JSON.parse(jsonrespuesta);
+            var NombreDocumento = oJSON.strRespuesta;
+            var CodigoRespuesta = oJSON.CodRespuesta;
+
+
+            if ((CodigoRespuesta == '0') || (CodigoRespuesta == 0))
+            {
+                window.open('/Home/FalloFirmaElectronica?FalloFe=' + NombreDocumento, '_blank');
+            }
+            else
+            {
+                window.open(NombreDocumento, '_blank');
+            }
+            loaderPantalla(false);
+
+        });
+
+    }
+
+
+    function descargarEncuesta() {
+        var id_encuesta = '@id_encuesta';
+        var swcreatedby = '@swcreatedby';
+        var id_Correlativo = '@id_Correlativo';
+
+        var data = {
+            id_encuesta: id_encuesta,
+            swcreatedby: swcreatedby,
+            id_Correlativo: id_Correlativo
+        };
+
+        var url = '@Url.Action("GenerarConstancia", "EncResp_EncuestaConstancia")';
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            var oJSON = RespuestaJSON;
+            var Result = oJSON.Result;
+            var Mensaje = oJSON.Mensaje;
+            var Ubicacion = oJSON.Ubicacion;
+
+            if (Result == 1) {
+                //window.open(Ubicacion);
+                var TdHiddeA = document.getElementById("btnFirmarDocumento");
+                TdHiddeA.style.display = "block";
+                window.open('/Archivos_Generados_Que_Pueden_Borrar/' + Ubicacion, '_blank');
+            } else {
+                alert(Mensaje);
+            }
+
+
+        }).fail(function (RespuestaJSON) {
+
+        });
+
+    }
+
+</script>
+
+<table>
+    <tr>
+        <th colspan="2">Datos para la firma electrónica:</th>
+    </tr>
+    <tr>
+        <td><br /></td>
+    </tr>
+    <tr>
+        <td width="20%">Usuario</td>
+        <td width="20%">
+            <input type="text" id="FirmaElectronicaUsuario" name="FirmaElectronicaUsuario" value="" />
+        </td>
+        <td width="20%">Password</td>
+        <td width="20%">
+            <input type="password" id="FirmaElectronicaPassword" name="FirmaElectronicaPassword" value="" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <br />
+        </td>
+    </tr>
+</table>
+
+
+<table>
+    <tr>
+        <td>
+            <input type="button" value="Vista previa" id="ExportarPDF" class="btn btn-success" onclick="descargarEncuesta()" />
+        </td>
+        <td>
+            <button class="btn btn-success" id="btnFirmarDocumento" name="btnFirmarDocumento" onclick="FirmarDocumento()" style="display:none;">Firmar Documento</button>
+        </td>
+    </tr>
+</table>

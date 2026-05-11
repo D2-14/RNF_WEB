@@ -1,0 +1,279 @@
+﻿@model RNF_Web.Models.Tbl_Enc_Encuesta_Pregunta
+@using RNF_Web.Models
+
+@{
+
+    db_RNF_SurveyEntities db_RNF_Survey = new db_RNF_SurveyEntities();
+
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    int id_encuesta = ViewBag.id_encuesta;
+    long swcreatedby = ViewBag.swcreatedby;
+    int id_correlativo = ViewBag.id_correlativo;
+
+    Tbl_EncResp_Encuesta_Pregunta tbl_EncResp_Encuesta_Pregunta = db_RNF_Survey.Tbl_EncResp_Encuesta_Pregunta.Where(Obj => Obj.id_encuesta == id_encuesta && Obj.swcreatedby == swcreatedby && Obj.id_Correlativo == id_correlativo && Obj.id_pregunta == Model.id_pregunta).FirstOrDefault();
+
+    Tbl_EncResp_Encuesta_PreguntaRespuesta tbl_EncResp_Encuesta_PreguntaRespuesta = new Tbl_EncResp_Encuesta_PreguntaRespuesta();
+
+    Tbl_EncResp_Encuesta_Documento tbl_EncResp_Encuesta_Documento = new Tbl_EncResp_Encuesta_Documento();
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@Html.Partial("_PartialPageEncabezado")
+
+<h1>
+    @Model.descripcion
+</h1>
+
+@if (Model.id_tipo_respuesta == 2)  //Respuesta multiple
+{
+    <h4>Seleccione una o varias de las opciones</h4>
+    <table>
+
+        @foreach (var item in Model.Tbl_Enc_Encuesta_Respuesta)
+        {
+            <tr>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>
+                </td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>
+                </td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>
+                    @if (item.ExplicacionIncluir == true)
+                    {
+                        <h6>@item.ExplicacionTexto</h6>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <label>@item.respuesta</label>
+                </td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+
+                <td>
+                    <input type="checkbox" onchange="GrabarPreguntaRespuesta('Seleccion_@item.id_respuesta', 'DetalleObservaciones_@item.id_respuesta', '@item.id_respuesta')" id="Seleccion_@item.id_respuesta" name="opcion_@Model.id_pregunta" value="@item.respuesta">
+                </td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>
+                    @if (item.ExplicacionIncluir == true)
+                    {
+                        <input type="text" id="DetalleObservaciones_@item.id_respuesta" onchange="GrabarPreguntaRespuesta('Seleccion_@item.id_respuesta', 'DetalleObservaciones_@item.id_respuesta', '@item.id_respuesta')" name="DetalleObservaciones_@item.id_respuesta" value="" />
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+    <br />
+}
+
+@if (Model.id_tipo_respuesta == 3)  //Respuesta Seleccion
+{
+    <h4>Seleccione una de las opciones</h4>
+    <table>
+
+        @foreach (var item in Model.Tbl_Enc_Encuesta_Respuesta)
+        {
+            <tr>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>
+                </td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>
+                </td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>
+                    @if (item.ExplicacionIncluir == true)
+                    {
+                        <h6>@item.ExplicacionTexto</h6>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <label>@item.respuesta</label>
+                </td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+
+                <td>
+                    <input type="radio" onchange="GrabarPreguntaRespuesta('Seleccion_@item.id_respuesta', 'DetalleObservaciones_@item.id_respuesta', '@item.id_respuesta')" id="Seleccion_@item.id_respuesta" name="opcion_@Model.id_pregunta" value="@item.respuesta">
+                </td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>
+                    @if (item.ExplicacionIncluir == true)
+                    {
+                        <input type="text" id="DetalleObservaciones_@item.id_respuesta" onchange="GrabarPreguntaRespuesta('Seleccion_@item.id_respuesta', 'DetalleObservaciones_@item.id_respuesta', '@item.id_respuesta')" name="DetalleObservaciones_@item.id_respuesta" value="" />
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+    <br />
+}
+
+@if (Model.id_tipo_respuesta == 4)
+{
+    <div id="div_CargadeArchivos"></div>
+}
+
+@if ((Model.tiene_observacion == true) || (Model.id_tipo_respuesta == 1))
+{
+    <h4>@Model.titulo_observacion</h4>
+
+    if (tbl_EncResp_Encuesta_Pregunta != null)
+    {
+        <textarea style="width:80%" id="DetalleObservacionesRespuesta" name="DetalleObservacionesRespuesta">@tbl_EncResp_Encuesta_Pregunta.Respuesta_Observaciones</textarea>
+    }
+    else
+    {
+        <textarea id="DetalleObservacionesRespuesta" name="DetalleObservacionesRespuesta"></textarea>
+    }
+}
+<br />
+<br />
+<button onclick="EnviarRespuesta()"> Siguiente</button>
+
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+
+
+<br />
+<br />
+<div id="div_Listado"></div>
+
+<script>
+
+    function refreshPartial() {
+        var div_CargadeArchivos = document.getElementById('div_CargadeArchivos');
+        var div_Listado = document.getElementById('div_Listado');
+
+        if (div_Listado)
+        {
+            $('#div_Listado').load('/EncResp_EncuestaRespuesta/Index?id_encuesta=@ViewBag.id_encuesta&swcreatedby=@ViewBag.swcreatedby&id_Correlativo=@ViewBag.id_correlativo&id_pregunta=@Model.id_pregunta')
+        }
+
+        if (div_CargadeArchivos) {
+            $('#div_CargadeArchivos').load('/EncResp_EncuestaDocumento/ArchivosSubir?id_encuesta=@ViewBag.id_encuesta&swcreatedby=@ViewBag.swcreatedby&id_Correlativo=@ViewBag.id_correlativo&id_pregunta=@Model.id_pregunta')
+        }
+    }
+
+    $(document).ready(function () {
+        refreshPartial();
+    });
+
+    function GrabarPreguntaRespuesta(varChekbox, varText, varRespuesta)
+    {
+
+        console.log(varChekbox);
+        var varCheck = document.getElementById(varChekbox).checked;
+        console.log(varCheck);
+
+        var vartText = document.getElementById(varText);
+
+        var varTextyo = '';
+        if (vartText)
+        {
+            varTextyo = vartText.value;
+        }
+
+        console.log(varTextyo);
+
+        var data = {
+            id_encuesta:'@ViewBag.id_encuesta',
+            swcreatedby: '@ViewBag.swcreatedby',
+            id_correlativo: '@ViewBag.id_correlativo',
+            id_pregunta: '@Model.id_pregunta',
+            id_respuesta: varRespuesta,
+            Aplica: varCheck,
+            RespuestaObservaciones: varTextyo
+        };
+
+        console.log(data);
+
+        var url = "@Url.Action("EnviarRespuestaEspecifica", "EncResp_EncuestaRespuesta")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = jsonRespuesta;
+            console.log(oJSON);
+            var Result = oJSON.Result;
+
+            if (Result != 1) {
+                alert(oJSON.Mensaje);
+            }
+        }).fail(function (error) {
+            alert(error);
+        });
+
+
+    }
+
+    function EnviarRespuesta()
+    {
+
+        var varDetalleObservacionesRespuesta = document.getElementById('DetalleObservacionesRespuesta');
+        var varDetalleObservacionesRespuestaValue = '';
+
+        if (varDetalleObservacionesRespuesta)
+        {
+            varDetalleObservacionesRespuestaValue = varDetalleObservacionesRespuesta.value;
+        }
+
+        var data = {
+            id_encuesta:'@ViewBag.id_encuesta',
+            swcreatedby: '@ViewBag.swcreatedby',
+            id_correlativo: '@ViewBag.id_correlativo',
+            id_pregunta: '@Model.id_pregunta',
+            RespuestaObservaciones: varDetalleObservacionesRespuestaValue
+        };
+
+        console.log(data);
+
+        var url = "@Url.Action("EnviarRespuesta", "EncResp_EncuestaRespuesta")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = jsonRespuesta;
+            console.log(oJSON);
+            var Result = oJSON.Result;
+
+            if (Result == 1) {
+                location.reload();
+            }
+            else {
+                alert(oJSON.Mensaje);
+            }
+        }).fail(function (error) {
+            alert(error);
+        });
+
+    }
+</script>

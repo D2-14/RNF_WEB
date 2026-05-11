@@ -1,0 +1,104 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+<script src="~/Scripts/jquery-3.6.0.js"></script>
+
+
+<script>
+
+    function GestBearer() {
+        var data = { Username: "rnf", Password: "NWJjEr9Q.3+w_rM=" };
+        var url = 'http://" + Constants.IP_FirmaElectronica + "/Api_RNF/api/login/authenticate';
+
+        $.post(url, data).done(function (Respuesta) {
+            //  here inicio
+
+            document.getElementById("Key").value = Respuesta;
+
+        }).fail(manejarErrorAjax).always(function () {
+            alert('fail');
+        });
+
+        return false;
+    }
+
+
+    function SubirDocumento() {
+        var data = { Username: "rnf", Password: "NWJjEr9Q.3+w_rM=" };
+        var url = 'http://" + Constants.IP_FirmaElectronica + "/Api_RNF/api/login/authenticate';
+
+        $.post(url, data).done(function (Respuesta) {
+            //  here inicio
+
+            document.getElementById("Key").value = Respuesta;
+
+        }).fail(manejarErrorAjax).always(function () {
+            alert('fail');
+        });
+
+        return false;
+    }
+
+
+    function SubirDocumebnto() {
+
+        var myHeaders = new Headers();
+
+        myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InJuZiIsIm5iZiI6MTY0NDg4MjMxOSwiZXhwIjoxNjQ0OTExMTE5LCJpYXQiOjE2NDQ4ODIzMTksImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjQ0MzAyIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMDIifQ.VdjmIQ0FtEw6VUWvEOZlh9kxj-Aq0e0hH8SYx9nywXg");
+
+        var formdata = new FormData();
+
+        var fileInput = document.getElementById('fileInput');
+
+        formdata.append("parentGoogleDriveId", "1tbsVY5xJOQYDWf00lJtYxG8keNlUeiGB");
+
+        for (i = 0; i < fileInput.files.length; i++) {
+            formdata.append(fileInput.files[i].name, fileInput.files[i]);
+        }
+
+        document.getElementById('fileInput').value = "";
+
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: formdata,
+            redirect: 'follow'
+        };
+
+        fetch("http://" + Constants.IP_FirmaElectronica +"/Api_RNF/api/GoogleDrive", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+
+
+    }
+
+</script>
+
+<body>
+    Test
+    <button onclick="GestBearer()">Prueba</button>
+    <input type="text" id="Key">
+
+    <form id="uploader">
+        <div class="row">
+            <div class="col-md-6">
+                <input type="file" id="fileInput" value="Seleccionar archivo" />
+                <input type="button" id="btsubir" onclick="SubirDocumento()" class="btn-next-ic"
+                       value="Subir archivo" />
+            </div>
+        </div>
+    </form>
+
+
+</body>
+
+
+
+
+

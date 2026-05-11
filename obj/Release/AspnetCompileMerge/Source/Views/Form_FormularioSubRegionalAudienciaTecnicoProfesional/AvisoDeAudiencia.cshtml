@@ -1,0 +1,198 @@
+﻿@using RNF_Web.Models;
+@model Tbl_Gest_EtapaSolicitud
+@{
+    Layout = null;
+    db_RNFEntities db = new db_RNFEntities();
+    long Solicitud_id = ViewBag.Solicitud_id;
+    string GuidEtapa_id = ViewBag.GuidEtapa_id;
+    string Guid_id = ViewBag.Guid_id;
+    int etapa_id = ViewBag.etapa_id;
+    decimal etaparuta_id = ViewBag.etaparuta_id;
+    int correlativoetapa_id = ViewBag.correlativoetapa_id;
+
+    Tbl_Sol_Solicitud tbl_Sol_Solicitud = db.Tbl_Sol_Solicitud.Find(Solicitud_id);
+    bool HabilitaBitacora = false;
+    if ((tbl_Sol_Solicitud.Bitacora_id != null) && (tbl_Sol_Solicitud.Bitacora_id != 0))
+    {
+        HabilitaBitacora = true;
+    }
+
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<script>
+
+
+
+    function generarBitacora() {
+        var div_AgregarHallazgos_RNF = document.getElementById('div_AgregarHallazgos_RNF');
+        if (div_AgregarHallazgos_RNF) {
+            $('#div_AgregarHallazgos_RNF').load('/RNF_Registro_Reasignacion/AgregarHallazgo?No_Registro=@tbl_Sol_Solicitud.No_Registro&Bitacora_id=@tbl_Sol_Solicitud.Bitacora_id');
+        }
+    }
+    function generarAudienciaTecnicoProfesional() {
+        var btnFirmarDocumento = document.getElementById('btnFirmarDocumento');
+        var GuidEtapa_id = '@GuidEtapa_id';
+        var Guid_id = '@Guid_id';
+        var etapa_id = '@etapa_id';
+        var etaparuta_id = '@etaparuta_id';
+        var correlativoetapa_id = '@correlativoetapa_id';
+
+        var data = {
+            GuidEtapa_id: GuidEtapa_id,
+            Guid_id: Guid_id,
+            etapa_id: etapa_id,
+            etaparuta_id: etaparuta_id,
+            correlativoetapa_id: correlativoetapa_id
+        };
+
+        var url = '@Url.Action("GenerarDocumentoAudiencia", "Form_FormularioSubRegionalAudienciaTecnicoProfesional")';
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            var oJSON = RespuestaJSON;
+            var Result = oJSON.Result;
+            var Mensaje = oJSON.Mensaje;
+
+            if (Result == 1) {
+                var Ubicacion = oJSON.Ubicacion;
+                btnFirmarDocumento.style.display = 'block';
+                window.open('/Archivos_Generados_Que_Pueden_Borrar/' + Ubicacion);
+            } else {
+                alert(Mensaje);
+            }
+
+        }).fail(function (ErrorJSON) {
+            console.log(ErrorJSON);
+        });
+
+    }
+
+
+
+    function fnc_EnviarRespuesta(varRespuestaid)
+    {
+        varsolicitud_id = '@Model.Solicitud_id';
+        varetapa_id = '@etapa_id';
+        varetaparuta_id = '@etaparuta_id';
+        varcorrelativoetapa_id = '@correlativoetapa_id';
+        varMotivo = $('#Motivo').val();
+        varEtapaSolicitud_GUIDid= '@GuidEtapa_id';
+
+
+        var url = "@Url.Action("ActualizaEtapaRespuestaIndexSolicitud", "Form_FormularioSubRegionalAudienciaTecnicoProfesional")";
+
+        var data = { solicitud_id: varsolicitud_id, etapa_id: varetapa_id, etaparuta_id: varetaparuta_id, correlativoetapa_id: varcorrelativoetapa_id, motivo: varMotivo, respuestaid: varRespuestaid, EtapaSolicitud_GUIDid: varEtapaSolicitud_GUIDid };
+        $.post(url, data).done(function (jsonRespuesta) {
+               var objJSON = JSON.parse(jsonRespuesta);
+               var Cod_Respuesta = objJSON.CodRespuesta;
+               var Texto_Respuesta = objJSON.strRespuesta;
+
+
+                if (Cod_Respuesta == 1) {
+                    window.location.replace("/Gest_EtapaSolicitud/Index");
+                } else
+                {
+
+                    $('#lblMeModelodelodelsaje').text(Texto_Respuesta);
+                    alert(Texto_Respuesta);
+
+                }
+
+           }).fail(manejarErrorAjax).always(function () {
+
+               alert('Error no identificado.');
+            });
+            return falsModel;
+
+    }
+
+     function FirmarDocumento() {
+
+        var TdHiddeA = document.getElementById("btnFirmarDocumento");
+            TdHiddeA.style.display = "none";
+
+
+        varFirmaElectronicaUsuario = $('#FirmaElectronicaUsuario').val();
+        varFirmaElectronicaPassword = $('#FirmaElectronicaPassword').val();
+
+        var data = {
+            Guid_id: '@Guid_id',
+            Guidetapa_id: '@GuidEtapa_id',
+            UsuarioFE: varFirmaElectronicaUsuario,
+            PasswordFE: varFirmaElectronicaPassword
+            };
+
+            var url = "@Url.Action("JsonProcesarFirmaElectronica", "Form_FormularioSubRegionalSolvenciaTecnicoProfesional")";
+             loaderPantalla(true);
+             $.post(url, data).done(function (jsonrespuesta) {
+             loaderPantalla(false);
+             var oJSON = JSON.parse(jsonrespuesta);
+             var NombreDocumento = oJSON.strRespuesta;
+             var CodigoRespuesta = oJSON.CodRespuesta;
+
+                if ((CodigoRespuesta == '0') || (CodigoRespuesta == 0))
+                {
+                    window.open("/Home/FalloFirmaElectronica?FalloFe=" + NombreDocumento, '_blank');
+                }
+                else
+                {
+                    window.open(NombreDocumento, '_blank');
+                    fnc_EnviarRespuesta(1);
+                }
+
+
+
+            });
+
+    }
+
+    $(document).ready(function () {
+        generarBitacora();
+    });
+
+
+</script>
+
+@if (HabilitaBitacora)
+{
+    <div id="div_AgregarHallazgos_RNF"></div>
+}
+
+
+<table>
+    <tr>
+        <th colspan="2">Datos para la firma electrónica:</th>
+    </tr>
+    <tr>
+        <td><br /></td>
+    </tr>
+    <tr>
+        <td width="20%">Usuario</td>
+        <td width="20%">
+            <input type="text" id="FirmaElectronicaUsuario" name="FirmaElectronicaUsuario" value="" />
+        </td>
+        <td width="20%">Password</td>
+        <td width="20%">
+            <input type="password" id="FirmaElectronicaPassword" name="FirmaElectronicaPassword" value="" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <br />
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <td>
+            <input type="button" class="btn btn-primary" value="Generar Aviso de Audiencia" onclick="generarAudienciaTecnicoProfesional()" />
+        </td>
+        <td>
+            <button class="btn btn-success" id="btnFirmarDocumento" name="btnFirmarDocumento" onclick="FirmarDocumento()" style="display:none;">Firmar Documento</button>
+        </td>
+    </tr>
+</table>

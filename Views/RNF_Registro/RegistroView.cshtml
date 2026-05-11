@@ -1,0 +1,914 @@
+﻿@using RNF_Web.Models;
+@model Tbl_RNF_Registro
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+
+    ViewBag.Title = "   Home page";
+
+    Layout = "~/Views/Shared/_LayoutSimpleSolicitud.cshtml";
+    //Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+
+    EdicionSolicitudGrants objGrant = (EdicionSolicitudGrants)Session[Constants.session_EdicionSolicitudGrants];
+    EdicionRNFGrants objRNFGrants = (EdicionRNFGrants)Session[Constants.session_EdicionRNFGrants];
+    ViewBag.Edicion = objGrant.boolEditarSolicitud;
+
+    string No_Registro = ViewBag.No_Registro;
+    ViewBag.Title = "Create";
+    long soltry = 0;
+    string registrotry = "";
+
+    if(No_Registro == null)
+    {
+        No_Registro = "";
+    }
+}
+
+<link href="~/Content/assets_section/style.css" rel="stylesheet" />
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#btnHideModal").click(function () {
+
+              $('#section_Link_II').load('@ViewBag.section_Link_II')
+              $('#section_Link_III').load('@ViewBag.section_Link_III')
+              $('#section_Link_IV').load('@ViewBag.section_Link_IV')
+              $('#section_Link_V').load('@ViewBag.section_Link_V')
+
+              $("#myModal").modal('hide');
+        });
+
+
+        $("#btnHideModal_Close").click(function () {
+
+
+              $('#section_Link_II').load('@ViewBag.section_Link_II')
+              $('#section_Link_III').load('@ViewBag.section_Link_III')
+              $('#section_Link_IV').load('@ViewBag.section_Link_IV')
+              $('#section_Link_V').load('@ViewBag.section_Link_V')
+
+
+                $("#myModal").modal('hide');
+        });
+
+
+        $('#myModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        })
+
+        $("#myModal").on('show.bs.modal', function () {
+            var modal = $(this)
+            modal.find('.modal-title').text(document.getElementById("Titulo").value);
+            modal.find('.h_iframe').html(document.getElementById("Pagina").value);
+        });
+    });
+
+
+    function Agregar_Finca() {
+        var Source = "/RNF_Finca/Create?No_Registro=@No_Registro";
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Agregar Finca';
+        $("#myModal").modal("show");
+
+    }
+
+    function Agregar_ViveroForestal(SolicitudId) {
+        var Source = "/Sol_Empresa_Entidad_ViveroForestal/Create?SolicitudId=" + SolicitudId;
+        console.log(Source);
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Agregar Vivero Forestal';
+        $("#myModal").modal("show");
+
+    }
+
+
+
+    function EliminarSolicitud(intEliminar) {
+        var Source = "/Home/EliminarSolicitud?intEliminar=" + intEliminar;
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Eliminar Solicitud';
+        $('#myModal').modal('show');
+
+    }
+
+
+    function EnviarSolicitud(intEnviar) {
+
+        var Source = "/Home/EnviarSolicitud?intEnviar=" + intEnviar;
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Enviar solicitud a análisis';
+        $("#myModal").modal("show");
+
+    }
+
+
+
+    function Editar_PropietarioIndividual(No_Regsitro, varPersonaJuridica_Id)
+    {
+        var Source = "/RNF_PropietarioPersonaIndividual/Edit?No_Registro=" + No_Regsitro + "&personaIndividual_id=" + varPersonaJuridica_Id;
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Editar propietario individual';
+        $("#myModal").modal("show");
+
+    }
+
+
+    function Editar_RepresentanteLegal(varSolicitud_id, varRepresentanteLegal_id) {
+        var Source = "/Sol_RepresentanteLegal/Edit?solicitud_id=" + varSolicitud_id + "&RepresentanteLegal_id=" + varRepresentanteLegal_id;
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Editar representante individual';
+        $("#myModal").modal("show");
+
+    }
+
+    function Editar_Rodal(varURL) {
+
+        var Source = varURL;
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Editar datos del Rodal';
+        $("#myModal").modal("show");
+    }
+
+
+    function Editar_Finca(varNoRegistro, varFinca_id) {
+        var Source = "/RNF_Finca/Edit?No_Registro=" + varNoRegistro + "&fincaId=" + varFinca_id;
+        /*  Aquí estamos*/
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Editar datos de la finca';
+        $("#myModal").modal("show");
+    }
+
+    function Editar_FormulaDasometrica(varRodalDasometricoEspecieFormula_Id, varEspecie_id) {
+
+        var Source = "/Sol_Rodal_Dasometrico_Especie_Formula/Edit?rodalDasometricoEspecieFormula_Id=" + varRodalDasometricoEspecieFormula_Id + "&especie_id=" + varEspecie_id;
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Editar datos de la formula';
+        $("#myModal").modal("show");
+    }
+
+    function Editar_Dasometrico(varRodal_Id, varDasometrico_id) {
+
+        var Source = "/Sol_Rodal_Dasometrico/Edit?rodal_id=" + varRodal_Id + "&dasometrico_id=" + varDasometrico_id;
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Editar datos de la formula';
+        $("#myModal").modal("show");
+    }
+
+
+    function AgregarPoligonos() {
+        @* '/Sol_Rodal/UploadExcel?Rodal_id=@Model.Rodal_Id' *@
+
+        var Source = "/Sol_Rodal/UploadExcelAreas";
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Carga de polígonos';
+        $("#myModal").modal("show");
+
+    }
+
+    function AgregarPoligonoDescuento() {
+        @* '/Sol_Rodal/UploadExcel?Rodal_id=@Model.Rodal_Id' *@
+
+        var Source = "/Sol_Rodal/UploadExcelAreasDescuento";
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Carga de polígonos de descuento';
+        $("#myModal").modal("show");
+
+    }
+
+    function AgregarPoligonosDaso() {
+        @* '/Sol_Rodal/UploadExcel?Rodal_id=@Model.Rodal_Id' *@
+
+        var Source = "/Sol_Rodal/UploadDatosDasometricos";
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '"></iframe>';
+        document.getElementById("Titulo").value = 'Carga de datos dasométricos';
+        $("#myModal").modal("show");
+
+    }
+
+
+    function AgregarPoligonos()
+    {
+
+        var Source = "/Sol_Rodal/UploadExcel";
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Carga de áreas';
+        $("#myModal").modal("show");
+
+    }
+
+
+    function Borrar_Dasometrico(varRodal_Id, varDasometrico_id) {
+
+            var Source = "/Sol_Rodal_Dasometrico/Borrar?rodalDasometricoEspecieFormula_Id=" + varRodalDasometricoEspecieFormula_Id + "&especie_id=" + varEspecie_id;
+
+            document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+            document.getElementById("Titulo").value = 'Editar datos de la formula';
+            $("#myModal").modal("show");
+    }
+
+    function Borrar_FormulaDasometrica(varRodalDasometricoEspecieFormula_Id, varEspecie_id) {
+
+        alert('asdf');
+        var Source = "/Sol_Rodal_Dasometrico_Especie_Formula/Borrar?rodalDasometricoEspecieFormula_Id=" + varRodalDasometricoEspecieFormula_Id + "&especie_id=" + varEspecie_id;
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Editar datos de la formula';
+        $("#myModal").modal("show");
+    }
+
+
+    function Borrar_Rodal(varRodal_id) {
+
+
+        var Source = "/Sol_Rodal/Borrar?varRodalid=" + varRodal_id;
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Borrar rodal';
+        $("#myModal").modal("show");
+    }
+
+
+    function Borrar_Finca(noRegistro,varFinca_id) {
+        var Source = "/RNF_Finca/Borrar?No_Registro=" + noRegistro + "&fincaId=" + varFinca_id;
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Borrar datos de la finca';
+        $("#myModal").modal("show");
+    }
+
+
+    function Editar_Arbol(varRodal_id, varArbol_id)
+    {
+        var Source = "/Sol_Rodal_Inventario/Edit?varRodalid=" + varRodal_id + "&varArbolid=" + varArbol_id;
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Editar datos de árbol';
+        $("#myModal").modal("show");
+    }
+
+
+    function Borrar_Arbol(varRodal_id, varArbol_id) {
+        var Source = "/Sol_Rodal_Inventario/Borrar?varRodalid=" + varRodal_id + "&varArbolid=" + varArbol_id;
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Editar datos de árbol';
+        $("#myModal").modal("show");
+    }
+
+
+
+    function Editar_PropietarioJuridico(varSolicitud_id, varPersonaJuridica_Id) {
+        var Source = "/RNF_PropietarioPersonaJuridica/Edit?No_Registro=" + varSolicitud_id + "&personaJuridica_id=" + varPersonaJuridica_Id;
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Editar propietario jurídico';
+        $("#myModal").modal("show");
+
+    }
+
+
+
+    function Eliminar_PropietarioIndividual(varSolicitud_id, varPersonaJuridica_Id) {
+        var Source = "/RNF_PropietarioPersonaIndividual/Eliminar?No_Registro=" + varSolicitud_id + "&personaIndividual_id=" + varPersonaJuridica_Id;
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Editar propietario individual';
+        $("#myModal").modal("show");
+
+
+    }
+
+
+    function Eliminar_RepresentanteLegal(varSolicitud_id, varRepresentanteLegal_id)
+    {
+
+        var Source = "/Sol_RepresentanteLegal/Eliminar?solicitud_id=" + varSolicitud_id + "&RepresentanteLegal_id=" + varRepresentanteLegal_id;
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Editar propietario individual';
+        $("#myModal").modal("show");
+    }
+
+    function Eliminar_PropietarioJuridico(varSolicitud_id, varPersonaJuridica_Id) {
+        var Source = "/RNF_PropietarioPersonaJuridica/Eliminar?No_Registro=" + varSolicitud_id + "&personaJuridica_id=" + varPersonaJuridica_Id;
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Editar propietario jurídico';
+        $("#myModal").modal("show");
+
+    }
+
+
+    function Editar_ArrendatarioIndividual(varSolicitud_id, varPersonaJuridica_Id) {
+        var Source = "/Sol_ArrendatarioPersonaIndividual/Edit?solicitud_id=" + varSolicitud_id + "&personaIndividual_id=" + varPersonaJuridica_Id;
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Editar propietario individual';
+        $("#myModal").modal("show");
+
+    }
+
+    function Editar_ArrendatarioJuridico(varSolicitud_id, varPersonaJuridica_Id) {
+        var Source = "/Sol_ArrendatarioPersonaJuridica/Edit?solicitud_id=" + varSolicitud_id + "&personaJuridica_id=" + varPersonaJuridica_Id;
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Editar propietario jurídico';
+        $("#myModal").modal("show");
+
+    }
+
+    function Eliminar_ArrendatarioIndividual(varSolicitud_id, varPersonaJuridica_Id) {
+        var Source = "/Sol_ArrendatarioPersonaIndividual/Eliminar?solicitud_id=" + varSolicitud_id + "&personaIndividual_id=" + varPersonaJuridica_Id;
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Editar propietario individual';
+        $("#myModal").modal("show");
+
+
+    }
+
+    function Eliminar_ArrendatarioJuridico(varSolicitud_id, varPersonaJuridica_Id) {
+        var Source = "/Sol_ArrendatarioPersonaJuridica/Eliminar?solicitud_id=" + varSolicitud_id + "&personaJuridica_id=" + varPersonaJuridica_Id;
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Editar propietario jurídico';
+        $("#myModal").modal("show");
+
+    }
+
+
+
+    function Agregar_FormulaDasometrica() {
+        var Source = "/Sol_Rodal_Dasometrico_Especie_Formula/Create";
+
+            document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+            document.getElementById("Titulo").value = 'Agregar formula utilizada';
+            $("#myModal").modal("show");
+    }
+
+
+    function Agregar_Rodal() {
+        var Source = "/Sol_Rodal/Create";
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Agregar área';
+        $("#myModal").modal("show");
+    }
+
+
+    function Agregar_Arbol() {
+
+        var Source = "/Sol_Rodal_Inventario/Create";
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Agregar Arbol';
+        $("#myModal").modal("show");
+    }
+
+    function Agregar_RodalDasometricos() {
+        var Source = "/Sol_Rodal_Dasometrico/Create";
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Agregar Datos Dasometricos';
+        $("#myModal").modal("show");
+    }
+
+
+    function Agregarme_Como_Arrendatario(varSolicitudId, varTipo) {
+        if (document.getElementById('PersoneriaArrendatario')) {
+            var e = document.getElementById("PersoneriaArrendatario");
+
+            if (e.value == 1) {
+
+                $.ajax({
+                    type: 'POST',
+                    url: "@(Url.Action("AgregarmeComoArrendatarioRepresentante", "Home"))",
+                    dataType: 'json',
+                    data: { tipo: varTipo},
+                    success: function (doc) {
+
+                        $('#section_Link_II').load('@ViewBag.section_Link_II')
+                        $('#section_Link_III').load('@ViewBag.section_Link_III')
+                        $('#section_Link_IV').load('@ViewBag.section_Link_IV')
+                        $('#section_Link_V').load('@ViewBag.section_Link_V')
+                    },
+                    error: function (ex) {
+                        alert('Ocurrio un error aqui. ' + ex.status);
+                    }
+
+                });
+            }
+            else {
+                Agregar_Arrendatario()
+            }
+        }
+        else
+        {
+                $.ajax({
+                    type: 'POST',
+                    url: "@(Url.Action("AgregarmeComoArrendatarioRepresentante", "Home"))",
+                    dataType: 'json',
+                    data: { tipo: varTipo },
+                    success: function (doc) {
+
+                        $('#section_Link_II').load('@ViewBag.section_Link_II')
+                        $('#section_Link_III').load('@ViewBag.section_Link_III')
+                        $('#section_Link_IV').load('@ViewBag.section_Link_IV')
+                        $('#section_Link_V').load('@ViewBag.section_Link_V')
+                    },
+                    error: function (ex) {
+                        alert('Ocurrio un error aqui. ' + ex.status);
+                    }
+
+                });
+        }
+
+        return false;
+    }
+
+    function Agregar_Arrendatario() {
+        var e = document.getElementById("PersoneriaArrendatario");
+
+        if (e.value == 0) {
+            alert("Debe indicar el tipo de arrendatario a agregar.");
+        }
+
+        if (e.value == 1) {
+
+            var Source = "/Sol_ArrendatarioPersonaIndividual/Create";
+
+            document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+            document.getElementById("Titulo").value = 'Agregar Arrendatario';
+            $("#myModal").modal("show");
+        }
+
+        if (e.value == 2) {
+
+            var Source = "/Sol_ArrendatarioPersonaJuridica/Create";
+
+            document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+            document.getElementById("Titulo").value = 'Agregar Arrendatario';
+            $("#myModal").modal("show");
+
+        }
+
+    }
+
+
+    function Agregar_Propietario(No_Registro) {
+
+        if (No_Registro == null) {
+            return;
+        }
+
+        var e = document.getElementById("Personeria");
+
+        if (e.value == 0) {
+            alert("Debe indicar el tipo de propietario a agregar.");
+        }
+
+        if (e.value == 1) {
+
+            var Source = "/RNF_PropietarioPersonaIndividual/Create?No_Registro=" + No_Registro;
+
+            document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+            document.getElementById("Titulo").value = 'Agregar Propietario';
+            $("#myModal").modal("show");
+        }
+
+        if (e.value == 2) {
+
+            var Source = "/RNF_PropietarioPersonaJuridica/Create?No_Registro=" + No_Registro;
+
+            document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+            document.getElementById("Titulo").value = 'Agregar Propietario';
+            $("#myModal").modal("show");
+
+        }
+
+    }
+
+    function Agregarme_Como_PropietarioRepresentante(varSolicitudId, varTipo) {
+        if (document.getElementById('Personeria')) {
+            var e = document.getElementById("Personeria");
+            Agregar_Propietario(varSolicitudId);
+
+            @*if (e.value == 1) {
+
+                $.ajax({
+                    type: 'POST',
+                    url: "@(Url.Action("AgregarmeComoPropietarioRepresentante", "Home"))",
+                    dataType: 'json',
+                    data: { tipo: varTipo},
+                    success: function (doc) {
+
+                        if (varTipo != 1) {
+                            Editar_RepresentanteLegal(varSolicitudId, doc)
+                        }
+                        else
+                        {
+                            $('#section_Link_II').load('@ViewBag.section_Link_II')
+                            $('#section_Link_III').load('@ViewBag.section_Link_III')
+                            $('#section_Link_IV').load('@ViewBag.section_Link_IV')
+                            $('#section_Link_V').load('@ViewBag.section_Link_V')
+                        }
+                    },
+                    error: function (ex) {
+                        alert('Ocurrio un error aqui. ' + ex.status);
+                    }
+
+                });
+            }
+            else {
+                Agregar_Propietario()
+            }*@
+        }
+        else
+        {
+                $.ajax({
+                    type: 'POST',
+                    url: "@(Url.Action("AgregarmeComoPropietarioRepresentante", "Home"))",
+                    dataType: 'json',
+                    data: { tipo: varTipo },
+                    success: function (doc) {
+
+                        if (varTipo != 1) {
+                            Editar_RepresentanteLegal(varSolicitudId, doc)
+                        }
+                        else
+                        {
+                            $('#section_Link_II').load('@ViewBag.section_Link_II')
+                            $('#section_Link_III').load('@ViewBag.section_Link_III')
+                            $('#section_Link_IV').load('@ViewBag.section_Link_IV')
+                            $('#section_Link_V').load('@ViewBag.section_Link_V')
+                        }
+                    },
+                    error: function (ex) {
+                        alert('Ocurrio un error aqui. ' + ex.status);
+                    }
+
+                });
+        }
+
+            return false;
+        }
+
+
+    function Agregar_Mandatario(No_Registro) {
+        var Source = "/Sol_RepresentanteLegal/Create";
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Agregar Representante Legal';
+        $("#myModal").modal("show");
+    }
+
+
+
+    function Agregar_MandatarioM() {
+        var Source = "/Sol_RepresentanteLegal/CreateM";
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Agregar Mandatario';
+        $("#myModal").modal("show");
+    }
+
+
+    function ExportarExcel() {
+            $.ajax({
+                type: 'POST',
+                url: "@(Url.Action("ExportarExcel", "Home"))",
+                     dataType: 'json',
+                data: {},
+                   success: function (doc) {
+
+                       window.location = "/Documentos/" + doc;
+
+                    },
+                    error: function (ex) {
+                        alert('Ocurrio un error aqui. ' + ex.status);
+                    }
+
+                });
+            return false;
+        }
+
+
+    function EnviarSolicitud_Evaluacion(strSolicitud) {
+            $.ajax({
+                type: 'POST',
+                url: "@(Url.Action("EnviarSolicitud_Evaluacion", "Home"))",
+                     dataType: 'json',
+                data: { strSolicitud_id: strSolicitud},
+                   success: function (doc) {
+                       alert(doc);
+                    },
+                    error: function (ex) {
+                        alert('Ocurrio un error aqui. ' + ex.status);
+                    }
+
+                });
+            return false;
+        }
+
+
+    function ExportarPDF() {
+            $.ajax({
+                type: 'POST',
+                url: "@(Url.Action("ExportToPDF", "Home"))",
+                     dataType: 'json',
+                data: {},
+                   success: function (doc) {
+
+                       //window.location = "/Documentos/" + doc;
+                       window.open('/Documentos/' + doc, '_blank');
+                    },
+                    error: function (ex) {
+                        alert('Ocurrio un error aqui. ' + ex.status);
+                    }
+
+                });
+            return false;
+        }
+
+
+
+
+    function RevisarPDF() {
+            $.ajax({
+                type: 'POST',
+                url: "@(Url.Action("RevisarToPDF", "Home"))",
+                     dataType: 'json',
+                data: {},
+                   success: function (doc) {
+
+                       window.open('/Documentos/' + doc, '_blank');
+
+                    },
+                    error: function (ex) {
+                        alert('Ocurrio un error aqui. ' + ex.status);
+                    }
+
+                });
+            return false;
+        }
+
+
+    function procesoInactivacion() {
+        loaderPantalla(true);
+        var var_motivoInactivacion = document.getElementById("motivoInactivacion");
+        var motivoInactivacion = var_motivoInactivacion.value;
+        var Solicitud_id = '@soltry';
+        var No_Registro = '@registrotry';
+        var var_TipoInactivacion_id = document.getElementById("TipoInactivacion_id");
+        var TipoInactivacion_id = var_TipoInactivacion_id.value;
+        var url = "@Url.Action("GrabarMotivoInactivacion", "Sol_Solicitud_Inactivacion")";
+
+        setTimeout(function () {
+
+            motivoInactivacion = motivoInactivacion.trim();
+
+            if (TipoInactivacion_id == 0) {
+                alert("Debe seleccionar el tipo de inactivación");
+                return;
+            }
+
+            if ((motivoInactivacion == null) || (motivoInactivacion == "")) {
+                alert("El motivo de Inactivación no puede quedarse en blanco");
+                document.getElementById("motivoInactivacion").value = "";
+                loaderPantalla(false);
+            } else {
+                var confirmarInactivacion = confirm("¿Está seguro de que desea realizar la inactivación del registro " + No_Registro + " ?");
+                if (confirmarInactivacion) {
+
+                    var data = {
+                        Descripcion_Inactivacion: motivoInactivacion,
+                        Solicitud_id: Solicitud_id,
+                        TipoInactivacion_id: TipoInactivacion_id
+                    };
+
+                    $.post(url, data).done(function (jsonRespuesta) {
+                        var oJSON = JSON.parse(jsonRespuesta);
+                        var ubicacion = oJSON.ubicacion;
+                        // window.open(ubicacion, '_blank');
+                        download(ubicacion, "FormularioInactivacion.pdf")
+
+                        loaderPantalla(false);
+                    }).fail(function (jsonRespuesta) {
+                        var oJSON = JSON.parse(jsonRespuesta);
+                        loaderPantalla(false);
+                        alert("Algo salió mal");
+                    });
+
+                } else {
+                    loaderPantalla(false);
+                    alert("Se ha cancelado el proceso de inactivación para el registro " + No_Registro);
+                    document.getElementById("motivoInactivacion").value = "";
+                }
+            }
+
+
+        }, 2000);
+
+    }
+
+    function eliminarMotosierraMarcaModelo(Solicitud_id, Motosierra_id) {
+
+        loaderPantalla(true);
+        var url = "@Url.Action("EliminarMotosierraMarcaModelo", "Sol_Motosierra_MarcaModelo")";
+
+        var data = {
+            Solicitud_id: Solicitud_id,
+            Motosierra_id: Motosierra_id
+        };
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+            var CodRespuesta = oJSON.CodRespuesta;
+            var strRespuesta = oJSON.strRespuesta;
+            loaderPantalla(false);
+            if (CodRespuesta != 1) {
+                alert(strRespuesta);
+            } else {
+                refreshViewMotosierraMarcaModelo();
+            }
+
+        }).fail(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+            loaderPantalla(false);
+            alert("Algo salió mal");
+        });
+
+    }
+
+</script>
+
+
+<style>
+
+    .h_iframe iframe {
+        width: 100%;
+        min-height: 900px;
+    }
+
+    .h_iframe {
+        min-height: 900px;
+        width: 100%;
+    }
+</style>
+
+<div class="wizard-page-content">
+
+    <div class="wizard-v10-content">
+        <div class="wizard-form">
+            <div class="wizard-header">
+                <h3>Registro Nacional Forestal</h3>
+            </div>
+
+            <div class="col-sm-12 col-md-12" align="right">
+
+                @*@if (ViewBag.EnviaraEvaluacion == 1 && ViewBag.Edicion == true)
+                    {
+                        <button id="myBtnenviar" class="closing" onclick="EnviarSolicitud_Evaluacion(@ViewBag.lngSolicitud)"><img src="~/Content/icons/enviar.png" height="50" /></button>
+                    }*@
+                &nbsp;&nbsp;
+            </div>
+
+
+            <form class="form-register" action="#" method="post">
+                <div id="form-total">
+                    <h2>0</h2>
+                    <section>
+                        <div class="col-md-12">
+                            <div id="section_Link_0"></div>
+                        </div>
+                    </section>
+                    <h2>1</h2>
+                    <section>
+                        <div class="col-md-12">
+                            <div id="section_Link_I"></div>
+                        </div>
+                    </section>
+
+                    @if (ViewBag.section_II == true)
+                    {
+                        <h2>2</h2>
+                        <section>
+                            <div class="col-md-12">
+                                <div id="section_Link_II"></div>
+                            </div>
+                        </section>
+                    }
+
+                    @if (ViewBag.section_III == true)
+                    {
+                        <h2>3</h2>
+                        <section>
+                            <div class="col-md-12">
+                                <div id="section_Link_III"></div>
+                            </div>
+                        </section>
+                    }
+
+                    @if (ViewBag.section_IV == true)
+                    {
+                        <h2>4</h2>
+                        <section>
+                            <div class="col-md-12">
+                                <div id="section_Link_IV"></div>
+                            </div>
+                        </section>
+                    }
+
+                    @if (ViewBag.section_V == true)
+                    {
+                        <h2>5</h2>
+                        <section>
+                            <div class="col-md-12">
+                                <div id="section_Link_V"></div>
+                            </div>
+                        </section>
+                    }
+
+                    @if (ViewBag.section_VI == true)
+                    {
+                        <h2>6</h2>
+                        <section>
+                            <div class="col-md-12">
+                                <div id="section_Link_VI"></div>
+                            </div>
+                        </section>
+                    }
+                </div>
+
+                <input type="hidden" id="Pagina" name="Pagina" value="">
+                <input type="hidden" id="Titulo" name="Titulo" value="">
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="btnHideModal" class="btn btn-default" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <div class="h_iframe">
+                </div>
+            </div>
+            <div id="DatosPersonerias"></div>
+            <div class="modal-footer">
+                <button type="button" id="btnHideModal_Close" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Content/assets_section/js/jquery.steps.js"></script>
+<script src="~/Content/assets_section/js/main.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#section_Link_0').load('@Html.Raw(ViewBag.section_Link_0)')
+
+        $('#section_Link_I').load('@Html.Raw(ViewBag.section_Link_I)')
+
+        $('#section_Link_II').load('@Html.Raw(ViewBag.section_Link_II)')
+
+        $('#section_Link_III').load('@Html.Raw(ViewBag.section_Link_III)')
+
+        $('#section_Link_IV').load('@Html.Raw(ViewBag.section_Link_IV)')
+
+        $('#section_Link_V').load('@Html.Raw(ViewBag.section_Link_V)')
+
+        $('#section_Link_VI').load('@Html.Raw(ViewBag.section_Link_VI)')
+
+        document.getElementById('@ViewBag.CurrentStep').click();
+
+});
+
+</script>
+

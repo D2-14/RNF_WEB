@@ -1,0 +1,72 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Sol_Empresa_Entidad_TecnicoMaquinaria_Utilizada>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    Layout = null;
+    ViewBag.Title = "Maquinaria Utilizada";
+    ViewBag.SubTitle = "Listado de Maquinaria Utilizada";
+
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_Sol_Solicitud tbl_sol_solicitud = db.Tbl_Sol_Solicitud.Find(Session[Constants.session_Solicitud]);
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    controllerName = "Sol_Empresa_Entidad";
+    string Nombre_Div = "div_Sol_Permisos_Empresa_Entidad_Materia_Prima_Index";
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+    fc_Gral_Sol_Configuracion_Result permisos = db.fc_Gral_Sol_Configuracion(tbl_sol_solicitud.Solicitud_id, controllerName, boolEsInterno).FirstOrDefault();
+    ViewBag.Maquinaria_Utilizada = db.Tbl_Sol_Empresa_Entidad_Maquinaria_Utilizada.Where(Obj => Obj.Solicitud_id == tbl_sol_solicitud.Solicitud_id).ToList();
+
+}
+
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            Indicados por el usuario
+        </th>
+        <th>Indicados por el técnico</th>
+    </tr>
+    <tr>
+        <td>
+            <table>
+                @foreach (Tbl_Sol_Empresa_Entidad_Maquinaria_Utilizada itemA in ViewBag.Maquinaria_Utilizada)
+                {
+                    <tr>
+                        <td>
+                            @itemA.Tbl_Gral_Maquinaria_Utilizada.Nombre_Tecnico
+                        </td>
+                    </tr>
+                }
+            </table>
+        </td>
+        <td>
+            <table>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tbl_Gral_Maquinaria_Utilizada.Nombre_Tecnico)
+                        </td>
+                        <td>
+                            @if ((bool)permisos.Borrar)
+                            {
+                                <img src="~/Content/icons/trash_green.png" onclick="Borrar_MaquinariaUtilizada(@item.Solicitud_id, @item.Maquinaria_Utilizada_id,)" width="25" height="25" />
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
+        </td>
+    </tr>
+</table>
+

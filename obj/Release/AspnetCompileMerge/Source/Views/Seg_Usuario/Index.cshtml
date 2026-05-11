@@ -1,0 +1,132 @@
+﻿@using RNF_Web.Models;
+@using PagedList;
+@using PagedList.Mvc;
+@model PagedList<Tbl_Seg_Usuario>
+@*@model IEnumerable<RNF_Web.Models.Tbl_Seg_Usuario>*@
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    ViewBag.Title = "Usuarios";
+    ViewBag.SubTitle = "Listado de Usuarios";
+
+    string SortOrder = ViewBag.CurrentSort;
+    string strNombre = "Nombre";
+    string stremail = "Correo";
+    string strFlechas = " ▼▲";
+    string vbNombre = ViewBag.Nombre;
+    string vbemail = ViewBag.email;
+    string vbidx = ViewBag.idx;
+
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+}
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+@Html.Partial("_PartialPageEncabezado")
+<br />
+<button class="btn-secondary" style="position: absolute; right: 0;" rel="tooltip" title="Agregar" onclick="location.href='@Url.Action("Create", "Seg_Usuario")'">
+    <i><img src="~/Content/icons/add-user-9-xxl.png" style="border-radius: 30%; width: 35px; height: auto" /></i>
+    <div class="ripple-container"></div>
+</button>
+
+<br />
+<br />
+
+
+@using (Html.BeginForm(actionName, controllerName, FormMethod.Get))
+{
+    <br />
+    <table>
+        <tr>
+            <td>
+                Nombre/Apellido/Correo :
+            </td>
+            <td>
+                <input type="text" name="idx" id="idx" value="@vbidx" />
+            </td>
+            <td>
+                <input type="submit" value="Buscar" />
+            </td>
+        </tr>
+    </table>
+    <br />
+}
+
+<table class="table" width="100%">
+    <tr>
+        <th align="left">
+            @Html.ActionLink(strNombre, actionName, new { sortOrder = vbNombre, idx = vbidx })
+            @if ((SortOrder == "Nombre") || (SortOrder == "nombre_desc"))
+            {
+                @Html.Raw(strFlechas);
+            }
+        </th>
+        <th align="left">
+            @Html.ActionLink(stremail, actionName, new { sortOrder = vbemail, idx = vbidx })
+            @if ((SortOrder == "email") || (SortOrder == "email_desc"))
+            {
+                @Html.Raw(strFlechas);
+            }
+        </th>
+        <th align="left">
+            Estado
+        </th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)   @Html.DisplayFor(modelItem => item.Apellidos)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.email)
+            </td>
+            <td>
+                @if (item.Estado)
+                {
+                    <input type="checkbox" id="Estado" name="Estado" value="Activo" checked disabled>
+                }
+                else
+                {
+                    <input type="checkbox" id="Estado" name="Estado" value="Inactivo" disabled>
+                }
+
+
+            </td>
+            <td>
+                @foreach (var itemA in item.Tbl_Seg_UsuarioRol.Where(Obj => Obj.Estado_id == 1))
+                {
+                    <label>@itemA.Tbl_Seg_Rol.Nombre &nbsp;&nbsp;&nbsp;</label>
+                    <br />
+                }
+            </td>
+            <td>
+                @foreach (var itemB in item.Tbl_Seg_UsuarioSubRegion.Where(Obj => Obj.Estado_id == 1))
+                {
+                    <label>@itemB.Tbl_Gral_SubRegion.No_SubRegion&nbsp;&nbsp;@itemB.Tbl_Gral_SubRegion.Tbl_Gral_Region.Nombre_RegionCompleto &nbsp;&nbsp; @itemB.Tbl_Gral_SubRegion.Nombre_SubRegionCompleto &nbsp;&nbsp;&nbsp;</label>
+                    <br />
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.Usuario_id })
+            </td>
+        </tr>
+    }
+
+</table>
+<div class="card-content table-responsive" align="center">
+    <p>Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount</p>
+    @Html.PagedListPager(Model, page => Url.Action(actionName, new { page, sortOrder = ViewBag.CurrentSort, idx = vbidx }))
+</div>
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+

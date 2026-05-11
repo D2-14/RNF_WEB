@@ -1,0 +1,129 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Sol_RepresentanteLegal>
+@using RNF_Web.Models;
+@using System.Data.SqlClient;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+@{
+
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_Sol_Solicitud tbl_sol_solicitud = db.Tbl_Sol_Solicitud.Find(Session[Constants.session_Solicitud]);
+    ViewBag.Estado = tbl_sol_solicitud.Estado_id;
+
+
+    ViewBag.PropietarioIndividual = db.Tbl_Sol_PropietarioPersonaIndividual.Where(obj => obj.Solicitud_id == tbl_sol_solicitud.Solicitud_id && obj.Estado_id == true).Count();
+
+    ViewBag.PropietarioJuridico = db.Tbl_Sol_PropietarioPersonaJuridica.Where(obj => obj.Solicitud_id == tbl_sol_solicitud.Solicitud_id && obj.Estado_id == true).Count();
+
+
+}
+
+
+
+<div class="container-fluid">
+
+
+    <div class="titulo-dos">
+        <h4 id="Titulo">Datos del mandatario</h4>
+    </div>
+    <br />
+
+    @if ((ViewBag.Estado == 0) || (ViewBag.Estado == 4))
+    {
+        <div class="row">
+            <div class="col-md-6">
+
+            </div>
+            <div class="col">
+                <div class="d-grid gap-2">
+                    <button class="btn-next-ic" onclick="Agregar_MandatarioM(); return false;">
+                        <i class="fa in fa-plus-circle" aria-hidden="true"></i><br />Agregar Mandatario
+                    </button>
+                </div>
+            </div>
+            <div class="col">
+
+            </div>
+        </div>
+    }
+
+    <div class="col-sm-6 col-md-12">
+        <table class="table">
+            <tr>
+                <th scope="col">
+                    Tipo
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.Nombres)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.Apellidos)
+                </th>
+                <th scope="col">
+                    Fecha de fin de nombramiento
+                </th>
+                <th scope="col">
+                    Vigencia indefinida
+                </th>
+                <th scope="col">
+                    Estado
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tbl_Sol_RepresentanteLegalTipo.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombres)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Apellidos)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fecha_FinNombramiento)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VigenciaIndefinida)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tbl_Sol_RepresentanteLegal_Estado.Descripcion)
+                    </td>
+                    <td>
+
+                        @if ((ViewBag.Estado == 0) || (ViewBag.Estado == 4))
+                        {
+                            <div class="div-icons-table" onclick="Editar_RepresentanteLegal(@item.Solicitud_id, @item.RepresentanteLegal_id)">
+                                <i class="fa in fa-edit" aria-hidden="true"></i>
+                            </div>
+                        }
+                    </td>
+                    <td>
+                        @if ((ViewBag.Estado == 0) || (ViewBag.Estado == 4))
+                        {
+
+                            <div class="div-icons-table" onclick="Eliminar_RepresentanteLegal(@item.Solicitud_id, @item.RepresentanteLegal_id)">
+                                <i class="fa in fa-trash-o" aria-hidden="true"></i>
+                            </div>
+
+                        }
+                    </td>
+
+                </tr>
+            }
+
+        </table>
+
+    </div>
+</div>
+
+
+
+

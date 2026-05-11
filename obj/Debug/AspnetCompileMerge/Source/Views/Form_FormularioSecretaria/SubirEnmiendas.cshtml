@@ -1,0 +1,15 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+<div id="UploadEnmienda"> </div>
+
+<script>
+    $(document).ready(function () {
+        $('#UploadEnmienda').load('/UploadFiles/UploadedEnmiendas?Guid_id=' + '@ViewBag.Guid_id');
+    });
+</script>

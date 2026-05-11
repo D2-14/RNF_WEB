@@ -1,0 +1,97 @@
+﻿@using RNF_Web.Models;
+@model RNF_Web.Models.Tbl_RNF_Registro_Bitacora
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    Layout = "~/Views/Shared/_LayoutMoreSimple.cshtml";
+    db_RNFEntities db = new db_RNFEntities();
+    string No_Registro = ViewBag.No_Registro;
+    Tbl_RNF_Registro tbl_RNF_Registro = db.Tbl_RNF_Registro.Where(Obj => Obj.No_Registro == No_Registro).FirstOrDefault();
+
+}
+
+@if(Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<script>
+    function Cambiar_Estado() {
+        var No_Registro = '@tbl_RNF_Registro.No_Registro'
+        var Estado_id = document.getElementById("Estado_id").value;
+        var Motivo = document.getElementById("Motivo").value;
+        var data = {
+            No_Registro: No_Registro,
+            Estado_id: Estado_id,
+            Motivo: Motivo
+        };
+
+        console.log(data);
+
+        var url = '@Url.Action("CambiarEstadoRegistro", "RNF_Registro_Reasignacion")'
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            console.log(RespuestaJSON);
+            var oJSON = RespuestaJSON;
+            var Result = oJSON.Result;
+            var Mensaje = oJSON.Mensaje;
+            //alert(Mensaje);
+            if (Result == 1) {
+                window.open('@Url.Action("RegistroAgregado","Home")', '_self');
+                //location.replace('@Url.Action("RegistroAgregado","Home")')
+            } else {
+                alert(Mensaje);
+            }
+        }).fail(function (ErrorJSON) {
+            console.log(ErrorJSON);
+        })
+
+    }
+
+</script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.No_Registro)
+    @Html.HiddenFor(model => model.No_RegistroLiteral)
+    @Html.HiddenFor(model => model.No_RegistroCorrelativo)
+    @Html.HiddenFor(model => model.Solicitud_id)
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <h4>Agregar bitácora</h4>
+    <hr />
+
+    <table class="table">
+        <tr>
+            <td>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Estado_id, "Estado", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("Estado_id", null, htmlAttributes: new { @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.Estado_id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Motivo, "Descripción del Caso", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <textarea id="Motivo" name="Motivo" placeholder="Justificación de bitácora" cols="30" rows="5" class="form-control"></textarea>
+                        @Html.ValidationMessageFor(model => model.Motivo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" id="GrabarCambio" name="GrabarCambio" value="Grabar Registro de Bitácora" class="btn btn-success" onclick="Cambiar_Estado()" />
+                    </div>
+                </div>
+            </td>
+            <td></td>
+        </tr>
+    </table>
+}
+

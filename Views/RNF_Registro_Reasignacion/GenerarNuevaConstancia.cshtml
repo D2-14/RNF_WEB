@@ -1,0 +1,121 @@
+﻿@using RNF_Web.Models;
+@model Tbl_RNF_Registro
+
+@{
+    Layout = null;
+    Layout = "~/Views/Shared/_LayoutMoreSimple.cshtml";
+    ViewBag.Title = "Regiones";
+    ViewBag.SubTitle = "Listado de regiones";
+    db_RNFEntities db = new db_RNFEntities();
+
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<script>
+    function FirmarDocumento() {
+
+        var TdHiddeA = document.getElementById("btnFirmarDocumento");
+        TdHiddeA.style.display = "none";
+
+        varFirmaElectronicaUsuario = $('#FirmaElectronicaUsuario').val();
+        varFirmaElectronicaPassword = $('#FirmaElectronicaPassword').val();
+
+        var data = {
+            No_Registro: '@Model.No_Registro',
+            UsuarioFE: varFirmaElectronicaUsuario,
+            PasswordFE: varFirmaElectronicaPassword
+        };
+
+    var url = "@Url.Action("JsonProcesarFirmaElectronicaConstanciaNueva", "Form_FormularioDirectorRegional")";
+        loaderPantalla(true);
+        $.post(url, data).done(function (jsonrespuesta) {
+            var oJSON = JSON.parse(jsonrespuesta);
+            var NombreDocumento = oJSON.strRespuesta;
+            var CodigoRespuesta = oJSON.CodRespuesta;
+
+
+            if ((CodigoRespuesta == '0') || (CodigoRespuesta == 0))
+            {
+                window.open('/Home/FalloFirmaElectronica?FalloFe=' + NombreDocumento, '_blank');
+            }
+            else
+            {
+                window.open(NombreDocumento, '_blank');
+            }
+            loaderPantalla(false);
+
+        });
+
+    }
+
+    function GenerarNuevaConstanciaRegistro() {
+        var confirmacion = confirm("¿Desea generar una nueva constancia de este registro?");
+        if (confirmacion) {
+            var url = '@Url.Action("EmitirConstanciaNuevaRegistro", "Form_FormularioDirectorRegional")'
+            var No_Registro = '@Model.No_Registro';
+            var data = {
+                No_Registro: No_Registro
+            }
+            
+          
+            $.post(url, data).done(function (RespuestaJSON) {
+                var objJSON = RespuestaJSON;
+                var Result = objJSON.Result;
+                var Mensaje = objJSON.Mensaje;
+                var Ubicacion = objJSON.Ubicacion;
+
+          
+                if (Result == 1) {
+                    var TdHiddeA = document.getElementById("btnFirmarDocumento");
+                    TdHiddeA.style.display = "block";
+                    window.open('/Archivos_Generados_Que_Pueden_Borrar/' + Ubicacion, '_blank');
+                } else {
+                    alert(Mensaje);
+                }
+            })
+        }
+    }
+
+
+
+</script>
+
+<table>
+    <tr>
+        <th colspan="2">Datos para la firma electrónica:</th>
+    </tr>
+    <tr>
+        <td><br /></td>
+    </tr>
+    <tr>
+        <td width="20%">Usuario</td>
+        <td width="20%">
+            <input type="text" id="FirmaElectronicaUsuario" name="FirmaElectronicaUsuario" value="" />
+        </td>
+        <td width="20%">Password</td>
+        <td width="20%">
+            <input type="password" id="FirmaElectronicaPassword" name="FirmaElectronicaPassword" value="" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <br />
+        </td>
+    </tr>
+</table>
+
+
+<table>
+    <tr>
+        <td>
+            <input type="button" value="Vista previa" id="ExportarPDF" class="btn btn-success" onclick="GenerarNuevaConstanciaRegistro()" />
+        </td>
+        <td>
+            <button class="btn btn-success" id="btnFirmarDocumento" name="btnFirmarDocumento" onclick="FirmarDocumento()" style="display:none;">Firmar Documento</button>
+        </td>
+    </tr>
+</table>

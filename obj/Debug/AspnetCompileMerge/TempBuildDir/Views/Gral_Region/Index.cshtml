@@ -1,0 +1,51 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Gral_Region>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    ViewBag.Title = "Regiones";
+    ViewBag.SubTitle = "Listado de regiones";
+}
+
+@Html.Partial("_PartialPageEncabezado")
+
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.No_Region)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre_Region)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.No_Region)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre_Region)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.Id_Region })
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+

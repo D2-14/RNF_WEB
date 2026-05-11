@@ -1,0 +1,229 @@
+﻿<div id="section_ExcelRodal">
+
+    @model System.Data.DataTable
+    @using System.Data;
+    @using RNF_Web.Models;
+    @using System.Data.SqlClient;
+
+    @if (Constants.VisualizarInformacionDesarrollo == 1)
+    {
+        <h3>@this.Url.Action()</h3>
+    }
+
+
+    @{
+
+        string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+        db_RNFEntities db = new db_RNFEntities();
+        Tbl_Sol_Solicitud tbl_sol_solicitud = db.Tbl_Sol_Solicitud.Find(ViewBag.Solicitud_id);
+
+        ViewBag.Estado = tbl_sol_solicitud.Estado_id;
+
+        ViewBag.Title = "Carga de Polígono";
+
+        Usuario objUs = (Usuario)Session["User"];
+        bool boolEsInterno = false;
+
+        if (objUs.EsInterno == 1)
+        {
+            boolEsInterno = true;
+        }
+
+        fc_Gral_Sol_Configuracion_Result permisos = db.fc_Gral_Sol_Configuracion(tbl_sol_solicitud.Solicitud_id, controllerName, boolEsInterno).FirstOrDefault();
+
+        Layout = null;
+
+    }
+
+
+    @if (Constants.VisualizarInformacionDesarrollo == 1)
+    {
+        <div style="visibility:visible">
+            <table border="1">
+                <tr>
+                    <th>
+                        Agregar
+                    </th>
+                    <th>
+                        Editar
+                    </th>
+                    <th>
+                        Borrar
+                    </th>
+                    <th>
+                        Estado
+                    </th>
+                    <th>
+                        Tipo
+                    </th>
+                    <th>
+                        Controller Enviado
+                    </th>
+                    <th>
+                        Controller Recibido
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        @permisos.Agregar
+                    </td>
+                    <td>
+                        @permisos.Editar
+                    </td>
+                    <td>
+                        @permisos.Borrar
+                    </td>
+                    <td>
+                        @permisos.Estado_id
+                    </td>
+                    <td>
+                        @permisos.SolicitudTipo_id
+                    </td>
+                    <td>
+                        @permisos.Controlador_Recibido
+                    </td>
+                    <td>
+                        @permisos.Controlador_Devuelto
+                    </td>
+                </tr>
+            </table>
+        </div>
+    }
+
+    <script src="~/Scripts/jquery-3.6.0.js"></script>
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+
+    <div style='height: 30px; width: 100%; background-color: green; color: white; '>
+        <h4 class="title">&nbsp;&nbsp;&nbsp;@ViewBag.Title</h4>
+    </div>
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+
+        <div class="form-group">
+            <div class="col-sm-12">
+                <form id="uploader">
+
+                    @if ((bool)permisos.Editar)
+                    {
+                        <table>
+                            <tr>
+                                <td>
+                                    <label>
+                                        @*<img src="~/Content/icons/btnSubirArchivo.png" id="upfile1" style="cursor:pointer" />*@
+
+                                        <label for="uploadAreas" id="upfileuploadAreas" class="btn-next-ic">&nbsp;&nbsp;&nbsp;&nbsp;Seleccionar archivo&nbsp;&nbsp;&nbsp;&nbsp;</label>
+
+                                        <input type="file" id="uploadAreas" name="uploadAreas" style="display:none">
+                                    </label>
+                                </td>
+                                <td>
+                                    <span id="nombre_ArchivoRodales"></span>
+                                    <br />
+                                    <input type="button" id="btsubirAreas" class="btn btn-primary btn-outlined" width="100%"
+                                           value="Subir archivo" style="display:none" />
+                                </td>
+                                <td>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                </td>
+                                <td>
+                                    <a href="~/Content/Machotes/Datos_Poligono_En_Blanco.xlsx">Archivo para carga de coordenadas</a>
+                                </td>
+                                <td>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                </td>
+                                <td>
+                                    <a href="~/Content/Machotes/Datos_Poligono_Ejemplo.xlsx">Archivo de ejemplo</a>
+                                </td>
+                            </tr>
+                            <tr>
+                            </tr>
+                        </table>
+
+                    }
+                    <br /><br />
+
+                </form>
+            </div>
+            <div class="col-sm-3"></div>
+        </div>
+
+    @Html.Raw(TempData["MensajeFile"])
+
+</div>
+
+<script>
+    var ArchivoAreas = ($("#uploadAreas"))[0].files[0];
+    $(function () {
+
+        $("#uploadAreas").change(function () {
+            ArchivoAreas = ($("#uploadAreas"))[0].files[0];
+            console.log(ArchivoAreas);
+            document.getElementById("nombre_ArchivoRodales").innerHTML = ArchivoAreas.name;
+            var botonSubir = document.getElementById("btsubirAreas");
+            botonSubir.style.display = "block";
+
+            if ((ArchivoAreas != "") && (ArchivoAreas != null)) {
+                botonSubir.classList.add("btn-primary");
+                botonSubir.disabled = false;
+            } else {
+                botonSubir.classList.remove("btn-primary");
+                botonSubir.disabled = true;
+            }
+        })
+
+
+        $("#btsubirAreas").click(function () {
+            loaderPantalla(true);
+            setTimeout(function () {
+
+                ArchivoAreas = ($("#uploadAreas"))[0].files[0];
+                console.log(ArchivoAreas);
+
+                var formData = new FormData();
+
+
+                function adjuntarImagenAreas() {
+                    formData.append("upload", ArchivoAreas);
+                    formData.append("Solicitud_id", '@ViewBag.Solicitud_id');
+                    formData.append("firma", '@ViewBag.firma');
+                    $.ajax({
+                        url: "UploadExcelAreas",
+                        type: "POST",
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        async: false,
+                        success: function (data) {
+                            loaderPantalla(false);
+                            location.reload();
+                        },
+                        error: function (data) {
+                            loaderPantalla(false);
+                            location.reload();
+                        }
+                    });
+
+                }
+
+                if (ArchivoAreas != null) {
+                    adjuntarImagenAreas();
+                } else {
+                    alert("No se ha seleccionado ningún archivo");
+                }
+
+
+            }, 2000);
+
+
+
+        })
+    })
+
+</script>

@@ -1,0 +1,71 @@
+﻿@using RNF_Web.Models;
+@model Tbl_Sol_Solicitud
+@{
+    Layout = null;
+    //"~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    string check = "checked";
+}
+
+<script>
+    $(document).ready(function () {
+
+        var urlget = "?Guid_id=@ViewBag.guidid";
+        var myPermitirCambios = document.getElementById("div_PermitirCambios");
+
+        if (myPermitirCambios) {
+            $('#div_PermitirCambios').load("/App_Visita_Campo/PermitirCambios" + urlget);
+        }
+
+    })
+</script>
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+<div>
+    <div align="center">
+        <table class="table table-striped table-hover">
+            <tr>
+                <th>
+                    <strong>No Expediente</strong>
+                </th>
+                <th>
+                    <strong>Solicitante</strong>
+                </th>
+                <th>
+                    <strong>Categoria</strong>
+                </th>
+                <th>
+                    <strong>SubCategoría</strong>
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    @Model.Solicitud_NumeroExpediente
+                </td>
+                <td>
+                    @Model.Tbl_Seg_UsuarioExterno.Nombres @Model.Tbl_Seg_UsuarioExterno.Apellidos
+                </td>
+                <td>
+                    @Model.Tbl_Sol_Solicitud_Categoria.Descripcion
+                </td>
+                <td>
+                    @Model.Tbl_Sol_Solicitud_Sub_Categoria.Descripcion
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div align="center">
+        <table>
+            <tr>
+                <td>
+                    <div id="div_PermitirCambios"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+

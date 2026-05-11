@@ -1,0 +1,50 @@
+﻿@using RNF_Web.Models;
+@model IEnumerable<RNF_Web.Models.Tbl_API_Sol_Rodal_Dasometrico_CentroParcela_Local>
+@{
+    Layout = null;
+    string linkgooglemaps = "";
+    db_RNFEntities db = new db_RNFEntities();
+    db_RNF_APIEntities db_API = new db_RNF_APIEntities();
+}
+@if(Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@if (Model.Count() > 0)
+{
+    <h3>Datos de Centro de Parcela Técnico</h3>
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>
+                Información
+            </th>
+            <th>
+                Coordenadas
+            </th>
+            <th>
+                Link
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    Finca: @item.Finca_id, Rodal: @item.Rodal_id, Parcela: @item.No_Parcela
+                </td>
+                <td>
+                    GTMX: @(((decimal)item.GTMX).ToString("0")) GTMY: @(((decimal)item.GTMY).ToString("0"))
+                </td>
+                <td>
+                    @{
+                        linkgooglemaps = db.Database.SqlQuery<string>("select [dbo].[Fnc_generar_direcciongooglemaps]('" + item.GTMX + "','" + item.GTMY + "') ").FirstOrDefault();
+                    }
+                    <a class="btn btn-primary" href="@linkgooglemaps" target="_blank">Visualizar Coordenada</a>
+                </td>
+            </tr>
+        }
+
+    </table>
+}

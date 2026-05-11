@@ -1,0 +1,265 @@
+﻿@model RNF_Web.Models.Tbl_Sol_Rodal_CultivoTecnico
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    Layout = null;
+    ViewBag.Title = "Cultivo ";
+    ViewBag.SubTitle = "Ingresar especie por área";
+
+    db_RNFEntities db = new db_RNFEntities();
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    Usuario objUs = (Usuario)Session["User"];
+    long solicitud_id = ViewBag.solicitud_id;
+    Tbl_Sol_Solicitud tbl_Sol_Solicitud = db.Tbl_Sol_Solicitud.Find(solicitud_id);
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+    fc_Gral_Sol_Configuracion_Result permisos = db.fc_Gral_Sol_Configuracion(tbl_Sol_Solicitud.Solicitud_id, controllerName, boolEsInterno).FirstOrDefault();
+}
+
+<script>
+
+    $(document).ready(function () {
+
+        $('#listadoCultivosTecnico').load('/Sol_Rodal_CultivoTecnico/Index?Guid=@ViewBag.Guid')
+
+        GetRodal();
+    });
+
+    function GetRodal()
+    {
+        var url = "@Url.Action("GetRodal", "Sol_Rodal_CultivoTecnico")";
+        var Finca = $('#Finca_id').val();
+        var Solicitud = @Model.Solicitud_id;
+        var data = { solicitud_id: Solicitud, finca_id: Finca };
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Rodal_Id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, rodal) {
+                    select.append($('<option/>', {
+                        value: rodal.Value,
+                        text: rodal.Text
+                    }));
+
+                });
+
+                GetRodalTipo();
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+    }
+
+    function AgregarCultivoTecnico()
+    {
+
+        var AnioEstablecimiento = $('#Anio_Establecimiento').val();
+
+
+        if (Anio_Establecimiento == '' || Anio_Establecimiento == 'NaN') {
+            $('#lblMensaje').text("Debe indicar el año de establecimiento no puede ser mayor al año actual.");
+        }
+
+        if (Anio_Establecimiento > 2022)
+        {
+            $('#lblMensaje').text("El año de establecimiento no puede ser mayor al año actual.");
+            return;
+        }
+
+        if (Anio_Establecimiento < 1600) {
+            $('#lblMensaje').text("Debe indicar el año de establecimiento no puede ser mayor al año actual.");
+            return;
+        }
+
+        var url = "@Url.Action("AgregarCultivo", "Sol_Rodal_CultivoTecnico")";
+        var Finca = $('#Finca_id').val();
+        var Solicitud = @Model.Solicitud_id;
+        var Rodal = $('#Rodal_Id').val();
+        var Area = $('#Tipo_de_Area').val();
+        var Cultivo = $('#Cultivo_id').val();
+        var CultivoTecnicoVolumen_Rodal = $('#CultivoTecnicoVolumen_Rodal').val();
+        var CultivoTecnicoVolumen_ha = $('#CultivoTecnicoVolumen_ha').val();
+
+        var data = {
+            solicitud_id: Solicitud,
+            finca_id: Finca,
+            rodal_id: Rodal,
+            area_id: Area,
+            cultivo_id: Cultivo,
+            anioestablecimiento: AnioEstablecimiento,
+            Volumen_Rodal: CultivoTecnicoVolumen_Rodal,
+            Volumen_ha: CultivoTecnicoVolumen_ha
+        };
+
+        $.post(url, data).done(function (jsonRespuesta) {
+
+                var objJSON = JSON.parse(jsonRespuesta);
+                var Cod_Respuesta = objJSON.CodRespuesta;
+                var Texto_Respuesta = objJSON.strRespuesta;
+
+                if (Cod_Respuesta == 1) {
+                    $('#lblMensaje').text(Texto_Respuesta);
+            }
+                $('#listadoCultivosTecnico').load('/Sol_Rodal_CultivoTecnico/Index?Guid=@ViewBag.Guid')
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+    }
+
+
+    function Borrar_CultivoTecnico(Solicitud, Finca, Rodal, Area, Cultivo)
+    {
+        var url = "@Url.Action("EliminarCultivo", "Sol_Rodal_CultivoTecnico")";
+
+        //EliminarCultivo(long solicitud_id, long finca_id, long rodal_id, int area_id, int cultivo_id)
+
+        var data = { solicitud_id: Solicitud, finca_id: Finca, rodal_id: Rodal, area_id: Area, cultivo_id: Cultivo };
+
+        $.post(url, data).done(function (jsonRespuesta) {
+
+            var objJSON = JSON.parse(jsonRespuesta);
+            var Cod_Respuesta = objJSON.CodRespuesta;
+            var Texto_Respuesta = objJSON.strRespuesta;
+
+            if (Cod_Respuesta == 1) {
+                $('#lblMensaje').text(Texto_Respuesta);
+            }
+            $('#listadoCultivosTecnico').load('/Sol_Rodal_CultivoTecnico/Index?Guid=@ViewBag.Guid')
+
+        }).fail(manejarErrorAjax).always(function () {
+        });
+
+    }
+
+
+    function GetRodalTipo()
+    {
+        var url = "@Url.Action("GetRodalTipo", "Sol_Rodal_CultivoTecnico")";
+        var Finca = $('#Finca_id').val();
+        var Solicitud = @Model.Solicitud_id;
+        var Rodal = $('#Rodal_Id').val();
+        var data = { solicitud_id: Solicitud, finca_id: Finca, rodal_id: Rodal };
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Tipo_de_Area");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, rodaltipo) {
+                    select.append($('<option/>', {
+                        value: rodaltipo.Value,
+                        text: rodaltipo.Text
+                    }));
+
+                });
+
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+    }
+
+
+    $(document).on('change', '#Rodal_Id', function () {
+
+        GetRodalTipo();
+
+    }); // -----Fin de Change ddlDepartamento
+
+
+
+    $(document).on('change', '#Finca_id', function () {
+
+            GetRodal();
+
+        }); // -----Fin de Change ddlDepartamento
+
+
+</script>
+
+<br />
+<div class="titulo-dos">
+    <h4>Listado de cultivo(s) indicados por el técnico</h4>
+</div>
+
+@if ((bool)permisos.Agregar)
+{
+    <table width="100%">
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Finca_id, "Finca", htmlAttributes: new { @class = "control-label col-md-2" })
+            </td>
+            <td>
+                @Html.LabelFor(model => model.Rodal_Id, "Rodal", htmlAttributes: new { @class = "control-label col-md-4" })
+            </td>
+            <td width="15%">
+                @Html.LabelFor(model => model.Tipo_de_Area, "Tipo", htmlAttributes: new { @class = "control-label col-md-12" })
+            </td>
+            <td>
+                @Html.LabelFor(model => model.Cultivo_id, "Tipo de área", htmlAttributes: new { @class = "control-label col-md-4" })
+            </td>
+            <td>
+                @Html.LabelFor(model => model.Anio_Establecimiento, "Año de establecimiento", htmlAttributes: new { @class = "control-label col-md-12" })
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DropDownList("Finca_id", null, htmlAttributes: new { @class = "form-select" })
+            </td>
+            <td>
+                @Html.DropDownList("Rodal_Id", null, htmlAttributes: new { @class = "form-select" })
+            </td>
+
+            <td>
+                @Html.DropDownList("Tipo_de_Area", null, htmlAttributes: new { @class = "form-select" })
+            </td>
+            <td>
+                @Html.DropDownList("Cultivo_id", null, htmlAttributes: new { @class = "form-select" })
+            </td>
+            <td>
+                <div class="col-md-12">
+                    <input type="text" id="Anio_Establecimiento" name="Anio_Establecimiento" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" value="2022" />
+                </div>
+            </td>
+            <td>
+                <input type="number" class="form-control" name="CultivoTecnicoVolumen_Rodal" id="CultivoTecnicoVolumen_Rodal" placeholder="0.0000" value="0" />
+            </td>
+            <td>
+                <input type="number" class="form-control" name="CultivoTecnicoVolumen_ha" id="CultivoTecnicoVolumen_ha" placeholder="0.0000" value="0" />
+            </td>
+
+            <td>
+                <input type="button" class="btn-success" value="Agregar" onclick="AgregarCultivoTecnico()" />
+            </td>
+
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td> <label id="lblMensaje" name="lblMensaje" /></td>
+        </tr>
+    </table>
+}
+
+<div id="listadoCultivosTecnico" name="listadoCultivosTecnico" />
+<hr />
+

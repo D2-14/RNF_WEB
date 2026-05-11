@@ -1,0 +1,153 @@
+﻿@using RNF_Web.Models;
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<div id="section_ExcelRodal">
+    @model System.Data.DataTable
+    @using System.Data;
+    @using RNF_Web.Models;
+    @using System.Data.SqlClient;
+
+    @{
+
+        string guidid = ViewBag.Guid_id;
+
+        db_RNFEntities db = new db_RNFEntities();
+
+        Tbl_Sol_Solicitud tbl_sol_solicitud = (from d in db.Tbl_Sol_Solicitud
+                                               where d.Guid_id == guidid
+                                               select d).FirstOrDefault();
+
+        ViewBag.Estado = tbl_sol_solicitud.Estado_id;
+
+        ViewBag.Title = "   Análisis dasométrico ";
+    }
+
+
+    <link href="/Content/Layout.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <div class="titulo-dos">
+        <h4 class="title">&nbsp;&nbsp;&nbsp;@ViewBag.Title</h4>
+    </div>
+
+    <br />
+    <table width="100%">
+        <tr>
+            <td width="50%"></td>
+            <td width="30%">
+            </td>
+            <td width="10%">
+                <button rel="tooltip" title="Regresar" onclick="location.href='@Url.Action("Edit", "Gest_EtapaSolicitud", new { solicitud_id = ViewBag.solicitud_id, etapa_id = ViewBag.etapa_id, etaparuta_id = ViewBag.etaparuta_id, correlativoetapa_id = ViewBag.correlativoetapa_id })'">
+                    <i><img src="~/Content/icons/regresar.png" style="border-radius: 30%; width: 40px; height: auto" /></i>
+                    <div class="ripple-container"></div>
+                    Regresar
+                </button>
+            </td>
+            <td width="10%"></td>
+        </tr>
+    </table>
+
+
+    @using (Html.BeginForm("UploadDatosDasometricosTecnico", "Form_FormularioTecnico", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+        <input type="hidden" name="etapa_id" id="etapa_id" value="@ViewBag.etapa_id" />
+        <input type="hidden" name="etaparuta_id" id="etaparuta_id" value="@ViewBag.etaparuta_id" />
+        <input type="hidden" name="correlativoetapa_id" id="correlativoetapa_id" value="@ViewBag.correlativoetapa_id" />
+        <div class="form-group">
+            <div class="col-sm-12">
+                <form id="uploader">
+                    <h1>@Html.Raw(TempData["MensajeFileDasom"])</h1>
+
+                    <br />
+
+                    @if ((ViewBag.Estado != 10) && (ViewBag.Estado != 11))
+                    {
+                        <table width="100%">
+                            <tr>
+                                <td width="20%" style="vertical-align:central">
+                                    <input type="button" onclick="GenerarDocumento()" class="btn btn-primary" value="Datos de la plantación de la solicitud" />
+                                </td>
+                                <td width="20%">
+                                    @if (tbl_sol_solicitud.Categoria_id == 6)
+                                    {
+
+                                        <a href="~/Content/Machotes/DatosDasometricos_En_Blanco_FuenteSemillera_Tecnico.xlsx"  download>
+                                            <input type="button" class="btn btn-primary" value="Formato para evaluación técnica" />
+                                        </a>
+
+                                    }
+                                    else
+                                    {
+                                        <a href="~/Content/Machotes/DatosDasometricos_En_Blanco_Tecnico.xlsx" download>
+                                            <input type="button" class="btn btn-primary" value="Formato para evaluación técnica" />
+                                        </a>
+                                    }
+                                </td>
+                                <td style="vertical-align:central">
+                                    @if (ViewBag.Owner == 1)
+                                    {
+                                        <label>
+                                            @*<label for="file" id="upfilefile" class="btn-next-ic">&nbsp;&nbsp;&nbsp;&nbsp;Seleccionar archivo&nbsp;&nbsp;&nbsp;&nbsp;</label>*@
+                                            <img src="~/Content/icons/btnSubirArchivo.png" width="180" height="auto" id="upfile1" style="cursor:pointer" />
+                                            <input type="file" id="upload" name="upload" style="display:none">
+                                        </label>
+                                    }
+                                </td>
+                                <td style="vertical-align:central">
+                                    @if (ViewBag.Owner == 1)
+                                    {
+                                        <input type="submit" id="btsubir" class="btn btn-primary btn-outlined" width="100%"
+                                               value="Subir archivo" />
+                                    }
+                                </td>
+                                <td style="vertical-align:central">
+                                    <input type="hidden" value="@guidid" id="Guid_id" name="Guid_id" />
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                </td>
+                                <td>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                            </tr>
+                        </table>
+
+                    }
+                    <br /><br />
+
+                </form>
+            </div>
+
+            <div id="divDetalleParcelas"></div>
+
+            <div class="col-sm-3"></div>
+        </div>
+
+    }
+
+</div>
+
+<br />
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+        var divDetalleParcelas = document.getElementById("divDetalleParcelas");
+        if (divDetalleParcelas) {
+            $("#divDetalleParcelas").load("/Sol_Rodal/CentroParcela?Solicitud_id=@ViewBag.solicitud_id&firma=@ViewBag.Guid_id")
+        }
+    });
+
+</script>

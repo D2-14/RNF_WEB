@@ -1,0 +1,143 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Gest_Etapa_To_doList>
+
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@{
+    ViewBag.Title = "   Puntos de verificación en : " + @ViewBag.Etapa.Nombre_Etapa;
+
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+}
+
+<script>
+
+    function AgregarTarea() {
+
+        var strDescription = document.getElementById("R_NewTarea").value;
+        alert(@ViewBag.etaparutaid);
+
+
+            $.ajax({
+                type: 'POST',
+                url: "@(Url.Action("Agregar_To_Do_Item", "Gest_Etapa"))",
+                     dataType: 'json',
+                data: { etapaid: @ViewBag.etapaid, etaparutaid: @ViewBag.etaparutaid, descripcion: strDescription },
+                   success: function (doc) {
+                       location.reload();
+                    },
+                    error: function (ex) {
+                        alert('Ocurrio un error aqui. ' + ex.status);
+                    }
+                });
+            return false;
+    }
+
+    function CambiarEstadoTarea(varTo_do_id, boolNuevoEstado)
+    {
+            $.ajax({
+                type: 'POST',
+                url: "@(Url.Action("CambiarEstado_To_Do_Item", "Gest_Etapa"))",
+                     dataType: 'json',
+                data: { etapaid: @ViewBag.etapaid, etaparutaid: @ViewBag.etaparutaid, Todoid: varTo_do_id, estado: boolNuevoEstado  },
+                   success: function (doc) {
+                       alert('Cambio en actividad realizado con exito.');
+                    },
+                    error: function (ex) {
+                        alert('Ocurrio un error aqui. ' + ex.status);
+                    }
+
+            });
+
+            return false;
+
+    }
+
+</script>
+
+
+@Html.Partial("_PartialPageEncabezado")
+
+
+<div class="row">
+    <div class="col-lg-1 col-md-1 col-sm-1">
+        <button rel="tooltip" title="Regresar" onclick="location.href='@Url.Action("Index", "Gest_Etapa", new {rutaid = @ViewBag.etaparutaid } )'">
+            <i><img src="~/Content/icons/regresar.png" style="border-radius: 30%; width: 35px; height: auto" /></i>
+            <div class="ripple-container"></div>
+            Regresar
+        </button>
+    </div>
+</div>
+<br />
+
+<div class="content">
+    <div class="container-fluid">
+
+        <div class="content">
+            <div class="titulo-dos">
+                <h4>Listado de puntos de verificación </h4>
+            </div>
+
+            <table class="table">
+                <tr>
+                    <th>
+                        Listado de puntos de verificación
+                    </th>
+                    <th>
+                        Activa/desactivar
+                    </th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </td>
+                        <td>
+                            @if (item.Estado.Value == true)
+                            {
+                                <input type="checkbox" id="CambioEstatus" name="EstadoActivo" value="Estatus" onclick="CambiarEstadoTarea(@item.To_do_id, false)" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" id="CambioEstatus" name="EstadoActivo" value="Estatus" onclick="CambiarEstadoTarea(@item.To_do_id, true)">
+                            }
+
+                        </td>
+                    </tr>
+                }
+
+            </table>
+
+            <table>
+                <tr>
+                    <th>
+                        Agregar tarea de verificación
+                    </th>
+                </tr>
+                <tr>
+                    <td><br /></td>
+                </tr>
+                <tr>
+                    <td>Descripcion:</td>
+                    <td>
+                        <input type="text" name="R_NewTarea" id="R_NewTarea">
+                    </td>
+                    <td>
+                        &nbsp;&nbsp;<input type="button" value="Agregar" onclick="AgregarTarea()" class="btn btn-primary" />
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <br />
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+
+

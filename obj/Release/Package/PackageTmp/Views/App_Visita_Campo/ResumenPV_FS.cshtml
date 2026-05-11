@@ -1,0 +1,233 @@
+﻿@using RNF_Web.Models;
+@model List<ClassResumenPV>
+@{
+    Layout = null;
+    string Finca = "None";
+    string varArea = "None";
+
+    long lngFinca = 0;
+    long lngRodal = 0;
+    string strTipoArea = "";
+
+    decimal decArea_Efectiva_Rodal = -1;
+    decimal decLongitudLinea = -1;
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@if (Model.Count() > 0)
+{
+    <table class="table table-striped">
+        <tr>
+            <th colspan="10">Datos de la fuente semillera</th>
+        </tr>
+
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            if (Finca != Model[i].NombreFinca)
+            {
+                <tr>
+                    <th colspan="10">
+                        Nombre de la finca :  @Model[i].NombreFinca
+                    </th>
+                </tr>
+                Finca = Model[i].NombreFinca;
+                varArea = "None";
+            }
+
+            if (varArea != Model[i].Tipo_de_Area_Desc)
+            {
+                varArea = Model[i].Tipo_de_Area_Desc;
+                <tr>
+                    <th colspan="10">
+                        Tipo de área: @Model[i].Tipo_de_Area_Desc           Coordendas GTMX: @Model[i].CoordenadaX.ToString("0")  GTMY: @Model[i].CoordenadaY.ToString("0")
+                    </th>
+                </tr>
+
+                if (Model[i].Tipo_de_Area == 1)
+                {
+                    <tr>
+                        <th>
+                            Área
+                        </th>
+                        <th>
+                            Tipo
+                        </th>
+                        <th>
+                            Area (ha)
+                        </th>
+                        <th colspan="2">
+                            Especie
+                        </th>
+                        <th>
+                            Año de plantación
+                        </th>
+                        <th>
+                            Densidad ha
+                        </th>
+                        <th>
+                            Altura prom
+                        </th>
+                        <th>
+                            DAP Prom
+                        </th>
+                        <th>
+                            Clase
+                        </th>
+                    </tr>
+                }
+
+                if (Model[i].Tipo_de_Area == 2)
+                {
+                    <tr>
+                        <th>
+                            Área
+                        </th>
+                        <th colspan="2">
+                            Tipo
+                        </th>
+                        <th>
+                            Longitud
+                        </th>
+                        <th colspan="2">
+                            Especie
+                        </th>
+                        <th>
+                            Año plantación
+                        </th>
+                        <th>
+                            Altura prom
+                        </th>
+                        <th>
+                            DAP prom
+                        </th>
+                        <th>
+                            Clase
+                        </th>
+                    </tr>
+                }
+
+            }
+
+            if (Model[i].Tipo_de_Area == 1)
+            {
+                <tr>
+                    @if ((lngRodal != Model[i].Rodal_id) || (lngFinca != Model[i].Finca_id))
+                    {
+                        <td>@Model[i].Rodal_id</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    <td>
+                        @Model[i].Tipo_de_Area_Desc
+                    </td>
+                    @if (decArea_Efectiva_Rodal != Model[i].Area_Efectiva_Rodal)
+                    {
+                        <td>
+                            @Model[i].Area_Efectiva_Rodal.ToString("0.000")
+                        </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    <td colspan="2">
+                        @Model[i].Especie.ToLower()
+                    </td>
+                    <td>
+                        @Model[i].Anio_Establecimiento
+                    </td>
+                    <td>
+                        @Model[i].Densidad_ha.ToString("0")
+                    </td>
+                    <td>
+                        @Model[i].AlturaPromedio.ToString("0.00")
+                    </td>
+                    <td>
+                        @Model[i].DAPPromedio.ToString("0.00")
+                    </td>
+                    <td>
+                        @Model[i].Clase.ToString("0")
+                    </td>
+                </tr>
+            }
+
+            if (Model[i].Tipo_de_Area == 2)
+            {
+                <tr>
+                    @if ((lngRodal != Model[i].Rodal_id) || (lngFinca != Model[i].Finca_id))
+                    {
+                        <td>
+                            @Model[i].Rodal_id
+                        </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    <td colspan="2">
+                        @Model[i].Tipo_de_Area_Desc
+                    </td>
+                    @if (decLongitudLinea != Model[i].Longitud_Total)
+                    {
+                        <td>
+                            @Model[i].Longitud_Total.ToString("0.000")
+                        </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    <td colspan="2">
+                        @Model[i].Especie.ToLower()
+                    </td>
+                    <td>
+                        @Model[i].Anio_Establecimiento
+                    </td>
+                    <td>
+                        @Model[i].AlturaPromedio.ToString("0.00")
+                    </td>
+                    <td>
+                        @Model[i].DAPPromedio.ToString("0.00")
+                    </td>
+                    <td>
+                        @Model[i].Clase.ToString("0")
+                    </td>
+                </tr>
+
+            }
+
+
+            if (lngFinca != Model[i].Finca_id)
+            {
+                lngFinca = Model[i].Finca_id;
+            }
+
+            if (lngRodal != Model[i].Rodal_id)
+            {
+                lngRodal = Model[i].Rodal_id;
+            }
+
+            if (strTipoArea != Model[i].Tipo_de_Area_Desc)
+            {
+                strTipoArea = Model[i].Tipo_de_Area_Desc;
+            }
+
+            if (decArea_Efectiva_Rodal != Model[i].Area_Efectiva_Rodal)
+            {
+                decArea_Efectiva_Rodal = Model[i].Area_Efectiva_Rodal;
+            }
+
+            if (decLongitudLinea != Model[i].Longitud_Total)
+            {
+                decLongitudLinea = Model[i].Longitud_Total;
+            }
+        }
+
+    </table>
+}
+

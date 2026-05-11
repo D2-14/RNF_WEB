@@ -1,0 +1,350 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@*<link href="~/Content/Layout.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />*@
+
+<div id="tata">
+
+    @model RNF_Web.Models.Tbl_Gest_EtapaSolicitud
+
+    @{
+        Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+        ViewBag.Title = "Gestion de solicitud (" + Model.Tbl_Gest_Etapa.Nombre_Etapa + ")";
+        ViewBag.SubTitle = null;
+
+
+        db_RNFEntities db = new db_RNFEntities();
+
+
+        Tbl_Gest_Etapa tbl_Gest_Etapa = db.Tbl_Gest_Etapa.Where(Obj => Obj.EtapaRuta_id == Model.EtapaRuta_id && Obj.Etapa_id == Model.Etapa_id).First();
+
+        bool RequiereDocumentos = tbl_Gest_Etapa.RequiereDocumentos;
+
+        int intEtapas = db.Tbl_Gest_EtapaSolicitud.Where(Obj => Obj.Solicitud_id == Model.Solicitud_id && Obj.EtapaSolicitud_GUID_id != Model.EtapaSolicitud_GUID_id && Obj.EtapaSolicitudEstado_id == 1).Count();
+
+        ViewBag.intEtapas = intEtapas;
+
+        if (tbl_Gest_Etapa.RevisarQueNoExistanEtapasPreviasActivas != true)
+        {
+            ViewBag.intEtapas = 0;
+        }
+    }
+    <script>
+
+      $(document).ready(function () {
+
+
+                $('#lable_uno').text('@Model.Tbl_Gest_Etapa.Url_Formulario' + '?GuidEtapa_id='+'@Model.EtapaSolicitud_GUID_id' + '&Guid_id=' + '@Model.Solicitud_Guid_id' + '&etapa_id=' +@Model.Etapa_id+'&etaparuta_id=' +@Model.EtapaRuta_id+'&correlativoetapa_id=' +@Model.CorrelativoEtapa_id);
+                $('#autoFormulario').load('@Model.Tbl_Gest_Etapa.Url_Formulario'+ '?GuidEtapa_id='+'@Model.EtapaSolicitud_GUID_id' + '&Guid_id='+'@Model.Solicitud_Guid_id'+'&etapa_id=' +@Model.Etapa_id+'&etaparuta_id=' +@Model.EtapaRuta_id+'&correlativoetapa_id='+@Model.CorrelativoEtapa_id)
+
+                $('#autoToDoList').load('/Gest_EtapaSolicitud/EtapaSolicitud_To_DoList?solicitud_id=' + @Model.Solicitud_id+'&etapa_id=' +@Model.Etapa_id+'&etaparuta_id=' +@Model.EtapaRuta_id+'&correlativoetapa_id='+@Model.CorrelativoEtapa_id)
+
+                $('#lable_dos').text('@Model.Tbl_Gest_Etapa.Url_Formulario' + 'Respuesta?GuidEtapa_id='+'@Model.EtapaSolicitud_GUID_id' + '&Guid_id='+'@Model.Solicitud_Guid_id'+'&etapa_id=' +@Model.Etapa_id+'&etaparuta_id=' +@Model.EtapaRuta_id+'&correlativoetapa_id='+@Model.CorrelativoEtapa_id);
+                $('#autoFormularioRespuesta').load('@Model.Tbl_Gest_Etapa.Url_Formulario' + 'Respuesta?GuidEtapa_id='+'@Model.EtapaSolicitud_GUID_id' + '&Guid_id='+'@Model.Solicitud_Guid_id'+'&etapa_id=' +@Model.Etapa_id+'&etaparuta_id=' +@Model.EtapaRuta_id+'&correlativoetapa_id='+@Model.CorrelativoEtapa_id)
+
+          $('#lable_tres').text('/Gest_EtapaSolicitud_Documento/DocumentoCreate?GuidEtapa_id=' + '@Model.EtapaSolicitud_GUID_id' + '&Guid_id=' + '@Model.Solicitud_Guid_id' + '&etapa_id=' +@Model.Etapa_id+'&etaparuta_id=' +@Model.EtapaRuta_id+'&correlativoetapa_id=' +@Model.CorrelativoEtapa_id);
+
+          var RequiereDocumentos = '@RequiereDocumentos';
+
+          if (RequiereDocumentos) {
+              var div_RequiereDocumentos = document.getElementById('div_RequiereDocumentos');
+              if (div_RequiereDocumentos) {
+                  $('#div_RequiereDocumentos').load('/Gest_EtapaSolicitud_Documento/DocumentoCreate?GuidEtapa_id=@Model.EtapaSolicitud_GUID_id&Guid_id=@Model.Solicitud_Guid_id&etapa_id=@Model.Etapa_id&etaparuta_id=' +@Model.EtapaRuta_id+'&correlativoetapa_id=@Model.CorrelativoEtapa_id');
+              }
+          }
+
+          $("#btnHideModal").click(function () {
+                      $("#myModal").modal('hide');
+                });
+
+                $("#btnHideModal_Close").click(function () {
+                        $("#myModal").modal('hide');
+                });
+
+
+                $("#myModal").on('show.bs.modal', function () {
+                    var modal = $(this)
+                    modal.find('.modal-title').text(document.getElementById("Titulo").value);
+                    modal.find('.modal-body').html(document.getElementById("Pagina").value);
+                });
+
+     });
+
+
+        function hide_myModal() {
+            $("#imgModal").modal('hide');
+        }
+
+      function LlenarFormulario(solicitud_id, etapa_Respuesta_id, etapa_id, etapaRuta_id, correlativoEtapa_id, tipoFormulario_id)
+    {
+
+        var Source = "/Form_Formulario/EditarFormulario?solicitud_id=" + solicitud_id + "&etapa_Respuesta_id=" + etapa_Respuesta_id + "&etapa_id=" + etapa_id + "&etapaRuta_id=" + etapaRuta_id + "&correlativoEtapa_id=" + correlativoEtapa_id + "&tipoFormulario_id=" + tipoFormulario_id;
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Editar formulario';
+
+        $("#myModal").modal("show");
+    }
+
+      function Cerrar_ContinuarDespues() {
+            window.location.replace("/Main/Index");
+        }
+
+    function fnc_EnviarRespuesta(varRespuestaid)
+    {
+        varsolicitud_id = '@Model.Solicitud_id';
+        varetapa_id = '@Model.Etapa_id';
+        varetaparuta_id = '@Model.EtapaRuta_id';
+        varcorrelativoetapa_id = '@Model.CorrelativoEtapa_id';
+        varMotivo = $('#Motivo').val();
+        varEtapaSolicitud_GUIDid= '@Model.EtapaSolicitud_GUID_id';
+
+
+        var url = "@Url.Action("ActualizaEtapaRespuestaIndexSolicitud", "Gest_EtapaSolicitud")";
+
+        var data = { solicitud_id: varsolicitud_id, etapa_id: varetapa_id, etaparuta_id: varetaparuta_id, correlativoetapa_id: varcorrelativoetapa_id, motivo: varMotivo, respuestaid: varRespuestaid, EtapaSolicitud_GUIDid: varEtapaSolicitud_GUIDid };
+        $.post(url, data).done(function (jsonRespuesta) {
+               var objJSON = JSON.parse(jsonRespuesta);
+               var Cod_Respuesta = objJSON.CodRespuesta;
+               var Texto_Respuesta = objJSON.strRespuesta;
+
+
+                if (Cod_Respuesta == 1) {
+                    window.location.replace("/Gest_EtapaSolicitud/Index");
+                    alert(Texto_Respuesta);
+                } else {
+                    $('#lblMensaje').text(Texto_Respuesta);
+                    alert(Texto_Respuesta);
+
+                }
+
+           }).fail(function (RespuestaJSON) {
+
+               alert('Error no identificado.');
+            });
+            return false;
+
+    }
+
+
+    </script>
+
+
+
+    @Html.Partial("_PartialPageEncabezado")
+
+    <br />
+
+    @if (Constants.VisualizarInformacionDesarrollo == 1)
+    {
+        <label id="lable_uno"></label>
+    }
+    else
+    {
+        <label id="lable_uno" hidden></label>
+    }
+
+    @if (RequiereDocumentos)
+    {
+        <div id="div_RequiereDocumentos"></div>
+    }
+
+
+    <div id="autoFormulario"> </div>
+
+    @if (Constants.VisualizarInformacionDesarrollo == 1)
+    {
+        <label id="lable_tres"></label>
+    }
+    else
+    {
+        <label id="lable_tres" hidden></label>
+    }
+
+
+    <div id="autoToDoList">    </div>
+
+
+    @if (Constants.VisualizarInformacionDesarrollo == 1)
+    {
+        <label id="lable_dos"></label>
+    }
+    else
+    {
+        <label id="lable_dos" hidden></label>
+    }
+
+
+    <div id="autoFormularioRespuesta"> </div>
+
+
+
+
+    @if ((Model.Respuesta_id == 0) && ((@ViewBag.intCantidadRespuestas > 0) && (ViewBag.RespuestaExplicita == true)))
+    {
+        if (ViewBag.intEtapas == 0)
+        {
+
+            foreach (Tbl_Gest_Etapa_Respuesta item in ViewBag.Respuestas)
+            {
+                string icono = "";
+                if (item.Icono != null)
+                {
+                    icono = item.Icono;
+                }
+
+
+                if (((item.CantidadIntentos ?? 0) == 0) || (ViewBag.CantidadRepeticionesEtapa > (item.CantidadIntentos ?? 0)))
+                {
+                    <br />
+                    <div class="row">
+                        <div class="col">
+                            <div class="d-grid gap-2">
+                                <button class="btn-next-ic" style="background-color:@item.ButtonColor" onclick="fnc_EnviarRespuesta('@item.Etapa_Respuesta_id')">
+                                    <i class="fa in @icono" aria-hidden="true"></i><br>@item.Descripcion
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            }
+        }
+        else
+        {
+
+            <p style="width: 100%; background-color: blue; color: white; font-size:20px; "> Tiene un procedimiento pendiente </p>
+            <p style="width: 100%; background-color: blue; color: white; font-size:20px; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Previo a emitir la resolución u oficio de enmiendas.</p>
+
+        }
+
+    }
+    else
+    {
+        <h4> @ViewBag.RespuestaDescripcion </h4>
+    }
+    <br />
+    <div class="row">
+        <div class="col">
+            <div class="d-grid gap-2">
+                <button class="btn-next-ic" style="background-color:#78909C" onclick="Cerrar_ContinuarDespues()">
+                    <i class="fa in fa-sign-out " aria-hidden="true"></i><br>Cerrar y continuar despues
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <br />
+    <input type="hidden" id="Pagina" name="Pagina" value="">
+    <input type="hidden" id="Titulo" name="Titulo" value="">
+
+
+
+    @Html.Partial("_PartialPageEncabezadoCierre")
+
+    <br />
+    <br />
+
+
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" width: 700px;>
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Header</h4>
+                    <button type="button" id="btnHideModal" class="btn btn-default">
+                        X
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>The <strong>show.bs.modal</strong> asdfasdf.</p>
+                </div>
+                <div id="DatosPersonerias">
+                    <br />
+                    <br />
+                    <br />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnHideModal_Close" class="btn btn-default">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+@*
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(model => model.Solicitud_id)
+        @Html.HiddenFor(model => model.Etapa_id)
+        @Html.HiddenFor(model => model.EtapaRuta_id)
+        @Html.HiddenFor(model => model.CorrelativoEtapa_id)
+
+        @Html.HiddenFor(model => model.EtapaOrigen_Correlativo_id)
+        @Html.HiddenFor(model => model.)
+        @Html.HiddenFor(model => model.Escalamiento_A)
+        @Html.HiddenFor(model => model.Escalamiento_B)
+        @Html.HiddenFor(model => model.Escalamiento_C)
+        @Html.HiddenFor(model => model.swcreatedby)
+        @Html.HiddenFor(model => model.swcreatedbyinterno)
+        @Html.HiddenFor(model => model.swdatecreated)
+
+        @Html.HiddenFor(model => model.swViewedby)
+        @Html.HiddenFor(model => model.swViewedbyinterno)
+        @Html.HiddenFor(model => model.swdateViewed)
+
+        @Html.HiddenFor(model => model.swLastViewedby)
+        @Html.HiddenFor(model => model.swLastViewedbyinterno)
+        @Html.HiddenFor(model => model.swdateLastViewed)
+        @Html.HiddenFor(model => model.Motivo)
+
+
+        if ((@ViewBag.intCantidadRespuestas > 0) && (ViewBag.RespuestaExplicita == true))
+        {
+            <div class="container">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Respuesta_id, "Respuesta", htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("Respuesta_id", null, htmlAttributes: new { @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.Respuesta_id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <h3>&nbsp;</h3>
+
+                <h3 style="background-color:powderblue;">@TempData["Mensaje"]</h3>
+
+                <div class="col-sm-12 col-md-12" align="right">
+                    <input type="submit" value="Guardar cambios" class="btn btn-success btn-fab btn-round" />
+                    &nbsp;&nbsp;&nbsp; <input type="button" class="btn btn-secondary" value="Cerrar y continuar despues" onclick="Cerrar_ContinuarDespues()" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </div>
+
+            </div>
+        }
+
+
+
+    }
+*@

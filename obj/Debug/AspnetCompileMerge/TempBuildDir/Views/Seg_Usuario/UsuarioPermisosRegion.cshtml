@@ -1,0 +1,157 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+
+    ViewBag.Title = "Index";
+    ViewBag.SubTitle = null;
+
+}
+
+@Html.Partial("_PartialPageEncabezadodetails")
+
+<table class="table">
+    <tr>
+        <th class="fa-bold">
+            Sub Regiones Asignadas
+        </th>
+        <th>
+            Sub Regiones No Asignadas
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <table class="table">
+
+                @{
+                    ViewBag.NombreRegion = "";
+                }
+
+                @foreach (var itemubRegionesAsignada in ViewBag.SubRegionesAsignadas)
+                {
+                    <tr>
+                        <td>
+                        </td>
+
+                        @{
+                            ViewBag.dibujarlinea = 0;
+                        }
+
+
+                        @if (ViewBag.NombreRegion != itemubRegionesAsignada.NombreRegion)
+                        {
+                            <td class="border-top">
+                                @itemubRegionesAsignada.NombreRegion
+                                @{
+                                    ViewBag.dibujarlinea = 1;
+                                }
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                            </td>
+
+                        }
+
+                        @{
+                            ViewBag.NombreRegion = itemubRegionesAsignada.NombreRegion;
+                        }
+
+
+
+                        @if (ViewBag.dibujarlinea == 1)
+                        {
+                            <td class="border-top">
+                                @itemubRegionesAsignada.NombreSubRegion
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @itemubRegionesAsignada.NombreSubRegion
+                            </td>
+                        }
+
+
+                        <td>
+                            <input type="checkbox" id="CambioEstatus" name="EstadoActivo" value="Estatus" onclick="changeRegionGrant(@itemubRegionesAsignada.Region_id, @itemubRegionesAsignada.SubRegion_id, 0)" checked>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </td>
+        <td>
+            <table class="table">
+
+                @{
+                    ViewBag.NombreRegion = "";
+                }
+
+                @foreach (var itemSubRegionesNoAsignadas in ViewBag.SubRegionesNoAsignadas)
+                {
+                    <tr>
+                        <td>
+                        </td>
+
+                        @{
+                            ViewBag.dibujarlinea = 0;
+                        }
+
+
+                        @if (ViewBag.NombreRegion != itemSubRegionesNoAsignadas.NombreRegion)
+                        {
+                            <td class="border-top">
+                                @itemSubRegionesNoAsignadas.NombreRegion
+                                @{
+                                    ViewBag.dibujarlinea = 1;
+                                }
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                            </td>
+
+                        }
+
+                        @{
+                            ViewBag.NombreRegion = @itemSubRegionesNoAsignadas.NombreRegion;
+                        }
+
+
+                        @if (ViewBag.dibujarlinea == 1)
+                        {
+                            <td class="border-top">
+                                @itemSubRegionesNoAsignadas.NombreSubRegion
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @itemSubRegionesNoAsignadas.NombreSubRegion
+                            </td>
+                        }
+
+
+
+
+                        <td>
+                            <input type="checkbox" id="CambioEstatus" name="EstadoActivo" value="Estatus" onclick="changeRegionGrant(@itemSubRegionesNoAsignadas.Region_id, @itemSubRegionesNoAsignadas.SubRegion_id, 1)">
+                        </td>
+                    </tr>
+                }
+            </table>
+        </td>
+    </tr>
+
+</table>
+
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+
+

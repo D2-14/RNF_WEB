@@ -1,0 +1,35 @@
+﻿@using RNF_Web.Models;
+@model List<Tbl_Sol_Rodal>
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+@*<script src="~/Content/assets/js/jquery.min.js"></script>*@
+
+
+@foreach (var item in Model)
+{
+    <div id="div_FincaRodal_1_@item.Rodal_Id"></div>
+    <div id="div_FincaRodal_2_@item.Rodal_Id"></div>
+    <div id="div_FincaRodal_3_@item.Rodal_Id"></div>
+
+    <script>
+        $(document).ready(function () {
+            var myFincaRodal_1 = document.getElementById('div_FincaRodal_1_@item.Rodal_Id');
+            if (myFincaRodal_1) {
+                $('#div_FincaRodal_1_@item.Rodal_Id').load("/ReportePV/Dasometricos_Clase?Solicitud_id=@item.Solicitud_id&Finca_Id=@item.Finca_id&Rodal_id=@item.Rodal_Id&Clase_id=1");
+            }
+            var myFincaRodal_2 = document.getElementById('div_FincaRodal_2_@item.Rodal_Id');
+            if (myFincaRodal_2) {
+                $('#div_FincaRodal_2_@item.Rodal_Id').load("/ReportePV/Dasometricos_Clase?Solicitud_id=@item.Solicitud_id&Finca_Id=@item.Finca_id&Rodal_id=@item.Rodal_Id&Clase_id=2");
+            }
+            var myFincaRodal_3 = document.getElementById('div_FincaRodal_3_@item.Rodal_Id');
+            if (myFincaRodal_3) {
+                $('#div_FincaRodal_3_@item.Rodal_Id').load("/ReportePV/Dasometricos_Clase?Solicitud_id=@item.Solicitud_id&Finca_Id=@item.Finca_id&Rodal_id=@item.Rodal_Id&Clase_id=3");
+            }
+        });
+    </script>
+}
+
+
+

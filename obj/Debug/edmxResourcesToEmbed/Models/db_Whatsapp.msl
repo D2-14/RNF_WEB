@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="db_WhatsappModelStoreContainer" CdmEntityContainer="db_WhatsappEntities">
+    <EntitySetMapping Name="Tbl_Meta_Mensajes">
+      <EntityTypeMapping TypeName="db_WhatsappModel.Tbl_Meta_Mensajes">
+        <MappingFragment StoreEntitySet="Tbl_Meta_Mensajes">
+          <ScalarProperty Name="from" ColumnName="from" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="timestamp_dt" ColumnName="timestamp_dt" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="body" ColumnName="body" />
+          <ScalarProperty Name="latitude" ColumnName="latitude" />
+          <ScalarProperty Name="longitude" ColumnName="longitude" />
+          <ScalarProperty Name="caption" ColumnName="caption" />
+          <ScalarProperty Name="mime_type" ColumnName="mime_type" />
+          <ScalarProperty Name="sha256" ColumnName="sha256" />
+          <ScalarProperty Name="id_image" ColumnName="id_image" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swupdatedby" ColumnName="swupdatedby" />
+          <ScalarProperty Name="swdateupdated" ColumnName="swdateupdated" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_Meta_ParametrosGenerales">
+      <EntityTypeMapping TypeName="db_WhatsappModel.Tbl_Meta_ParametrosGenerales">
+        <MappingFragment StoreEntitySet="Tbl_Meta_ParametrosGenerales">
+          <ScalarProperty Name="Entidad_id" ColumnName="Entidad_id" />
+          <ScalarProperty Name="Direccion_URL" ColumnName="Direccion_URL" />
+          <ScalarProperty Name="Longitud_Celular" ColumnName="Longitud_Celular" />
+          <ScalarProperty Name="Menu" ColumnName="Menu" />
+          <ScalarProperty Name="MenuVacio" ColumnName="MenuVacio" />
+          <ScalarProperty Name="VisualizarInformacionDesarrollo" ColumnName="VisualizarInformacionDesarrollo" />
+          <ScalarProperty Name="WhatsappVersion" ColumnName="WhatsappVersion" />
+          <ScalarProperty Name="WhatsappToken" ColumnName="WhatsappToken" />
+          <ScalarProperty Name="WhatsappID" ColumnName="WhatsappID" />
+          <ScalarProperty Name="WhatsappTelefono" ColumnName="WhatsappTelefono" />
+          <ScalarProperty Name="WhatsappTextoDefault" ColumnName="WhatsappTextoDefault" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_Meta_ValidarTelefono">
+      <EntityTypeMapping TypeName="db_WhatsappModel.Tbl_Meta_ValidarTelefono">
+        <MappingFragment StoreEntitySet="Tbl_Meta_ValidarTelefono">
+          <ScalarProperty Name="Telefono_id" ColumnName="Telefono_id" />
+          <ScalarProperty Name="Verificado" ColumnName="Verificado" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_Seg_Parametros">
+      <EntityTypeMapping TypeName="db_WhatsappModel.Tbl_Seg_Parametros">
+        <MappingFragment StoreEntitySet="Tbl_Seg_Parametros">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Token" ColumnName="Token" />
+          <ScalarProperty Name="InstanceId" ColumnName="InstanceId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_Whatsapp_Mensajes">
+      <EntityTypeMapping TypeName="db_WhatsappModel.Tbl_Whatsapp_Mensajes">
+        <MappingFragment StoreEntitySet="Tbl_Whatsapp_Mensajes">
+          <ScalarProperty Name="Whatsapp_id" ColumnName="Whatsapp_id" />
+          <ScalarProperty Name="DestinoTipo" ColumnName="DestinoTipo" />
+          <ScalarProperty Name="Destino" ColumnName="Destino" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swdateupdated" ColumnName="swdateupdated" />
+          <ScalarProperty Name="ProcesoQueLaGenero" ColumnName="ProcesoQueLaGenero" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionName="db_WhatsappModel.Store.Fc_Meta_MensajesPendientesAutorizados" FunctionImportName="Fc_Meta_MensajesPendientesAutorizados">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_WhatsappModel.Fc_Meta_MensajesPendientesAutorizados_Result">
+          <ScalarProperty Name="Whatsapp_id" ColumnName="Whatsapp_id" />
+          <ScalarProperty Name="DestinoTipo" ColumnName="DestinoTipo" />
+          <ScalarProperty Name="Destino" ColumnName="Destino" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swdateupdated" ColumnName="swdateupdated" />
+          <ScalarProperty Name="ProcesoQueLaGenero" ColumnName="ProcesoQueLaGenero" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_Meta_ValidarTelefono" FunctionName="db_WhatsappModel.Store.SP_Meta_ValidarTelefono">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_WhatsappModel.SP_Meta_ValidarTelefono_Result">
+          <ScalarProperty Name="respuesta" ColumnName="respuesta" />
+          <ScalarProperty Name="mensaje" ColumnName="mensaje" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

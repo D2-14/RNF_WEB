@@ -1,0 +1,115 @@
+﻿@model IEnumerable<RNF_Web.Models.fc_Cas_CasillerosEntrampados_Result>
+@using RNF_Web.Models;
+
+
+@{
+    ViewBag.Title = "   Home page";
+
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+
+    ViewBag.Title = "Registros Inscritos";
+    ViewBag.SubTitle = "Solicitudes Registradas";
+}
+
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+<script>
+
+    function ReiniciarIntentos()
+    {
+
+
+            var url = "@Url.Action("ReiniciarIntentos", "CasilleroElectronico")";
+            var data = {};
+
+            $.post(url, data).done(function (Listdata) {
+                alert('Reinicialización realizada');
+                location.reload();
+
+            }).fail(manejarErrorAjax).always(function () {
+                alert('Reinicialización FALLIDA');
+            });
+
+    }
+
+</script>
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            Exp.
+        </th>
+        <th>
+            Solicitante
+        </th>
+        <th>
+            Usuario
+        </th>
+        <th>Casillero</th>
+        <th>CUI</th>
+        <th>Proceso</th>
+        <th>Sub Region</th>
+        <th>Fecha</th>
+        <th>Fecha actualizacion</th>
+        <th>No. Solicitud</th>
+        <th>Respueta</th>
+        <th>Intentos</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Expediente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Solicitante)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usuario_INAB)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Casillero)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CUI)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Proceso)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sub_region)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.swdatecreated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.swdateupdated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Solicitud_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Respuesta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Intentos)
+            </td>
+        </tr>
+    }
+
+</table>
+
+<button class="btn-next" onclick="ReiniciarIntentos()"> Reiniciar intentos</button>
+
+<br />
+<br />
+

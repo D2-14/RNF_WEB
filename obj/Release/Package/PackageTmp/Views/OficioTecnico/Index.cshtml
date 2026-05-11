@@ -1,0 +1,116 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    string archivopdf = ViewBag.OficioTecnico_Enmienda + ".pdf";
+    string archivodocx = ViewBag.OficioTecnico_Enmienda + ".docx";
+    ViewBag.Title = "   Home page";
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+
+    string guidid, guidetapa;
+    guidid = ViewBag.guidsolicitud;
+    guidetapa = ViewBag.guidetapasolicitud;
+}
+
+<a href="@archivopdf" target="_blank">Archivo PDF</a>
+<br />
+<a href="@archivodocx" target="_blank">Archivo Word</a>
+
+<div id="div_CrearEnmiendas"></div>
+<div id="div_ListarEnmiendas"></div>
+
+
+
+<script>
+    $(document).ready(function () {
+        var myCrearEnmiendas = document.getElementById("div_CrearEnmiendas");
+        var myListarEnmiendas = document.getElementById("div_ListarEnmiendas");
+
+        if (myCrearEnmiendas) {
+            $("#div_CrearEnmiendas").load("/OficioTecnico_Enmienda/Create?Guid_id=@guidid&EtapaSolicitudGuid=@guidetapa");
+        }
+
+        if (myListarEnmiendas) {
+            $("#div_ListarEnmiendas").load("/OficioTecnico_Enmienda/ListaEnmiendasOficioTecnico_Enmienda?Guid_id=@guidid&EtapaSolicitudGuid=@guidetapa");
+        }
+    })
+
+
+    function agregarEnmienda() {
+        var Solicitud_id = document.getElementById("Solicitud_id").value;
+        var Etapa_id = document.getElementById("Etapa_id").value;
+        var EtapaRuta_id = document.getElementById("EtapaRuta_id").value;
+        var CorrelativoEtapa_id = document.getElementById("CorrelativoEtapa_id").value;
+        var EtapaSolicitud_GUID_id = document.getElementById("EtapaSolicitud_GUID_id").value;
+        var Solicitud_Guid_id = document.getElementById("Solicitud_Guid_id").value;
+        var swcreatedby = document.getElementById("swcreatedby").value;
+        var swcreatedbyinterno = document.getElementById("swcreatedbyinterno").value;
+        var Descripcion = document.getElementById("Descripcion").value;
+
+        var data = {
+            Solicitud_id: Solicitud_id,
+            Etapa_id: Etapa_id,
+            EtapaRuta_id: EtapaRuta_id,
+            CorrelativoEtapa_id: CorrelativoEtapa_id,
+            EtapaSolicitud_GUID_id: EtapaSolicitud_GUID_id,
+            Solicitud_Guid_id: Solicitud_Guid_id,
+            swcreatedby: swcreatedby,
+            swcreatedbyinterno: swcreatedbyinterno,
+            Descripcion: Descripcion
+        };
+
+        var url = "@Url.Action("GrabarEnmienda","OficioTecnico_Enmienda")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+
+            var myCrearEnmiendas = document.getElementById("div_CrearEnmiendas");
+            var myListarEnmiendas = document.getElementById("div_ListarEnmiendas");
+
+            if (myCrearEnmiendas) {
+                $("#div_CrearEnmiendas").load("/OficioTecnico_Enmienda/Create?Guid_id=@guidid&EtapaSolicitudGuid=@guidetapa");
+            }
+
+            if (myListarEnmiendas) {
+                $("#div_ListarEnmiendas").load("/OficioTecnico_Enmienda/ListaEnmiendasOficioTecnico_Enmienda?Guid_id=@guidid&EtapaSolicitudGuid=@guidetapa");
+            }
+
+        });
+
+    }
+
+    function eliminarEnmienda(enmiendaid) {
+        var EtapaSolicitud_GUID_id = "@guidetapa";
+        var Solicitud_Guid_id = "@guidid";
+        var Enmienda_id = enmiendaid
+
+        var data = {
+            EtapaSolicitud_GUID_id: EtapaSolicitud_GUID_id,
+            Solicitud_Guid_id: Solicitud_Guid_id,
+            Enmienda_id: Enmienda_id
+        };
+
+        var url = "@Url.Action("EliminarEnmienda", "OficioTecnico_Enmienda")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+
+            var myCrearEnmiendas = document.getElementById("div_CrearEnmiendas");
+            var myListarEnmiendas = document.getElementById("div_ListarEnmiendas");
+
+            if (myCrearEnmiendas) {
+                $("#div_CrearEnmiendas").load("/OficioTecnico_Enmienda/Create?Guid_id=@guidid&EtapaSolicitudGuid=@guidetapa");
+            }
+
+            if (myListarEnmiendas) {
+                $("#div_ListarEnmiendas").load("/OficioTecnico_Enmienda/ListaEnmiendasOficioTecnico_Enmienda?Guid_id=@guidid&EtapaSolicitudGuid=@guidetapa");
+            }
+
+        });
+
+    }
+</script>

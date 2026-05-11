@@ -1,0 +1,1125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="db_RNF_IntermediaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Tbl_API_Categoria_Intermedia">
+          <Key>
+            <PropertyRef Name="Categoria_id" />
+          </Key>
+          <Property Name="Categoria_id" Type="int" Nullable="false" />
+          <Property Name="PinpepOld_Modalidad" Type="varchar" MaxLength="100" />
+          <Property Name="Probosque_Modalidad" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Tbl_API_ExpedienteOficio_FasePermitida">
+          <Key>
+            <PropertyRef Name="Id_Fase" />
+          </Key>
+          <Property Name="Id_Fase" Type="int" Nullable="false" />
+          <Property Name="NombreFase" Type="varchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="Tbl_API_PinpepOld_EspeciesForestales">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="RodalId" />
+            <PropertyRef Name="Correlativo_id" />
+          </Key>
+          <Property Name="Guid_id" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="RodalId" Type="bigint" Nullable="false" />
+          <Property Name="Correlativo_id" Type="bigint" Nullable="false" />
+          <Property Name="NombreEspecie" Type="varchar" MaxLength="200" />
+          <Property Name="ArbolesPorHa" Type="bigint" />
+          <Property Name="Area" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Tbl_API_PinpepOld_Expediente">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+          </Key>
+          <Property Name="Guid_id" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="ProyectoId" Type="bigint" />
+          <Property Name="Expediente" Type="varchar" MaxLength="50" />
+          <Property Name="Modalidad" Type="varchar" MaxLength="100" />
+          <Property Name="Region" Type="varchar" MaxLength="50" />
+          <Property Name="SubRegion" Type="varchar" MaxLength="50" />
+          <Property Name="UltimaFaseCertificada" Type="varchar" MaxLength="50" />
+          <Property Name="UltimaAreaCertificada" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Migrado" Type="bit" />
+          <Property Name="Solicitud_id" Type="bigint" />
+          <Property Name="DPI_Titular" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Tbl_API_PinpepOld_Finca">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+          </Key>
+          <Property Name="Guid_id" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="FincaMunicipio" Type="varchar" MaxLength="100" />
+          <Property Name="FincaDepartamento" Type="varchar" MaxLength="50" />
+          <Property Name="FincaUbicacion" Type="varchar" MaxLength="200" />
+          <Property Name="FincaLugar" Type="varchar" MaxLength="200" />
+          <Property Name="FincaRefX" Type="varchar" MaxLength="20" />
+          <Property Name="FincaRefY" Type="varchar" MaxLength="20" />
+          <Property Name="AreaAprobada" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Tbl_API_PinpepOld_InformeTecnico">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+          </Key>
+          <Property Name="Guid_id" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="NumeroInforme" Type="varchar" MaxLength="50" />
+          <Property Name="PDFInforme" Type="varchar" MaxLength="200" />
+          <Property Name="PDFInforme_Local" Type="varchar" MaxLength="200" />
+          <Property Name="UltimaFaseCertificada" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Tbl_API_PinpepOld_Propietarios">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+          </Key>
+          <Property Name="Guid_id" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="NoDPI" Type="varchar" MaxLength="50" />
+          <Property Name="Nit" Type="varchar" MaxLength="20" />
+          <Property Name="NombreCompleto" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Tbl_API_PinpepOld_PropietariosGrupal">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="Id_PropietarioGrupal" />
+          </Key>
+          <Property Name="Guid_id" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Id_PropietarioGrupal" Type="bigint" Nullable="false" />
+          <Property Name="NoDPI" Type="varchar" MaxLength="50" />
+          <Property Name="NombreCompleto" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Tbl_API_PinpepOld_Representante">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+          </Key>
+          <Property Name="Guid_id" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="NoDPI" Type="varchar" MaxLength="50" />
+          <Property Name="NombreCompleto" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Tbl_API_PinpepOld_Rodales">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Guid_id" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="Area" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="EspeciesProteger" Type="varchar" MaxLength="8000" />
+        </EntityType>
+        <EntityType Name="Tbl_API_PinpepOld_Rodales_Poligonos">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="Correlativo" />
+          </Key>
+          <Property Name="Guid_id" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Correlativo" Type="bigint" Nullable="false" />
+          <Property Name="GeometriaGTM" Type="varchar(max)" />
+          <Property Name="PDFPol" Type="varchar" MaxLength="200" />
+          <Property Name="PODPol_Local" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Tbl_API_PinpepOld_Rodales_PoligonosDescuento">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="Correlativo" />
+            <PropertyRef Name="Id_Correlativo" />
+          </Key>
+          <Property Name="Guid_id" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Correlativo" Type="bigint" Nullable="false" />
+          <Property Name="Id_Correlativo" Type="int" Nullable="false" />
+          <Property Name="GeometriaGTM" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Tbl_API_Probosque_EspeciesForestales">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Correlativo_id" />
+          </Key>
+          <Property Name="Guid_id" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="Correlativo_id" Type="bigint" Nullable="false" />
+          <Property Name="Area" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="NombreCientifico" Type="varchar" MaxLength="100" />
+          <Property Name="FechaPlantacion" Type="datetime" />
+          <Property Name="CicloDeCorta" Type="int" />
+          <Property Name="DensidadFinal" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="DensidadInicial" Type="decimal" Precision="18" Scale="12" />
+          <Property Name="Mixtaje" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="DistanciaES" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="DistanciaEP" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="DensidadActual" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Supervivencia" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PlantasSanas" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PlantacionDPA" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PlantacionAltura" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PlantasAfectadas" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PlantasEnfermedad" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PlantasFuego" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Tbl_API_Probosque_Expediente">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+          </Key>
+          <Property Name="Guid_id" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="ProyectoId" Type="bigint" />
+          <Property Name="Expediente" Type="varchar" MaxLength="50" />
+          <Property Name="Modalidad" Type="varchar" MaxLength="100" />
+          <Property Name="TipoProyecto" Type="varchar" MaxLength="100" />
+          <Property Name="Region" Type="varchar" MaxLength="50" />
+          <Property Name="SubRegion" Type="varchar" MaxLength="50" />
+          <Property Name="UltimaFaseCertificada" Type="varchar" MaxLength="50" />
+          <Property Name="UltimaAreaCertificada" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Migrado" Type="bit" />
+          <Property Name="Solicitud_id" Type="bigint" />
+          <Property Name="DPI_Titular" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Tbl_API_Probosque_Finca">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+          </Key>
+          <Property Name="Guid_id" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="FincaNombre" Type="varchar" MaxLength="100" />
+          <Property Name="FincaMunicipio" Type="varchar" MaxLength="100" />
+          <Property Name="FincaDepartamento" Type="varchar" MaxLength="50" />
+          <Property Name="FincaUbicacion" Type="varchar" MaxLength="200" />
+          <Property Name="FincaRefX" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="FincaRefY" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="FincaTipoPropiedad" Type="int" />
+          <Property Name="FincaActaMunicipal" Type="varchar" MaxLength="50" />
+          <Property Name="FincaArrendamiento" Type="varchar" MaxLength="50" />
+          <Property Name="FincaActaNotarial" Type="varchar" MaxLength="50" />
+          <Property Name="AreaFinca" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="AreaAprobada" Type="decimal" Precision="18" Scale="10" />
+        </EntityType>
+        <EntityType Name="Tbl_API_Probosque_FincaRegistroPropiedad">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+          </Key>
+          <Property Name="Guid_id" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Id" Type="bigint" />
+          <Property Name="Numero" Type="varchar" MaxLength="3000" />
+          <Property Name="Folio" Type="varchar" MaxLength="3000" />
+          <Property Name="Libro" Type="varchar" MaxLength="3000" />
+          <Property Name="Municipalidad" Type="varchar" MaxLength="100" />
+          <Property Name="Fecha" Type="datetime" />
+          <Property Name="TipoRegistroPropiedad" Type="int" />
+        </EntityType>
+        <EntityType Name="Tbl_API_Probosque_InformeTecnico">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+          </Key>
+          <Property Name="Guid_id" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="UltimaFaseCertificada" Type="varchar" MaxLength="50" />
+          <Property Name="NumeroInforme" Type="varchar" MaxLength="50" />
+          <Property Name="PDFInforme" Type="varchar" MaxLength="200" />
+          <Property Name="PDFInforme_Local" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Tbl_API_Probosque_Propietario_PersonaIndividual">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="CUI" />
+          </Key>
+          <Property Name="Guid_id" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="CUI" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Nombres" Type="varchar" MaxLength="100" />
+          <Property Name="Apellidos" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Tbl_API_Probosque_Propietario_PersonaJuridica">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="Nit" />
+          </Key>
+          <Property Name="Guid_id" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Nit" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="300" />
+          <Property Name="TipoPersonaJ" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Tbl_API_Probosque_RepresentanteLegal">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="CUI" />
+          </Key>
+          <Property Name="Guid_id" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="CUI" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Nombres" Type="varchar" MaxLength="100" />
+          <Property Name="Apellidos" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Tbl_API_Probosque_Rodales">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Guid_id" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="PoligonoId" Type="bigint" />
+          <Property Name="Area" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Tbl_API_Probosque_Rodales_Documentos">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="Correlativo_id" />
+          </Key>
+          <Property Name="Guid_id" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Correlativo_id" Type="bigint" Nullable="false" />
+          <Property Name="PDFPol" Type="varchar" MaxLength="200" />
+          <Property Name="PDFPol_Local" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Tbl_API_Probosque_Rodales_Poligonos">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="RodalId" />
+            <PropertyRef Name="PoligonoId" />
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Orden" />
+          </Key>
+          <Property Name="Guid_id" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="RodalId" Type="bigint" Nullable="false" />
+          <Property Name="PoligonoId" Type="bigint" Nullable="false" />
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="Orden" Type="bigint" Nullable="false" />
+          <Property Name="GTMX" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="GTMY" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="Area" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="Tbl_API_Probosque_Rodales_PoligonosDescuento">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="RodalId" />
+            <PropertyRef Name="PoligonoId" />
+            <PropertyRef Name="Area_id" />
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Orden" />
+          </Key>
+          <Property Name="Guid_id" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="RodalId" Type="bigint" Nullable="false" />
+          <Property Name="PoligonoId" Type="bigint" Nullable="false" />
+          <Property Name="Area_id" Type="bigint" Nullable="false" />
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="Orden" Type="bigint" Nullable="false" />
+          <Property Name="GTMX" Type="decimal" Precision="18" Scale="10" />
+          <Property Name="GTMY" Type="decimal" Precision="18" Scale="10" />
+        </EntityType>
+        <EntityType Name="Tbl_Categoria">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Categoria_Probosque" Type="varchar" MaxLength="50" />
+          <Property Name="Categoria_PinpepOld" Type="varchar" MaxLength="50" />
+          <Property Name="Categoria_id" Type="int" />
+        </EntityType>
+        <Function Name="Fcn_Intermedia_ValidarFaseExpediente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="bit">
+          <Parameter Name="Fase" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_Limpiar_PinpepOld" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_Limpiar_Probosque" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_Limpiar_Todo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_MigrarPinpepOld" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Expediente" Type="varchar" Mode="In" />
+          <Parameter Name="Categoria_id" Type="int" Mode="In" />
+          <Parameter Name="Sub_Categoria_id" Type="int" Mode="In" />
+          <Parameter Name="Sub_Sub_Categoria_id" Type="int" Mode="In" />
+          <Parameter Name="Region_id" Type="int" Mode="In" />
+          <Parameter Name="SubRegion_id" Type="int" Mode="In" />
+          <Parameter Name="DPI_Titular" Type="varchar" Mode="In" />
+          <Parameter Name="Usuario_id" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="SP_MigrarPinpepOld_Bck_20230807" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Expediente" Type="varchar" Mode="In" />
+          <Parameter Name="Categoria_id" Type="int" Mode="In" />
+          <Parameter Name="Sub_Categoria_id" Type="int" Mode="In" />
+          <Parameter Name="Sub_Sub_Categoria_id" Type="int" Mode="In" />
+          <Parameter Name="Region_id" Type="int" Mode="In" />
+          <Parameter Name="SubRegion_id" Type="int" Mode="In" />
+          <Parameter Name="DPI_Titular" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_MigrarProbosque" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Expediente" Type="varchar" Mode="In" />
+          <Parameter Name="Categoria_id" Type="int" Mode="In" />
+          <Parameter Name="Sub_Categoria_id" Type="int" Mode="In" />
+          <Parameter Name="Sub_Sub_Categoria_id" Type="int" Mode="In" />
+          <Parameter Name="Region_id" Type="int" Mode="In" />
+          <Parameter Name="SubRegion_id" Type="int" Mode="In" />
+          <Parameter Name="DPI_Titular" Type="varchar" Mode="In" />
+          <Parameter Name="Usuario_id" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="SP_MigrarProbosque_Bk_20230621_K1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Expediente" Type="varchar" Mode="In" />
+          <Parameter Name="Categoria_id" Type="int" Mode="In" />
+          <Parameter Name="Sub_Categoria_id" Type="int" Mode="In" />
+          <Parameter Name="Sub_Sub_Categoria_id" Type="int" Mode="In" />
+          <Parameter Name="Region_id" Type="int" Mode="In" />
+          <Parameter Name="SubRegion_id" Type="int" Mode="In" />
+          <Parameter Name="DPI_Titular" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_MiniLimpiarExpediente_Probosque" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Expediente" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="db_RNF_IntermediaModelStoreContainer">
+          <EntitySet Name="Tbl_API_Categoria_Intermedia" EntityType="Self.Tbl_API_Categoria_Intermedia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_API_ExpedienteOficio_FasePermitida" EntityType="Self.Tbl_API_ExpedienteOficio_FasePermitida" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_API_PinpepOld_EspeciesForestales" EntityType="Self.Tbl_API_PinpepOld_EspeciesForestales" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_API_PinpepOld_Expediente" EntityType="Self.Tbl_API_PinpepOld_Expediente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_API_PinpepOld_Finca" EntityType="Self.Tbl_API_PinpepOld_Finca" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_API_PinpepOld_InformeTecnico" EntityType="Self.Tbl_API_PinpepOld_InformeTecnico" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_API_PinpepOld_Propietarios" EntityType="Self.Tbl_API_PinpepOld_Propietarios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_API_PinpepOld_PropietariosGrupal" EntityType="Self.Tbl_API_PinpepOld_PropietariosGrupal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_API_PinpepOld_Representante" EntityType="Self.Tbl_API_PinpepOld_Representante" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_API_PinpepOld_Rodales" EntityType="Self.Tbl_API_PinpepOld_Rodales" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_API_PinpepOld_Rodales_Poligonos" EntityType="Self.Tbl_API_PinpepOld_Rodales_Poligonos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_API_PinpepOld_Rodales_PoligonosDescuento" EntityType="Self.Tbl_API_PinpepOld_Rodales_PoligonosDescuento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_API_Probosque_EspeciesForestales" EntityType="Self.Tbl_API_Probosque_EspeciesForestales" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_API_Probosque_Expediente" EntityType="Self.Tbl_API_Probosque_Expediente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_API_Probosque_Finca" EntityType="Self.Tbl_API_Probosque_Finca" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_API_Probosque_FincaRegistroPropiedad" EntityType="Self.Tbl_API_Probosque_FincaRegistroPropiedad" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_API_Probosque_InformeTecnico" EntityType="Self.Tbl_API_Probosque_InformeTecnico" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_API_Probosque_Propietario_PersonaIndividual" EntityType="Self.Tbl_API_Probosque_Propietario_PersonaIndividual" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_API_Probosque_Propietario_PersonaJuridica" EntityType="Self.Tbl_API_Probosque_Propietario_PersonaJuridica" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_API_Probosque_RepresentanteLegal" EntityType="Self.Tbl_API_Probosque_RepresentanteLegal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_API_Probosque_Rodales" EntityType="Self.Tbl_API_Probosque_Rodales" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_API_Probosque_Rodales_Documentos" EntityType="Self.Tbl_API_Probosque_Rodales_Documentos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_API_Probosque_Rodales_Poligonos" EntityType="Self.Tbl_API_Probosque_Rodales_Poligonos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_API_Probosque_Rodales_PoligonosDescuento" EntityType="Self.Tbl_API_Probosque_Rodales_PoligonosDescuento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Categoria" EntityType="Self.Tbl_Categoria" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="db_RNF_IntermediaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Tbl_API_Categoria_Intermedia">
+          <Key>
+            <PropertyRef Name="Categoria_id" />
+          </Key>
+          <Property Name="Categoria_id" Type="Int32" Nullable="false" />
+          <Property Name="PinpepOld_Modalidad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Probosque_Modalidad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tbl_API_ExpedienteOficio_FasePermitida">
+          <Key>
+            <PropertyRef Name="Id_Fase" />
+          </Key>
+          <Property Name="Id_Fase" Type="Int32" Nullable="false" />
+          <Property Name="NombreFase" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tbl_API_PinpepOld_EspeciesForestales">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="RodalId" />
+            <PropertyRef Name="Correlativo_id" />
+          </Key>
+          <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RodalId" Type="Int64" Nullable="false" />
+          <Property Name="Correlativo_id" Type="Int64" Nullable="false" />
+          <Property Name="NombreEspecie" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ArbolesPorHa" Type="Int64" />
+          <Property Name="Area" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Tbl_API_PinpepOld_Expediente">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+          </Key>
+          <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProyectoId" Type="Int64" />
+          <Property Name="Expediente" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Modalidad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Region" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SubRegion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UltimaFaseCertificada" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UltimaAreaCertificada" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Migrado" Type="Boolean" />
+          <Property Name="Solicitud_id" Type="Int64" />
+          <Property Name="DPI_Titular" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tbl_API_PinpepOld_Finca">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+          </Key>
+          <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FincaMunicipio" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FincaDepartamento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FincaUbicacion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FincaLugar" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FincaRefX" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FincaRefY" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="AreaAprobada" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Tbl_API_PinpepOld_InformeTecnico">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+          </Key>
+          <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NumeroInforme" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PDFInforme" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="PDFInforme_Local" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="UltimaFaseCertificada" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tbl_API_PinpepOld_Propietarios">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+          </Key>
+          <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NoDPI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Nit" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="NombreCompleto" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tbl_API_PinpepOld_PropietariosGrupal">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="Id_PropietarioGrupal" />
+          </Key>
+          <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Id_PropietarioGrupal" Type="Int64" Nullable="false" />
+          <Property Name="NoDPI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NombreCompleto" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tbl_API_PinpepOld_Representante">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+          </Key>
+          <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NoDPI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NombreCompleto" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tbl_API_PinpepOld_Rodales">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="Area" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="EspeciesProteger" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tbl_API_PinpepOld_Rodales_Poligonos">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="Correlativo" />
+          </Key>
+          <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Correlativo" Type="Int64" Nullable="false" />
+          <Property Name="GeometriaGTM" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PDFPol" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="PODPol_Local" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tbl_API_PinpepOld_Rodales_PoligonosDescuento">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="Correlativo" />
+            <PropertyRef Name="Id_Correlativo" />
+          </Key>
+          <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Correlativo" Type="Int64" Nullable="false" />
+          <Property Name="Id_Correlativo" Type="Int32" Nullable="false" />
+          <Property Name="GeometriaGTM" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tbl_API_Probosque_EspeciesForestales">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Correlativo_id" />
+          </Key>
+          <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="Correlativo_id" Type="Int64" Nullable="false" />
+          <Property Name="Area" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="NombreCientifico" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FechaPlantacion" Type="DateTime" Precision="3" />
+          <Property Name="CicloDeCorta" Type="Int32" />
+          <Property Name="DensidadFinal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DensidadInicial" Type="Decimal" Precision="18" Scale="12" />
+          <Property Name="Mixtaje" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DistanciaES" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DistanciaEP" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DensidadActual" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Supervivencia" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PlantasSanas" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PlantacionDPA" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PlantacionAltura" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PlantasAfectadas" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PlantasEnfermedad" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PlantasFuego" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Tbl_API_Probosque_Expediente">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+          </Key>
+          <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProyectoId" Type="Int64" />
+          <Property Name="Expediente" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Modalidad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TipoProyecto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Region" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SubRegion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UltimaFaseCertificada" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UltimaAreaCertificada" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Migrado" Type="Boolean" />
+          <Property Name="Solicitud_id" Type="Int64" />
+          <Property Name="DPI_Titular" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tbl_API_Probosque_Finca">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+          </Key>
+          <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FincaNombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FincaMunicipio" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FincaDepartamento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FincaUbicacion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FincaRefX" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="FincaRefY" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="FincaTipoPropiedad" Type="Int32" />
+          <Property Name="FincaActaMunicipal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FincaArrendamiento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FincaActaNotarial" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AreaFinca" Type="Decimal" Precision="18" Scale="10" />
+          <Property Name="AreaAprobada" Type="Decimal" Precision="18" Scale="10" />
+        </EntityType>
+        <EntityType Name="Tbl_API_Probosque_FincaRegistroPropiedad">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+          </Key>
+          <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Id" Type="Int64" />
+          <Property Name="Numero" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
+          <Property Name="Folio" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
+          <Property Name="Libro" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
+          <Property Name="Municipalidad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <Property Name="TipoRegistroPropiedad" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Tbl_API_Probosque_InformeTecnico">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+          </Key>
+          <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UltimaFaseCertificada" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NumeroInforme" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PDFInforme" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="PDFInforme_Local" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tbl_API_Probosque_Propietario_PersonaIndividual">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="CUI" />
+          </Key>
+          <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CUI" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombres" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Apellidos" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tbl_API_Probosque_Propietario_PersonaJuridica">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="Nit" />
+          </Key>
+          <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nit" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="TipoPersonaJ" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tbl_API_Probosque_RepresentanteLegal">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="CUI" />
+          </Key>
+          <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CUI" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombres" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Apellidos" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tbl_API_Probosque_Rodales">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="PoligonoId" Type="Int64" />
+          <Property Name="Area" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Tbl_API_Probosque_Rodales_Documentos">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="Correlativo_id" />
+          </Key>
+          <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Correlativo_id" Type="Int64" Nullable="false" />
+          <Property Name="PDFPol" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="PDFPol_Local" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tbl_API_Probosque_Rodales_Poligonos">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="RodalId" />
+            <PropertyRef Name="PoligonoId" />
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Orden" />
+          </Key>
+          <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RodalId" Type="Int64" Nullable="false" />
+          <Property Name="PoligonoId" Type="Int64" Nullable="false" />
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="Orden" Type="Int64" Nullable="false" />
+          <Property Name="GTMX" Type="Decimal" Precision="18" Scale="10" />
+          <Property Name="GTMY" Type="Decimal" Precision="18" Scale="10" />
+          <Property Name="Area" Type="Decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="Tbl_API_Probosque_Rodales_PoligonosDescuento">
+          <Key>
+            <PropertyRef Name="Guid_id" />
+            <PropertyRef Name="RodalId" />
+            <PropertyRef Name="PoligonoId" />
+            <PropertyRef Name="Area_id" />
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Orden" />
+          </Key>
+          <Property Name="Guid_id" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RodalId" Type="Int64" Nullable="false" />
+          <Property Name="PoligonoId" Type="Int64" Nullable="false" />
+          <Property Name="Area_id" Type="Int64" Nullable="false" />
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="Orden" Type="Int64" Nullable="false" />
+          <Property Name="GTMX" Type="Decimal" Precision="18" Scale="10" />
+          <Property Name="GTMY" Type="Decimal" Precision="18" Scale="10" />
+        </EntityType>
+        <EntityType Name="Tbl_Categoria">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Categoria_Probosque" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Categoria_PinpepOld" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Categoria_id" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="db_RNF_IntermediaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Tbl_API_Categoria_Intermedia" EntityType="Self.Tbl_API_Categoria_Intermedia" />
+          <EntitySet Name="Tbl_API_ExpedienteOficio_FasePermitida" EntityType="Self.Tbl_API_ExpedienteOficio_FasePermitida" />
+          <EntitySet Name="Tbl_API_PinpepOld_EspeciesForestales" EntityType="Self.Tbl_API_PinpepOld_EspeciesForestales" />
+          <EntitySet Name="Tbl_API_PinpepOld_Expediente" EntityType="Self.Tbl_API_PinpepOld_Expediente" />
+          <EntitySet Name="Tbl_API_PinpepOld_Finca" EntityType="Self.Tbl_API_PinpepOld_Finca" />
+          <EntitySet Name="Tbl_API_PinpepOld_InformeTecnico" EntityType="Self.Tbl_API_PinpepOld_InformeTecnico" />
+          <EntitySet Name="Tbl_API_PinpepOld_Propietarios" EntityType="Self.Tbl_API_PinpepOld_Propietarios" />
+          <EntitySet Name="Tbl_API_PinpepOld_PropietariosGrupal" EntityType="Self.Tbl_API_PinpepOld_PropietariosGrupal" />
+          <EntitySet Name="Tbl_API_PinpepOld_Representante" EntityType="Self.Tbl_API_PinpepOld_Representante" />
+          <EntitySet Name="Tbl_API_PinpepOld_Rodales" EntityType="Self.Tbl_API_PinpepOld_Rodales" />
+          <EntitySet Name="Tbl_API_PinpepOld_Rodales_Poligonos" EntityType="Self.Tbl_API_PinpepOld_Rodales_Poligonos" />
+          <EntitySet Name="Tbl_API_PinpepOld_Rodales_PoligonosDescuento" EntityType="Self.Tbl_API_PinpepOld_Rodales_PoligonosDescuento" />
+          <EntitySet Name="Tbl_API_Probosque_EspeciesForestales" EntityType="Self.Tbl_API_Probosque_EspeciesForestales" />
+          <EntitySet Name="Tbl_API_Probosque_Expediente" EntityType="Self.Tbl_API_Probosque_Expediente" />
+          <EntitySet Name="Tbl_API_Probosque_Finca" EntityType="Self.Tbl_API_Probosque_Finca" />
+          <EntitySet Name="Tbl_API_Probosque_FincaRegistroPropiedad" EntityType="Self.Tbl_API_Probosque_FincaRegistroPropiedad" />
+          <EntitySet Name="Tbl_API_Probosque_InformeTecnico" EntityType="Self.Tbl_API_Probosque_InformeTecnico" />
+          <EntitySet Name="Tbl_API_Probosque_Propietario_PersonaIndividual" EntityType="Self.Tbl_API_Probosque_Propietario_PersonaIndividual" />
+          <EntitySet Name="Tbl_API_Probosque_Propietario_PersonaJuridica" EntityType="Self.Tbl_API_Probosque_Propietario_PersonaJuridica" />
+          <EntitySet Name="Tbl_API_Probosque_RepresentanteLegal" EntityType="Self.Tbl_API_Probosque_RepresentanteLegal" />
+          <EntitySet Name="Tbl_API_Probosque_Rodales" EntityType="Self.Tbl_API_Probosque_Rodales" />
+          <EntitySet Name="Tbl_API_Probosque_Rodales_Documentos" EntityType="Self.Tbl_API_Probosque_Rodales_Documentos" />
+          <EntitySet Name="Tbl_API_Probosque_Rodales_Poligonos" EntityType="Self.Tbl_API_Probosque_Rodales_Poligonos" />
+          <EntitySet Name="Tbl_API_Probosque_Rodales_PoligonosDescuento" EntityType="Self.Tbl_API_Probosque_Rodales_PoligonosDescuento" />
+          <EntitySet Name="Tbl_Categoria" EntityType="Self.Tbl_Categoria" />
+          <FunctionImport Name="SP_Limpiar_PinpepOld" />
+          <FunctionImport Name="SP_Limpiar_Probosque" />
+          <FunctionImport Name="SP_Limpiar_Todo" />
+          <FunctionImport Name="SP_MigrarPinpepOld">
+            <Parameter Name="Expediente" Mode="In" Type="String" />
+            <Parameter Name="Categoria_id" Mode="In" Type="Int32" />
+            <Parameter Name="Sub_Categoria_id" Mode="In" Type="Int32" />
+            <Parameter Name="Sub_Sub_Categoria_id" Mode="In" Type="Int32" />
+            <Parameter Name="Region_id" Mode="In" Type="Int32" />
+            <Parameter Name="SubRegion_id" Mode="In" Type="Int32" />
+            <Parameter Name="DPI_Titular" Mode="In" Type="String" />
+            <Parameter Name="Usuario_id" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="SP_MigrarPinpepOld_Bck_20230807">
+            <Parameter Name="Expediente" Mode="In" Type="String" />
+            <Parameter Name="Categoria_id" Mode="In" Type="Int32" />
+            <Parameter Name="Sub_Categoria_id" Mode="In" Type="Int32" />
+            <Parameter Name="Sub_Sub_Categoria_id" Mode="In" Type="Int32" />
+            <Parameter Name="Region_id" Mode="In" Type="Int32" />
+            <Parameter Name="SubRegion_id" Mode="In" Type="Int32" />
+            <Parameter Name="DPI_Titular" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_MigrarProbosque" ReturnType="Collection(db_RNF_IntermediaModel.SP_MigrarProbosque_Result)">
+            <Parameter Name="Expediente" Mode="In" Type="String" />
+            <Parameter Name="Categoria_id" Mode="In" Type="Int32" />
+            <Parameter Name="Sub_Categoria_id" Mode="In" Type="Int32" />
+            <Parameter Name="Sub_Sub_Categoria_id" Mode="In" Type="Int32" />
+            <Parameter Name="Region_id" Mode="In" Type="Int32" />
+            <Parameter Name="SubRegion_id" Mode="In" Type="Int32" />
+            <Parameter Name="DPI_Titular" Mode="In" Type="String" />
+            <Parameter Name="Usuario_id" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="SP_MigrarProbosque_Bk_20230621_K1">
+            <Parameter Name="Expediente" Mode="In" Type="String" />
+            <Parameter Name="Categoria_id" Mode="In" Type="Int32" />
+            <Parameter Name="Sub_Categoria_id" Mode="In" Type="Int32" />
+            <Parameter Name="Sub_Sub_Categoria_id" Mode="In" Type="Int32" />
+            <Parameter Name="Region_id" Mode="In" Type="Int32" />
+            <Parameter Name="SubRegion_id" Mode="In" Type="Int32" />
+            <Parameter Name="DPI_Titular" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_MiniLimpiarExpediente_Probosque">
+            <Parameter Name="Expediente" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="SP_MigrarProbosque_Result">
+          <Property Type="Int32" Name="respuesta" Nullable="true" />
+          <Property Type="String" Name="mensaje" Nullable="true" MaxLength="1000" />
+          <Property Type="Int64" Name="id" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="db_RNF_IntermediaModelStoreContainer" CdmEntityContainer="db_RNF_IntermediaEntities">
+          <EntitySetMapping Name="Tbl_API_Categoria_Intermedia">
+            <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Categoria_Intermedia">
+              <MappingFragment StoreEntitySet="Tbl_API_Categoria_Intermedia">
+                <ScalarProperty Name="Categoria_id" ColumnName="Categoria_id" />
+                <ScalarProperty Name="PinpepOld_Modalidad" ColumnName="PinpepOld_Modalidad" />
+                <ScalarProperty Name="Probosque_Modalidad" ColumnName="Probosque_Modalidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_API_ExpedienteOficio_FasePermitida">
+            <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_ExpedienteOficio_FasePermitida">
+              <MappingFragment StoreEntitySet="Tbl_API_ExpedienteOficio_FasePermitida">
+                <ScalarProperty Name="Id_Fase" ColumnName="Id_Fase" />
+                <ScalarProperty Name="NombreFase" ColumnName="NombreFase" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_API_PinpepOld_EspeciesForestales">
+            <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_PinpepOld_EspeciesForestales">
+              <MappingFragment StoreEntitySet="Tbl_API_PinpepOld_EspeciesForestales">
+                <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+                <ScalarProperty Name="RodalId" ColumnName="RodalId" />
+                <ScalarProperty Name="Correlativo_id" ColumnName="Correlativo_id" />
+                <ScalarProperty Name="NombreEspecie" ColumnName="NombreEspecie" />
+                <ScalarProperty Name="ArbolesPorHa" ColumnName="ArbolesPorHa" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_API_PinpepOld_Expediente">
+            <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_PinpepOld_Expediente">
+              <MappingFragment StoreEntitySet="Tbl_API_PinpepOld_Expediente">
+                <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+                <ScalarProperty Name="ProyectoId" ColumnName="ProyectoId" />
+                <ScalarProperty Name="Expediente" ColumnName="Expediente" />
+                <ScalarProperty Name="Modalidad" ColumnName="Modalidad" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="SubRegion" ColumnName="SubRegion" />
+                <ScalarProperty Name="UltimaFaseCertificada" ColumnName="UltimaFaseCertificada" />
+                <ScalarProperty Name="UltimaAreaCertificada" ColumnName="UltimaAreaCertificada" />
+                <ScalarProperty Name="Migrado" ColumnName="Migrado" />
+                <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+                <ScalarProperty Name="DPI_Titular" ColumnName="DPI_Titular" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_API_PinpepOld_Finca">
+            <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_PinpepOld_Finca">
+              <MappingFragment StoreEntitySet="Tbl_API_PinpepOld_Finca">
+                <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+                <ScalarProperty Name="FincaMunicipio" ColumnName="FincaMunicipio" />
+                <ScalarProperty Name="FincaDepartamento" ColumnName="FincaDepartamento" />
+                <ScalarProperty Name="FincaUbicacion" ColumnName="FincaUbicacion" />
+                <ScalarProperty Name="FincaLugar" ColumnName="FincaLugar" />
+                <ScalarProperty Name="FincaRefX" ColumnName="FincaRefX" />
+                <ScalarProperty Name="FincaRefY" ColumnName="FincaRefY" />
+                <ScalarProperty Name="AreaAprobada" ColumnName="AreaAprobada" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_API_PinpepOld_InformeTecnico">
+            <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_PinpepOld_InformeTecnico">
+              <MappingFragment StoreEntitySet="Tbl_API_PinpepOld_InformeTecnico">
+                <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+                <ScalarProperty Name="NumeroInforme" ColumnName="NumeroInforme" />
+                <ScalarProperty Name="PDFInforme" ColumnName="PDFInforme" />
+                <ScalarProperty Name="PDFInforme_Local" ColumnName="PDFInforme_Local" />
+                <ScalarProperty Name="UltimaFaseCertificada" ColumnName="UltimaFaseCertificada" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_API_PinpepOld_Propietarios">
+            <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_PinpepOld_Propietarios">
+              <MappingFragment StoreEntitySet="Tbl_API_PinpepOld_Propietarios">
+                <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+                <ScalarProperty Name="NoDPI" ColumnName="NoDPI" />
+                <ScalarProperty Name="Nit" ColumnName="Nit" />
+                <ScalarProperty Name="NombreCompleto" ColumnName="NombreCompleto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_API_PinpepOld_PropietariosGrupal">
+            <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_PinpepOld_PropietariosGrupal">
+              <MappingFragment StoreEntitySet="Tbl_API_PinpepOld_PropietariosGrupal">
+                <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+                <ScalarProperty Name="Id_PropietarioGrupal" ColumnName="Id_PropietarioGrupal" />
+                <ScalarProperty Name="NoDPI" ColumnName="NoDPI" />
+                <ScalarProperty Name="NombreCompleto" ColumnName="NombreCompleto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_API_PinpepOld_Representante">
+            <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_PinpepOld_Representante">
+              <MappingFragment StoreEntitySet="Tbl_API_PinpepOld_Representante">
+                <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+                <ScalarProperty Name="NoDPI" ColumnName="NoDPI" />
+                <ScalarProperty Name="NombreCompleto" ColumnName="NombreCompleto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_API_PinpepOld_Rodales">
+            <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_PinpepOld_Rodales">
+              <MappingFragment StoreEntitySet="Tbl_API_PinpepOld_Rodales">
+                <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="EspeciesProteger" ColumnName="EspeciesProteger" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_API_PinpepOld_Rodales_Poligonos">
+            <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_PinpepOld_Rodales_Poligonos">
+              <MappingFragment StoreEntitySet="Tbl_API_PinpepOld_Rodales_Poligonos">
+                <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+                <ScalarProperty Name="Correlativo" ColumnName="Correlativo" />
+                <ScalarProperty Name="GeometriaGTM" ColumnName="GeometriaGTM" />
+                <ScalarProperty Name="PDFPol" ColumnName="PDFPol" />
+                <ScalarProperty Name="PODPol_Local" ColumnName="PODPol_Local" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_API_PinpepOld_Rodales_PoligonosDescuento">
+            <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_PinpepOld_Rodales_PoligonosDescuento">
+              <MappingFragment StoreEntitySet="Tbl_API_PinpepOld_Rodales_PoligonosDescuento">
+                <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+                <ScalarProperty Name="Correlativo" ColumnName="Correlativo" />
+                <ScalarProperty Name="Id_Correlativo" ColumnName="Id_Correlativo" />
+                <ScalarProperty Name="GeometriaGTM" ColumnName="GeometriaGTM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_API_Probosque_EspeciesForestales">
+            <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Probosque_EspeciesForestales">
+              <MappingFragment StoreEntitySet="Tbl_API_Probosque_EspeciesForestales">
+                <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Correlativo_id" ColumnName="Correlativo_id" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="NombreCientifico" ColumnName="NombreCientifico" />
+                <ScalarProperty Name="FechaPlantacion" ColumnName="FechaPlantacion" />
+                <ScalarProperty Name="CicloDeCorta" ColumnName="CicloDeCorta" />
+                <ScalarProperty Name="DensidadFinal" ColumnName="DensidadFinal" />
+                <ScalarProperty Name="DensidadInicial" ColumnName="DensidadInicial" />
+                <ScalarProperty Name="Mixtaje" ColumnName="Mixtaje" />
+                <ScalarProperty Name="DistanciaES" ColumnName="DistanciaES" />
+                <ScalarProperty Name="DistanciaEP" ColumnName="DistanciaEP" />
+                <ScalarProperty Name="DensidadActual" ColumnName="DensidadActual" />
+                <ScalarProperty Name="Supervivencia" ColumnName="Supervivencia" />
+                <ScalarProperty Name="PlantasSanas" ColumnName="PlantasSanas" />
+                <ScalarProperty Name="PlantacionDPA" ColumnName="PlantacionDPA" />
+                <ScalarProperty Name="PlantacionAltura" ColumnName="PlantacionAltura" />
+                <ScalarProperty Name="PlantasAfectadas" ColumnName="PlantasAfectadas" />
+                <ScalarProperty Name="PlantasEnfermedad" ColumnName="PlantasEnfermedad" />
+                <ScalarProperty Name="PlantasFuego" ColumnName="PlantasFuego" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_API_Probosque_Expediente">
+            <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Probosque_Expediente">
+              <MappingFragment StoreEntitySet="Tbl_API_Probosque_Expediente">
+                <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+                <ScalarProperty Name="ProyectoId" ColumnName="ProyectoId" />
+                <ScalarProperty Name="Expediente" ColumnName="Expediente" />
+                <ScalarProperty Name="Modalidad" ColumnName="Modalidad" />
+                <ScalarProperty Name="TipoProyecto" ColumnName="TipoProyecto" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="SubRegion" ColumnName="SubRegion" />
+                <ScalarProperty Name="UltimaFaseCertificada" ColumnName="UltimaFaseCertificada" />
+                <ScalarProperty Name="UltimaAreaCertificada" ColumnName="UltimaAreaCertificada" />
+                <ScalarProperty Name="Migrado" ColumnName="Migrado" />
+                <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+                <ScalarProperty Name="DPI_Titular" ColumnName="DPI_Titular" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_API_Probosque_Finca">
+            <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Probosque_Finca">
+              <MappingFragment StoreEntitySet="Tbl_API_Probosque_Finca">
+                <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+                <ScalarProperty Name="FincaNombre" ColumnName="FincaNombre" />
+                <ScalarProperty Name="FincaMunicipio" ColumnName="FincaMunicipio" />
+                <ScalarProperty Name="FincaDepartamento" ColumnName="FincaDepartamento" />
+                <ScalarProperty Name="FincaUbicacion" ColumnName="FincaUbicacion" />
+                <ScalarProperty Name="FincaRefX" ColumnName="FincaRefX" />
+                <ScalarProperty Name="FincaRefY" ColumnName="FincaRefY" />
+                <ScalarProperty Name="FincaTipoPropiedad" ColumnName="FincaTipoPropiedad" />
+                <ScalarProperty Name="FincaActaMunicipal" ColumnName="FincaActaMunicipal" />
+                <ScalarProperty Name="FincaArrendamiento" ColumnName="FincaArrendamiento" />
+                <ScalarProperty Name="FincaActaNotarial" ColumnName="FincaActaNotarial" />
+                <ScalarProperty Name="AreaFinca" ColumnName="AreaFinca" />
+                <ScalarProperty Name="AreaAprobada" ColumnName="AreaAprobada" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_API_Probosque_FincaRegistroPropiedad">
+            <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Probosque_FincaRegistroPropiedad">
+              <MappingFragment StoreEntitySet="Tbl_API_Probosque_FincaRegistroPropiedad">
+                <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+                <ScalarProperty Name="Folio" ColumnName="Folio" />
+                <ScalarProperty Name="Libro" ColumnName="Libro" />
+                <ScalarProperty Name="Municipalidad" ColumnName="Municipalidad" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="TipoRegistroPropiedad" ColumnName="TipoRegistroPropiedad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_API_Probosque_InformeTecnico">
+            <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Probosque_InformeTecnico">
+              <MappingFragment StoreEntitySet="Tbl_API_Probosque_InformeTecnico">
+                <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+                <ScalarProperty Name="UltimaFaseCertificada" ColumnName="UltimaFaseCertificada" />
+                <ScalarProperty Name="NumeroInforme" ColumnName="NumeroInforme" />
+                <ScalarProperty Name="PDFInforme" ColumnName="PDFInforme" />
+                <ScalarProperty Name="PDFInforme_Local" ColumnName="PDFInforme_Local" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_API_Probosque_Propietario_PersonaIndividual">
+            <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Probosque_Propietario_PersonaIndividual">
+              <MappingFragment StoreEntitySet="Tbl_API_Probosque_Propietario_PersonaIndividual">
+                <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+                <ScalarProperty Name="CUI" ColumnName="CUI" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_API_Probosque_Propietario_PersonaJuridica">
+            <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Probosque_Propietario_PersonaJuridica">
+              <MappingFragment StoreEntitySet="Tbl_API_Probosque_Propietario_PersonaJuridica">
+                <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+                <ScalarProperty Name="Nit" ColumnName="Nit" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="TipoPersonaJ" ColumnName="TipoPersonaJ" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_API_Probosque_RepresentanteLegal">
+            <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Probosque_RepresentanteLegal">
+              <MappingFragment StoreEntitySet="Tbl_API_Probosque_RepresentanteLegal">
+                <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+                <ScalarProperty Name="CUI" ColumnName="CUI" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_API_Probosque_Rodales">
+            <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Probosque_Rodales">
+              <MappingFragment StoreEntitySet="Tbl_API_Probosque_Rodales">
+                <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PoligonoId" ColumnName="PoligonoId" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_API_Probosque_Rodales_Documentos">
+            <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Probosque_Rodales_Documentos">
+              <MappingFragment StoreEntitySet="Tbl_API_Probosque_Rodales_Documentos">
+                <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+                <ScalarProperty Name="Correlativo_id" ColumnName="Correlativo_id" />
+                <ScalarProperty Name="PDFPol" ColumnName="PDFPol" />
+                <ScalarProperty Name="PDFPol_Local" ColumnName="PDFPol_Local" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_API_Probosque_Rodales_Poligonos">
+            <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Probosque_Rodales_Poligonos">
+              <MappingFragment StoreEntitySet="Tbl_API_Probosque_Rodales_Poligonos">
+                <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+                <ScalarProperty Name="RodalId" ColumnName="RodalId" />
+                <ScalarProperty Name="PoligonoId" ColumnName="PoligonoId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Orden" ColumnName="Orden" />
+                <ScalarProperty Name="GTMX" ColumnName="GTMX" />
+                <ScalarProperty Name="GTMY" ColumnName="GTMY" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_API_Probosque_Rodales_PoligonosDescuento">
+            <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_API_Probosque_Rodales_PoligonosDescuento">
+              <MappingFragment StoreEntitySet="Tbl_API_Probosque_Rodales_PoligonosDescuento">
+                <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+                <ScalarProperty Name="RodalId" ColumnName="RodalId" />
+                <ScalarProperty Name="PoligonoId" ColumnName="PoligonoId" />
+                <ScalarProperty Name="Area_id" ColumnName="Area_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Orden" ColumnName="Orden" />
+                <ScalarProperty Name="GTMX" ColumnName="GTMX" />
+                <ScalarProperty Name="GTMY" ColumnName="GTMY" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Categoria">
+            <EntityTypeMapping TypeName="db_RNF_IntermediaModel.Tbl_Categoria">
+              <MappingFragment StoreEntitySet="Tbl_Categoria">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Categoria_Probosque" ColumnName="Categoria_Probosque" />
+                <ScalarProperty Name="Categoria_PinpepOld" ColumnName="Categoria_PinpepOld" />
+                <ScalarProperty Name="Categoria_id" ColumnName="Categoria_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_Limpiar_PinpepOld" FunctionName="db_RNF_IntermediaModel.Store.SP_Limpiar_PinpepOld" />
+          <FunctionImportMapping FunctionImportName="SP_Limpiar_Probosque" FunctionName="db_RNF_IntermediaModel.Store.SP_Limpiar_Probosque" />
+          <FunctionImportMapping FunctionImportName="SP_Limpiar_Todo" FunctionName="db_RNF_IntermediaModel.Store.SP_Limpiar_Todo" />
+          <FunctionImportMapping FunctionImportName="SP_MigrarPinpepOld" FunctionName="db_RNF_IntermediaModel.Store.SP_MigrarPinpepOld" />
+          <FunctionImportMapping FunctionImportName="SP_MigrarPinpepOld_Bck_20230807" FunctionName="db_RNF_IntermediaModel.Store.SP_MigrarPinpepOld_Bck_20230807" />
+          <FunctionImportMapping FunctionImportName="SP_MigrarProbosque" FunctionName="db_RNF_IntermediaModel.Store.SP_MigrarProbosque">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="db_RNF_IntermediaModel.SP_MigrarProbosque_Result">
+                <ScalarProperty Name="respuesta" ColumnName="respuesta" />
+                <ScalarProperty Name="mensaje" ColumnName="mensaje" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_MigrarProbosque_Bk_20230621_K1" FunctionName="db_RNF_IntermediaModel.Store.SP_MigrarProbosque_Bk_20230621_K1" />
+          <FunctionImportMapping FunctionImportName="SP_MiniLimpiarExpediente_Probosque" FunctionName="db_RNF_IntermediaModel.Store.SP_MiniLimpiarExpediente_Probosque" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

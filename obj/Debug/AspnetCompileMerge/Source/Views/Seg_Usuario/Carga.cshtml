@@ -1,0 +1,81 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+
+    ViewBag.Title = "   Carga masiva de usuarios y actualización de puesto/Rol  ";
+}
+
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+<script src="~/Scripts/jquery-3.6.0.js"></script>
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+<div id="section_ExcelRodal">
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-header" data-background-color="blue">
+                            <br />
+                            <h4 class="title">&nbsp;&nbsp;&nbsp;@ViewBag.Title</h4>
+                        </div>
+                        <div class="card-content table-responsive">
+                            @using (Html.BeginForm("UploadUsuarios", "Seg_Usuario", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary()
+
+                                <div class="form-group">
+                                    <div class="col-sm-6">
+                                        <form id="uploader">
+                                            <h1>@TempData["MensajeFile"]</h1>
+                                            <input type="file" id="upload" name="upload" /><br />
+                                            <br />
+                                            <input type="submit" id="btsubir" class="btn-next-ic"
+                                                   value="Subir archivo" />
+                                            <br /><br />
+                                        </form>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                            }
+
+
+                            <table>
+                                <tr>
+                                    <td>
+                                        <a href="~/Content/Machotes/Archivo_CargaUsuariosEjemplo.xlsx">
+                                            <button class="btn btn-primary">
+                                                Formato para carga de usuarios <br>
+                                                incluye ejemplo.
+                                            </button>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="~/Content/Machotes/Archivo_CargaUsuarios.xlsx">
+                                            <button class="btn btn-primary">
+                                                Formato para carga de usuarios <br>
+                                                en blanco
+                                            </button>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

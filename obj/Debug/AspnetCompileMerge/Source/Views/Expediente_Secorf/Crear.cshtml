@@ -1,0 +1,417 @@
+﻿@model RNF_Web.Models.Tbl_Sol_Solicitud
+@using RNF_Web.Models;
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    DateTime fechahoraactual = DateTime.Now;
+    //ViewBag.FechaInicio = String.Format("{0:yyyy-MM-dd}", fechahoraactual.AddYears(-1));
+    //ViewBag.FechaFin = String.Format("{0:yyyy-MM-dd}", fechahoraactual.AddYears(1));
+}
+
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script type="text/javascript" src="~/Scripts/qrcode.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+
+        $(document).on('change', '#Region_id', function () {
+
+            var url = "@Url.Action("GetSubRegion", "Expediente_Secorf")";
+            var Region_id = $('#Region_id').val();
+            var data = { Region: Region_id };
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#SubRegion_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetSubRegion
+
+                $.each(Listdata, function (index, SubRegion_id) {
+                    select.append($('<option/>', {
+                        value: SubRegion_id.Value,
+                        text: SubRegion_id.Text
+                    }));
+
+                });
+
+
+            }).fail(function () {
+            });
+
+
+        }); // -----Fin de Change Region
+
+
+        $(document).on('change', '#Categoria_id', function () {
+
+            var url = "@Url.Action("GetSubCategorias", "Expediente_Secorf")";
+            var Categoria = $('#Categoria_id').val();
+            var data = { Categoria: Categoria};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Sub_Categoria_id");
+                select.empty();
+
+                if (Categoria == 5) {
+                    InformacionEmpresas();
+                    var TdHiddeA = document.getElementById("LinkInformacionEmpresa");
+                    TdHiddeA.style.display = "block";
+                }
+                else
+                {
+                    var TdHiddeA = document.getElementById("LinkInformacionEmpresa");
+                    TdHiddeA.style.display = "none";
+                };
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, SubCategoria) {
+                    select.append($('<option/>', {
+                        value: SubCategoria.Value,
+                        text: SubCategoria.Text
+                    }));
+
+                });
+
+                $('#Sub_Categoria_id').change()
+
+            }).fail(function () {
+            });
+
+
+        }); // -----Fin de Change Categoría
+
+        $(document).on('change', '#Sub_Categoria_id', function () {
+            var Contador = 0;
+            var url = "@Url.Action("GetSubSubCategorias", "Expediente_Secorf")";
+            var Categoria = $('#Categoria_id').val();
+            var SubCategoria = $('#Sub_Categoria_id').val();
+
+            if ((Categoria == 1) && (SubCategoria == 2)) {
+                location.replace("/UsuarioExterno/VisualizarMapa")
+            }
+
+            var data = { Categoria: Categoria, SubCategoria: SubCategoria  };
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Sub_Sub_Categoria_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+
+                $.each(Listdata, function (index, SubSubCategoria) {
+                    Contador = Contador + 1;
+                    select.append($('<option/>', {
+                        value: SubSubCategoria.Value,
+                        text: SubSubCategoria.Text
+                    }));
+
+                });
+
+                if (Contador < 1) {
+                    select.append($('<option/>', {
+                        value: '0',
+                        text: '-- No Aplica --'
+                    }));
+                }
+
+            }).fail(function () {
+            });
+
+
+        }); // -----Fin de Change SubCategoría
+
+    }); // -----Fin de document ready function
+
+
+    function validarDPI() {
+        var DPI_Titular = document.getElementById('DPI_Titular').value;
+
+        var url = '@Url.Action("ValidarDPI", "Expediente_Secorf")';
+        var data = {
+            DPI: DPI_Titular
+        };
+
+        console.log(data);
+
+        $.post(url, data).done(function (RespuestaJSON) {
+
+            var oJSON = RespuestaJSON;
+
+            var CodRespuesta = oJSON.CodRespuesta;
+            var StrRespuesta = oJSON.StrRespuesta;
+            var StrRegistro = oJSON.StrRegistro;
+
+            if (CodRespuesta != 1) {
+                alert(StrRespuesta);
+            } else {
+                document.getElementById('DPI_Titular').value = StrRegistro;
+            }
+
+        }).fail(function (RespuestaJSON) {
+            console.log(RespuestaJSON);
+            alert('Ocurrio un error: ' + RespuestaJSON);
+        })
+
+
+
+    }
+
+    function crearRegistro() {
+        var cb_Categoria_id = document.getElementById("Categoria_id");
+        var cb_Sub_Categoria_id = document.getElementById("Sub_Categoria_id");
+        var cb_Sub_Sub_Categoria_id = document.getElementById("Sub_Sub_Categoria_id");
+        var cb_Region_id = document.getElementById('Region_id');
+        var cb_SubRegion_id = document.getElementById('SubRegion_id');
+
+        var DPI_Titular = document.getElementById("DPI_Titular").value;
+
+        var VarProcedencia_Expediente = document.getElementById("Procedencia_Expediente").value;
+        var VarProcedencia_POA = document.getElementById("Procedencia_POA").value;
+        var VarProcedencia_Licencia = document.getElementById("Procedencia_Licencia").value;
+        var VarProcedencia_Modalidad = document.getElementById("Procedencia_Modalidad").value;
+        var VarProcedencia_NombreSolicitante = document.getElementById("Procedencia_NombreSolicitante").value;
+        var VarProcedencia_InformeTecnico = document.getElementById("Procedencia_InformeTecnico").value;
+
+        var VarProcedencia_FechaInicioPeriodo = document.getElementById('Procedencia_FechaInicioPeriodo').value;
+        var VarProcedencia_FechaFinPeriodo = document.getElementById('Procedencia_FechaFinPeriodo').value;
+
+
+        var Categoria_id = cb_Categoria_id.value;
+        var Sub_Categoria_id = cb_Sub_Categoria_id.value;
+        var Sub_Sub_Categoria_id = cb_Sub_Sub_Categoria_id.value;
+        var Region_id = cb_Region_id.value;
+        var SubRegion_id = cb_SubRegion_id.value;
+
+
+        if (Categoria_id == 0) {
+            alert("Debe seleccionar la categoría correspondiente");
+            return;
+        }
+
+        if (Region_id == 0) {
+            alert("Debe seleccionar la región correspondiente");
+            return;
+        }
+
+        if ((VarProcedencia_Modalidad.match('Con')) && ((VarProcedencia_FechaInicioPeriodo == null) || (VarProcedencia_FechaInicioPeriodo == ''))) {
+            alert('Debe indicar el periodo de inicio del incentivo');
+            return;
+        }
+
+        if ((VarProcedencia_Modalidad.match('Con')) && ((VarProcedencia_FechaFinPeriodo == null) || (VarProcedencia_FechaFinPeriodo == ''))) {
+            alert('Debe indicar el periodo de fin del incentivo');
+            return;
+        }
+
+        var data_Crear = {
+            Categoria_id: Categoria_id,
+            Sub_Categoria_id: Sub_Categoria_id,
+            Sub_Sub_Categoria_id: Sub_Sub_Categoria_id,
+            Region_id: Region_id,
+            SubRegion_id: SubRegion_id,
+            DPI_Titular: DPI_Titular,
+            Procedencia_POA: VarProcedencia_POA,
+            Procedencia_Licencia: VarProcedencia_Licencia,
+            Procedencia_Modalidad: VarProcedencia_Modalidad,
+            Procedencia_NombreSolicitante: VarProcedencia_NombreSolicitante,
+            Procedencia_Expediente: VarProcedencia_Expediente,
+            Procedencia_InformeTecnico: VarProcedencia_InformeTecnico,
+            Procedencia_FechaInicioPeriodo: VarProcedencia_FechaInicioPeriodo,
+            Procedencia_FechaFinPeriodo: VarProcedencia_FechaFinPeriodo
+        };
+
+        console.log(data_Crear);
+
+        var url_Crear = '@Url.Action("CrearNuevoRegistro", "Expediente_Secorf")';
+
+
+        //console.log('Llega');
+
+
+        $.post(url_Crear, data_Crear).done(function (jsonRespuesta) {
+
+            var oJSON = JSON.parse(jsonRespuesta);
+            var CodRespuesta = oJSON.CodRespuesta;
+            var StrRespuesta = oJSON.StrRespuesta;
+            var StrRegistro = oJSON.StrRegistro;
+
+            var StrFirma = oJSON.StrFirma;
+            var StrSolicitud_id = oJSON.StrSolicitud_id;
+
+
+            if (CodRespuesta == 1) {
+
+                location.href = '/Home/SolicitudEtapaView?guid_id=' + StrFirma + '&etapaid=1&etaparutaid=1&correlativo=1';
+
+
+            } else {
+
+                alert(StrRespuesta);
+
+            }
+
+        }).fail(function (jsonRespuesta) {
+            console.log(jsonRespuesta);
+
+
+        });
+
+    }
+
+</script>
+
+<style>
+    .textarea-label {
+        display: block;
+        /* border, padding, and other styles go here,
+    don't set the height, and don't use floats or positioning */
+    }
+
+        .textarea-label textarea {
+            margin: 0;
+            outline: 0 none;
+            padding: 0;
+            width: 100%;
+        }
+</style>
+
+@using (Html.BeginForm(actionName: "CrearNuevoRegistro", controllerName: "Expediente_Secorf"))
+{
+
+    @Html.HiddenFor(model => model.Solicitud_id)
+    @Html.HiddenFor(model => model.AreaTotalFincas)
+
+    @Html.HiddenFor(model => model.Guid_id)
+    @Html.HiddenFor(model => model.TipoGestion_id)
+
+    @Html.HiddenFor(model => model.Estado_id)
+    @Html.HiddenFor(model => model.swcreatedby)
+    @Html.HiddenFor(model => model.swdatecreated)
+    @Html.HiddenFor(model => model.swcreatedbyinterno)
+    @Html.HiddenFor(model => model.swdateupdated)
+    @Html.HiddenFor(model => model.swupdatedby)
+    @Html.HiddenFor(model => model.swupdatedbyinterno)
+
+
+    <div class="container-fluid">
+        <div class="titulo-dos">
+            <h4>Solicitud de inscripción de expediente de Obligaciones de Repoblación Forestal</h4>
+        </div>
+
+        <div id="MostrarCategoria">
+            <div class="row mt-2">
+                @Html.LabelFor(model => model.Procedencia_Expediente, "Número de Expediente", htmlAttributes: new { @class = "control-label col-md-12" })
+                @Html.EditorFor(model => model.Procedencia_Expediente, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Procedencia_Expediente, "", new { @class = "text-danger" })
+            </div>
+            <div class="row mt-2">
+                @Html.LabelFor(model => model.Procedencia_POA, "Número de POA", htmlAttributes: new { @class = "control-label col-md-12" })
+                @Html.EditorFor(model => model.Procedencia_POA, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Procedencia_POA, "", new { @class = "text-danger" })
+            </div>
+            <div class="row mt-2">
+                @Html.LabelFor(model => model.Procedencia_Licencia, "Número de Licencia", htmlAttributes: new { @class = "control-label col-md-12" })
+                @Html.EditorFor(model => model.Procedencia_Licencia, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Procedencia_Licencia, "", new { @class = "text-danger" })
+            </div>
+            <div class="row mt-2">
+                @Html.LabelFor(model => model.Procedencia_Modalidad, "Procedencia", htmlAttributes: new { @class = "control-label col-md-12" })
+                <select id="Procedencia_Modalidad" name="Procedencia_Modalidad" class="form-control">
+                    <option value="Con Incentivo PROBOSQUE">Con Incentivo PROBOSQUE</option>
+                    <option value="Con Incentivo PINPEP">Con Incentivo PINPEP</option>
+                    <option value="Sin Incentivo">Sin Incentivo</option>
+                </select>
+                @*@Html.EditorFor(model => model.Procedencia_Modalidad, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.ValidationMessageFor(model => model.Procedencia_Modalidad, "", new { @class = "text-danger" })
+            </div>
+            <div class="row mt-2">
+                @Html.LabelFor(model => model.Procedencia_FechaInicioPeriodo, "Inicio de Periodo del Incentivo", htmlAttributes: new { @class = "control-label col-md-12" })
+                @Html.EditorFor(model => model.Procedencia_FechaInicioPeriodo, new { htmlAttributes = new { @class = "form-control", @type = "date", Value = ViewBag.FechaInicio } })
+                @Html.ValidationMessageFor(model => model.Procedencia_FechaInicioPeriodo, "", new { @class = "text-danger" })
+            </div>
+            <div class="row mt-2">
+                @Html.LabelFor(model => model.Procedencia_FechaFinPeriodo, "Fin de Periodo del Incentivo", htmlAttributes: new { @class = "control-label col-md-12" })
+                @Html.EditorFor(model => model.Procedencia_FechaFinPeriodo, new { htmlAttributes = new { @class = "form-control", @type = "date", Value = ViewBag.FechaFin } })
+                @Html.ValidationMessageFor(model => model.Procedencia_FechaFinPeriodo, "", new { @class = "text-danger" })
+            </div>
+            <div class="row mt-2">
+                @Html.LabelFor(model => model.Procedencia_InformeTecnico, "Informe de Evaluación de ORF", htmlAttributes: new { @class = "control-label col-md-12" })
+                @Html.EditorFor(model => model.Procedencia_InformeTecnico, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Procedencia_InformeTecnico, "", new { @class = "text-danger" })
+            </div>
+            <div class="row mt-2">
+                @Html.LabelFor(model => model.Procedencia_NombreSolicitante, "Nombre del solicitante", htmlAttributes: new { @class = "control-label col-md-12" })
+                @Html.EditorFor(model => model.Procedencia_NombreSolicitante, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Procedencia_NombreSolicitante, "", new { @class = "text-danger" })
+            </div>
+            <div class="row mt-2">
+                @Html.LabelFor(model => model.DPI_Titular, "DPI de Titular", htmlAttributes: new { @class = "control-label col-md-12" })
+                @Html.EditorFor(model => model.DPI_Titular, new { htmlAttributes = new { @class = "form-control", onchange = "validarDPI()" } })
+                @Html.ValidationMessageFor(model => model.DPI_Titular, "", new { @class = "text-danger" })
+            </div>
+            <div class="row mt-2">
+                @Html.LabelFor(model => model.Categoria_id, "Categoría", htmlAttributes: new { @class = "control-label col-md-12" })
+                @Html.DropDownList("Categoria_id", null, htmlAttributes: new { @class = "form-select" })
+                @Html.HiddenFor(m => m.Categoria_id)
+                @Html.ValidationMessageFor(model => model.Categoria_id, "", new { @class = "text-danger" })
+            </div>
+            <div id="LinkInformacionEmpresa" class="row mt-2" style="display:none">
+                <a style="color: #191970; background-color: yellow; " onclick="InformacionEmpresas()">Click aquí para ver guía informativa</a>
+            </div>
+            <div class="row mt-2">
+                @Html.LabelFor(model => model.Sub_Categoria_id, "Sub Categoría", htmlAttributes: new { @class = "control-label col-md-12" })
+                @Html.DropDownList("Sub_Categoria_id", null, htmlAttributes: new { @class = "form-select" })
+                @Html.HiddenFor(m => m.Sub_Categoria_id)
+                @Html.ValidationMessageFor(model => model.Sub_Categoria_id, "", new { @class = "text-danger" })
+
+                @Html.LabelFor(model => model.Sub_Sub_Categoria_id, "Especificación", htmlAttributes: new { @class = "control-label col-md-12" })
+                @Html.DropDownList("Sub_Sub_Categoria_id", null, htmlAttributes: new { @class = "form-select" })
+                @Html.HiddenFor(m => m.Sub_Sub_Categoria_id)
+                @Html.ValidationMessageFor(model => model.Sub_Sub_Categoria_id, "", new { @class = "text-danger" })
+            </div>
+            <div class="row mt-2">
+                @Html.LabelFor(model => model.Region_id, "Region", htmlAttributes: new { @class = "control-label col-md-12" })
+                @Html.DropDownList("Region_id", null, htmlAttributes: new { @class = "form-select" })
+                @Html.HiddenFor(m => m.Region_id)
+                @Html.ValidationMessageFor(model => model.Region_id, "", new { @class = "text-danger" })
+            </div>
+            <div class="row mt-2">
+                @Html.LabelFor(model => model.SubRegion_id, "SubRegion", htmlAttributes: new { @class = "control-label col-md-12" })
+                @Html.DropDownList("SubRegion_id", null, htmlAttributes: new { @class = "form-select" })
+                @Html.HiddenFor(m => m.SubRegion_id)
+                @Html.ValidationMessageFor(model => model.SubRegion_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <h1 style="background-color:powderblue;">@TempData["MensajeSolicitudFail"]</h1>
+            <div class="col">
+                <div class="d-grid gap-2">
+                    <a href="~/Expediente_Secorf/Index" class="btn-cancel">Cancelar el proceso</a>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="d-grid gap-2">
+                    <input type="button" class="btn-next" value="Crear solicitud" onclick="crearRegistro()" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+}

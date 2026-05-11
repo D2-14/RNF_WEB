@@ -1,0 +1,147 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Sol_ArrendatarioPersonaIndividual>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombres)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Apellidos)
+        </th>
+        <th>
+
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.No_NIT)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.No_Documento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fecha_Nacimiento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UsuarioExterno_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Celular)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Telefono)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.swcreatedby)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.swdatecreated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.swdateupdated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.swupdatedby)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tbl_Gral_Departamento.Departamento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tbl_Gral_DocumentoID_Tipo.Descripcion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tbl_Gral_Municipio.Municipio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tbl_Gral_PuebloPertenencia.Descripcion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tbl_Gral_Sexo.Descripcion)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombres)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Apellidos)
+            </td>
+            <td>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.No_NIT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.No_Documento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fecha_Nacimiento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioExterno_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Celular)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefono)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.swcreatedby)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.swdatecreated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.swdateupdated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.swupdatedby)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Gral_Departamento.Departamento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Gral_DocumentoID_Tipo.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Gral_Municipio.Municipio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Gral_PuebloPertenencia.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Gral_Sexo.Descripcion)
+            </td>
+
+        </tr>
+    }
+
+</table>
+
+

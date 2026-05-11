@@ -1,0 +1,124 @@
+﻿@model RNF_Web.Models.Tbl_Gral_Actividad
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    Layout = null;
+    ViewBag.Title = "Actividad";
+    ViewBag.SubTitle = "Ingresar actividades";
+    db_RNFEntities db = new db_RNFEntities();
+    string No_Registro = ViewBag.No_Registro;
+
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    controllerName = "Sol_Empresa_Entidad";
+    string Nombre_Div = "div_Sol_Permisos_Empresa_Entidad_Actividad_Create";
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+    EdicionRNFGrants objRNFGrants = (EdicionRNFGrants)Session[Constants.session_EdicionRNFGrants];
+}
+
+
+
+<script>
+
+    function refreshEmpresaEntidadActividad() {
+        $('#listadoActividades').load('/RNF_Empresa_Entidad_Actividad/Index?No_Registro=@No_Registro');
+
+    }
+
+    $(document).ready(function () {
+        refreshEmpresaEntidadActividad();
+    });
+
+    function AgregarActividad()
+    {
+
+        var url = "@Url.Action("AgregarActividad", "RNF_Empresa_Entidad_Actividad")";
+        var No_Registro = '@No_Registro';
+        var ActividadId = $('#lstActividad').val();
+
+        var data = {
+            No_Registro: No_Registro,
+            ActividadId: ActividadId
+        };
+
+        $.post(url, data).done(function (jsonRespuesta) {
+
+                var objJSON = JSON.parse(jsonRespuesta);
+                var Cod_Respuesta = objJSON.CodRespuesta;
+                var Texto_Respuesta = objJSON.strRespuesta;
+
+            refreshEmpresaEntidadActividad();
+
+        }).fail(function (jsonRespuesta) {
+            refreshEmpresaEntidadActividad();
+        });
+    }
+
+    function Borrar_Actividad(No_Registro, ActividadId)
+    {
+        var url = "@Url.Action("EliminarActividad", "RNF_Empresa_Entidad_Actividad")";
+
+        var data = {
+            No_Registro: No_Registro,
+            ActividadId: ActividadId
+        };
+
+        $.post(url, data).done(function (jsonRespuesta) {
+
+            var objJSON = JSON.parse(jsonRespuesta);
+            var Cod_Respuesta = objJSON.CodRespuesta;
+            var Texto_Respuesta = objJSON.strRespuesta;
+
+            refreshEmpresaEntidadActividad();
+
+        }).fail(function (jsonRespuesta) {
+            refreshEmpresaEntidadActividad();
+        });
+
+    }
+
+
+</script>
+
+<br />
+<div style='height: 30px; width: 100%; background-color: #66bb6a; color: white; '>
+    <h4>Listado de actividad(es)</h4>
+</div>
+
+@if (objRNFGrants.Agregar)
+{
+    <table width="100%">
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Nombres_Comunes, "Actividad", htmlAttributes: new { @class = "control-label col-md-12" })
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DropDownList("lstActividad", null, htmlAttributes: new { @class = "form-select" })
+            </td>
+
+            <td>
+                <input type="button" class="btn-success" value="Agregar" onclick="AgregarActividad()" />
+            </td>
+
+        </tr>
+        <tr>
+            <td></td>
+            <td> <label id="lblMensaje" name="lblMensaje" /></td>
+        </tr>
+    </table>
+}
+
+<div id="listadoActividades" name="listadoActividades" />
+<hr />

@@ -1,0 +1,130 @@
+﻿@using RNF_Web.Models;
+@model IEnumerable<Tbl_Sol_Solicitud>
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    string asignacion = "";
+    string procedencia = "";
+    db_RNFEntities db = new db_RNFEntities();
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+<div class="wizard-page-content">
+    <div class="wizard-v10-content">
+        <div class="wizard-form">
+            <div class="wizard-header">
+                <a href="@Url.Action("BuscarProbosque",controllerName)" class="btn btn-outline-primary">Buscar Expediente</a>
+            </div>
+            <div class="wizard-header">
+
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <h3>Listado de solicitudes</h3>
+                        </td>
+                        <td>
+                            <a href="/Home">
+                                <label style="font-size:30px; color:white; font-weight:bold ">X</label>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+            <table class="table">
+                <tr>
+                    <th>
+                        No. temporal o <br /> No. temporal
+                    </th>
+                    <th>
+                        Gestión
+                    </th>
+                    <th>
+                        Sub Categoría
+                    </th>
+                    <th>
+                        Estado
+                    </th>
+                    <th>
+                        Fecha de creación
+                    </th>
+                    <th>
+                        Procedencia, Fase, Modalidad
+                    </th>
+                    <th>
+                        Expediente Origen
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (item.Solicitud_NumeroExpediente != null)
+                            {
+                                @Html.DisplayFor(modelItem => item.Solicitud_NumeroExpediente)
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => item.Solicitud_NumeroTemporal)
+                            }
+
+                        </td>
+                        <td>
+                            @{
+                                asignacion = db.Database.SqlQuery<string>("SELECT dbo.fnc_Sol_TipoDeGestionDesc(@p0)", item.SolicitudTipo_id).FirstOrDefault();
+                            }
+
+                            @asignacion
+
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud_Sub_Categoria.Descripcion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud_Estado.Descripcion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.swdatecreated)
+                        </td>
+                        <td>
+                            @if (item.Procedencia_PinpepOld || item.Procedencia_PinpepNew)
+                            {
+                                procedencia = "Pinpep";
+                            }
+                            @if (item.Procedencia_Probosque)
+                            {
+                                procedencia = "Probosque";
+                            }
+                            @if (item.Procedencia_secorf)
+                            {
+                                procedencia = "SECORF";
+                            }
+                            @procedencia, <br /> @item.Procedencia_Fase, <br /> @item.Procedencia_Modalidad
+                        </td>
+                        <td>
+                            @item.Procedencia_Expediente
+                        </td>
+                        <td>
+                            <div class="div-icons-table" onclick="window.open('@Url.Action("SolicitudInsertUpdate", "Home", new { id=@item.Solicitud_id, firma=@item.Guid_id })','_blank')">
+                                <i class="fa in fa-edit" aria-hidden="true"></i>
+                            </div>
+                        </td>
+
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</div>

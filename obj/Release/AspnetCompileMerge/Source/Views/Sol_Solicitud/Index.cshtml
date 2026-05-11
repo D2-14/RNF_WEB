@@ -1,0 +1,207 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Sol_Solicitud>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@{
+
+    db_RNFEntities db = new db_RNFEntities();
+    ViewBag.Title = "Listado de solicitudes en proceso";
+    Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+
+    string asignacion = "";
+}
+
+<script>
+
+    $(document).ready(function () {
+
+
+        $('#myModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        })
+
+        $("#myModal").on('show.bs.modal', function () {
+            var modal = $(this)
+            modal.find('.modal-title').text(document.getElementById("Titulo").value);
+            modal.find('.modal-body').html(document.getElementById("Pagina").value);
+        });
+
+
+        $("#btnHideModal").click(function () {
+
+
+            $("#myModal").modal('hide');
+        });
+
+
+        $("#btnHideModal_Close").click(function () {
+
+
+
+            $("#myModal").modal('hide');
+        });
+
+
+    });
+
+
+
+    function VisualizarEstado(varkey) {
+
+        var Source = "/Gest_EtapaSolicitud/EstatusActual?Guid=" + varkey;
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Estado de la solicitud';
+        $("#myModal").modal("show");
+
+    }
+
+</script>
+
+<link href="~/Content/assets_section/style.css" rel="stylesheet" />
+
+<div class="wizard-page-content">
+    <div class="wizard-v10-content">
+        <div class="wizard-form">
+            <div class="wizard-header">
+
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <h3>Listado de solicitudes</h3>
+                        </td>
+                        <td>
+                            <a href="/Home">
+                                <label style="font-size:30px; color:white; font-weight:bold ">X</label>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+            <table class="table">
+                <tr>
+                    <th>
+                        No. expediente si ha sido recibida ó<br />
+                        No. temporal si esta en proceso de análisis
+                    </th>
+                    <th>
+                        Gestión
+                    </th>
+                    <th>
+                        Sub Categoría
+                    </th>
+                    <th>
+                        Estado
+                    </th>
+                    <th>
+                        Fecha de creación
+                    </th>
+                    <th>
+                    </th>
+                    <th>
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (item.Solicitud_NumeroExpediente != null)
+                            {
+                                @Html.DisplayFor(modelItem => item.Solicitud_NumeroExpediente)
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => item.Solicitud_NumeroTemporal)
+                            }
+
+                        </td>
+                        <td>
+                            @{
+                                asignacion = db.Database.SqlQuery<string>("SELECT dbo.fnc_Sol_TipoDeGestionDesc(@p0)", item.SolicitudTipo_id).FirstOrDefault();
+                            }
+
+                            @asignacion
+
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud_Sub_Categoria.Descripcion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud_Estado.Descripcion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.swdatecreated)
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <div class="div-icons-table" onclick="location.href='@Url.Action("SolicitudInsertUpdate", "Home", new { id=@item.Solicitud_id, firma=@item.Guid_id })'">
+                                <i class="fa in fa-edit" aria-hidden="true"></i>
+                            </div>
+                        </td>
+                        <td>
+                            @if (item.Estado_id == 4)
+                            {
+                                <img src="~/Content/icons/click_hand.gif" width="80" />
+                            }
+
+                        </td>
+
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden" id="Pagina" name="Pagina" value="">
+<input type="hidden" id="Titulo" name="Titulo" value="">
+<div class="container mt-3">
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" width: 700px;>
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Header</h4>
+                    <button type="button" id="btnHideModal" class="btn btn-default">
+                        X
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>The <strong>show.bs.modal</strong>FFFF</p>
+                </div>
+                <div id="DatosPersonerias">
+                    <br />
+                    <br />
+                    <br />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnHideModal_Close" class="btn btn-default">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    //Se utiliza para llamar las ubicaciones cuando se ha creado una nueva.
+    function RefrescarVista(strVista) {
+        $('#ViewIntecnova').load(strVista)
+        mostrarMenuLateral()
+    }
+</script>

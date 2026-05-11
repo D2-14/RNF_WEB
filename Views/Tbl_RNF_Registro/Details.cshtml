@@ -1,0 +1,483 @@
+﻿@model RNF_Web.Models.Tbl_RNF_Registro
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/ResolucionesArchivo/Index.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Tbl_RNF_Registro</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Expediente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Expediente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sub_Sub_Categoria_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sub_Sub_Categoria_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Guid_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Guid_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha_De_Vencimiento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha_De_Vencimiento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.swdatecreated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.swdatecreated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.swcreatedby)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.swcreatedby)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.swcreatedbyinterno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.swcreatedbyinterno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.swdateupdated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.swdateupdated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.swupdatedby)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.swupdatedby)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.swupdatedbyinterno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.swupdatedbyinterno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Old_RegistroId_Identity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Old_RegistroId_Identity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Old_TipoRegistroId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Old_TipoRegistroId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Old_RegistradorId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Old_RegistradorId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UsuarioExterno_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UsuarioExterno_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GuidSolicitud_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GuidSolicitud_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DPI_Titular)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DPI_Titular)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AreaTotalFincas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AreaTotalFincas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion_Inactivacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion_Inactivacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResolucionInscripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResolucionInscripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResolucionInscripcionFecha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResolucionInscripcionFecha)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResolucionUltimaActualizacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResolucionUltimaActualizacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResolucionUltimaActualizacionFecha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResolucionUltimaActualizacionFecha)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResolucionUltimaInactivacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResolucionUltimaInactivacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResolucionUltimaInactivacionFecha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResolucionUltimaInactivacionFecha)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ConstanciaFirmada)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ConstanciaFirmada)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaModificacionDisponible)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaModificacionDisponible)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Procedencia_Probosque)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Procedencia_Probosque)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Procedencia_PinpepOld)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Procedencia_PinpepOld)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Procedencia_PinpepNew)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Procedencia_PinpepNew)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Procedencia_secorf)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Procedencia_secorf)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Procedencia_Expediente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Procedencia_Expediente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Procedencia_POA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Procedencia_POA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Procedencia_Licencia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Procedencia_Licencia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Procedencia_Modalidad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Procedencia_Modalidad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Procedencia_Fase)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Procedencia_Fase)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Procedencia_NombreSolicitante)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Procedencia_NombreSolicitante)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Procedencia_TipoProyecto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Procedencia_TipoProyecto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Procedencia_InformeTecnico)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Procedencia_InformeTecnico)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Procedencia_FechaInicioPeriodo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Procedencia_FechaInicioPeriodo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Procedencia_FechaFinPeriodo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Procedencia_FechaFinPeriodo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha_Inscripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha_Inscripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha_Actualizacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha_Actualizacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha_Inactivacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha_Inactivacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion_InactivacionTecnico)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion_InactivacionTecnico)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bitacora_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bitacora_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Notificacion_Direccion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Notificacion_Direccion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Notificacion_Municipio_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Notificacion_Municipio_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Notificacion_Departamento_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Notificacion_Departamento_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tbl_Gral_Region.No_Region)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tbl_Gral_Region.No_Region)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tbl_Gral_SolicitudConfiguracionTipo.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tbl_Gral_SolicitudConfiguracionTipo.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tbl_Gral_SubRegion.No_SubRegion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tbl_Gral_SubRegion.No_SubRegion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tbl_RNF_Empresa_Entidad.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tbl_RNF_Empresa_Entidad.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tbl_RNF_Registro_Estado.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tbl_RNF_Registro_Estado.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tbl_RNF_Registro_Inactivacion_Tipo.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tbl_RNF_Registro_Inactivacion_Tipo.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tbl_RNF_Registro_InactivacionTecnico_Tipo.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tbl_RNF_Registro_InactivacionTecnico_Tipo.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tbl_Sol_Solicitud_Categoria.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tbl_Sol_Solicitud_Categoria.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tbl_Sol_Solicitud_Sub_Categoria.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tbl_Sol_Solicitud_Sub_Categoria.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tbl_RNF_TecnicoProfesional.Nombres)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tbl_RNF_TecnicoProfesional.Nombres)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

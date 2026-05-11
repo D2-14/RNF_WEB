@@ -1,0 +1,34 @@
+﻿@using RNF_Web.Models;
+@model Tbl_Gest_EtapaSolicitud_OficioJuridico_Enmienda
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+
+<div style="display:none;">
+    <input type="hidden" name="Solicitud_id" id="Solicitud_id" value="@Model.Solicitud_id" />
+    <input type="hidden" name="Etapa_id" id="Etapa_id" value="@Model.Etapa_id" />
+    <input type="hidden" name="EtapaRuta_id" id="EtapaRuta_id" value="@Model.EtapaRuta_id" />
+    <input type="hidden" name="CorrelativoEtapa_id" id="CorrelativoEtapa_id" value="@Model.CorrelativoEtapa_id" />
+    <input type="hidden" name="EtapaSolicitud_GUID_id" id="EtapaSolicitud_GUID_id" value="@Model.EtapaSolicitud_GUID_id" />
+    <input type="hidden" name="Solicitud_Guid_id" id="Solicitud_Guid_id" value="@Model.Solicitud_Guid_id" />
+    <input type="hidden" name="swcreatedby" id="swcreatedby" value="@Model.swcreatedby" />
+    <input type="hidden" name="swcreatedbyinterno" id="swcreatedbyinterno" value="true" />
+</div>
+
+<div class="row  g-3 align-items-center">
+    <label class="control-label col-md-2">Agregar Enmienda</label>
+    <div class="col-md-5">
+
+        <textarea id="Descripcion" cols="40"></textarea>
+
+        &nbsp;&nbsp; <input type="button" value="Agregar" class="btn btn-success" onclick="agregarEnmienda()" />
+
+    </div>
+
+</div>
+

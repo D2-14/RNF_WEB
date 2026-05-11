@@ -1,0 +1,396 @@
+﻿@using RNF_Web.Models;
+@model Tbl_Gest_EtapaSolicitud_Oficio_Registro_NoProcedente
+@{
+    ViewBag.Title = "   Home page";
+    string strDisabled = "disabled";
+    string strSelected = "selected";
+
+    long Solicitud_id = ViewBag.Solicitud_id;
+    int Etapa_id = ViewBag.Etapa_id;
+    decimal EtapaRuta_id = ViewBag.EtapaRuta_id;
+    int CorrelativoEtapa_id = ViewBag.CorrelativoEtapa_id;
+    string GuidEtapa_id = ViewBag.GuidEtapa_id;
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_Sol_Solicitud tbl_Sol_Solicitud = db.Tbl_Sol_Solicitud.Find(Solicitud_id);
+    int intEtapas = db.Tbl_Gest_EtapaSolicitud.Where(Obj => Obj.Solicitud_id == Model.Solicitud_id && Obj.Etapa_id != Etapa_id && Obj.EtapaRuta_id != EtapaRuta_id && Obj.CorrelativoEtapa_id != CorrelativoEtapa_id && Obj.EtapaSolicitudEstado_id == 1).Count();
+
+    ViewBag.intEtapas = intEtapas;
+
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+<style>
+    .label {
+        color: white;
+        padding: 15px;
+        font-size: 20px;
+        font-family: Arial;
+        width: 100%;
+    }
+
+    .success {
+        background-color: #04AA6D;
+    }
+    /* Green */
+    .info {
+        background-color: #2196F3;
+    }
+    /* Blue */
+    .warning {
+        background-color: #ff9800;
+    }
+    /* Orange */
+    .danger {
+        background-color: #f44336;
+    }
+    /* Red */
+    .other {
+        background-color: #e7e7e7;
+        color: black;
+    }
+    /* Gray */
+</style>
+
+
+<script>
+
+    function generarOficio(GenerarDocumento) {
+        var Solicitud_id = '@Solicitud_id';
+        var Etapa_id = '@Etapa_id';
+        var EtapaRuta_id = '@EtapaRuta_id';
+        var CorrelativoEtapa_id = '@CorrelativoEtapa_id';
+
+        loaderPantalla(true);
+        var data = {
+            Solicitud_id: Solicitud_id,
+            Etapa_id: Etapa_id,
+            EtapaRuta_id: EtapaRuta_id,
+            CorrelativoEtapa_id: CorrelativoEtapa_id,
+            GenerarDocumento: GenerarDocumento
+        }
+        var url = "@Url.Action("ObtenerDocumentoDenegacion_Regional", "Form_FormularioRegionalOficioDenegacion")";
+
+      
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            loaderPantalla(false);
+
+            var objJSON = jsonRespuesta;
+            var Texto_Respuesta = objJSON.Ubicacion;          
+
+            var Cod_Respuesta = objJSON.Result;
+     
+
+
+            if (Cod_Respuesta == 1) {
+
+                window.open('/Archivos_Generados_Que_Pueden_Borrar/' + Texto_Respuesta, '_blank');
+
+                var TdHiddeA = document.getElementById("btnFirmarDocumento");
+                TdHiddeA.style.display = "block";
+            }
+            else {
+
+                $('#lblMensajeFail').text("Debe ingresar las inconsistencias correspondientes.");
+                alert("Debe ingresar las inconsistencias correspondientes.");
+
+            }
+
+              
+          
+
+        });
+    }
+
+    function actualizaParrafos() {
+
+        var Solicitud_id = '@Solicitud_id';
+        var Etapa_id = '@Etapa_id';
+        var EtapaRuta_id = '@EtapaRuta_id';
+        var CorrelativoEtapa_id = '@CorrelativoEtapa_id';
+
+        var Parrafo_1 = $('#ta_Parrafo1').val();
+        var Parrafo_2 = $('#ta_Parrafo2').val();
+        var Parrafo_3 = $('#ta_Parrafo3').val();
+
+        var data = {
+            Solicitud_id: Solicitud_id,
+            Etapa_id: Etapa_id,
+            EtapaRuta_id: EtapaRuta_id,
+            CorrelativoEtapa_id: CorrelativoEtapa_id,
+            Parrafo_1: Parrafo_1,
+            Parrafo_2: Parrafo_2,
+            Parrafo_3: Parrafo_3
+        }
+        var url = "@Url.Action("ObtenerParrafos_Oficio_Registro_NoProcedente", "Form_FormularioRegionalOficioDenegacion")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var objJSON = JSON.parse(jsonRespuesta);
+
+        });
+
+    }
+
+   function actualizaParrafo1() {
+        actualizaParrafos();
+    }
+
+   function actualizaParrafo2() {
+        actualizaParrafos();
+    }
+
+    function actualizaParrafo3() {
+        actualizaParrafos();
+    }
+
+
+   function obtenerParrafos() {
+
+        var Solicitud_id = $('#Solicitud_id').val();
+
+        var data = {
+            Solicitud_id: Solicitud_id
+        }
+
+        var url = "@Url.Action("ObtenerParrafos_Oficio_Registro_NoProcedente", "Form_FormularioRegionalOficioDenegacion")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var objJSON = JSON.parse(jsonRespuesta);
+            var parrafo1 = objJSON.Parrafo1;
+            var parrafo2 = objJSON.Parrafo2;
+            var parrafo3 = objJSON.Parrafo3;
+
+            document.getElementById("ta_Parrafo1").value = parrafo1;
+            document.getElementById("ta_Parrafo2").value = parrafo2;
+            document.getElementById("ta_Parrafo3").value = parrafo3;
+
+        })
+
+    }
+
+    function refreshPartialOficioRegistroNoProcedente() {
+        var Solicitud_id = '@Model.Solicitud_id';
+        var myEnmiendasOficioNoProcedente = document.getElementById("div_EnmiendasOficioNoProcedente");
+        if (myEnmiendasOficioNoProcedente) {
+            $("#div_EnmiendasOficioNoProcedente").load("/Form_FormularioRegionalOficioDenegacion/GenerarEnmiendas?Solicitud_id=" + Solicitud_id);
+        }
+    }
+
+
+   function fnc_EnviarRespuesta(varRespuestaid)
+    {
+        varsolicitud_id = '@Solicitud_id';
+        varetapa_id = '@Etapa_id';
+        varetaparuta_id = '@EtapaRuta_id';
+        varcorrelativoetapa_id = '@CorrelativoEtapa_id';
+        varMotivo = $('#Motivo').val();
+        varEtapaSolicitud_GUIDid= '@GuidEtapa_id';
+
+
+        var url = "@Url.Action("ActualizaEtapaRespuestaIndexSolicitud", "Form_FormularioRegionalOficioDenegacion")";
+
+        var data = { solicitud_id: varsolicitud_id, etapa_id: varetapa_id, etaparuta_id: varetaparuta_id, correlativoetapa_id: varcorrelativoetapa_id, motivo: varMotivo, respuestaid: varRespuestaid, EtapaSolicitud_GUIDid: varEtapaSolicitud_GUIDid };
+        $.post(url, data).done(function (jsonRespuesta) {
+               var objJSON = JSON.parse(jsonRespuesta);
+               var Cod_Respuesta = objJSON.CodRespuesta;
+               var Texto_Respuesta = objJSON.strRespuesta;
+
+
+                if (Cod_Respuesta == 1) {
+                    window.location.replace("/Gest_EtapaSolicitud/Index");
+                }
+                else
+                {
+                   
+                    $('#lblMensajeFail').text(Texto_Respuesta);
+                    alert(Texto_Respuesta);
+
+                }
+
+           }).fail(manejarErrorAjax).always(function () {
+
+               alert('Error no identificado.');
+            });
+            return false;
+
+    }
+
+
+        function FirmarDocumento() {
+
+        var TdHiddeA = document.getElementById("btnFirmarDocumento");
+        TdHiddeA.style.display = "none";
+
+        varFirmaElectronicaUsuario = $('#FirmaElectronicaUsuario').val();
+        varFirmaElectronicaPassword = $('#FirmaElectronicaPassword').val();
+
+        var data = {
+            Guid_id: '@tbl_Sol_Solicitud.Guid_id',
+            Guidetapa_id: '@GuidEtapa_id',
+            UsuarioFE: varFirmaElectronicaUsuario,
+            PasswordFE: varFirmaElectronicaPassword
+        };
+
+    var url = "@Url.Action("JsonProcesarFirmaElectronica", "Home")";
+        loaderPantalla(true);
+        $.post(url, data).done(function (jsonrespuesta) {
+            loaderPantalla(false);
+            var oJSON = JSON.parse(jsonrespuesta);
+            var NombreDocumento = oJSON.strRespuesta;
+            var CodigoRespuesta = oJSON.CodRespuesta;
+
+
+            if ((CodigoRespuesta == '0') || (CodigoRespuesta == 0))
+            {
+                window.open("/Home/FalloFirmaElectronica?FalloFe=" + NombreDocumento, '_blank');
+            }
+            else
+            {
+                window.open(NombreDocumento, '_blank');
+                fnc_EnviarRespuesta(1);
+
+            }
+
+        });
+
+    }
+
+
+
+   $(document).ready(function () {
+       refreshPartialOficioRegistroNoProcedente();
+       //grabarResolucion();
+    })
+
+</script>
+
+
+@Html.AntiForgeryToken()
+<h4>@ViewBag.Mensaje</h4>
+<div class="container">
+
+    <div class="titulo-dos">
+        <h4>Oficio de Registro No Procedente</h4>
+        <h3>@ViewBag.mensaje</h3>
+    </div>
+
+
+
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.HiddenFor(model => model.Solicitud_id)
+    @Html.HiddenFor(model => model.swcreatedby)
+    @Html.HiddenFor(model => model.swdatecreated)
+    @Html.HiddenFor(model => model.swcraetedbyinterno)
+
+    <br />
+    @if (ViewBag.intEtapas == 0)
+    {
+    }
+    else
+    {
+
+        <p style="width: 100%; background-color: blue; color: white; font-size:20px; "> Tiene un procedimiento pendiente </p>
+        <p style="width: 100%; background-color: blue; color: white; font-size:20px; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Previo a emitir la resolución u oficio de enmiendas.</p>
+
+    }
+
+
+    <br />
+    <label class="text-danger" id="lblMensaje"></label>
+
+
+    <div id="div_Parrafos">
+        <table class="table">
+            <tr>
+                <td>
+                    <textarea id="ta_Parrafo1" name="ta_Parrafo1" rows="2" cols="30" class="form-control" onchange="actualizaParrafo1()">@Model.Parrafo_1</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <textarea id="ta_Parrafo2" name="ta_Parrafo2" rows="4" cols="30" class="form-control" onchange="actualizaParrafo2()">@Model.Parrafo_2</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="div_EnmiendasOficioNoProcedente"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <textarea id="ta_Parrafo3" name="ta_Parrafo3" rows="5" cols="30" class="form-control" onchange="actualizaParrafo3()">@Model.Parrafo_3</textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <table>
+        <tr>
+            <th colspan="2">Datos para la firma electrónica</th>
+        </tr>
+        <tr>
+            <td><br /></td>
+        </tr>
+        <tr>
+            <td width="20%">Usuario</td>
+            <td width="20%">
+                <input type="text" id="FirmaElectronicaUsuario" name="FirmaElectronicaUsuario" value="" />
+            </td>
+            <td width="20%">Password</td>
+            <td width="20%">
+                <input type="password" id="FirmaElectronicaPassword" name="FirmaElectronicaPassword" value="" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <br />
+            </td>
+        </tr>
+    </table>
+
+    @if (ViewBag.intEtapas == 0)
+    {
+        <table width="100%">
+            <tr>
+                <td>
+                    <label id="lblMensajeFail" style="color:red"></label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button class="btn btn-success" onclick="generarOficio(1)" name="verPDF" id="verPDF">Visualizar Documento</button>
+                </td>
+                <td>
+                    <button class="btn btn-success" id="btnFirmarDocumento" name="btnFirmarDocumento" onclick="FirmarDocumento()" style="display:none;">Firmar Documento</button>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                    <input type="button" class="btn btn-secondary" value="Cerrar y continuar despues" onclick="Cerrar()" />
+                </td>
+            </tr>
+
+        </table>
+    }
+    else
+    {
+
+        <p style="width: 100%; background-color: blue; color: white; font-size:20px; "> Tiene un procedimiento pendiente </p>
+        <p style="width: 100%; background-color: blue; color: white; font-size:20px; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Previo a emitir la resolución u oficio de enmiendas.</p>
+
+    }
+</div>
+
+
+
+
+
+

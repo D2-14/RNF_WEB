@@ -1,0 +1,128 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+<div id="section_Rodal_Inventario">
+    @model IEnumerable<RNF_Web.Models.Tbl_Sol_Rodal_Inventario>
+
+    @if (Constants.VisualizarInformacionDesarrollo == 1)
+    {
+        @Html.Raw(this.Url.Action())
+    }
+
+
+    @{
+        ViewBag.Title = "Index";
+
+        EdicionSolicitudGrants objGrant = (EdicionSolicitudGrants)Session[Constants.session_EdicionSolicitudGrants];
+
+        ViewBag.Edicion = objGrant.boolEditarRodal;
+
+    }
+
+
+    <script type="text/javascript">
+        function popUp(URL) {
+            window.open(URL, 'Nombre de la ventana', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=1,width=1000,height=500,left = 300,top = 50');
+        }
+    </script>
+
+
+    <div class="container-fluid">
+        <div class="titulo-dos">
+            <h4>Inventario de árboles</h4>
+        </div>
+
+        <br />
+        <div class="row">
+
+
+            @if (ViewBag.Edicion == true)
+            {
+                <div class="col-xs-5 col-md-5">
+                </div>
+                <div class="col-xs-3 col-md-3">
+                    Click en la imagen para Agregar datos de un árbol
+                </div>
+                <div class="col-xs-1 col-md-1">
+                    <span class="pull-right">
+                        <img src="~/Content/icons/add_simple.png" onclick="Agregar_Arbol()" width="55" height="55" />
+                    </span>
+                </div>
+            }
+            else
+            {
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <h3> ** El estatus actual no permite agregar un árbol</h3>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+
+        <div class="col-sm-6 col-md-12">
+
+            <table class="table">
+                <tr>
+                    <th>
+                        Rodal_id
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Arbol_id)
+                    </th>
+                    <th>
+                        Especie
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.GTMX)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.GTMY)
+                    </th>
+                    <th>Categiría</th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Rodal_id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Arbol_id)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tbl_Gral_Especie.NombreCientifico)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GTMX)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GTMY)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tbl_Sol_Rodal_Inventario_Clase.Descripcion)
+                        </td>
+                        <td>
+                            <img src="~/Content/icons/edit-9-xxl.png" onclick="Editar_Arbol(@item.Rodal_id, @item.Arbol_id)" width="25" height="25" />
+                        </td>
+                        <td>
+                            <img src="~/Content/icons/trash_green.png" onclick="Borrar_Arbol(@item.Rodal_id, @item.Arbol_id)" width="25" height="25" />
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,276 @@
+﻿@model RNF_Web.Models.Tbl_Gest_EtapaSolicitud
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+<script>
+
+    function ReporteDeAprobacionTecnica() {
+        var data = {
+            Guidid: '@ViewBag.Guid_id',
+            Guidetapa: '@Model.EtapaSolicitud_GUID_id',
+            Argumentacion: $('#Motivo').val()
+        };
+    var url = "@Url.Action("GenerarReporteDeAprobacionTecnica", "Form_FormularioTecnicoInactivacionAprobacion")";
+
+        $.post(url, data).done(function (jsonrespuesta) {
+            var oJSON = JSON.parse(jsonrespuesta);
+            var CodRespuesta = oJSON.CodRespuesta;
+            var NombreDocumento = oJSON.Ubicacion;
+            var Mensaje = oJSON.Mensaje;
+
+            if (CodRespuesta == 1) {
+                window.open("/Archivos_Generados_Que_Pueden_Borrar/" + NombreDocumento, '_blank');
+                var TdHiddeA = document.getElementById("btnconsolidar");
+                TdHiddeA.style.display = "block";
+            } else {
+                alert(Mensaje);
+                var TdHiddeA = document.getElementById("btnconsolidar");
+                TdHiddeA.style.display = "none";
+            }
+
+
+        });
+
+    }
+
+    function Cerrar()
+    {
+            window.location.replace("/Main/Index");
+    }
+
+    function Consolidar() {
+        var data = {
+            Guid_id: '@ViewBag.Guid_id',
+            Guidetapa_id: '@Model.EtapaSolicitud_GUID_id',
+            TipoDocumento_id: 19
+        };
+
+    var url = "@Url.Action("jsonUnificar", "Unificar")";
+
+        $.post(url, data).done(function (jsonrespuesta) {
+            var oJSON = JSON.parse(jsonrespuesta);
+            var NombreDocumento = oJSON.strRespuesta;
+
+            window.open(NombreDocumento, '_blank');
+
+            var TdHiddeA = document.getElementById("btnFirmarDocumento");
+            TdHiddeA.style.display = "block";
+
+        });
+
+    }
+
+
+
+    function fnc_EnviarRespuesta(varRespuestaid)
+    {
+        varsolicitud_id = '@Model.Solicitud_id';
+        varetapa_id = '@Model.Etapa_id';
+        varetaparuta_id = '@Model.EtapaRuta_id';
+        varcorrelativoetapa_id = '@Model.CorrelativoEtapa_id';
+        varMotivo = $('#Motivo').val();
+        varEtapaSolicitud_GUIDid= '@Model.EtapaSolicitud_GUID_id';
+
+
+        var url = "@Url.Action("ActualizaEtapaRespuestaIndexSolicitud", "Form_FormularioTecnico")";
+
+        var data = { solicitud_id: varsolicitud_id, etapa_id: varetapa_id, etaparuta_id: varetaparuta_id, correlativoetapa_id: varcorrelativoetapa_id, motivo: varMotivo, respuestaid: varRespuestaid, EtapaSolicitud_GUIDid: varEtapaSolicitud_GUIDid };
+        $.post(url, data).done(function (jsonRespuesta) {
+               var objJSON = JSON.parse(jsonRespuesta);
+               var Cod_Respuesta = objJSON.CodRespuesta;
+               var Texto_Respuesta = objJSON.strRespuesta;
+
+
+                if (Cod_Respuesta == 1) {
+                    window.location.replace("/Gest_EtapaSolicitud/Index");
+                }
+                else
+                {
+                    $('#lblMensaje').text(Texto_Respuesta);
+                    alert(Texto_Respuesta);
+
+                }
+
+           }).fail(manejarErrorAjax).always(function () {
+
+               alert('Error no identificado.');
+            });
+            return false;
+
+    }
+
+
+    function FirmarDocumento() {
+
+        var TdHiddeA = document.getElementById("btnFirmarDocumento");
+        TdHiddeA.style.display = "none";
+
+        varFirmaElectronicaUsuario = $('#FirmaElectronicaUsuario').val();
+        varFirmaElectronicaPassword = $('#FirmaElectronicaPassword').val();
+
+        var data = {
+            Guid_id: '@ViewBag.Guid_id',
+            Guidetapa_id: '@Model.EtapaSolicitud_GUID_id',
+            UsuarioFE: varFirmaElectronicaUsuario,
+            PasswordFE: varFirmaElectronicaPassword
+        };
+
+    var url = "@Url.Action("JsonProcesarFirmaElectronica", "Form_FormularioTecnicoInactivacionAprobacion")";
+        loaderPantalla(true);
+        $.post(url, data).done(function (jsonrespuesta) {
+            loaderPantalla(false);
+            var oJSON = JSON.parse(jsonrespuesta);
+            var NombreDocumento = oJSON.strRespuesta;
+            var CodigoRespuesta = oJSON.CodRespuesta;
+
+
+            if ((CodigoRespuesta == '0') || (CodigoRespuesta == 0))
+            {
+                window.open("/Home/FalloFirmaElectronica?FalloFe=" + NombreDocumento, '_blank');
+            }
+            else
+            {
+                window.open(NombreDocumento, '_blank');
+
+                fnc_EnviarRespuesta(1);
+
+            }
+
+
+        });
+
+    }
+
+</script>
+
+
+
+
+<style>
+    body {
+        font-family: Arial;
+    }
+
+    /* Style the tab */
+    .tab {
+        overflow: hidden;
+    }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+        }
+
+            /* Change background color of buttons on hover */
+            .tab button:hover {
+                background-color: #ddd;
+            }
+
+            /* Create an active/current tablink class */
+            .tab button.active {
+                background-color: forestgreen;
+                color: white;
+            }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        -webkit-animation: fadeEffect 1s;
+        animation: fadeEffect 1s;
+    }
+</style>
+
+
+<div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'Resolucion')" id="defaultOpen">Dictamen técnico</button>
+    <button class="tablinks" onclick="openCity(event, 'Analisis')">Análisis técnico</button>
+</div>
+
+<div id="Resolucion" class="tabcontent">
+
+    <div id="UploadAnexos"> </div>
+
+    <table width="100%">
+        <tr>
+            <td colspan="4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Motivo, "Antecedentes, Resultados y Dictamen", htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div class="col-md-12">
+                        @Html.TextAreaFor(model => model.Motivo, 2, 100, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Motivo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><br /></td>
+        </tr>
+        <tr>
+            <th colspan="2">Datos para la firma electrónica</th>
+        </tr>
+        <tr>
+            <td><br /></td>
+        </tr>
+        <tr>
+            <td width="20%">Usuario</td>
+            <td width="20%">
+                <input type="text" id="FirmaElectronicaUsuario" name="FirmaElectronicaUsuario" value="" />
+            </td>
+            <td width="20%">Password</td>
+            <td width="20%">
+                <input type="password" id="FirmaElectronicaPassword" name="FirmaElectronicaPassword" value="" />
+            </td>
+        </tr>
+    </table>
+
+</div>
+<div id="Analisis" class="tabcontent">
+    <div id="div_Analisis"></div>
+</div>
+
+<script>
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#UploadAnexos').load('/UploadFiles/UploadedAnexos?Guid_id=' + '@ViewBag.Guid_id');
+        $("#div_Analisis").load("/Form_FormularioTecnico/EvaluacionTecnicaFormularioRodalDasometricos?Guid_id=@Model.Solicitud_Guid_id&GuidEtapa_id=@Model.EtapaSolicitud_GUID_id&etapa_id=@Model.Etapa_id&etaparuta_id=@Model.EtapaRuta_id&correlativoetapa_id=@Model.CorrelativoEtapa_id&ModoVista=1");
+    });
+</script>
+
+
+
+
+
+
+
+

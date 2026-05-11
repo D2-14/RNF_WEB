@@ -1,0 +1,82 @@
+﻿@using RNF_Web.Models;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+
+@model List<Tbl_Tecnico_PreguntaRespuesta>
+@{
+    Layout = null;
+    int Pregunta_id = ViewBag.Pregunta_id;
+    int Categoria_id = ViewBag.Categoria_id;
+    int Sub_Categoria_id = ViewBag.Sub_Categoria_id;
+    int Respuesta_id;
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_Tecnico_PreguntaRespuesta_Evaluacion oEvaluacion;
+    long Solicitud_id = ViewBag.Solicitud_id;
+}
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+<form>
+    <table>
+
+
+
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            Respuesta_id = Model[i].Respuesta_id;
+            oEvaluacion = (from d in db.Tbl_Tecnico_PreguntaRespuesta_Evaluacion where d.Solicitud_id == Solicitud_id && d.Categoria_id == Categoria_id && d.Sub_Categoria_id == Sub_Categoria_id && d.Pregunta_id == Pregunta_id && d.Respuesta_id == Respuesta_id select d).FirstOrDefault();
+            if (oEvaluacion != null)
+            {
+
+                <tr>
+                    <td>
+                        <input type="radio" class="form-check-input _@Pregunta_id" name="_@Pregunta_id" value="@Respuesta_id" id="@Respuesta_id" onclick="alertapregunta_ ('@Pregunta_id', '@Respuesta_id')" checked /> @Model[i].Descripcion
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>
+                        <input type="radio" class="form-check-input _@Pregunta_id" name="_@Pregunta_id" value="@Respuesta_id" id="@Respuesta_id" onclick="alertapregunta_ ('@Pregunta_id', '@Respuesta_id')" /> @Model[i].Descripcion
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</form>
+
+
+<script>
+    $(document).ready(function () {
+        $(".row").find("input[type='radio']").click(function(){
+            //desmarca todos com a classe form-check-input
+            $("._@Pregunta_id").prop( "checked", false );
+            //marca o clicado
+            $(this).prop( "checked", true );
+            //valor do id do input marcado
+            var valorId = ($(this).attr("id"));
+            //retira o numero do final do valor do id
+            var substrValorId = valorId.substring(0,(valorId.length - 1));
+
+            //necessário quando selecionar outro input
+            $('._@Pregunta_id').removeAttr("disabled");
+            //desabilita os xaras :D
+            for (var i = 0; i < 50; i++) {
+            document.getElementById(substrValorId+i).disabled = true;
+            }
+        })
+    });
+
+</script>

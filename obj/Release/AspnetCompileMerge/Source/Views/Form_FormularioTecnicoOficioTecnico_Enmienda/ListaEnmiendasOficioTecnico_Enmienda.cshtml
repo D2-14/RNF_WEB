@@ -1,0 +1,58 @@
+﻿@using RNF_Web.Models;
+@model List<Tbl_Gest_EtapaSolicitud_OficioTecnico_Enmienda>
+@{
+    string chbCheck = "checked";
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<table class="table table-striped table-hover" border="0">
+    <thead>
+        <tr>
+            <th scope="col">
+                Enmienda
+            </th>
+            <th scope="col">
+                Observación
+            </th>
+            <th scope="col">
+                Accion
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderByDescending(Obj => Obj.Estado_id))
+        {
+            <tr>
+                <td>
+                    @item.Descripcion
+                </td>
+                <td>
+                    @if ((item.Objecion == null) || (item.Objecion == ""))
+                    {
+                        <strong class="text-success">
+                            No hay observaciones para esta enmienda
+                        </strong>
+                    }
+                    else
+                    {
+                        @item.Objecion
+                    }
+                </td>
+                <td>
+                    @if ((bool)item.Estado_id)
+                    {
+                        <label class="switch">
+                            <input type="checkbox" id="estado_@item.Enmienda_id" name="estado_@item.Enmienda_id" @if ((bool)item.Estado_id) { @chbCheck ; } onchange="cambioEstadoEnmienda(@item.Enmienda_id)" />
+                            <span class="slider round"></span>
+                        </label>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

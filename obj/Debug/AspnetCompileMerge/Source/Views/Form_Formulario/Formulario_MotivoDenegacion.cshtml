@@ -1,0 +1,65 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Form_Formulario_MotivoDenegacion>
+
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+
+
+<div class="content">
+    <div class="titulo-dos">
+        <h4>PUNTOS QUE ORIGINARON LA DENEGACIÓN</h4>
+    </div>
+
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th>
+                Eliminar
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    &nbsp;&nbsp;<input type="button" value="Eliminar" onclick="Eliminar_DenegacionDetalle(@item.Correlativo)" class="btn btn-primary" />
+
+                </td>
+            </tr>
+        }
+    </table>
+
+    <table>
+        <tr>
+            <th>
+                Indicar el motivo de la denegación:
+            </th>
+        </tr>
+        <tr>
+            <td><br /></td>
+        </tr>
+        <tr>
+            <td>Descripcion:</td>
+            <td>
+                <input type="text" name="R_NewTarea" id="R_NewTarea">
+            </td>
+            <td>
+                &nbsp;&nbsp;<input type="button" value="Agregar" onclick="Agregar_DenegacionDetalle()" class="btn btn-primary" />
+            </td>
+        </tr>
+    </table>
+    <br />
+    <br />
+
+</div>

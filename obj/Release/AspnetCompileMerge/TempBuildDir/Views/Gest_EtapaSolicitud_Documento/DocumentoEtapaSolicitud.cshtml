@@ -1,0 +1,205 @@
+﻿@using RNF_Web.Models;
+@model IEnumerable<RNF_Web.Models.Tbl_Gest_EtapaSolicitud_Documento>
+@{
+    db_RNFEntities db = new db_RNFEntities();
+    string Guid_id = ViewBag.Guid_id;
+    string GuidEtapa_id = ViewBag.GuidEtapa_id;
+    int etapa_id = ViewBag.etapa_id;
+    decimal etaparuta_id = ViewBag.etaparuta_id;
+    int correlativoetapa_id = ViewBag.correlativoetapa_id;
+    long Solicitud_id = ViewBag.Solicitud_id;
+    long usuarioid = 0;
+    string nombreusuario = "";
+
+    Tbl_Sol_Solicitud tbl_Sol_Solicitud = db.Tbl_Sol_Solicitud.Find(Solicitud_id);
+
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+    Layout = null;
+    string partialpathrep = "";
+
+}
+
+
+<script>
+
+
+
+    $(document).ready(function () {
+
+        $("#btnHideModal").click(function () {
+            $("#imgModal").modal('hide');
+        });
+        $("#btnHideModalCerrar").click(function () {
+            $("#imgModal").modal('hide');
+        });
+
+        $("#btnRecepcionDocs").click(function () {
+            $("#imgModal").modal('show');
+        });
+
+    });
+
+    function hide_myModal() {
+        $("#imgModal").modal('hide');
+    }
+
+
+    function gestEtapaSolicitudDocumentoMostrar(id, filename) {
+        var Solicitud_id = '@tbl_Sol_Solicitud.Solicitud_id';
+        var Etapa_id = '@etapa_id';
+        var EtapaRuta_id = '@etaparuta_id';
+        var CorrelativoEtapa_id = '@correlativoetapa_id';
+        var Documento_id = id;
+        var dataData = {
+            Solicitud_id: Solicitud_id,
+            Etapa_id: Etapa_id,
+            EtapaRuta_id: EtapaRuta_id,
+            CorrelativoEtapa_id: CorrelativoEtapa_id,
+            Documento_id: Documento_id
+        }
+
+        var url = "@(Url.Action("Obtenerhref", controllerName))";
+
+        $.post(url, dataData).done(function (doc) {
+            var extension = filename.substr((filename.lastIndexOf(".") + 1 - filename.length));
+            extension = extension.toLowerCase();
+            console.log(extension);
+            var imgDoc = document.getElementById("imDoc");
+            var ifDoc = document.getElementById("ifDoc");
+            var miHref = document.getElementById("miHref");
+            //jQuery.noConflict();
+
+            if (extension == "pdf" || extension == "jpg" || extension == "bmp" || extension == "png" || extension == "gif") {
+
+                if (extension == "pdf") {
+                    imgDoc.src = "";
+                    ifDoc.src = doc;
+                    ifDoc.style.visibility = "visible";
+                    miHref.href = doc;
+
+                    $("#imgModal").modal('show');
+
+                }
+                else
+                {
+                    ifDoc.src = "";
+                    imgDoc.src = doc;
+                    miHref.href = doc;
+                    $("#imgModal").modal('show');
+                    ifDoc.style.visibility = "hidden";
+                }
+            }
+            else
+            {
+                window.location.href = doc;
+            }
+        }).fail(function (ex) {
+            console.log(ex);
+            alert('error. ' + ex.status);
+        });
+
+        return false;
+
+    }
+
+</script>
+@if(Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                Documento agregado
+            </th>
+            <th>
+                Subido por
+            </th>
+            <th>
+                Fecha
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            partialpathrep = "/Gest_EtapaSolicitud_Documento/" + item.Solicitud_id + "/" + item.Etapa_id + "/" + item.EtapaRuta_id.ToString("0.00") + "/" + item.CorrelativoEtapa_id + "/";
+            partialpathrep = partialpathrep.Replace(".", "_");
+            <tr>
+                <td>
+                    @item.FileName
+                </td>
+                <td>
+                    @if (item.swcreatedbyinterno != null)
+                    {
+                        if ((bool)item.swcreatedbyinterno)
+                        {
+                            usuarioid = (long)item.swcreatedby;
+                            Tbl_Seg_Usuario tbl_Seg_Usuario = (from d in db.Tbl_Seg_Usuario
+                                                               where d.Usuario_id == usuarioid
+                                                               select d).FirstOrDefault();
+                            if (tbl_Seg_Usuario != null)
+                            {
+                                nombreusuario = (tbl_Seg_Usuario.Nombre ?? "") + " " + (tbl_Seg_Usuario.Apellidos ?? "");
+                                @Html.Raw(nombreusuario)
+                            }
+                        }
+                        else
+                        {
+                            usuarioid = (long)item.swcreatedby;
+                            Tbl_Seg_UsuarioExterno tbl_Seg_Usuario = (from d in db.Tbl_Seg_UsuarioExterno
+                                                                      where d.Usuario_id == usuarioid
+                                                                      select d).FirstOrDefault();
+                            if (tbl_Seg_Usuario != null)
+                            {
+                                nombreusuario = (tbl_Seg_Usuario.Nombres ?? "") + " " + (tbl_Seg_Usuario.Apellidos ?? "");
+                                @Html.Raw(nombreusuario)
+                            }
+                        }
+                    }
+                </td>
+                <td>
+                    @if(item.swdatecreated != null)
+                    {
+                        @Html.Raw(item.swdatecreated)
+                    }
+                </td>
+                <td>
+                    <img src="~/Content/icons/ver.png" onclick="window.open('@partialpathrep@item.FileName')" width="50" />
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" id="imgModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" width: 700px;>
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="hide_myModal()">
+                    X
+                </button>
+                <h4 class="modal-title">Vista preliminar del documento cargado</h4>
+            </div>
+            <div class="modal-body">
+                <a ID="miHref" name="miHref" href="" target="_blank" style="display:none">Ver en pagina Completa</a>
+                <button class="btn-next" onclick="MostrarCompleta()">Mostrar en página completa</button>
+
+                <img src="~/Content/icons/click_hand.gif" width="80" />
+                <img style="max-height:1000px;max-width:800px;height:auto;width:auto;" ID="imDoc" Visible="false" />
+                <iframe ID="ifDoc" style="height:600px;width:800px;" visible="false"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" onclick="hide_myModal()">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+

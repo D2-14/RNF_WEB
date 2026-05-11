@@ -1,0 +1,194 @@
+﻿@using RNF_Web.Models;
+@model RNF_Web.Models.Tbl_Sol_Motosierra
+
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    EdicionSolicitudGrants objGrant = (EdicionSolicitudGrants)Session[Constants.session_EdicionSolicitudGrants];
+
+    ViewBag.Edicion = objGrant.boolEditarMotosierra;
+
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_Sol_Solicitud tbl_sol_solicitud = db.Tbl_Sol_Solicitud.Find(Model.Solicitud_id);
+
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string Nombre_Div = "div_Sol_Motosierra";
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+    fc_Gral_Sol_Configuracion_Result permisos = db.fc_Gral_Sol_Configuracion(tbl_sol_solicitud.Solicitud_id, controllerName, boolEsInterno).FirstOrDefault();
+
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <div id="@Nombre_Div"></div>
+}
+
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<div class="container-fluid">
+
+    <div class="titulo-dos">
+        <h4>Datos de la Motosierra.</h4>
+    </div>
+
+    <br />
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+        @Html.HiddenFor(model => model.Motosierra_id)
+        @Html.HiddenFor(model => model.Solicitud_id)
+        @Html.HiddenFor(model => model.swcreatedby)
+        @Html.HiddenFor(model => model.swdatecreated)
+        @Html.HiddenFor(model => model.swcreatedbyinterno)
+
+        @Html.HiddenFor(model => model.swdateupdated)
+        @Html.HiddenFor(model => model.swupdatedby)
+        @Html.HiddenFor(model => model.swupdatedbyinterno)
+
+
+        <div class="row">
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.Marca, htmlAttributes: new { @class = "control-label col-md-10" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Marca, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Marca, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.Modelo, htmlAttributes: new { @class = "control-label col-md-10" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Modelo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Modelo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.No_SerieMotosierra, htmlAttributes: new { @class = "control-label col-md-10" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.No_SerieMotosierra, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.No_SerieMotosierra, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.Cilindraje, htmlAttributes: new { @class = "control-label col-md-10" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Cilindraje, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Cilindraje, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.Potencia, htmlAttributes: new { @class = "control-label col-md-10" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Potencia, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Potencia, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.No_Lote, htmlAttributes: new { @class = "control-label col-md-10" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.No_Lote, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.No_Lote, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.No_SerieFactura, htmlAttributes: new { @class = "control-label col-md-10" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.No_SerieFactura, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.No_SerieFactura, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.No_Factura, htmlAttributes: new { @class = "control-label col-md-10" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.No_Factura, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.No_Factura, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.EmpesaEmisoraFactura, htmlAttributes: new { @class = "control-label col-md-10" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.EmpesaEmisoraFactura, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.EmpesaEmisoraFactura, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+                @Html.LabelFor(model => model.OtroDocumentoRespaldo, htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.OtroDocumentoRespaldo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.OtroDocumentoRespaldo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <br />
+        <h5>@TempData["ErrorMotosierraEcontrado"]</h5>
+
+        if ((bool)permisos.Editar)
+        {
+            <div class="col-sm-12 col-md-12" align="right">
+                <input type="submit" value="Guardar cambios" class="btn btn-success" />
+            </div>
+        }
+        else
+        {
+            <h3> ** El estatus actual no permite modificar o editar estos datos</h3>
+        }
+    }
+    @if (objGrant.boolEtapaView)
+    {
+        <div id="div_Motosierra_RNF"></div>
+    }
+
+
+</div>
+
+
+<script>
+    function visualizarPermisos(solicitudid, controllername, esinterno, nombrediv) {
+        var solicitudId = solicitudid;
+        var controllerName = controllername;
+        var esInterno = esinterno;
+
+        var mySolPermisos = document.getElementById(nombrediv);
+        if (mySolPermisos) {
+            $("#" + nombrediv).load("/Gral_SolicitudConfiguracion/PermisosRecibidos?Solicitud_id=" + solicitudId + "&controllerName=" + controllerName + "&EsInterno=" + esInterno);
+        }
+
+    }
+
+
+
+    $(document).ready(function () {
+        visualizarPermisos('@tbl_sol_solicitud.Solicitud_id', '@controllerName', '@objUs.EsInterno', '@Nombre_Div');
+        var myMotosierra_RNF = document.getElementById("div_Motosierra_RNF");
+        if (myMotosierra_RNF) {
+            $("#div_Motosierra_RNF").load("/Sol_Comparativo/MotoSierra?Solicitud_id=@Model.Solicitud_id");
+        }
+    });
+</script>

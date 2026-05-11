@@ -1,0 +1,632 @@
+﻿@using RNF_Web.Models;
+@using System.Data.SqlClient;
+@model Tbl_Gest_EtapaSolicitud_InformeCircunstanciado
+
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    Layout = null;
+
+    db_RNFEntities db = new db_RNFEntities();
+    string GuidEtapa_id = ViewBag.GuidEtapa_id;
+    string Guid_id = ViewBag.Guid_id;
+    int etapa_id = ViewBag.etapa_id;
+    decimal etaparuta_id = ViewBag.etaparuta_id;
+    int correlativoetapa_id = ViewBag.correlativoetapa_id;
+
+    int intEtapas = db.Tbl_Gest_EtapaSolicitud.Where(Obj => Obj.Solicitud_Guid_id == Guid_id && Obj.EtapaSolicitud_GUID_id != GuidEtapa_id && Obj.EtapaSolicitudEstado_id == 1).Count();
+
+
+    Tbl_Sol_Solicitud tbl_Sol_Solicitud = db.Tbl_Sol_Solicitud.Find(Model.Solicitud_id);
+    bool HabilitaBitacora = false;
+    if ((tbl_Sol_Solicitud.Bitacora_id != null) && (tbl_Sol_Solicitud.Bitacora_id != 0))
+    {
+        HabilitaBitacora = true;
+    }
+
+    SqlParameter[] sqlParams;
+    string p0, p1;
+    p0 = "@Region_id";
+    p1 = "@SubRegion_id";
+    string sqlQuery = $"select [dbo].[Fnc_Gral_NombreSubDirectorRegional]({@p0},{@p1})";
+    sqlParams = new SqlParameter[]
+    {
+    new SqlParameter { ParameterName = p0,  Value = tbl_Sol_Solicitud.Region_id, Direction = System.Data.ParameterDirection.Input },
+    new SqlParameter { ParameterName = p1,  Value = tbl_Sol_Solicitud.SubRegion_id, Direction = System.Data.ParameterDirection.Input }
+                                    };
+    string NombreSubDirectorRegional = db.Database.SqlQuery<string>(sqlQuery, sqlParams).FirstOrDefault();
+
+    sqlQuery = "SELECT dbo.Fnc_Gral_FechaTxt(getdate())";
+    string strFecha = db.Database.SqlQuery<string>("SELECT dbo.Fnc_Gral_FechaTxt(getdate())").FirstOrDefault();
+
+
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<script>
+
+
+    function agregarProcedimiento() {
+        var Solicitud_id = '@tbl_Sol_Solicitud.Solicitud_id';
+        var Procedimiento = document.getElementById("Procedimiento").value;
+        var varSolicitud_Guid_id = '@Guid_id';
+        var varEtapaSolicitud_GUID_id = '@GuidEtapa_id';
+
+        var data = {
+            Solicitud_id: Solicitud_id,
+            Procedimiento: Procedimiento,
+            Solicitud_Guid_id: varSolicitud_Guid_id,
+            EtapaSolicitud_GUID_id: varEtapaSolicitud_GUID_id
+        };
+
+
+        var url = '@Url.Action("AgregarProcedimiento", "Form_FormularioSubRegionalInformeCircunstanciado")'
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            var oJSON = RespuestaJSON;
+            var Result = oJSON.Result;
+            var Mensaje = oJSON.Mensaje;
+
+            if (Result == 1) {
+                refreshPartialEnmiendasCreateSolicitudInactivacion();
+            } else {
+                alert(Mensaje);
+            }
+
+        }).fail(function (RespuestaError) {
+            console.log(RespuestaError);
+            alert(RespuestaError);
+        })
+    }
+
+    function editarProcedimiento(Procedimiento_id) {
+        var Solicitud_id = '@tbl_Sol_Solicitud.Solicitud_id';
+
+        var data = {
+            Solicitud_id: Solicitud_id,
+            Procedimiento_id: Procedimiento_id
+        };
+
+        var url = '@Url.Action("EliminarProcedimiento", "Form_FormularioSubRegionalInformeCircunstanciado")'
+
+        var confirmacion = confirm("¿Desea modificar este procedimiento?");
+        if (confirmacion) {
+            var Source = '/Form_FormularioSubRegionalInformeCircunstanciado/Procedimientos_Edit?Solicitud_id=' + Solicitud_id + '&Procedimiento_id=' + Procedimiento_id;
+            var Titulo = 'Modificación de procedimiento';
+            openModalPartial(Source, Titulo);
+        }
+    }
+
+    function eliminarProcedimiento(Procedimiento_id) {
+        var Solicitud_id = '@tbl_Sol_Solicitud.Solicitud_id';
+
+        var data = {
+            Solicitud_id: Solicitud_id,
+            Procedimiento_id: Procedimiento_id
+        };
+
+        var url = '@Url.Action("EliminarProcedimiento", "Form_FormularioSubRegionalInformeCircunstanciado")'
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            var oJSON = RespuestaJSON;
+            var Result = oJSON.Result;
+            var Mensaje = oJSON.Mensaje;
+
+            if (Result == 1) {
+                refreshPartialEnmiendasCreateSolicitudInactivacion();
+            } else {
+                alert(Mensaje);
+            }
+
+        }).fail(function (RespuestaError) {
+            console.log(RespuestaError);
+            alert(RespuestaError);
+        })
+    }
+
+
+    function generarBitacora() {
+        var div_AgregarHallazgos_RNF = document.getElementById('div_AgregarHallazgos_RNF');
+        if (div_AgregarHallazgos_RNF) {
+            $('#div_AgregarHallazgos_RNF').load('/RNF_Registro_Reasignacion/AgregarHallazgo?No_Registro=@tbl_Sol_Solicitud.No_Registro&Bitacora_id=@tbl_Sol_Solicitud.Bitacora_id');
+        }
+    }
+
+    function generarSolicitudInactivacion() {
+        var varSolicitud_Guid_id = '@Guid_id';
+        var varEtapaSolicitud_GUID_id = '@GuidEtapa_id';
+
+        var data = {
+            Solicitud_Guid_id: varSolicitud_Guid_id,
+            EtapaSolicitud_GUID_id: varEtapaSolicitud_GUID_id
+        }
+        var url = "@Url.Action("ObtenerDocumentoInactivacion", "Form_FormularioSubRegionalInformeCircunstanciado")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            loaderPantalla(false);
+
+            var objJSON = jsonRespuesta;
+            var Texto_Respuesta = objJSON.Ubicacion;
+            var Result = objJSON.Result;
+            var Mensaje = objJSON.Mensaje;
+            if (Result == 1) {
+
+                window.open('/Archivos_Generados_Que_Pueden_Borrar/' + Texto_Respuesta, '_blank');
+
+                var TdHiddeA = document.getElementById("btnFirmarDocumento");
+                TdHiddeA.style.display = "block";
+
+            } else {
+                alert(Mensaje);
+            }
+
+        });
+    }
+
+    function actualizaParrafo1() {
+        grabarParrafos();
+    }
+
+    function actualizaParrafo2() {
+        grabarParrafos();
+    }
+
+    function actualizaParrafo3() {
+        grabarParrafos();
+    }
+
+    function actualizaParrafo4() {
+        grabarParrafos();
+    }
+
+    function actualizaParrafo5() {
+        grabarParrafos();
+    }
+
+    function actualizaParrafo6() {
+        grabarParrafos();
+    }
+
+    function actualizaParrafo7() {
+        grabarParrafos();
+    }
+
+    function reiniciarParrafos() {
+
+        var Solicitud_id = '@Model.Solicitud_id';
+        var GuidEtapa_id = '@GuidEtapa_id';
+        var Guid_id = '@Guid_id';
+        var etapa_id = '@etapa_id';
+        var etaparuta_id = '@etaparuta_id';
+        var correlativoetapa_id = '@correlativoetapa_id';
+
+        var data = {
+            Solicitud_id: Solicitud_id,
+            Solicitud_Guid_id: Guid_id,
+            GuidEtapa_id: GuidEtapa_id,
+            Etapa_id: etapa_id,
+            EtapaRuta_id: etaparuta_id,
+            CorrelativoEtapa_id: correlativoetapa_id
+        }
+        var url = "@Url.Action("ReiniciarParrafos", "Form_FormularioSubRegionalInformeCircunstanciado")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var objJSON = jsonRespuesta;
+
+            var parrafo1 = objJSON.Parrafo_1;
+            var parrafo2 = objJSON.Parrafo_2;
+            var parrafo3 = objJSON.Parrafo_3;
+            var parrafo4 = objJSON.Parrafo_4;
+            var parrafo5 = objJSON.Parrafo_5;
+            var parrafo6 = objJSON.Parrafo_6;
+            var parrafo7 = objJSON.Parrafo_7;
+
+            document.getElementById("ta_Parrafo1").value = parrafo1;
+            document.getElementById("ta_Parrafo2").value = parrafo2;
+            document.getElementById("ta_Parrafo3").value = parrafo3;
+            document.getElementById("ta_Parrafo4").value = parrafo4;
+            //document.getElementById("ta_Parrafo5").value = parrafo5;
+            //document.getElementById("ta_Parrafo6").value = parrafo6;
+            //document.getElementById("ta_Parrafo7").value = parrafo7;
+
+            grabarParrafos();
+
+        }).fail(function (jsonRespuesta) {
+            alert("Ocurrió un error");
+        });
+
+    }
+
+    function grabarParrafos() {
+
+        var Solicitud_id = '@Model.Solicitud_id';
+        var GuidEtapa_id = '@GuidEtapa_id';
+        var Guid_id = '@Guid_id';
+        var etapa_id = '@etapa_id';
+        var etaparuta_id = '@etaparuta_id';
+        var correlativoetapa_id = '@correlativoetapa_id';
+
+        var Parrafo_1 = $('#ta_Parrafo1').val();
+        var Parrafo_2 = $('#ta_Parrafo2').val();
+        var Parrafo_3 = $('#ta_Parrafo3').val();
+        var Parrafo_4 = $('#ta_Parrafo4').val();
+        var Parrafo_5 = $('#ta_Parrafo5').val();
+        var Parrafo_6 = $('#ta_Parrafo6').val();
+        var Parrafo_7 = $('#ta_Parrafo7').val();
+
+        var data = {
+            Solicitud_id: Solicitud_id,
+            Solicitud_Guid_id: Guid_id,
+            GuidEtapa_id: GuidEtapa_id,
+            Etapa_id: etapa_id,
+            EtapaRuta_id: etaparuta_id,
+            CorrelativoEtapa_id: correlativoetapa_id,
+            Parrafo_1: Parrafo_1,
+            Parrafo_2: Parrafo_2,
+            Parrafo_3: Parrafo_3,
+            Parrafo_4: Parrafo_4
+        }
+
+        var url = "@Url.Action("GrabarParrafos", "Form_FormularioSubRegionalInformeCircunstanciado")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var objJSON = jsonRespuesta;
+
+        }).fail(function (jsonRespuesta) {
+            alert("Ocurrió un error");
+        });
+
+
+    }
+
+    function refreshPartialEnmiendasCreateSolicitudInactivacion() {
+        var Solicitud_id = '@Model.Solicitud_id';
+        var params = "?Solicitud_id=" + Solicitud_id;
+
+
+        var urlEnmiendasCreate = "/Form_FormularioSubRegionalInformeCircunstanciado/Procedimientos_Create";
+
+        var myEnmiendasCreate = document.getElementById("div_ProcedimientosCreate");
+        if (myEnmiendasCreate) {
+            $("#div_ProcedimientosCreate").load(urlEnmiendasCreate + params);
+        }
+
+    }
+
+    function validarParrafosActivos() {
+        var Lbl_1 = document.getElementById("lbl_parrafo1");
+        var Lbl_2 = document.getElementById("lbl_parrafo2");
+        var Lbl_3 = document.getElementById("lbl_parrafo3");
+        var Lbl_4 = document.getElementById("lbl_parrafo4");
+        var Lbl_5 = document.getElementById("lbl_parrafo5");
+        var Lbl_6 = document.getElementById("lbl_parrafo6");
+        var Lbl_7 = document.getElementById("lbl_parrafo7");
+        var Parrafo_1 = document.getElementById("ta_Parrafo1");
+        var Parrafo_2 = document.getElementById("ta_Parrafo2");
+        var Parrafo_3 = document.getElementById("ta_Parrafo3");
+        var Parrafo_4 = document.getElementById("ta_Parrafo4");
+        var Parrafo_5 = document.getElementById("ta_Parrafo5");
+        var Parrafo_6 = document.getElementById("ta_Parrafo6");
+        var Parrafo_7 = document.getElementById("ta_Parrafo7");
+        var myEnmiendas = document.getElementById("div_ProcedimientosCreate");
+
+        //Lbl_1.innerHTML = "Señor:";
+        Parrafo_4.style.display = "none";
+        //Parrafo_5.style.display = "none";
+        //Parrafo_6.style.display = "none";
+        //Parrafo_7.style.display = "none";
+
+    }
+
+    function refreshPartialGestEtapaSolicitudDocumentoCreate() {
+        @*var GuidEtapa_id = '@GuidEtapa_id';
+        var Guid_id = '@Guid_id';
+        var etapa_id = '@etapa_id';
+        var etaparuta_id = '@etaparuta_id';
+        var correlativoetapa_id = '@correlativoetapa_id';*@
+        var div_DocumentoGestEtapaSolicitud_Create = document.getElementById('div_DocumentoGestEtapaSolicitud_Create');
+        if (div_DocumentoGestEtapaSolicitud_Create) {
+            $('#div_DocumentoGestEtapaSolicitud_Create').load('/Gest_EtapaSolicitud_Documento/DocumentoCreate?GuidEtapa_id=@GuidEtapa_id&Guid_id=@Guid_id&etapa_id=@etapa_id&etaparuta_id=@etaparuta_id&correlativoetapa_id=@correlativoetapa_id');
+        }
+
+
+    }
+
+    $(document).ready(function () {
+        generarBitacora();
+        validarParrafosActivos();
+        refreshPartialEnmiendasCreateSolicitudInactivacion();
+        refreshPartialGestEtapaSolicitudDocumentoCreate();
+
+        $("#btnHideModal").click(function () {
+
+            refreshPartialEnmiendasCreateSolicitudInactivacion();
+            $("#myModal").modal('hide');
+        });
+
+
+        $("#btnHideModal_Close").click(function () {
+
+            refreshPartialEnmiendasCreateSolicitudInactivacion();
+            $("#myModal").modal('hide');
+        });
+
+
+        $('#myModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        })
+
+        $("#myModal").on('show.bs.modal', function () {
+            var modal = $(this)
+            modal.find('.modal-title').text(document.getElementById("Titulo").value);
+            modal.find('.h_iframe').html(document.getElementById("Pagina").value);
+        });
+    });
+
+
+
+    function fnc_EnviarRespuesta(varRespuestaid)
+    {
+        varsolicitud_id = '@Model.Solicitud_id';
+        varetapa_id = '@etapa_id';
+        varetaparuta_id = '@etaparuta_id';
+        varcorrelativoetapa_id = '@correlativoetapa_id';
+        varMotivo = $('#Motivo').val();
+        varEtapaSolicitud_GUIDid= '@GuidEtapa_id';
+
+
+        var url = "@Url.Action("ActualizaEtapaRespuestaIndexSolicitud", "Form_FormularioSubRegionalInformeCircunstanciado")";
+
+        var data = { solicitud_id: varsolicitud_id, etapa_id: varetapa_id, etaparuta_id: varetaparuta_id, correlativoetapa_id: varcorrelativoetapa_id, motivo: varMotivo, respuestaid: varRespuestaid, EtapaSolicitud_GUIDid: varEtapaSolicitud_GUIDid };
+        $.post(url, data).done(function (jsonRespuesta) {
+               var objJSON = JSON.parse(jsonRespuesta);
+               var Cod_Respuesta = objJSON.CodRespuesta;
+               var Texto_Respuesta = objJSON.strRespuesta;
+
+
+                if (Cod_Respuesta == 1) {
+                    window.location.replace("/Gest_EtapaSolicitud/Index");
+                } else
+                {
+
+                    $('#lblMeModelodelodelsaje').text(Texto_Respuesta);
+                    alert(Texto_Respuesta);
+
+                }
+
+           }).fail(manejarErrorAjax).always(function () {
+
+               alert('Error no identificado.');
+            });
+            return falsModel;
+
+    }
+
+     function FirmarDocumento() {
+
+        var TdHiddeA = document.getElementById("btnFirmarDocumento");
+            TdHiddeA.style.display = "none";
+
+
+        varFirmaElectronicaUsuario = $('#FirmaElectronicaUsuario').val();
+        varFirmaElectronicaPassword = $('#FirmaElectronicaPassword').val();
+
+        var data = {
+            Guid_id: '@Guid_id',
+            Guidetapa_id: '@GuidEtapa_id',
+            UsuarioFE: varFirmaElectronicaUsuario,
+            PasswordFE: varFirmaElectronicaPassword
+            };
+
+            var url = "@Url.Action("JsonProcesarFirmaElectronica", "Form_FormularioSubRegionalInformeCircunstanciado")";
+             loaderPantalla(true);
+             $.post(url, data).done(function (jsonrespuesta) {
+             loaderPantalla(false);
+             var oJSON = JSON.parse(jsonrespuesta);
+             var NombreDocumento = oJSON.strRespuesta;
+             var CodigoRespuesta = oJSON.CodRespuesta;
+
+                if ((CodigoRespuesta == '0') || (CodigoRespuesta == 0))
+                {
+                    window.open("/Home/FalloFirmaElectronica?FalloFe=" + NombreDocumento, '_blank');
+                }
+                else
+                {
+                    window.open(NombreDocumento, '_blank');
+                    fnc_EnviarRespuesta(1);
+                }
+
+
+
+            });
+
+            }
+
+</script>
+
+
+@Html.AntiForgeryToken()
+<div class="container">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Solicitud_id)
+
+    <br />
+    <label class="text-danger" id="lblMensaje"></label>
+    <div id="div_Parrafos">
+        <table class="table">
+            <tr>
+                <td>
+                    <input type="button" name="Reiniciar" value="Volver a Cargar Texto" class="btn btn-primary" onclick="reiniciarParrafos()" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label id="lbl_parrafo1"></label>
+                    <br />
+                    <textarea id="ta_Parrafo1" name="ta_Parrafo1" rows="3" cols="30" class="form-control" onchange="actualizaParrafo1()">@Model.Parrafo_1</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label id="lbl_parrafo2"></label>
+                    <br />
+                    <textarea id="ta_Parrafo2" name="ta_Parrafo2" rows="3" cols="30" class="form-control" onchange="actualizaParrafo2()">@Model.Parrafo_2</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label id="lbl_parrafo3"></label>
+                    <br />
+                    <textarea id="ta_Parrafo3" name="ta_Parrafo3" rows="7" cols="30" class="form-control" onchange="actualizaParrafo3()">@Model.Parrafo_3</textarea>
+                </td>
+            </tr>
+            @if (HabilitaBitacora)
+            {
+                <tr>
+                    <td>
+                        <div id="div_AgregarHallazgos_RNF"></div>
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td>
+                    <label id="lbl_parrafo4"></label>
+                    <br />
+                    <textarea id="ta_Parrafo4" name="ta_Parrafo4" rows="7" cols="30" class="form-control" onchange="actualizaParrafo4()">@Model.Parrafo_4</textarea>
+                </td>
+            </tr>
+            @*<tr>
+                    <td>
+                        <label id="lbl_parrafo5"></label>
+                        <br />
+                        <textarea id="ta_Parrafo5" name="ta_Parrafo5" rows="7" cols="30" class="form-control" onchange="actualizaParrafo5()">@Model.Parrafo_5</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label id="lbl_parrafo6"></label>
+                        <br />
+                        <textarea id="ta_Parrafo6" name="ta_Parrafo6" rows="7" cols="30" class="form-control" onchange="actualizaParrafo6()">@Model.Parrafo_6</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label id="lbl_parrafo7"></label>
+                        <br />
+                        <textarea id="ta_Parrafo7" name="ta_Parrafo7" rows="7" cols="30" class="form-control" onchange="actualizaParrafo7()">@Model.Parrafo_7</textarea>
+                    </td>
+                </tr>*@
+            <tr>
+                <td>
+                    <div id="div_ProcedimientosCreate"></div>
+                </td>
+            </tr>
+        </table>
+
+
+
+    </div>
+    @*<div id="div_DocumentoGestEtapaSolicitud_Create"></div>*@
+</div>
+
+<table>
+    <tr>
+        <th colspan="2">Datos para la firma electrónica:</th>
+    </tr>
+    <tr>
+        <td><br /></td>
+    </tr>
+    <tr>
+        <td width="20%">Usuario</td>
+        <td width="20%">
+            <input type="text" id="FirmaElectronicaUsuario" name="FirmaElectronicaUsuario" value="" />
+        </td>
+        <td width="20%">Password</td>
+        <td width="20%">
+            <input type="password" id="FirmaElectronicaPassword" name="FirmaElectronicaPassword" value="" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <br />
+        </td>
+    </tr>
+</table>
+
+
+<table width="100%">
+    <tr>
+        <td>
+            <label id="lblMensajeFail" style="color:red"></label>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <button class="btn btn-success" onclick="generarSolicitudInactivacion()" name="verPDF" id="verPDF">Visualizar Documento</button>
+        </td>
+        <td>
+            <button class="btn btn-success" id="btnFirmarDocumento" name="btnFirmarDocumento" onclick="FirmarDocumento()" style="display:none;">Firmar Documento</button>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+            @*<input type="button" class="btn btn-secondary" value="Cerrar y continuar despues" onclick="Cerrar()" />*@
+        </td>
+    </tr>
+
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+<input type="hidden" id="Pagina" name="Pagina" value="">
+<input type="hidden" id="Titulo" name="Titulo" value="">
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="btnHideModal" class="btn btn-default" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <div class="h_iframe">
+                </div>
+            </div>
+            <div id="DatosPersonerias"></div>
+            <div class="modal-footer">
+                <button type="button" id="btnHideModal_Close" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    //control central de manejo de ventanas modales
+    function openModalPartial(Source, Titulo) {
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '"frameborder="0" width="1000px" height="1200px"></iframe>';
+        document.getElementById("Titulo").value = Titulo;
+        $("#myModal").modal("show");
+    }
+
+
+</script>

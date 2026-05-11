@@ -1,0 +1,120 @@
+@import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
+
+@import url(https://fonts.googleapis.com/css?family=Titillium+Web:300);
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+body {
+    background-image: url("../../Content/confectionary.png");
+    font-family: 'Montserrat', sans-serif;
+    height: 100vh;
+}
+
+.navbar-nav li:hover > ul.dropdown-menu {
+    display: block;
+}
+.dropdown-submenu {
+    position:relative;
+}
+.dropdown-submenu > .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top:-6px;
+}
+
+/* rotate caret on hover */
+.dropdown-menu > li > a:hover:after {
+    text-decoration: underline;
+    transform: rotate(-90deg);
+}
+
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.btn-modal {
+    border-radius: 20px;
+    border: 1px solid forestgreen;
+    background-color: forestgreen;
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+}
+
+.btn-next {
+    text-decoration: none !important;
+    border-radius: 20px;
+    border: 1px solid forestgreen;
+    background-color: forestgreen;
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+}
+
+    .btn-next:hover {
+        color: #FFFFFF !important;
+    }
+
+.btn-next-ic {
+    border-radius: 20px;
+    border: 1px solid #66bb6a;
+    background-color: #66bb6a;
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+    vertical-align: middle;
+}
+
+.div-icons-table {
+    text-align: left;
+    cursor: pointer;
+    font-size: 30px;
+    color: #66bb6a;
+}
+
+.btn-next-ic .in {
+    font-size: 40px;
+}
+
+.btn-warn {
+    border-radius: 20px;
+    border: 1px solid #e2e527;
+    background-color: #e2e527;
+    color: #FFFFFF;
+    padding: 12px 45px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+}
+
+.btn-cancel {
+    text-align: center;
+    text-decoration: none;
+    border-radius: 20px;
+    border: 1px solid #d32d10;
+    background-color: #d32d10;
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+}
+
+    .btn-cancel:hover {
+        color: #FFFFFF !important;
+    }

@@ -1,0 +1,243 @@
+﻿@using RNF_Web.Models;
+@model RNF_Web.Models.Tbl_Sol_Empresa_Entidad_Tipo_Registro
+@using System.Data.SqlClient;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+@{
+    Layout = null;
+
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_Sol_Solicitud tbl_sol_solicitud = db.Tbl_Sol_Solicitud.Find(Session[Constants.session_Solicitud]);
+
+    ViewBag.Estado = tbl_sol_solicitud.Estado_id;
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    controllerName = "Sol_Empresa_Entidad";
+    string Nombre_Div = "div_Sol_Permisos_Empresa_Entidad_Tipo_Registro";
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+    fc_Gral_Sol_Configuracion_Result permisos = db.fc_Gral_Sol_Configuracion(tbl_sol_solicitud.Solicitud_id, controllerName, boolEsInterno).FirstOrDefault();
+
+    DateTime Fecha_Acta;
+    Fecha_Acta = Model.Fecha_Acta ?? DateTime.Now;
+    ViewBag.Fecha_Acta = String.Format("{0:yyyy-MM-dd}", Fecha_Acta);
+
+            
+
+
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <div id="@Nombre_Div"></div>
+}
+
+
+@*<script src="~/Scripts/jquery-3.6.0.js"></script>
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
+
+<script>
+    function visualizarPermisos(solicitudid, controllername, esinterno, nombrediv) {
+        var solicitudId = solicitudid;
+        var controllerName = controllername;
+        var esInterno = esinterno;
+
+        var mySolPermisos = document.getElementById(nombrediv);
+        if (mySolPermisos) {
+            $("#" + nombrediv).load("/Gral_SolicitudConfiguracion/PermisosRecibidos?Solicitud_id=" + solicitudId + "&controllerName=" + controllerName + "&EsInterno=" + esInterno);
+        }
+
+    }
+
+
+    function limpiarDatosTipoRegistro() {
+        document.getElementById("No_Partida").value = "";
+        document.getElementById("No_Folio").value = "";
+        document.getElementById("No_Libro").value = "";
+        document.getElementById("No_Acta").value = "";
+        document.getElementById("Fecha_Acta").value = "";
+        document.getElementById("REPEJU_De_Id").value = "0";
+    }
+
+    function validarCambiosTipoRegistro() {
+
+        var lblNoPartida = document.getElementById("lblNoPartida");
+
+        var cb_tipoRegistro = document.getElementById("Tipo_Registro_Id");
+        var tipoRegistro = cb_tipoRegistro.value;
+        var tiporepejudefault = '@Model.REPEJU_De_Id';
+
+        lblNoPartida.innerText = 'Número de partida';
+
+        if (tipoRegistro == 1) {
+            lblNoPartida.innerText = 'Número de registro';
+
+            $('#divNoPartida').show();
+            $('#divNoFolio').show();
+            $('#divNoLibro').show();
+            $('#divREPEJUDe').hide();
+            $('#divNoActa').hide();
+            $('#divFechaActa').hide();
+
+        } else if (tipoRegistro == 2) {
+
+            lblNoPartida.innerText = 'Número de partida';
+            $('#divNoPartida').show();
+            $('#divNoFolio').show();
+            $('#divNoLibro').show();
+            $('#divREPEJUDe').show();
+            $('#divNoActa').hide();
+            $('#divFechaActa').hide();
+            var cb_REPEJU_De_Id = document.getElementById("REPEJU_De_Id");
+            if ((tiporepejudefault != 0) && (tiporepejudefault != null)) {
+                cb_REPEJU_De_Id.value = tiporepejudefault;
+            } else {
+                cb_REPEJU_De_Id.value = 1;
+            }
+
+        } else if (tipoRegistro == 3) {
+            lblNoPartida.innerText = 'Número';
+
+            $('#divNoPartida').show();
+            $('#divNoFolio').hide();
+            $('#divNoLibro').hide();
+            $('#divREPEJUDe').hide();
+            $('#divNoActa').hide();
+            $('#divFechaActa').hide();
+
+        } else if (tipoRegistro == 4) {
+
+            $('#divNoPartida').hide();
+            $('#divNoFolio').hide();
+            $('#divNoLibro').hide();
+            $('#divREPEJUDe').hide();
+            $('#divNoActa').show();
+            $('#divFechaActa').show();
+
+        } else if (tipoRegistro == 5) {
+
+            $('#divNoPartida').hide();
+            $('#divNoFolio').hide();
+            $('#divNoLibro').hide();
+            $('#divREPEJUDe').hide();
+            $('#divNoActa').show();
+            $('#divFechaActa').show();
+
+        }
+
+    }
+
+    $(document).ready(function () {
+        visualizarPermisos('@tbl_sol_solicitud.Solicitud_id', '@controllerName', '@objUs.EsInterno', '@Nombre_Div');
+        validarCambiosTipoRegistro();
+
+
+        $('#Tipo_Registro_Id').change(function () {
+            limpiarDatosTipoRegistro();
+            validarCambiosTipoRegistro();
+        });
+
+    });
+</script>
+
+
+<div style='height: 30px; width: 100%; background-color: #66bb6a; color: white; '>
+    <h4>Registro</h4>
+</div>
+
+<br />
+<h3>@TempData["MensajeREPEJU"]</h3>
+<br />
+
+@if ((bool)permisos.Agregar)
+{
+    using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(model => model.Solicitud_Id)
+
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+                @Html.LabelFor(model => model.Tipo_Registro_Id, htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-12">
+                    @Html.DropDownList("Tipo_Registro_Id", null, htmlAttributes: new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.Tipo_Registro_Id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="divNoPartida">
+            <div class="col-xs-8 col-md-8">
+                    <label id="lblNoPartida"></label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.No_Partida, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.No_Partida, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-xs-4 col-md-4" id="divNoFolio">
+                @Html.LabelFor(model => model.No_Folio, htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.No_Folio, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.No_Folio, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4 col-md-4" id="divNoLibro">
+                @Html.LabelFor(model => model.No_Libro, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.No_Libro, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.No_Libro, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-xs-4 col-md-4" id="divREPEJUDe">
+                @Html.LabelFor(model => model.REPEJU_De_Id, htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    @Html.DropDownList("REPEJU_De_Id", null, htmlAttributes: new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.REPEJU_De_Id, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4 col-md-4" id="divNoActa">
+                @Html.LabelFor(model => model.No_Acta, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.No_Acta, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.No_Acta, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-xs-4 col-md-4" id="divFechaActa">
+                @Html.LabelFor(model => model.Fecha_Acta, htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    <input type="date" name="Fecha_Acta" id="Fecha_Acta" value="@ViewBag.Fecha_Acta" class="form-control" placeholder="dd/mm/yyyy" />
+                </div>
+
+            </div>
+        </div>
+
+        <br />
+
+        <div class="col-sm-12 col-md-12" align="right">
+            <input type="submit" value="Guardar cambios" class="btn btn-success" />
+        </div>
+    }
+}
+

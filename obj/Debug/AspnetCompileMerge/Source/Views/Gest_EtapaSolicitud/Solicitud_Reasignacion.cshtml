@@ -1,0 +1,408 @@
+﻿@using RNF_Web.Models;
+@model Tbl_Sol_Solicitud
+@{
+    Layout = "~/Views/Shared/_LayoutSimple.cshtml";
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Reasignar SubRegión y Dirección</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Solicitud_id)
+    @Html.HiddenFor(model => model.Categoria_id)
+    @Html.HiddenFor(model => model.Sub_Categoria_id)
+    @Html.HiddenFor(model => model.Sub_Sub_Categoria_id)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Region_id, "Region", htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-10">
+            @Html.DropDownList("Region_id", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Region_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.SubRegion_id, "SubRegion", htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-10">
+            @Html.DropDownList("SubRegion_id", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.SubRegion_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.DepartamentoSolicitud_id, "Departamento de Solicitud", htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-10">
+            @Html.DropDownList("DepartamentoSolicitud_id", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.DepartamentoSolicitud_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.MunicipioSolicitud_id, "Municipio de Solicitud", htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-10">
+            @Html.DropDownList("MunicipioSolicitud_id", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.MunicipioSolicitud_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.DPI_Titular, "DPI de Titular", htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.DPI_Titular, new { htmlAttributes = new { @class = "form-control", onchange = "consultarDPI(true)" } })
+            @Html.ValidationMessageFor(model => model.DPI_Titular, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <table class="table">
+        <tr>
+            <th>Nombre</th>
+            <td><label id="dpi_nombre"></label></td>
+        </tr>
+        <tr>
+            <th>DPI</th>
+            <td><label id="dpi_dpi"></label></td>
+        </tr>
+    </table>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Notificacion_Direccion, "Dirección de Notificación", htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Notificacion_Direccion, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Notificacion_Direccion, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Notificacion_Departamento_id, "Departamento de Notificación", htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-10">
+            @Html.DropDownList("Notificacion_Departamento_id", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Notificacion_Departamento_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Notificacion_Municipio_id, "Municipio de Notificación", htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-10">
+            @Html.DropDownList("Notificacion_Municipio_id", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Notificacion_Municipio_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    @if ((Model.TecnicoAsignado_id ?? 0) != 0)
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => model.TecnicoAsignado_id, "Reasignar Técnico", htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-10">
+                @Html.DropDownList("TecnicoAsignado_id", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TecnicoAsignado_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    }
+
+
+    @if ((Model.JuridicoAsignado_id ?? 0) != 0)
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => model.JuridicoAsignado_id, "Reasignar Jurídico", htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-10">
+                @Html.DropDownList("JuridicoAsignado_id", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.JuridicoAsignado_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    }
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
+}
+
+
+
+
+<script>
+    function consultarDPI(init = false) {
+
+        var DPI_Titular = document.getElementById("DPI_Titular").value;
+
+        var data = {
+            DPI_Nuevo: DPI_Titular
+        };
+        var url = "@Url.Action("ConsultarDPINuevoTitular", "RNF_Registro_Reasignacion")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+            var cod_respuesta = oJSON.cod_respuesta;
+            var datos_dpi = oJSON.datos_dpi;
+            console.log(oJSON);
+            if (cod_respuesta == 1) {
+                document.getElementById("dpi_nombre").innerHTML = datos_dpi.Nombre;
+                document.getElementById("dpi_dpi").innerHTML = datos_dpi.DPI;
+            }
+            else {
+                if (init)
+                {
+                    alert("Usuario no existe o documento no válido");
+                }
+            }
+
+        });
+    }
+
+    $(document).ready(function () {
+
+        consultarDPI();
+
+        function refreshDepartamento()
+        {
+
+            var url = "@Url.Action("GetDepartamento", "Sol_Solicitud")";
+            var SubRegion = $('#SubRegion_id').val();
+            var data = { SubRegionId: SubRegion };
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Notificacion_Departamento_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, departamento) {
+                    select.append($('<option/>', {
+                        value: departamento.Value,
+                        text: departamento.Text
+                    }));
+
+                });
+
+                    refreshMunicipio();
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+        }
+
+        function refreshMunicipio()
+        {
+            var url = "@Url.Action("GetMunicipiosRegion", "Sol_Solicitud")";
+            var Departamento = $('#Notificacion_Departamento_id').val();
+            var SubRegion = $('#SubRegion_id').val();
+
+            var data = { Departamento: Departamento, SubRegionId: SubRegion };
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Notificacion_Municipio_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text: municipio.Text
+                    }));
+
+                });
+            }).fail(manejarErrorAjax).always(function () {
+
+            });
+
+        }
+
+
+        $(document).on('change', '#Departamento_id', function () {
+            refreshMunicipio();
+        }); // -----Fin de Change ddlDepartamento
+
+
+        $(document).on('change', '#Region_id', function () {
+
+            var url = "@Url.Action("GetSubRegion", "Sol_Solicitud")";
+            var Region = $('#Region_id').val();
+            var data = { Region: Region};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#SubRegion_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text:  municipio.Text
+                    }));
+
+
+                });
+                refreshDepartamento();
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlRegion
+
+
+
+        $(document).on('change', '#SubRegion_id', function () {
+           refreshDepartamento();
+        }); // -----Fin de Change ddlRegion
+
+
+
+        $(document).on('change', '#Categoria_id', function () {
+
+            var url = "@Url.Action("GetSubCategorias", "Sol_Solicitud")";
+            var Categoria = $('#Categoria_id').val();
+            var data = { Categoria: Categoria};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Sub_Categoria_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, SubCategoria) {
+                    select.append($('<option/>', {
+                        value: SubCategoria.Value,
+                        text: SubCategoria.Text
+                    }));
+
+                });
+
+                $('#Sub_Categoria_id').change()
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+        $(document).on('change', '#Sub_Categoria_id', function () {
+            var Contador = 0;
+            var url = "@Url.Action("GetSubSubCategorias", "Sol_Solicitud")";
+            var Categoria = $('#Categoria_id').val();
+            var SubCategoria = $('#Sub_Categoria_id').val();
+
+            if ((Categoria == 1) && (SubCategoria == 2)) {
+                location.replace("/UsuarioExterno/VisualizarMapa")
+            }
+
+            var data = { Categoria: Categoria, SubCategoria: SubCategoria  };
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Sub_Sub_Categoria_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+
+                $.each(Listdata, function (index, SubSubCategoria) {
+                    Contador = Contador + 1;
+                    select.append($('<option/>', {
+                        value: SubSubCategoria.Value,
+                        text: SubSubCategoria.Text
+                    }));
+
+                });
+
+                if (Contador < 1) {
+                    select.append($('<option/>', {
+                        value: '0',
+                        text: '-- No Aplica --'
+                    }));
+                }
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+
+
+    $(document).on('change', '#Notificacion_Departamento_id', function () {
+
+        var url = "@Url.Action("GetMunicipios", "Sol_Solicitud")";
+        var Departamento = $('#Notificacion_Departamento_id').val();
+        var data = { Departamento: Departamento};
+
+        $.post(url, data).done(function (Listdata) {
+            //  here inicio
+
+            var select = $("#Notificacion_Municipio_id");
+            select.empty();
+
+            //ListData  get the SelectList from GetMunicipios
+
+            $.each(Listdata, function (index, municipio) {
+                select.append($('<option/>', {
+                    value: municipio.Value,
+                    text: municipio.Text
+                }));
+
+            });
+
+
+        }).fail(manejarErrorAjax).always(function () {
+        });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+
+
+    $(document).on('change', '#DepartamentoSolicitud_id', function () {
+
+        var url = "@Url.Action("GetMunicipios", "Sol_Solicitud")";
+        var Departamento = $('#DepartamentoSolicitud_id').val();
+        var data = { Departamento: Departamento};
+
+        $.post(url, data).done(function (Listdata) {
+            //  here inicio
+
+            var select = $("#MunicipioSolicitud_id");
+            select.empty();
+
+            //ListData  get the SelectList from GetMunicipios
+
+            $.each(Listdata, function (index, municipio) {
+                select.append($('<option/>', {
+                    value: municipio.Value,
+                    text: municipio.Text
+                }));
+
+            });
+
+
+        }).fail(manejarErrorAjax).always(function () {
+        });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+
+    }); // -----Fin de document ready function
+</script>
+
+
+
+
+

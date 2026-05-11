@@ -1,0 +1,630 @@
+﻿@using RNF_Web.Models;
+@model RNF_Web.Models.Tbl_Sol_Empresa_Entidad
+@using System.Data.SqlClient;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_Sol_Solicitud tbl_sol_solicitud = db.Tbl_Sol_Solicitud.Find(ViewBag.solicitud_id);
+
+    EdicionSolicitudGrants objGrant = (EdicionSolicitudGrants)Session[Constants.session_EdicionSolicitudGrants];
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string Nombre_Div = "div_Sol_Permisos_Empresa_Entidad";
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+    fc_Gral_Sol_Configuracion_Result permisos = db.fc_Gral_Sol_Configuracion(tbl_sol_solicitud.Solicitud_id, controllerName, boolEsInterno).FirstOrDefault();
+    ViewBag.Estado = tbl_sol_solicitud.Estado_id;
+    ViewBag.SolicitudId = tbl_sol_solicitud.Solicitud_id;
+    Tbl_Sol_Empresa_Entidad tbl_Sol_Empresa_Entidad = db.Tbl_Sol_Empresa_Entidad.Find(tbl_sol_solicitud.Solicitud_id);
+
+    fc_Sol_EmpresasForestales_Result asignacionProcesos;
+
+    if (tbl_Sol_Empresa_Entidad != null)
+    {
+        asignacionProcesos = db.fc_Sol_EmpresasForestales(tbl_sol_solicitud.Solicitud_id).FirstOrDefault();
+    }
+    else
+    {
+        asignacionProcesos = null;
+    }
+
+    Layout = null;
+
+}
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script type="text/javascript" src="~/Scripts/qrcode.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+
+        var varCategoria = $('#Categoria_id').val();
+        var varSubCategoria = $('#Tipo_Industria_id').val();
+
+        var tipoindustria = document.getElementById('Tipo_Industria_id');
+        if (tipoindustria) {
+            var varTipoIndustria = $('#Tipo_Industria_id').val();
+            var DireccionMovil = document.getElementById('DireccionMovil');
+            var DireccionMovilD = document.getElementById('DireccionMovilD');
+            if (varTipoIndustria == 2) {
+                if (DireccionMovil) {
+                    var TdHiddeA = document.getElementById("DireccionMovil");
+                    TdHiddeA.style.display = "block";
+                }
+                if (DireccionMovilD) {
+                    var TdHiddeA = document.getElementById("DireccionMovilD");
+                    TdHiddeA.style.display = "block";
+                }
+            }
+            else {
+                if (DireccionMovil) {
+                    var TdHiddeA = document.getElementById("DireccionMovil");
+                    TdHiddeA.style.display = "none";
+                }
+                if (DireccionMovilD) {
+                    var TdHiddeA = document.getElementById("DireccionMovilD");
+                    TdHiddeA.style.display = "none";
+                }
+            }
+        }
+
+        if (('@tbl_sol_solicitud.Categoria_id' == 5) && ('@tbl_sol_solicitud.Sub_Categoria_id' == 3))
+        {
+            var TdHiddeA = document.getElementById("DireccionMovil");
+            TdHiddeA.style.display = "block";
+            var TdHiddeA = document.getElementById("DireccionMovilD");
+            TdHiddeA.style.display = "block";
+        }
+
+        $(document).on('change', '#Tipo_Industria_id', function () {
+            var TipoIndustria = $('#Tipo_Industria_id').val();
+
+            if (TipoIndustria == 2) {
+                var TdHiddeA = document.getElementById("DireccionMovil");
+                TdHiddeA.style.display = "block";
+                var TdHiddeA = document.getElementById("DireccionMovilD");
+                TdHiddeA.style.display = "block";
+            }
+            else
+            {
+                var TdHiddeA = document.getElementById("DireccionMovil");
+                TdHiddeA.style.display = "none";
+                var TdHiddeA = document.getElementById("DireccionMovilD");
+                TdHiddeA.style.display = "none";
+            }
+
+
+        });
+
+        $(document).on('change', '#DepartamentoEmpresaEntidad_id', function () {
+
+            var url = "@Url.Action("GetMunicipios", "Sol_Solicitud")";
+            var Departamento = $('#DepartamentoEmpresaEntidad_id').val();
+            var data = { Departamento: Departamento};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#MunicipioEmpresaEntidad_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text: municipio.Text
+                    }));
+
+                });
+
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+        $(document).on('change', '#DepartamentoEmpresaMovilEntidad_id', function () {
+
+            var url = "@Url.Action("GetMunicipios", "Sol_Solicitud")";
+            var Departamento = $('#DepartamentoEmpresaMovilEntidad_id').val();
+            var data = { Departamento: Departamento};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#MunicipioEmpresaEntidadMovil_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text: municipio.Text
+                    }));
+
+                });
+
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+
+    });
+</script>
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <div id="@Nombre_Div"></div>
+}
+
+<div class="container-fluid">
+
+    <div style='height: 30px; width: 100%; background-color: #66bb6a; color: white; '>
+        <h4>Datos de la Entidad</h4>
+    </div>
+    <br />
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(model => model.Solicitud_id)
+        @Html.HiddenFor(model => model.swcreatedby)
+        @Html.HiddenFor(model => model.swdatecreated)
+        @Html.HiddenFor(model => model.swcreatedbyinterno)
+
+        @Html.HiddenFor(model => model.swdateupdated)
+        @Html.HiddenFor(model => model.swupdatedby)
+        @Html.HiddenFor(model => model.swupdatedbyinterno)
+        @Html.HiddenFor(model => model.GTMX_Tecnico)
+        @Html.HiddenFor(model => model.GTMY_Tecnico)
+
+
+
+        if ((tbl_sol_solicitud.Categoria_id == 5) && (tbl_sol_solicitud.Sub_Categoria_id == 1))
+        {
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    @Html.LabelFor(model => model.Tipo_Industria_id, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-12">
+                        @Html.DropDownList("Tipo_Industria_id", null, htmlAttributes: new { @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.Tipo_Industria_id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+
+            @Html.HiddenFor(model => model.Tipo_Industria_id)
+        }
+
+        <div class="row">
+            <div class="col-xs-8 col-md-8">
+                @Html.LabelFor(model => model.Nombre, "Nombre comercial", htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.No_NIT, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.No_NIT, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.No_NIT, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.DireccionEmpresa, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DireccionEmpresa, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DireccionEmpresa, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.DepartamentoEmpresaEntidad_id, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("DepartamentoEmpresaEntidad_id", null, htmlAttributes: new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.DepartamentoEmpresaEntidad_id, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+            <div class="col-xs-4 col-md-4">
+
+                @Html.LabelFor(model => model.MunicipioEmpresaEntidad_id, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("MunicipioEmpresaEntidad_id", null, htmlAttributes: new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.MunicipioEmpresaEntidad_id, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.Aldea, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Aldea, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Aldea, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.Objeto_Empresa, "Objeto de la empresa", htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Objeto_Empresa, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Objeto_Empresa, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @if (tbl_sol_solicitud.Categoria_id == 5
+                         && (((tbl_sol_solicitud.Sub_Categoria_id ?? 0) == 1) ||
+                             ((tbl_sol_solicitud.Sub_Categoria_id ?? 0) == 2) ||
+                             ((tbl_sol_solicitud.Sub_Categoria_id ?? 0) == 3) ||
+                             ((tbl_sol_solicitud.Sub_Categoria_id ?? 0) == 4) ||
+                             (((tbl_sol_solicitud.Sub_Categoria_id ?? 0) == 5) && ((tbl_sol_solicitud.Sub_Categoria_id ?? 0) != 4))
+                             ))
+            {
+
+                <div class="col-xs-4 col-md-4">
+                    @Html.LabelFor(model => model.CapacidadInstalada, "Capacidad Instalada (m³) mensuales", htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CapacidadInstalada, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CapacidadInstalada, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            }
+
+            @if ((tbl_sol_solicitud.Categoria_id == 5) && (tbl_sol_solicitud.Sub_Categoria_id == 3))
+            {
+                <div class="col-xs-4 col-md-4">
+                    @Html.LabelFor(model => model.RNF_Inscripcion_Vinculada, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.RNF_Inscripcion_Vinculada, null, htmlAttributes: new { @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.RNF_Inscripcion_Vinculada, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            }
+
+
+
+            @if (tbl_sol_solicitud.Categoria_id == 5)
+            {
+                <div class="row" id="DireccionMovil">
+                    <br />
+                    &nbsp;
+                    @*<label>Dirección de trabajo de la industria Forestal Movil</label>*@
+                    <label>Dirección de funcionamiento</label>
+                    <hr />
+                </div>
+                <div class="row" id="DireccionMovilD">
+                    <table>
+                        <tr>
+                            <td>
+                                &nbsp;&nbsp;
+                            </td>
+                            <td>
+                                @Html.LabelFor(model => model.DireccionEmpresaMovil, "Dirección", htmlAttributes: new { @class = "control-label col-md-6" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.DireccionEmpresaMovil, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.DireccionEmpresaMovil, "", new { @class = "text-danger" })
+                                </div>
+
+                            </td>
+                            <td>
+                                @Html.LabelFor(model => model.DepartamentoEmpresaMovilEntidad_id, "Departamento", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("DepartamentoEmpresaMovilEntidad_id", null, htmlAttributes: new { @class = "form-select" })
+                                    @Html.ValidationMessageFor(model => model.DepartamentoEmpresaMovilEntidad_id, "", new { @class = "text-danger" })
+                                </div>
+
+                            </td>
+                            <td>
+                                @Html.LabelFor(model => model.MunicipioEmpresaEntidadMovil_id, "Municipio", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("MunicipioEmpresaEntidadMovil_id", null, htmlAttributes: new { @class = "form-select" })
+                                    @Html.ValidationMessageFor(model => model.MunicipioEmpresaEntidadMovil_id, "", new { @class = "text-danger" })
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <label>Coordenadas de la ubicación movil</label>
+                </div>
+
+            }
+        </div>
+        <div class="row">
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.GTMX, htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.GTMX, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.GTMX, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-xs-4 col-md-4">
+                @Html.LabelFor(model => model.GTMY, htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.GTMY, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.GTMY, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-4" align="left">
+                <br />
+                <a href="@Url.Action("ConversorGR", "Sol_Solicitud", new { GTMX = Model.GTMX, GTMY = Model.GTMY })" target="_blank" class="btn btn-primary">Calcular Coordenadas</a>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-xs-4 col-md-4">
+            </div>
+            <div class="col-xs-4 col-md-4">
+            </div>
+            <div class="col-xs-4 col-md-4">
+                @if ((bool)permisos.Agregar)
+                {
+                    <input type="submit" value="Guardar cambios" class="btn btn-success" />
+                }
+            </div>
+        </div>
+
+    }
+
+
+
+    @if (asignacionProcesos != null)
+    {
+
+        <div id="div_RegionSubRegion_EmpresaEntidad"></div>
+
+        if (Constants.VisualizarInformacionDesarrollo == 1)
+        {
+            <table class="table table-striped" border="1">
+                <tr>
+                    <th>
+                        Actividades Empresa
+                    </th>
+                    <th>
+                        Materia Prima
+                    </th>
+                    <th>
+                        Maquinaria
+                    </th>
+                    <th>
+                        Capacidad (m³)
+                    </th>
+                    <th>
+                        Vivero Forestal
+                    </th>
+                    <th>
+                        Inscripción Vinculada
+                    </th>
+                    <th>
+                        Motosierra Marca Modelo
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        @asignacionProcesos.Actividades_Empresa
+                    </td>
+                    <td>
+                        @asignacionProcesos.Materia_Prima
+                    </td>
+                    <td>
+                        @asignacionProcesos.Maquinaria
+                    </td>
+                    <td>
+                        @asignacionProcesos.Capacidad_Instalada
+                    </td>
+                    <td>
+                        @asignacionProcesos.Vivero_Forestal
+                    </td>
+                    <td>
+                        @asignacionProcesos.Inscripcion_Vinculada
+                    </td>
+                    <td>
+                        @asignacionProcesos.Motosierras
+                    </td>
+                </tr>
+            </table>
+        }
+        <form class="form-register" action="#" method="post">
+            <div id="form-total">
+
+                <h2>0</h2>
+                <section>
+                    <div class="col-md-12">
+                        <div id="section_Link_0"></div>
+                    </div>
+                </section>
+                <br /><br />
+
+                @if ((bool)asignacionProcesos.Actividades_Empresa)
+                {
+                    if (ViewBag.section_1 == true)
+                    {
+                        <h2>1</h2>
+                        <section>
+                            <div class="col-md-12">
+                                <div id="section_Link_1"></div>
+                            </div>
+                        </section>
+                        <br /><br />
+                    }
+                }
+
+                @if ((bool)asignacionProcesos.Materia_Prima)
+                {
+                    if (ViewBag.section_2 == true)
+                    {
+                        <h2>2</h2>
+                        <section>
+                            <div class="col-md-12">
+                                <div id="section_Link_2"></div>
+                            </div>
+                        </section>
+                    }
+                }
+
+                @if ((bool)asignacionProcesos.Materia_Prima)
+                {
+                    if (ViewBag.section_3 == true)
+                    {
+                        <h2>2</h2>
+                        <section>
+                            <div class="col-md-12">
+                                <div id="section_Link_3"></div>
+                            </div>
+                        </section>
+                    }
+                }
+
+                @if ((bool)asignacionProcesos.Vivero_Forestal)
+                {
+                    if (ViewBag.section_4 == true)
+                    {
+                        <h2>2</h2>
+                        <section>
+                            <div class="col-md-12">
+                                <div id="section_Link_4"></div>
+                            </div>
+                        </section>
+                    }
+                }
+
+                @if ((bool)asignacionProcesos.Motosierras)
+                {
+                    if (ViewBag.section_5 == true)
+                    {
+                        <h2>2</h2>
+                        <section>
+                            <div class="col-md-12">
+                                <div id="section_Link_5"></div>
+                            </div>
+                        </section>
+                    }
+                }
+            </div>
+
+
+        </form>
+    }
+
+    <br /><br />
+
+
+    <h5>@TempData["MensajeEmpresa"]</h5>
+
+
+    <hr />
+
+    <div class="col-sm-12 col-md-12" align="right">
+        <input type="submit" value="Siguiente" class="btn btn-success" />
+    </div>
+
+</div>
+
+<script>
+    function visualizarPermisos(solicitudid, controllername, esinterno, nombrediv) {
+        var solicitudId = solicitudid;
+        var controllerName = controllername;
+        var esInterno = esinterno;
+
+        var mySolPermisos = document.getElementById(nombrediv);
+        if (mySolPermisos) {
+            $("#" + nombrediv).load("/Gral_SolicitudConfiguracion/PermisosRecibidos?Solicitud_id=" + solicitudId + "&controllerName=" + controllerName + "&EsInterno=" + esInterno);
+        }
+
+    }
+
+
+    $(document).ready(function () {
+
+        $('#section_Link_0').load('@ViewBag.section_Link_0')
+        $('#section_Link_1').load('@ViewBag.section_Link_1')
+        $('#section_Link_2').load('@ViewBag.section_Link_2')
+        $('#section_Link_3').load('@ViewBag.section_Link_3')
+        $('#section_Link_4').load('@ViewBag.section_Link_4')
+        $('#section_Link_5').load('@ViewBag.section_Link_5')
+        var myRegionSubRegion_EmpresaEntidad = document.getElementById("div_RegionSubRegion_EmpresaEntidad");
+        if (myRegionSubRegion_EmpresaEntidad) {
+            $("#div_RegionSubRegion_EmpresaEntidad").load("/Sol_RegionSubRegion/IndexEmpresaEntidad");
+        }
+        var myEmpresa_Entidad_RNF = document.getElementById("div_Empresa_Entidad_RNF");
+        if (myEmpresa_Entidad_RNF) {
+            //$("#div_Empresa_Entidad_RNF").load("/Sol_Comparativo/Empresa_Entidad?Solicitud_id=@Model.Solicitud_id");
+        }
+
+        visualizarPermisos('@tbl_sol_solicitud.Solicitud_id', '@controllerName', '@objUs.EsInterno', '@Nombre_Div');
+
+        OrdenarCombo();
+
+    });
+
+    //Ordenar Registro de Empresa Forestal Vinculada
+    function OrdenarCombo(){
+        var dropdown = $("#RNF_Inscripcion_Vinculada");
+        var sortedOptions = dropdown.find("option").sort(function (a, b) {
+            return a.text.localeCompare(b.text);
+        });
+        dropdown.html(sortedOptions);
+    }
+    function GrabarTipoIndustria() {
+        var TipoIndustria = $('#lstTipoIndustria').val();
+
+        var url = "@Url.Action("GrabarTipoIndustria", "Sol_Empresa_Entidad")";
+        var SolicitudId = @ViewBag.SolicitudId;
+        var TipoIndustriaId = $('#lstTipoIndustria').val();
+
+        var data = {
+            SolicitudId: SolicitudId,
+            TipoIndustriaId: TipoIndustriaId
+        };
+
+        $.post(url, data).done(function (jsonRespuesta) {
+
+            var objJSON = JSON.parse(jsonRespuesta);
+            var Cod_Respuesta = objJSON.CodRespuesta;
+            var Texto_Respuesta = objJSON.strRespuest;
+
+        });
+    }
+
+ 
+</script>

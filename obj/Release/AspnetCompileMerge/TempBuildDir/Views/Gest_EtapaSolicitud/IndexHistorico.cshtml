@@ -1,0 +1,44 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Gest_EtapaSolicitud>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Url.Action("IndexHistorico", "Gest_EtapaSolicitud")
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    ViewBag.Title = "Estado actual de la solicitud";
+    ViewBag.SubTitle = null;
+}
+
+@Html.Partial("_PartialPageEncabezado")
+
+<table class="table" width="100%">
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            @if ((item.CorrelativoEtapa_id % 2) == 1)
+            {
+                <td width="50%">
+                    asdfasdf
+                </td>
+            }
+            else
+            {
+                <td width="50%">
+                    par
+                </td>
+            }
+
+
+        </tr>
+    }
+
+</table>
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+
+
+

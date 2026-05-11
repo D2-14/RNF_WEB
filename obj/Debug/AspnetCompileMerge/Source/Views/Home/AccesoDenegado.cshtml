@@ -1,0 +1,15 @@
+﻿<link href="~/Content/assets_section/style.css" rel="stylesheet" />
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    ViewBag.Title = "   Home page";
+    Layout = null;
+}
+
+<img src="~/Content/icons/AccesoDenegado.png" style="position: absolute; top: 25%; left: 40%; " />
+<h1 style="position: absolute; top: 50%; left: 41%; ">Acceso denegado</h1>

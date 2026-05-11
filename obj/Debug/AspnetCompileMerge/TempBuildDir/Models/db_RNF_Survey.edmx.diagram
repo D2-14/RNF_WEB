@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5d0c9538fb674131b8feb2615ad79adc" Name="Diagram1">
+        <EntityTypeShape EntityType="db_RNF_SurveyModel.Tbl_Enc_Encuesta" Width="1.5" PointX="0.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_SurveyModel.Tbl_Enc_Encuesta_Pregunta" Width="1.5" PointX="3" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_SurveyModel.Tbl_Enc_Encuesta_Respuesta" Width="1.5" PointX="5.25" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_SurveyModel.Tbl_Enc_EncuestaXCategoria" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_SurveyModel.Tbl_Enc_Tipo_Respuesta" Width="1.5" PointX="0.75" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_SurveyModel.Tbl_EncResp_Encuesta" Width="1.5" PointX="6" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_SurveyModel.Tbl_EncResp_Encuesta_Documento" Width="1.5" PointX="10.5" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_SurveyModel.Tbl_EncResp_Encuesta_Estado" Width="1.5" PointX="3.75" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_SurveyModel.Tbl_EncResp_Encuesta_Pregunta" Width="1.5" PointX="8.25" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_SurveyModel.Tbl_EncResp_Encuesta_PreguntaRespuesta" Width="1.5" PointX="7.5" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNF_SurveyModel.Tbl_Web_Formulario" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="db_RNF_SurveyModel.FK_Tbl_Enc_Encuesta_Pregunta_Tbl_Enc_Encuesta" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNF_SurveyModel.FK_Tbl_EncResp_Encuesta_Tbl_Enc_Encuesta" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNF_SurveyModel.FK_Tbl_Enc_Encuesta_Pregunta_Tbl_Enc_Tipo_Respuesta" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNF_SurveyModel.FK_Tbl_Enc_Encuesta_Respuesta_Tbl_Enc_Encuesta_Pregunta" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNF_SurveyModel.FK_Tbl_EncResp_Encuesta_Pregunta_Tbl_Enc_Encuesta_Pregunta" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNF_SurveyModel.FK_Tbl_EncResp_Encuesta_PreguntaRespuesta_Tbl_Enc_Encuesta_Respuesta" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNF_SurveyModel.FK_Tbl_EncResp_Encuesta_Pregunta_Tbl_EncResp_Encuesta" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNF_SurveyModel.FK_Tbl_EncResp_Encuesta_Tbl_EncResp_Encuesta_Estado" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNF_SurveyModel.FK_Tbl_EncResp_Encuesta_Documento_Tbl_EncResp_Encuesta_Pregunta" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNF_SurveyModel.FK_Tbl_EncResp_Encuesta_PreguntaRespuesta_Tbl_EncResp_Encuesta_Pregunta" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

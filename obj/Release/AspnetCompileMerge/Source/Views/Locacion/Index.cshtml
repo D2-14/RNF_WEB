@@ -1,0 +1,144 @@
+﻿@model IEnumerable<RNF_Web.Models.TAB_LOCATION>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutDefault.cshtml";
+}
+
+<script src="~/Scripts/leaflet/leaflet.js"></script>
+<link href="~/Scripts/leaflet/leaflet.css" rel="stylesheet" />
+<style>
+    #map {
+        position: relative;
+        top: 0;
+        bottom: 0;
+        height: 600px;
+        width: 100%;
+    }
+</style>
+
+
+<div>
+    <div class="row">
+        <div class="col-md-4" style="overflow: scroll; max-height:600px;">
+            <div class="list-group" id="list-tab" role="tablist">
+                @foreach (var exec in Model.GroupBy(e => e.PROPERTY))
+                {
+                    <a class="list-group-item list-group-item-action disabled" data-toggle="list" role="tab">@exec.Key</a>
+                    foreach (var loc in Model.Where(l => l.PROPERTY == exec.Key).GroupBy(g => g.NO_GRAPHIC))
+                    {
+                        <a onclick="Coor(@loc.Key)" class="list-group-item list-group-item-action" data-toggle="list" role="tab">@loc.Key</a>
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div id="map"></div>
+        </div>
+
+        <div class="col-md-2" style="height:600px;">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Propietario</th>
+                        <th scope="col">Grafíco</th>
+                        <th scope="col">Área</th>
+                        <th scope="col">Registro</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="propietario"></td>
+                        <td id="graf"></td>
+                        <td id="area"></td>
+                        <td id="reg"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+/*
+Geodatabases SQL
+Geodatabase tiene un indice espacial
+*/
+
+/*
+GeoJason
+Convertir las coordenadas a poligonos.
+
+Persona que mira Probosque controla el tema de polígonos.
+Gdb capas shp (Shape)
+
+
+geojson
+
+*/
+<script>
+
+    var map;
+    var ajaxRequest;
+    var plotlist;
+    var plotlayers = [];
+    var clear = false;
+    map = new L.Map('map');
+    var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    var osmAttrib = 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors';
+    var osm = new L.TileLayer(osmUrl, { minZoom: 2, maxZoom: 19, attribution: osmAttrib });
+    map.setView(new L.LatLng(16, -90), 7);
+    map.addLayer(osm);
+
+    function initmap(data,graph) {
+        var latlngs = [
+                [
+                    [data]
+                ]
+            ];
+
+            var polygon = L.polygon(latlngs, { color: 'red' }).addTo(map);
+            polygon.on('click', function () {
+                polygon.remove();
+            });
+            polygon.bindPopup("Gráfico #" + graph).openPopup();
+            // zoom the map to the polygon
+            map.fitBounds(polygon.getBounds());
+    }
+
+
+        const Coor = (ID_COOR) => {
+            let miResultado = [];
+        let co = ID_COOR;
+        fetch("@Url.Content("~/Locacion/ObtenerCoordenadas")")
+            .then(function (res) {
+                return res.json();
+            })
+            .then(function (miJson) {
+                let property = '';
+                let graph = '';
+                let area = '';
+                let reg = '';
+                for (let i = 0; i < miJson.length; i++) {
+                    if (miJson[i].NO_GRAPHIC == co) {
+                        miResultado.push([miJson[i].LAT, miJson[i].LON])
+                        property = miJson[i].PROPERTY
+                        graph = miJson[i].NO_GRAPHIC
+                        area = miJson[i].AREA
+                        reg = miJson[i].REG
+                    }
+                }
+                document.getElementById("propietario").innerHTML = property
+                document.getElementById("graf").innerHTML = graph
+                document.getElementById("area").innerHTML = area
+                document.getElementById("reg").innerHTML = reg
+                initmap(miResultado, graph);
+            })
+
+    }
+</script>

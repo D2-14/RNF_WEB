@@ -1,0 +1,1067 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="db_RNF_APIModelStoreContainer" CdmEntityContainer="db_RNF_APIEntities">
+    <EntitySetMapping Name="Tbl_API_Gral_Especie">
+      <EntityTypeMapping TypeName="db_RNF_APIModel.Tbl_API_Gral_Especie">
+        <MappingFragment StoreEntitySet="Tbl_API_Gral_Especie">
+          <ScalarProperty Name="Especie_Id" ColumnName="Especie_Id" />
+          <ScalarProperty Name="NombreCientifico" ColumnName="NombreCientifico" />
+          <ScalarProperty Name="NombresComunes" ColumnName="NombresComunes" />
+          <ScalarProperty Name="Autores" ColumnName="Autores" />
+          <ScalarProperty Name="Sinonimos" ColumnName="Sinonimos" />
+          <ScalarProperty Name="Familia" ColumnName="Familia" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ArbolFrutal" ColumnName="ArbolFrutal" />
+          <ScalarProperty Name="Conifera" ColumnName="Conifera" />
+          <ScalarProperty Name="Latifoliada" ColumnName="Latifoliada" />
+          <ScalarProperty Name="Estado_id" ColumnName="Estado_id" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swcreatedbyinterno" ColumnName="swcreatedbyinterno" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swdateupdated" ColumnName="swdateupdated" />
+          <ScalarProperty Name="swupdatedby" ColumnName="swupdatedby" />
+          <ScalarProperty Name="swupdatedbyinterno" ColumnName="swupdatedbyinterno" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Sol_Finca">
+      <EntityTypeMapping TypeName="db_RNF_APIModel.Tbl_API_Sol_Finca">
+        <MappingFragment StoreEntitySet="Tbl_API_Sol_Finca">
+          <ScalarProperty Name="Auditoria_id" ColumnName="Auditoria_id" />
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_Id" ColumnName="Finca_Id" />
+          <ScalarProperty Name="NombreFinca" ColumnName="NombreFinca" />
+          <ScalarProperty Name="ObjetivoDeLaPlantacion" ColumnName="ObjetivoDeLaPlantacion" />
+          <ScalarProperty Name="Departamento_Registro" ColumnName="Departamento_Registro" />
+          <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+          <ScalarProperty Name="Municipio" ColumnName="Municipio" />
+          <ScalarProperty Name="Ubicacion" ColumnName="Ubicacion" />
+          <ScalarProperty Name="AreaTotal" ColumnName="AreaTotal" />
+          <ScalarProperty Name="AreaARegistrar" ColumnName="AreaARegistrar" />
+          <ScalarProperty Name="GTMX" ColumnName="GTMX" />
+          <ScalarProperty Name="GTMY" ColumnName="GTMY" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swcreatedbyinterno" ColumnName="swcreatedbyinterno" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swtransferedby" ColumnName="swtransferedby" />
+          <ScalarProperty Name="swdatetransfered" ColumnName="swdatetransfered" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Sol_Rodal">
+      <EntityTypeMapping TypeName="db_RNF_APIModel.Tbl_API_Sol_Rodal">
+        <MappingFragment StoreEntitySet="Tbl_API_Sol_Rodal">
+          <ScalarProperty Name="Auditoria_id" ColumnName="Auditoria_id" />
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Tipo_de_Area" ColumnName="Tipo_de_Area" />
+          <ScalarProperty Name="Rodal_Id" ColumnName="Rodal_Id" />
+          <ScalarProperty Name="AreaTotal" ColumnName="AreaTotal" />
+          <ScalarProperty Name="AreaTotalCalculadaSistema" ColumnName="AreaTotalCalculadaSistema" />
+          <ScalarProperty Name="Longitud_Total" ColumnName="Longitud_Total" />
+          <ScalarProperty Name="GTMX" ColumnName="GTMX" />
+          <ScalarProperty Name="GTMY" ColumnName="GTMY" />
+          <ScalarProperty Name="GTMX_Min" ColumnName="GTMX_Min" />
+          <ScalarProperty Name="GTMX_Max" ColumnName="GTMX_Max" />
+          <ScalarProperty Name="GTMY_Min" ColumnName="GTMY_Min" />
+          <ScalarProperty Name="GTMY_Max" ColumnName="GTMY_Max" />
+          <ScalarProperty Name="Colecta_De_Datos_X_Censo" ColumnName="Colecta_De_Datos_X_Censo" />
+          <ScalarProperty Name="Colecta_De_Datos_X_Muestreo" ColumnName="Colecta_De_Datos_X_Muestreo" />
+          <ScalarProperty Name="Colecta_De_Datos_X_Muestreo_No_Parcelas" ColumnName="Colecta_De_Datos_X_Muestreo_No_Parcelas" />
+          <ScalarProperty Name="Colecta_De_Datos_X_Muestreo_Area_Parcelas" ColumnName="Colecta_De_Datos_X_Muestreo_Area_Parcelas" />
+          <ScalarProperty Name="Area_SIGAP" ColumnName="Area_SIGAP" />
+          <ScalarProperty Name="CategoriaSIGAP_Id" ColumnName="CategoriaSIGAP_Id" />
+          <ScalarProperty Name="Procedencia_Pinfor" ColumnName="Procedencia_Pinfor" />
+          <ScalarProperty Name="Procedencia_Pinpep" ColumnName="Procedencia_Pinpep" />
+          <ScalarProperty Name="Procedencia_Probosque" ColumnName="Procedencia_Probosque" />
+          <ScalarProperty Name="Procedencia_No_Expediente" ColumnName="Procedencia_No_Expediente" />
+          <ScalarProperty Name="Procedencia_AnioInicial" ColumnName="Procedencia_AnioInicial" />
+          <ScalarProperty Name="Procedencia_AnioFinal" ColumnName="Procedencia_AnioFinal" />
+          <ScalarProperty Name="AreaRegion_Id" ColumnName="AreaRegion_Id" />
+          <ScalarProperty Name="AreaProtegida_Id" ColumnName="AreaProtegida_Id" />
+          <ScalarProperty Name="Inconvenientes" ColumnName="Inconvenientes" />
+          <ScalarProperty Name="InconvenientesBloqueantes" ColumnName="InconvenientesBloqueantes" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swcreatedbyinterno" ColumnName="swcreatedbyinterno" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swdateupdated" ColumnName="swdateupdated" />
+          <ScalarProperty Name="swupdatedby" ColumnName="swupdatedby" />
+          <ScalarProperty Name="swupdatedbyinterno" ColumnName="swupdatedbyinterno" />
+          <ScalarProperty Name="CategoriaSIGAP_AreaLongitud" ColumnName="CategoriaSIGAP_AreaLongitud" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Sol_Rodal_Dasometrico">
+      <EntityTypeMapping TypeName="db_RNF_APIModel.Tbl_API_Sol_Rodal_Dasometrico">
+        <MappingFragment StoreEntitySet="Tbl_API_Sol_Rodal_Dasometrico">
+          <ScalarProperty Name="Auditoria_id" ColumnName="Auditoria_id" />
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_id" ColumnName="Rodal_id" />
+          <ScalarProperty Name="No_Parcela" ColumnName="No_Parcela" />
+          <ScalarProperty Name="Dasometrico_id" ColumnName="Dasometrico_id" />
+          <ScalarProperty Name="Tipo_de_Area" ColumnName="Tipo_de_Area" />
+          <ScalarProperty Name="Area_Efectiva_Rodal" ColumnName="Area_Efectiva_Rodal" />
+          <ScalarProperty Name="Area_Muestreada" ColumnName="Area_Muestreada" />
+          <ScalarProperty Name="Especie" ColumnName="Especie" />
+          <ScalarProperty Name="Anio_Establecimiento" ColumnName="Anio_Establecimiento" />
+          <ScalarProperty Name="DAP_Promedio" ColumnName="DAP_Promedio" />
+          <ScalarProperty Name="Altura_Promedio" ColumnName="Altura_Promedio" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swcreatedbyinterno" ColumnName="swcreatedbyinterno" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swtransferedby" ColumnName="swtransferedby" />
+          <ScalarProperty Name="swdatetransfered" ColumnName="swdatetransfered" />
+          <ScalarProperty Name="Clase_id" ColumnName="Clase_id" />
+          <ScalarProperty Name="EstadoFitosanitario" ColumnName="EstadoFitosanitario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Sol_Rodal_Dasometrico_CentroParcela_Local">
+      <EntityTypeMapping TypeName="db_RNF_APIModel.Tbl_API_Sol_Rodal_Dasometrico_CentroParcela_Local">
+        <MappingFragment StoreEntitySet="Tbl_API_Sol_Rodal_Dasometrico_CentroParcela_Local">
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_id" ColumnName="Rodal_id" />
+          <ScalarProperty Name="No_Parcela" ColumnName="No_Parcela" />
+          <ScalarProperty Name="GTMX" ColumnName="GTMX" />
+          <ScalarProperty Name="GTMY" ColumnName="GTMY" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swcreatedbyinterno" ColumnName="swcreatedbyinterno" />
+          <ScalarProperty Name="swupdatedby" ColumnName="swupdatedby" />
+          <ScalarProperty Name="swdateupdated" ColumnName="swdateupdated" />
+          <ScalarProperty Name="swupdatedbyinterno" ColumnName="swupdatedbyinterno" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Sol_Rodal_Dasometrico_Local">
+      <EntityTypeMapping TypeName="db_RNF_APIModel.Tbl_API_Sol_Rodal_Dasometrico_Local">
+        <MappingFragment StoreEntitySet="Tbl_API_Sol_Rodal_Dasometrico_Local">
+          <ScalarProperty Name="Auditoria_id" ColumnName="Auditoria_id" />
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_id" ColumnName="Rodal_id" />
+          <ScalarProperty Name="No_Parcela" ColumnName="No_Parcela" />
+          <ScalarProperty Name="Dasometrico_id" ColumnName="Dasometrico_id" />
+          <ScalarProperty Name="Tipo_de_Area" ColumnName="Tipo_de_Area" />
+          <ScalarProperty Name="Validado" ColumnName="Validado" />
+          <ScalarProperty Name="Area_Muestreada" ColumnName="Area_Muestreada" />
+          <ScalarProperty Name="Area_Efectiva_Rodal" ColumnName="Area_Efectiva_Rodal" />
+          <ScalarProperty Name="Especie" ColumnName="Especie" />
+          <ScalarProperty Name="Anio_Establecimiento" ColumnName="Anio_Establecimiento" />
+          <ScalarProperty Name="DAP_Promedio" ColumnName="DAP_Promedio" />
+          <ScalarProperty Name="Altura_Promedio" ColumnName="Altura_Promedio" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swcreatedbyinterno" ColumnName="swcreatedbyinterno" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swtransferedby" ColumnName="swtransferedby" />
+          <ScalarProperty Name="swdatetransfered" ColumnName="swdatetransfered" />
+          <ScalarProperty Name="Clase_id" ColumnName="Clase_id" />
+          <ScalarProperty Name="EstadoFitosanitario" ColumnName="EstadoFitosanitario" />
+          <ScalarProperty Name="AreaBasal_MetroCuadrado" ColumnName="AreaBasal_MetroCuadrado" />
+          <ScalarProperty Name="AreaBasal_Hectarea" ColumnName="AreaBasal_Hectarea" />
+          <ScalarProperty Name="Volumen_MetrosCubicos" ColumnName="Volumen_MetrosCubicos" />
+          <ScalarProperty Name="Volumen_ha" ColumnName="Volumen_ha" />
+          <ScalarProperty Name="Formula_Volumen_MetrosCubicos" ColumnName="Formula_Volumen_MetrosCubicos" />
+          <ScalarProperty Name="Formula_Volumen_ha" ColumnName="Formula_Volumen_ha" />
+          <ScalarProperty Name="Formula_AreaBasal_MetroCuadrado" ColumnName="Formula_AreaBasal_MetroCuadrado" />
+          <ScalarProperty Name="Formula_AreaBasal_Hectarea" ColumnName="Formula_AreaBasal_Hectarea" />
+          <ScalarProperty Name="Clase_id1" ColumnName="Clase_id1" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Sol_Rodal_Dasometrico_Manual">
+      <EntityTypeMapping TypeName="db_RNF_APIModel.Tbl_API_Sol_Rodal_Dasometrico_Manual">
+        <MappingFragment StoreEntitySet="Tbl_API_Sol_Rodal_Dasometrico_Manual">
+          <ScalarProperty Name="Auditoria_id" ColumnName="Auditoria_id" />
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_id" ColumnName="Rodal_id" />
+          <ScalarProperty Name="No_Parcela" ColumnName="No_Parcela" />
+          <ScalarProperty Name="Dasometrico_id" ColumnName="Dasometrico_id" />
+          <ScalarProperty Name="Tipo_de_Area" ColumnName="Tipo_de_Area" />
+          <ScalarProperty Name="Especie" ColumnName="Especie" />
+          <ScalarProperty Name="Anio_Establecimiento" ColumnName="Anio_Establecimiento" />
+          <ScalarProperty Name="DAP_Promedio" ColumnName="DAP_Promedio" />
+          <ScalarProperty Name="Altura_Promedio" ColumnName="Altura_Promedio" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swcreatedbyinterno" ColumnName="swcreatedbyinterno" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swtransferedby" ColumnName="swtransferedby" />
+          <ScalarProperty Name="swdatetransfered" ColumnName="swdatetransfered" />
+          <ScalarProperty Name="Clase_id" ColumnName="Clase_id" />
+          <ScalarProperty Name="EstadoFitosanitario" ColumnName="EstadoFitosanitario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Sol_Rodal_Dasometrico_ValidacionesDiametrica_Local">
+      <EntityTypeMapping TypeName="db_RNF_APIModel.Tbl_API_Sol_Rodal_Dasometrico_ValidacionesDiametrica_Local">
+        <MappingFragment StoreEntitySet="Tbl_API_Sol_Rodal_Dasometrico_ValidacionesDiametrica_Local">
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_id" ColumnName="Rodal_id" />
+          <ScalarProperty Name="No_Parcela" ColumnName="No_Parcela" />
+          <ScalarProperty Name="Tipo_de_Area" ColumnName="Tipo_de_Area" />
+          <ScalarProperty Name="ClaseDiametrica" ColumnName="ClaseDiametrica" />
+          <ScalarProperty Name="Cantidad_Arboles" ColumnName="Cantidad_Arboles" />
+          <ScalarProperty Name="Densidad_ha" ColumnName="Densidad_ha" />
+          <ScalarProperty Name="AlturaPromedio" ColumnName="AlturaPromedio" />
+          <ScalarProperty Name="AreaBasal_ha" ColumnName="AreaBasal_ha" />
+          <ScalarProperty Name="Volumen_ha" ColumnName="Volumen_ha" />
+          <ScalarProperty Name="Volumen_Rodal" ColumnName="Volumen_Rodal" />
+          <ScalarProperty Name="Especie_id" ColumnName="Especie_id" />
+          <ScalarProperty Name="EstimacionPorMedioDe" ColumnName="EstimacionPorMedioDe" />
+          <ScalarProperty Name="Anio_Plantacion" ColumnName="Anio_Plantacion" />
+          <ScalarProperty Name="Volumen_X_Linea" ColumnName="Volumen_X_Linea" />
+          <ScalarProperty Name="Area_Basal_MetroCuadrado" ColumnName="Area_Basal_MetroCuadrado" />
+          <ScalarProperty Name="Clase" ColumnName="Clase" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Sol_Rodal_Descuento">
+      <EntityTypeMapping TypeName="db_RNF_APIModel.Tbl_API_Sol_Rodal_Descuento">
+        <MappingFragment StoreEntitySet="Tbl_API_Sol_Rodal_Descuento">
+          <ScalarProperty Name="Auditoria_id" ColumnName="Auditoria_id" />
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_Id" ColumnName="Rodal_Id" />
+          <ScalarProperty Name="Rodal_Descuento_Id" ColumnName="Rodal_Descuento_Id" />
+          <ScalarProperty Name="Tipo_de_Area" ColumnName="Tipo_de_Area" />
+          <ScalarProperty Name="AreaTotal" ColumnName="AreaTotal" />
+          <ScalarProperty Name="AreaTotalCalculadaSistema" ColumnName="AreaTotalCalculadaSistema" />
+          <ScalarProperty Name="GTMX" ColumnName="GTMX" />
+          <ScalarProperty Name="GTMY" ColumnName="GTMY" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swcreatedbyinterno" ColumnName="swcreatedbyinterno" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swtransferedby" ColumnName="swtransferedby" />
+          <ScalarProperty Name="swdatetransfered" ColumnName="swdatetransfered" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Sol_Rodal_Descuento_Local">
+      <EntityTypeMapping TypeName="db_RNF_APIModel.Tbl_API_Sol_Rodal_Descuento_Local">
+        <MappingFragment StoreEntitySet="Tbl_API_Sol_Rodal_Descuento_Local">
+          <ScalarProperty Name="Auditoria_id" ColumnName="Auditoria_id" />
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_Id" ColumnName="Rodal_Id" />
+          <ScalarProperty Name="Rodal_Descuento_Id" ColumnName="Rodal_Descuento_Id" />
+          <ScalarProperty Name="Tipo_de_Area" ColumnName="Tipo_de_Area" />
+          <ScalarProperty Name="AreaTotal" ColumnName="AreaTotal" />
+          <ScalarProperty Name="AreaTotalCalculadaSistema" ColumnName="AreaTotalCalculadaSistema" />
+          <ScalarProperty Name="GTMX" ColumnName="GTMX" />
+          <ScalarProperty Name="GTMY" ColumnName="GTMY" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swcreatedbyinterno" ColumnName="swcreatedbyinterno" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swtransferedby" ColumnName="swtransferedby" />
+          <ScalarProperty Name="swdatetransfered" ColumnName="swdatetransfered" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Sol_Rodal_Descuento_Poligono">
+      <EntityTypeMapping TypeName="db_RNF_APIModel.Tbl_API_Sol_Rodal_Descuento_Poligono">
+        <MappingFragment StoreEntitySet="Tbl_API_Sol_Rodal_Descuento_Poligono">
+          <ScalarProperty Name="Auditoria_id" ColumnName="Auditoria_id" />
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_Id" ColumnName="Rodal_Id" />
+          <ScalarProperty Name="Rodal_Descuento_Id" ColumnName="Rodal_Descuento_Id" />
+          <ScalarProperty Name="Carga_id" ColumnName="Carga_id" />
+          <ScalarProperty Name="Correlativo_id" ColumnName="Correlativo_id" />
+          <ScalarProperty Name="Tipo_de_Area" ColumnName="Tipo_de_Area" />
+          <ScalarProperty Name="GTMX" ColumnName="GTMX" />
+          <ScalarProperty Name="GTMY" ColumnName="GTMY" />
+          <ScalarProperty Name="Latitud" ColumnName="Latitud" />
+          <ScalarProperty Name="Longitud" ColumnName="Longitud" />
+          <ScalarProperty Name="Estado_id" ColumnName="Estado_id" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swcreatedbyinterno" ColumnName="swcreatedbyinterno" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swtransferedby" ColumnName="swtransferedby" />
+          <ScalarProperty Name="swdatetransfered" ColumnName="swdatetransfered" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Sol_Rodal_Descuento_Poligono_Local">
+      <EntityTypeMapping TypeName="db_RNF_APIModel.Tbl_API_Sol_Rodal_Descuento_Poligono_Local">
+        <MappingFragment StoreEntitySet="Tbl_API_Sol_Rodal_Descuento_Poligono_Local">
+          <ScalarProperty Name="Auditoria_id" ColumnName="Auditoria_id" />
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_Id" ColumnName="Rodal_Id" />
+          <ScalarProperty Name="Rodal_Descuento_Id" ColumnName="Rodal_Descuento_Id" />
+          <ScalarProperty Name="RegistroLocal_id" ColumnName="RegistroLocal_id" />
+          <ScalarProperty Name="Tipo_de_Area" ColumnName="Tipo_de_Area" />
+          <ScalarProperty Name="GTMX" ColumnName="GTMX" />
+          <ScalarProperty Name="GTMY" ColumnName="GTMY" />
+          <ScalarProperty Name="Latitud" ColumnName="Latitud" />
+          <ScalarProperty Name="Longitud" ColumnName="Longitud" />
+          <ScalarProperty Name="Estado_id" ColumnName="Estado_id" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swcreatedbyinterno" ColumnName="swcreatedbyinterno" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swtransferedby" ColumnName="swtransferedby" />
+          <ScalarProperty Name="swdatetransfered" ColumnName="swdatetransfered" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Sol_Rodal_Local">
+      <EntityTypeMapping TypeName="db_RNF_APIModel.Tbl_API_Sol_Rodal_Local">
+        <MappingFragment StoreEntitySet="Tbl_API_Sol_Rodal_Local">
+          <ScalarProperty Name="Auditoria_id" ColumnName="Auditoria_id" />
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Tipo_de_Area" ColumnName="Tipo_de_Area" />
+          <ScalarProperty Name="Rodal_Id" ColumnName="Rodal_Id" />
+          <ScalarProperty Name="AreaTotal" ColumnName="AreaTotal" />
+          <ScalarProperty Name="AreaTotalCalculadaSistema" ColumnName="AreaTotalCalculadaSistema" />
+          <ScalarProperty Name="Longitud_Total" ColumnName="Longitud_Total" />
+          <ScalarProperty Name="GTMX" ColumnName="GTMX" />
+          <ScalarProperty Name="GTMY" ColumnName="GTMY" />
+          <ScalarProperty Name="GTMX_Min" ColumnName="GTMX_Min" />
+          <ScalarProperty Name="GTMX_Max" ColumnName="GTMX_Max" />
+          <ScalarProperty Name="GTMY_Min" ColumnName="GTMY_Min" />
+          <ScalarProperty Name="GTMY_Max" ColumnName="GTMY_Max" />
+          <ScalarProperty Name="Colecta_De_Datos_X_Censo" ColumnName="Colecta_De_Datos_X_Censo" />
+          <ScalarProperty Name="Colecta_De_Datos_X_Muestreo" ColumnName="Colecta_De_Datos_X_Muestreo" />
+          <ScalarProperty Name="Colecta_De_Datos_X_Muestreo_No_Parcelas" ColumnName="Colecta_De_Datos_X_Muestreo_No_Parcelas" />
+          <ScalarProperty Name="Colecta_De_Datos_X_Muestreo_Area_Parcelas" ColumnName="Colecta_De_Datos_X_Muestreo_Area_Parcelas" />
+          <ScalarProperty Name="Area_SIGAP" ColumnName="Area_SIGAP" />
+          <ScalarProperty Name="CategoriaSIGAP_Id" ColumnName="CategoriaSIGAP_Id" />
+          <ScalarProperty Name="Procedencia_Pinfor" ColumnName="Procedencia_Pinfor" />
+          <ScalarProperty Name="Procedencia_Pinpep" ColumnName="Procedencia_Pinpep" />
+          <ScalarProperty Name="Procedencia_Probosque" ColumnName="Procedencia_Probosque" />
+          <ScalarProperty Name="Procedencia_No_Expediente" ColumnName="Procedencia_No_Expediente" />
+          <ScalarProperty Name="Procedencia_AnioInicial" ColumnName="Procedencia_AnioInicial" />
+          <ScalarProperty Name="Procedencia_AnioFinal" ColumnName="Procedencia_AnioFinal" />
+          <ScalarProperty Name="AreaRegion_Id" ColumnName="AreaRegion_Id" />
+          <ScalarProperty Name="AreaProtegida_Id" ColumnName="AreaProtegida_Id" />
+          <ScalarProperty Name="Inconvenientes" ColumnName="Inconvenientes" />
+          <ScalarProperty Name="InconvenientesBloqueantes" ColumnName="InconvenientesBloqueantes" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swcreatedbyinterno" ColumnName="swcreatedbyinterno" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swdateupdated" ColumnName="swdateupdated" />
+          <ScalarProperty Name="swupdatedby" ColumnName="swupdatedby" />
+          <ScalarProperty Name="swupdatedbyinterno" ColumnName="swupdatedbyinterno" />
+          <ScalarProperty Name="CategoriaSIGAP_AreaLongitud" ColumnName="CategoriaSIGAP_AreaLongitud" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Sol_Rodal_Poligono">
+      <EntityTypeMapping TypeName="db_RNF_APIModel.Tbl_API_Sol_Rodal_Poligono">
+        <MappingFragment StoreEntitySet="Tbl_API_Sol_Rodal_Poligono">
+          <ScalarProperty Name="Auditoria_id" ColumnName="Auditoria_id" />
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_Id" ColumnName="Rodal_Id" />
+          <ScalarProperty Name="Carga_id" ColumnName="Carga_id" />
+          <ScalarProperty Name="Correlativo_id" ColumnName="Correlativo_id" />
+          <ScalarProperty Name="Tipo_de_Area" ColumnName="Tipo_de_Area" />
+          <ScalarProperty Name="Estado_id" ColumnName="Estado_id" />
+          <ScalarProperty Name="GTMX" ColumnName="GTMX" />
+          <ScalarProperty Name="GTMY" ColumnName="GTMY" />
+          <ScalarProperty Name="Longitud" ColumnName="Longitud" />
+          <ScalarProperty Name="Latitud" ColumnName="Latitud" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swcreatedbyinterno" ColumnName="swcreatedbyinterno" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swtransferedby" ColumnName="swtransferedby" />
+          <ScalarProperty Name="swdatetransfered" ColumnName="swdatetransfered" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Sol_Rodal_Poligono_Local">
+      <EntityTypeMapping TypeName="db_RNF_APIModel.Tbl_API_Sol_Rodal_Poligono_Local">
+        <MappingFragment StoreEntitySet="Tbl_API_Sol_Rodal_Poligono_Local">
+          <ScalarProperty Name="Auditoria_id" ColumnName="Auditoria_id" />
+          <ScalarProperty Name="RegistroLocal_id" ColumnName="RegistroLocal_id" />
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_Id" ColumnName="Rodal_Id" />
+          <ScalarProperty Name="Tipo_de_Area" ColumnName="Tipo_de_Area" />
+          <ScalarProperty Name="Estado_id" ColumnName="Estado_id" />
+          <ScalarProperty Name="GTMX" ColumnName="GTMX" />
+          <ScalarProperty Name="GTMY" ColumnName="GTMY" />
+          <ScalarProperty Name="Longitud" ColumnName="Longitud" />
+          <ScalarProperty Name="Latitud" ColumnName="Latitud" />
+          <ScalarProperty Name="Altitud" ColumnName="Altitud" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swcreatedbyinterno" ColumnName="swcreatedbyinterno" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swtransferedby" ColumnName="swtransferedby" />
+          <ScalarProperty Name="swdatetransfered" ColumnName="swdatetransfered" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_API_Sol_Solicitud">
+      <EntityTypeMapping TypeName="db_RNF_APIModel.Tbl_API_Sol_Solicitud">
+        <MappingFragment StoreEntitySet="Tbl_API_Sol_Solicitud">
+          <ScalarProperty Name="Auditoria_id" ColumnName="Auditoria_id" />
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="Region_id" ColumnName="Region_id" />
+          <ScalarProperty Name="SubRegion_id" ColumnName="SubRegion_id" />
+          <ScalarProperty Name="Region" ColumnName="Region" />
+          <ScalarProperty Name="SubRegion" ColumnName="SubRegion" />
+          <ScalarProperty Name="Categoria" ColumnName="Categoria" />
+          <ScalarProperty Name="SubCategoria" ColumnName="SubCategoria" />
+          <ScalarProperty Name="Especificacion" ColumnName="Especificacion" />
+          <ScalarProperty Name="Solicitante" ColumnName="Solicitante" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swcreatedbyinterno" ColumnName="swcreatedbyinterno" />
+          <ScalarProperty Name="swusertransferedby" ColumnName="swusertransferedby" />
+          <ScalarProperty Name="swtransferedby" ColumnName="swtransferedby" />
+          <ScalarProperty Name="swdatetransfered" ColumnName="swdatetransfered" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_API_GetLongitudLatitud" FunctionImportName="fc_API_GetLongitudLatitud">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_API_GetLongitudLatitud_Result">
+          <ScalarProperty Name="Longitud" ColumnName="Longitud" />
+          <ScalarProperty Name="Latitud" ColumnName="Latitud" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_API_GetRegistro" FunctionImportName="fc_API_GetRegistro">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_API_GetRegistro_Result">
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="No_Registro" ColumnName="No_Registro" />
+          <ScalarProperty Name="No_RegistroLiteral" ColumnName="No_RegistroLiteral" />
+          <ScalarProperty Name="No_RegistroCorrelativo" ColumnName="No_RegistroCorrelativo" />
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Region_id" ColumnName="Region_id" />
+          <ScalarProperty Name="SubRegion_id" ColumnName="SubRegion_id" />
+          <ScalarProperty Name="Region" ColumnName="Region" />
+          <ScalarProperty Name="SubRegion" ColumnName="SubRegion" />
+          <ScalarProperty Name="Categoria_id" ColumnName="Categoria_id" />
+          <ScalarProperty Name="Sub_Categoria_id" ColumnName="Sub_Categoria_id" />
+          <ScalarProperty Name="Sub_Sub_Categoria_id" ColumnName="Sub_Sub_Categoria_id" />
+          <ScalarProperty Name="Categoria" ColumnName="Categoria" />
+          <ScalarProperty Name="SubCategoria" ColumnName="SubCategoria" />
+          <ScalarProperty Name="Especificacion" ColumnName="Especificacion" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swcreatedbyinterno" ColumnName="swcreatedbyinterno" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="Solicitante" ColumnName="Solicitante" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_API_GetResumenFinca_DictamenTecnico" FunctionImportName="fc_API_GetResumenFinca_DictamenTecnico">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_API_GetResumenFinca_DictamenTecnico_Result">
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Area_SIGAP" ColumnName="Area_SIGAP" />
+          <ScalarProperty Name="CategoriaSIGAP_Id" ColumnName="CategoriaSIGAP_Id" />
+          <ScalarProperty Name="CategoriaSIGAP" ColumnName="CategoriaSIGAP" />
+          <ScalarProperty Name="CategoriaSIGAP_AreaLongitud" ColumnName="CategoriaSIGAP_AreaLongitud" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_API_GetSolicitud" FunctionImportName="fc_API_GetSolicitud">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_API_GetSolicitud_Result">
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Region_id" ColumnName="Region_id" />
+          <ScalarProperty Name="SubRegion_id" ColumnName="SubRegion_id" />
+          <ScalarProperty Name="Region" ColumnName="Region" />
+          <ScalarProperty Name="SubRegion" ColumnName="SubRegion" />
+          <ScalarProperty Name="Categoria" ColumnName="Categoria" />
+          <ScalarProperty Name="SubCategoria" ColumnName="SubCategoria" />
+          <ScalarProperty Name="Especificacion" ColumnName="Especificacion" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swcreatedbyinterno" ColumnName="swcreatedbyinterno" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="Solicitante" ColumnName="Solicitante" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_API_GetSolicitudDasometricoCentroParcela" FunctionImportName="fc_API_GetSolicitudDasometricoCentroParcela">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_API_GetSolicitudDasometricoCentroParcela_Result">
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_Id" ColumnName="Rodal_Id" />
+          <ScalarProperty Name="No_Parcela" ColumnName="No_Parcela" />
+          <ScalarProperty Name="Tipo_de_Area_id" ColumnName="Tipo_de_Area_id" />
+          <ScalarProperty Name="Tipo_de_Area" ColumnName="Tipo_de_Area" />
+          <ScalarProperty Name="GTMX" ColumnName="GTMX" />
+          <ScalarProperty Name="GTMY" ColumnName="GTMY" />
+          <ScalarProperty Name="Longitud" ColumnName="Longitud" />
+          <ScalarProperty Name="Latitud" ColumnName="Latitud" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swcreatedbyinterno" ColumnName="swcreatedbyinterno" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_API_GetSolicitudFinca" FunctionImportName="fc_API_GetSolicitudFinca">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_API_GetSolicitudFinca_Result">
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="NombreFinca" ColumnName="NombreFinca" />
+          <ScalarProperty Name="ObjetivoDeLaPlantacion" ColumnName="ObjetivoDeLaPlantacion" />
+          <ScalarProperty Name="Departamento_Registro" ColumnName="Departamento_Registro" />
+          <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+          <ScalarProperty Name="Municipio" ColumnName="Municipio" />
+          <ScalarProperty Name="Ubicacion" ColumnName="Ubicacion" />
+          <ScalarProperty Name="AreaTotal" ColumnName="AreaTotal" />
+          <ScalarProperty Name="AreaARegistrar" ColumnName="AreaARegistrar" />
+          <ScalarProperty Name="GTMX" ColumnName="GTMX" />
+          <ScalarProperty Name="GTMY" ColumnName="GTMY" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swcreatedbyinterno" ColumnName="swcreatedbyinterno" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_API_GetSolicitudRodal" FunctionImportName="fc_API_GetSolicitudRodal">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_API_GetSolicitudRodal_Result">
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_Id" ColumnName="Rodal_Id" />
+          <ScalarProperty Name="Carga_id" ColumnName="Carga_id" />
+          <ScalarProperty Name="Correlativo_id" ColumnName="Correlativo_id" />
+          <ScalarProperty Name="Tipo_de_Area" ColumnName="Tipo_de_Area" />
+          <ScalarProperty Name="Estado_id" ColumnName="Estado_id" />
+          <ScalarProperty Name="GTMX" ColumnName="GTMX" />
+          <ScalarProperty Name="GTMY" ColumnName="GTMY" />
+          <ScalarProperty Name="Longitud" ColumnName="Longitud" />
+          <ScalarProperty Name="Latitud" ColumnName="Latitud" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swcreatedbyinterno" ColumnName="swcreatedbyinterno" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_API_PlantacionVoluntaria" FunctionImportName="fc_API_PlantacionVoluntaria">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_API_PlantacionVoluntaria_Result">
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_id" ColumnName="Rodal_id" />
+          <ScalarProperty Name="Dasometrico_id" ColumnName="Dasometrico_id" />
+          <ScalarProperty Name="Tipo_de_Area" ColumnName="Tipo_de_Area" />
+          <ScalarProperty Name="Area_Efectiva_Rodal" ColumnName="Area_Efectiva_Rodal" />
+          <ScalarProperty Name="No_Parcela" ColumnName="No_Parcela" />
+          <ScalarProperty Name="Area_Muestreada" ColumnName="Area_Muestreada" />
+          <ScalarProperty Name="Especie" ColumnName="Especie" />
+          <ScalarProperty Name="Anio_Establecimiento" ColumnName="Anio_Establecimiento" />
+          <ScalarProperty Name="DAP_Promedio" ColumnName="DAP_Promedio" />
+          <ScalarProperty Name="Altura_Promedio" ColumnName="Altura_Promedio" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swcreatedbyinterno" ColumnName="swcreatedbyinterno" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_API_RodalDescuento" FunctionImportName="fc_API_RodalDescuento">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_API_RodalDescuento_Result">
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_Id" ColumnName="Rodal_Id" />
+          <ScalarProperty Name="Rodal_Descuento_Id" ColumnName="Rodal_Descuento_Id" />
+          <ScalarProperty Name="Tipo_de_Area" ColumnName="Tipo_de_Area" />
+          <ScalarProperty Name="AreaTotal" ColumnName="AreaTotal" />
+          <ScalarProperty Name="AreaTotalCalculadaSistema" ColumnName="AreaTotalCalculadaSistema" />
+          <ScalarProperty Name="GTMX" ColumnName="GTMX" />
+          <ScalarProperty Name="GTMY" ColumnName="GTMY" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swcreatedbyinterno" ColumnName="swcreatedbyinterno" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_API_RodalDescuentoPoligono" FunctionImportName="fc_API_RodalDescuentoPoligono">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_API_RodalDescuentoPoligono_Result">
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_Id" ColumnName="Rodal_Id" />
+          <ScalarProperty Name="Rodal_Descuento_Id" ColumnName="Rodal_Descuento_Id" />
+          <ScalarProperty Name="Carga_id" ColumnName="Carga_id" />
+          <ScalarProperty Name="Correlativo_id" ColumnName="Correlativo_id" />
+          <ScalarProperty Name="Tipo_de_Area" ColumnName="Tipo_de_Area" />
+          <ScalarProperty Name="GTMX" ColumnName="GTMX" />
+          <ScalarProperty Name="GTMY" ColumnName="GTMY" />
+          <ScalarProperty Name="Latitud" ColumnName="Latitud" />
+          <ScalarProperty Name="Longitud" ColumnName="Longitud" />
+          <ScalarProperty Name="Estado_id" ColumnName="Estado_id" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swcreatedbyinterno" ColumnName="swcreatedbyinterno" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_API_Sol_Finca_Rodal_Planos" FunctionImportName="fc_API_Sol_Finca_Rodal_Planos">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_API_Sol_Finca_Rodal_Planos_Result">
+          <ScalarProperty Name="FechaDia" ColumnName="FechaDia" />
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_id" ColumnName="Rodal_id" />
+          <ScalarProperty Name="Categoria_Registro" ColumnName="Categoria_Registro" />
+          <ScalarProperty Name="AreaEfectiva" ColumnName="AreaEfectiva" />
+          <ScalarProperty Name="Longitud_Total" ColumnName="Longitud_Total" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_API_Sol_Sel_Rodal_ValidacionesDiametrica" FunctionImportName="fc_API_Sol_Sel_Rodal_ValidacionesDiametrica">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_Result">
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_id" ColumnName="Rodal_id" />
+          <ScalarProperty Name="Tipo_de_Area" ColumnName="Tipo_de_Area" />
+          <ScalarProperty Name="Longitud_Total" ColumnName="Longitud_Total" />
+          <ScalarProperty Name="Cantidad_Total_Arboles" ColumnName="Cantidad_Total_Arboles" />
+          <ScalarProperty Name="Especie" ColumnName="Especie" />
+          <ScalarProperty Name="Area_Efectiva_Rodal" ColumnName="Area_Efectiva_Rodal" />
+          <ScalarProperty Name="Anio_Establecimiento" ColumnName="Anio_Establecimiento" />
+          <ScalarProperty Name="EstimacionPorMedioDe" ColumnName="EstimacionPorMedioDe" />
+          <ScalarProperty Name="ClaseDiametrica" ColumnName="ClaseDiametrica" />
+          <ScalarProperty Name="Clase" ColumnName="Clase" />
+          <ScalarProperty Name="Cantidad_Arboles" ColumnName="Cantidad_Arboles" />
+          <ScalarProperty Name="Densidad_ha" ColumnName="Densidad_ha" />
+          <ScalarProperty Name="AlturaPromedio" ColumnName="AlturaPromedio" />
+          <ScalarProperty Name="AreaBasal_ha" ColumnName="AreaBasal_ha" />
+          <ScalarProperty Name="Volumen_ha" ColumnName="Volumen_ha" />
+          <ScalarProperty Name="Volumen_Rodal" ColumnName="Volumen_Rodal" />
+          <ScalarProperty Name="Area_Basal_MetroCuadrado" ColumnName="Area_Basal_MetroCuadrado" />
+          <ScalarProperty Name="Volumen_X_Linea" ColumnName="Volumen_X_Linea" />
+          <ScalarProperty Name="CoordenadaX" ColumnName="CoordenadaX" />
+          <ScalarProperty Name="CoordenadaY" ColumnName="CoordenadaY" />
+          <ScalarProperty Name="Filas_PDF_Estimacion" ColumnName="Filas_PDF_Estimacion" />
+          <ScalarProperty Name="Cantidad_Especies_X_Rodal" ColumnName="Cantidad_Especies_X_Rodal" />
+          <ScalarProperty Name="LongitudMinima" ColumnName="LongitudMinima" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_FS" FunctionImportName="fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_FS">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_FS_Result">
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_id" ColumnName="Rodal_id" />
+          <ScalarProperty Name="Tipo_de_Area" ColumnName="Tipo_de_Area" />
+          <ScalarProperty Name="Tipo_Area" ColumnName="Tipo_Area" />
+          <ScalarProperty Name="Area_Efectiva_Rodal" ColumnName="Area_Efectiva_Rodal" />
+          <ScalarProperty Name="Especie_Id" ColumnName="Especie_Id" />
+          <ScalarProperty Name="Especie" ColumnName="Especie" />
+          <ScalarProperty Name="Anio_Establecimiento" ColumnName="Anio_Establecimiento" />
+          <ScalarProperty Name="DAP_Promedio" ColumnName="DAP_Promedio" />
+          <ScalarProperty Name="AlturaPromedio" ColumnName="AlturaPromedio" />
+          <ScalarProperty Name="Clase_id" ColumnName="Clase_id" />
+          <ScalarProperty Name="Cantidad_De_Arboles" ColumnName="Cantidad_De_Arboles" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_PV" FunctionImportName="fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_PV">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_PV_Result">
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_id" ColumnName="Rodal_id" />
+          <ScalarProperty Name="NombreFinca" ColumnName="NombreFinca" />
+          <ScalarProperty Name="Tipo_de_Area" ColumnName="Tipo_de_Area" />
+          <ScalarProperty Name="Tipo_de_Area_Desc" ColumnName="Tipo_de_Area_Desc" />
+          <ScalarProperty Name="Longitud_Total" ColumnName="Longitud_Total" />
+          <ScalarProperty Name="Cantidad_Total_Arboles" ColumnName="Cantidad_Total_Arboles" />
+          <ScalarProperty Name="Especie" ColumnName="Especie" />
+          <ScalarProperty Name="Area_Efectiva_Rodal" ColumnName="Area_Efectiva_Rodal" />
+          <ScalarProperty Name="Anio_Establecimiento" ColumnName="Anio_Establecimiento" />
+          <ScalarProperty Name="EstimacionPorMedioDe" ColumnName="EstimacionPorMedioDe" />
+          <ScalarProperty Name="Cantidad_Arboles" ColumnName="Cantidad_Arboles" />
+          <ScalarProperty Name="Densidad_ha" ColumnName="Densidad_ha" />
+          <ScalarProperty Name="AlturaPromedio" ColumnName="AlturaPromedio" />
+          <ScalarProperty Name="DAPPromedio" ColumnName="DAPPromedio" />
+          <ScalarProperty Name="AreaBasal_ha" ColumnName="AreaBasal_ha" />
+          <ScalarProperty Name="Volumen_ha" ColumnName="Volumen_ha" />
+          <ScalarProperty Name="Volumen_Rodal" ColumnName="Volumen_Rodal" />
+          <ScalarProperty Name="Area_Basa_MetroCuadrado" ColumnName="Area_Basa_MetroCuadrado" />
+          <ScalarProperty Name="Volumen_X_Linea" ColumnName="Volumen_X_Linea" />
+          <ScalarProperty Name="CoordenadaX" ColumnName="CoordenadaX" />
+          <ScalarProperty Name="CoordenadaY" ColumnName="CoordenadaY" />
+          <ScalarProperty Name="Clase" ColumnName="Clase" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_PV_20221130" FunctionImportName="fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_PV_20221130">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_PV_20221130_Result">
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_id" ColumnName="Rodal_id" />
+          <ScalarProperty Name="NombreFinca" ColumnName="NombreFinca" />
+          <ScalarProperty Name="Tipo_de_Area" ColumnName="Tipo_de_Area" />
+          <ScalarProperty Name="Tipo_de_Area_Desc" ColumnName="Tipo_de_Area_Desc" />
+          <ScalarProperty Name="Longitud_Total" ColumnName="Longitud_Total" />
+          <ScalarProperty Name="Cantidad_Total_Arboles" ColumnName="Cantidad_Total_Arboles" />
+          <ScalarProperty Name="Especie" ColumnName="Especie" />
+          <ScalarProperty Name="Area_Efectiva_Rodal" ColumnName="Area_Efectiva_Rodal" />
+          <ScalarProperty Name="Anio_Establecimiento" ColumnName="Anio_Establecimiento" />
+          <ScalarProperty Name="EstimacionPorMedioDe" ColumnName="EstimacionPorMedioDe" />
+          <ScalarProperty Name="Cantidad_Arboles" ColumnName="Cantidad_Arboles" />
+          <ScalarProperty Name="Densidad_ha" ColumnName="Densidad_ha" />
+          <ScalarProperty Name="AlturaPromedio" ColumnName="AlturaPromedio" />
+          <ScalarProperty Name="AreaBasal_ha" ColumnName="AreaBasal_ha" />
+          <ScalarProperty Name="Volumen_ha" ColumnName="Volumen_ha" />
+          <ScalarProperty Name="Volumen_Rodal" ColumnName="Volumen_Rodal" />
+          <ScalarProperty Name="Area_Basa_MetroCuadrado" ColumnName="Area_Basa_MetroCuadrado" />
+          <ScalarProperty Name="Volumen_X_Linea" ColumnName="Volumen_X_Linea" />
+          <ScalarProperty Name="CoordenadaX" ColumnName="CoordenadaX" />
+          <ScalarProperty Name="CoordenadaY" ColumnName="CoordenadaY" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_API_Sol_Sel_RodalAreProtegidaPoligono" FunctionImportName="fc_API_Sol_Sel_RodalAreProtegidaPoligono">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_API_Sol_Sel_RodalAreProtegidaPoligono_Result">
+          <ScalarProperty Name="ID_LOCATION" ColumnName="ID_LOCATION" />
+          <ScalarProperty Name="NO_GRAPHIC" ColumnName="NO_GRAPHIC" />
+          <ScalarProperty Name="ID_GRPHIC" ColumnName="ID_GRPHIC" />
+          <ScalarProperty Name="X_GMT" ColumnName="X_GMT" />
+          <ScalarProperty Name="Y_GMT" ColumnName="Y_GMT" />
+          <ScalarProperty Name="AREA" ColumnName="AREA" />
+          <ScalarProperty Name="PROPERTY" ColumnName="PROPERTY" />
+          <ScalarProperty Name="DPI" ColumnName="DPI" />
+          <ScalarProperty Name="REG" ColumnName="REG" />
+          <ScalarProperty Name="AREA_VERIFY" ColumnName="AREA_VERIFY" />
+          <ScalarProperty Name="SUBREGION" ColumnName="SUBREGION" />
+          <ScalarProperty Name="LON" ColumnName="LON" />
+          <ScalarProperty Name="LAT" ColumnName="LAT" />
+          <ScalarProperty Name="COLOR" ColumnName="COLOR" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_API_Sol_Sel_RodalRegionPoligono" FunctionImportName="fc_API_Sol_Sel_RodalRegionPoligono">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_API_Sol_Sel_RodalRegionPoligono_Result">
+          <ScalarProperty Name="ID_LOCATION" ColumnName="ID_LOCATION" />
+          <ScalarProperty Name="NO_GRAPHIC" ColumnName="NO_GRAPHIC" />
+          <ScalarProperty Name="ID_GRPHIC" ColumnName="ID_GRPHIC" />
+          <ScalarProperty Name="X_GMT" ColumnName="X_GMT" />
+          <ScalarProperty Name="Y_GMT" ColumnName="Y_GMT" />
+          <ScalarProperty Name="AREA" ColumnName="AREA" />
+          <ScalarProperty Name="PROPERTY" ColumnName="PROPERTY" />
+          <ScalarProperty Name="DPI" ColumnName="DPI" />
+          <ScalarProperty Name="REG" ColumnName="REG" />
+          <ScalarProperty Name="AREA_VERIFY" ColumnName="AREA_VERIFY" />
+          <ScalarProperty Name="SUBREGION" ColumnName="SUBREGION" />
+          <ScalarProperty Name="LON" ColumnName="LON" />
+          <ScalarProperty Name="LAT" ColumnName="LAT" />
+          <ScalarProperty Name="COLOR" ColumnName="COLOR" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_Reporte_Auditorias" FunctionImportName="fc_Reporte_Auditorias">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_Reporte_Auditorias_Result">
+          <ScalarProperty Name="Guid_id" ColumnName="Guid_id" />
+          <ScalarProperty Name="Auditoria_id" ColumnName="Auditoria_id" />
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Solicitante" ColumnName="Solicitante" />
+          <ScalarProperty Name="swusertransferedby" ColumnName="swusertransferedby" />
+          <ScalarProperty Name="Auditor" ColumnName="Auditor" />
+          <ScalarProperty Name="swtransferedby" ColumnName="swtransferedby" />
+          <ScalarProperty Name="swdatetransfered" ColumnName="swdatetransfered" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_Reporte_Auditorias_Arboles_DiferenteAnio_Establecimiento" FunctionImportName="fc_Reporte_Auditorias_Arboles_DiferenteAnio_Establecimiento">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_Reporte_Auditorias_Arboles_DiferenteAnio_Establecimiento_Result">
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_id" ColumnName="Rodal_id" />
+          <ScalarProperty Name="No_Parcela" ColumnName="No_Parcela" />
+          <ScalarProperty Name="Dasometrico_id" ColumnName="Dasometrico_id" />
+          <ScalarProperty Name="Especie" ColumnName="Especie" />
+          <ScalarProperty Name="AnioIndicado" ColumnName="AnioIndicado" />
+          <ScalarProperty Name="Anio_Medida" ColumnName="Anio_Medida" />
+          <ScalarProperty Name="DAP_Indicada" ColumnName="DAP_Indicada" />
+          <ScalarProperty Name="DAP_Medida" ColumnName="DAP_Medida" />
+          <ScalarProperty Name="Altura_Indicada" ColumnName="Altura_Indicada" />
+          <ScalarProperty Name="Altura_Medida" ColumnName="Altura_Medida" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_Reporte_Auditorias_Arboles_DiferenteClase_y_EstadoFitosanitario" FunctionImportName="fc_Reporte_Auditorias_Arboles_DiferenteClase_y_EstadoFitosanitario">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_Reporte_Auditorias_Arboles_DiferenteClase_y_EstadoFitosanitario_Result">
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_id" ColumnName="Rodal_id" />
+          <ScalarProperty Name="No_Parcela" ColumnName="No_Parcela" />
+          <ScalarProperty Name="Dasometrico_id" ColumnName="Dasometrico_id" />
+          <ScalarProperty Name="Especie_Indicada" ColumnName="Especie_Indicada" />
+          <ScalarProperty Name="Especie_Medida" ColumnName="Especie_Medida" />
+          <ScalarProperty Name="DAP_Indicada" ColumnName="DAP_Indicada" />
+          <ScalarProperty Name="DAP_Medida" ColumnName="DAP_Medida" />
+          <ScalarProperty Name="Altura_Indicada" ColumnName="Altura_Indicada" />
+          <ScalarProperty Name="Altura_Medida" ColumnName="Altura_Medida" />
+          <ScalarProperty Name="Clase_Indiciada" ColumnName="Clase_Indiciada" />
+          <ScalarProperty Name="Clase_Medida" ColumnName="Clase_Medida" />
+          <ScalarProperty Name="EstadoFitosanitario_Indiciada" ColumnName="EstadoFitosanitario_Indiciada" />
+          <ScalarProperty Name="EstadoFitosanitario_Medida" ColumnName="EstadoFitosanitario_Medida" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_Reporte_Auditorias_Arboles_DiferenteDAP_y_Altura" FunctionImportName="fc_Reporte_Auditorias_Arboles_DiferenteDAP_y_Altura">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_Reporte_Auditorias_Arboles_DiferenteDAP_y_Altura_Result">
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_id" ColumnName="Rodal_id" />
+          <ScalarProperty Name="No_Parcela" ColumnName="No_Parcela" />
+          <ScalarProperty Name="Dasometrico_id" ColumnName="Dasometrico_id" />
+          <ScalarProperty Name="Especie" ColumnName="Especie" />
+          <ScalarProperty Name="DAP_Indicada" ColumnName="DAP_Indicada" />
+          <ScalarProperty Name="DAP_Medida" ColumnName="DAP_Medida" />
+          <ScalarProperty Name="Altura_Indicada" ColumnName="Altura_Indicada" />
+          <ScalarProperty Name="Altura_Medida" ColumnName="Altura_Medida" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_Reporte_Auditorias_Arboles_DiferenteEspecie" FunctionImportName="fc_Reporte_Auditorias_Arboles_DiferenteEspecie">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_Reporte_Auditorias_Arboles_DiferenteEspecie_Result">
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_id" ColumnName="Rodal_id" />
+          <ScalarProperty Name="No_Parcela" ColumnName="No_Parcela" />
+          <ScalarProperty Name="Dasometrico_id" ColumnName="Dasometrico_id" />
+          <ScalarProperty Name="Especie_Indicada" ColumnName="Especie_Indicada" />
+          <ScalarProperty Name="Especie_Medida" ColumnName="Especie_Medida" />
+          <ScalarProperty Name="DAP_Indicada" ColumnName="DAP_Indicada" />
+          <ScalarProperty Name="DAP_Medida" ColumnName="DAP_Medida" />
+          <ScalarProperty Name="Altura_Indicada" ColumnName="Altura_Indicada" />
+          <ScalarProperty Name="Altura_Medida" ColumnName="Altura_Medida" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_Reporte_Auditorias_Arboles_PromedioDAP_y_Altura" FunctionImportName="fc_Reporte_Auditorias_Arboles_PromedioDAP_y_Altura">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_Reporte_Auditorias_Arboles_PromedioDAP_y_Altura_Result">
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_id" ColumnName="Rodal_id" />
+          <ScalarProperty Name="Tipo_de_Area" ColumnName="Tipo_de_Area" />
+          <ScalarProperty Name="Tipo_de_Area_id" ColumnName="Tipo_de_Area_id" />
+          <ScalarProperty Name="No_Parcela" ColumnName="No_Parcela" />
+          <ScalarProperty Name="Especie_Indicada" ColumnName="Especie_Indicada" />
+          <ScalarProperty Name="DAP_Promedio" ColumnName="DAP_Promedio" />
+          <ScalarProperty Name="DAP_Promedio_Medido" ColumnName="DAP_Promedio_Medido" />
+          <ScalarProperty Name="Promedio_Altura" ColumnName="Promedio_Altura" />
+          <ScalarProperty Name="Promedio_Altura_Medido" ColumnName="Promedio_Altura_Medido" />
+          <ScalarProperty Name="Diferencia_DAP" ColumnName="Diferencia_DAP" />
+          <ScalarProperty Name="Diferencia_Altura" ColumnName="Diferencia_Altura" />
+          <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_Reporte_Auditorias_ArbolesNuevos_PromedioDAP_y_Altura" FunctionImportName="fc_Reporte_Auditorias_ArbolesNuevos_PromedioDAP_y_Altura">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_Reporte_Auditorias_ArbolesNuevos_PromedioDAP_y_Altura_Result">
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_id" ColumnName="Rodal_id" />
+          <ScalarProperty Name="Tipo_de_Area" ColumnName="Tipo_de_Area" />
+          <ScalarProperty Name="No_Parcela" ColumnName="No_Parcela" />
+          <ScalarProperty Name="Arboles" ColumnName="Arboles" />
+          <ScalarProperty Name="Especie" ColumnName="Especie" />
+          <ScalarProperty Name="DAP_Promedio" ColumnName="DAP_Promedio" />
+          <ScalarProperty Name="Altura_Promedio" ColumnName="Altura_Promedio" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_Reporte_Auditorias_ArbolesNuevosAgrupados_PromedioDAP_y_Altura" FunctionImportName="fc_Reporte_Auditorias_ArbolesNuevosAgrupados_PromedioDAP_y_Altura">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_Reporte_Auditorias_ArbolesNuevosAgrupados_PromedioDAP_y_Altura_Result">
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_id" ColumnName="Rodal_id" />
+          <ScalarProperty Name="Tipo_de_Area" ColumnName="Tipo_de_Area" />
+          <ScalarProperty Name="No_Parcela" ColumnName="No_Parcela" />
+          <ScalarProperty Name="Arboles" ColumnName="Arboles" />
+          <ScalarProperty Name="Especie" ColumnName="Especie" />
+          <ScalarProperty Name="DAP_Promedio" ColumnName="DAP_Promedio" />
+          <ScalarProperty Name="Altura_Promedio" ColumnName="Altura_Promedio" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_Reporte_Auditorias_Descuento_RodalPoligonoPlano" FunctionImportName="fc_Reporte_Auditorias_Descuento_RodalPoligonoPlano">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_Reporte_Auditorias_Descuento_RodalPoligonoPlano_Result">
+          <ScalarProperty Name="ID_LOCATION" ColumnName="ID_LOCATION" />
+          <ScalarProperty Name="NO_GRAPHIC" ColumnName="NO_GRAPHIC" />
+          <ScalarProperty Name="ID_GRPHIC" ColumnName="ID_GRPHIC" />
+          <ScalarProperty Name="X_GMT" ColumnName="X_GMT" />
+          <ScalarProperty Name="Y_GMT" ColumnName="Y_GMT" />
+          <ScalarProperty Name="AREA" ColumnName="AREA" />
+          <ScalarProperty Name="PROPERTY" ColumnName="PROPERTY" />
+          <ScalarProperty Name="DPI" ColumnName="DPI" />
+          <ScalarProperty Name="REG" ColumnName="REG" />
+          <ScalarProperty Name="AREA_VERIFY" ColumnName="AREA_VERIFY" />
+          <ScalarProperty Name="SUBREGION" ColumnName="SUBREGION" />
+          <ScalarProperty Name="LON" ColumnName="LON" />
+          <ScalarProperty Name="LAT" ColumnName="LAT" />
+          <ScalarProperty Name="COLOR" ColumnName="COLOR" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_Reporte_Auditorias_Sel_FincaPoligonoPlano" FunctionImportName="fc_Reporte_Auditorias_Sel_FincaPoligonoPlano">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_Reporte_Auditorias_Sel_FincaPoligonoPlano_Result">
+          <ScalarProperty Name="ID_LOCATION" ColumnName="ID_LOCATION" />
+          <ScalarProperty Name="NO_GRAPHIC" ColumnName="NO_GRAPHIC" />
+          <ScalarProperty Name="ID_GRPHIC" ColumnName="ID_GRPHIC" />
+          <ScalarProperty Name="X_GMT" ColumnName="X_GMT" />
+          <ScalarProperty Name="Y_GMT" ColumnName="Y_GMT" />
+          <ScalarProperty Name="AREA" ColumnName="AREA" />
+          <ScalarProperty Name="PROPERTY" ColumnName="PROPERTY" />
+          <ScalarProperty Name="DPI" ColumnName="DPI" />
+          <ScalarProperty Name="REG" ColumnName="REG" />
+          <ScalarProperty Name="AREA_VERIFY" ColumnName="AREA_VERIFY" />
+          <ScalarProperty Name="SUBREGION" ColumnName="SUBREGION" />
+          <ScalarProperty Name="LON" ColumnName="LON" />
+          <ScalarProperty Name="LAT" ColumnName="LAT" />
+          <ScalarProperty Name="COLOR" ColumnName="COLOR" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_Reporte_Auditorias_Sel_RodalPoligono" FunctionImportName="fc_Reporte_Auditorias_Sel_RodalPoligono">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_Reporte_Auditorias_Sel_RodalPoligono_Result">
+          <ScalarProperty Name="ID_LOCATION" ColumnName="ID_LOCATION" />
+          <ScalarProperty Name="NO_GRAPHIC" ColumnName="NO_GRAPHIC" />
+          <ScalarProperty Name="ID_GRPHIC" ColumnName="ID_GRPHIC" />
+          <ScalarProperty Name="X_GMT" ColumnName="X_GMT" />
+          <ScalarProperty Name="Y_GMT" ColumnName="Y_GMT" />
+          <ScalarProperty Name="AREA" ColumnName="AREA" />
+          <ScalarProperty Name="PROPERTY" ColumnName="PROPERTY" />
+          <ScalarProperty Name="DPI" ColumnName="DPI" />
+          <ScalarProperty Name="REG" ColumnName="REG" />
+          <ScalarProperty Name="AREA_VERIFY" ColumnName="AREA_VERIFY" />
+          <ScalarProperty Name="SUBREGION" ColumnName="SUBREGION" />
+          <ScalarProperty Name="LON" ColumnName="LON" />
+          <ScalarProperty Name="LAT" ColumnName="LAT" />
+          <ScalarProperty Name="COLOR" ColumnName="COLOR" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_Reporte_Auditorias_Sel_RodalPoligonoPlano" FunctionImportName="fc_Reporte_Auditorias_Sel_RodalPoligonoPlano">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_Result">
+          <ScalarProperty Name="ID_LOCATION" ColumnName="ID_LOCATION" />
+          <ScalarProperty Name="NO_GRAPHIC" ColumnName="NO_GRAPHIC" />
+          <ScalarProperty Name="ID_GRPHIC" ColumnName="ID_GRPHIC" />
+          <ScalarProperty Name="X_GMT" ColumnName="X_GMT" />
+          <ScalarProperty Name="Y_GMT" ColumnName="Y_GMT" />
+          <ScalarProperty Name="AREA" ColumnName="AREA" />
+          <ScalarProperty Name="PROPERTY" ColumnName="PROPERTY" />
+          <ScalarProperty Name="DPI" ColumnName="DPI" />
+          <ScalarProperty Name="REG" ColumnName="REG" />
+          <ScalarProperty Name="AREA_VERIFY" ColumnName="AREA_VERIFY" />
+          <ScalarProperty Name="SUBREGION" ColumnName="SUBREGION" />
+          <ScalarProperty Name="LON" ColumnName="LON" />
+          <ScalarProperty Name="LAT" ColumnName="LAT" />
+          <ScalarProperty Name="COLOR" ColumnName="COLOR" />
+          <ScalarProperty Name="Tipo_Area" ColumnName="Tipo_Area" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_20221114" FunctionImportName="fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_20221114">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_20221114_Result">
+          <ScalarProperty Name="ID_LOCATION" ColumnName="ID_LOCATION" />
+          <ScalarProperty Name="NO_GRAPHIC" ColumnName="NO_GRAPHIC" />
+          <ScalarProperty Name="ID_GRPHIC" ColumnName="ID_GRPHIC" />
+          <ScalarProperty Name="X_GMT" ColumnName="X_GMT" />
+          <ScalarProperty Name="Y_GMT" ColumnName="Y_GMT" />
+          <ScalarProperty Name="AREA" ColumnName="AREA" />
+          <ScalarProperty Name="PROPERTY" ColumnName="PROPERTY" />
+          <ScalarProperty Name="DPI" ColumnName="DPI" />
+          <ScalarProperty Name="REG" ColumnName="REG" />
+          <ScalarProperty Name="AREA_VERIFY" ColumnName="AREA_VERIFY" />
+          <ScalarProperty Name="SUBREGION" ColumnName="SUBREGION" />
+          <ScalarProperty Name="LON" ColumnName="LON" />
+          <ScalarProperty Name="LAT" ColumnName="LAT" />
+          <ScalarProperty Name="COLOR" ColumnName="COLOR" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_Local" FunctionImportName="fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_Local">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_Local_Result">
+          <ScalarProperty Name="ID_LOCATION" ColumnName="ID_LOCATION" />
+          <ScalarProperty Name="NO_GRAPHIC" ColumnName="NO_GRAPHIC" />
+          <ScalarProperty Name="ID_GRPHIC" ColumnName="ID_GRPHIC" />
+          <ScalarProperty Name="X_GMT" ColumnName="X_GMT" />
+          <ScalarProperty Name="Y_GMT" ColumnName="Y_GMT" />
+          <ScalarProperty Name="AREA" ColumnName="AREA" />
+          <ScalarProperty Name="PROPERTY" ColumnName="PROPERTY" />
+          <ScalarProperty Name="DPI" ColumnName="DPI" />
+          <ScalarProperty Name="REG" ColumnName="REG" />
+          <ScalarProperty Name="AREA_VERIFY" ColumnName="AREA_VERIFY" />
+          <ScalarProperty Name="SUBREGION" ColumnName="SUBREGION" />
+          <ScalarProperty Name="LON" ColumnName="LON" />
+          <ScalarProperty Name="LAT" ColumnName="LAT" />
+          <ScalarProperty Name="COLOR" ColumnName="COLOR" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_Resumen" FunctionImportName="fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_Resumen">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_Resumen_Result">
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_id" ColumnName="Rodal_id" />
+          <ScalarProperty Name="Rodal_Descuento_Id" ColumnName="Rodal_Descuento_Id" />
+          <ScalarProperty Name="Tipo_de_AreaDescripcion" ColumnName="Tipo_de_AreaDescripcion" />
+          <ScalarProperty Name="AreaLUsuario" ColumnName="AreaLUsuario" />
+          <ScalarProperty Name="AreaLTecnico" ColumnName="AreaLTecnico" />
+          <ScalarProperty Name="Metrica" ColumnName="Metrica" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_Reporte_Auditorias_Sel_RodalPoligonoPlanoTecnicoOUsuario" FunctionImportName="fc_Reporte_Auditorias_Sel_RodalPoligonoPlanoTecnicoOUsuario">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_Reporte_Auditorias_Sel_RodalPoligonoPlanoTecnicoOUsuario_Result">
+          <ScalarProperty Name="ID_LOCATION" ColumnName="ID_LOCATION" />
+          <ScalarProperty Name="NO_GRAPHIC" ColumnName="NO_GRAPHIC" />
+          <ScalarProperty Name="ID_GRPHIC" ColumnName="ID_GRPHIC" />
+          <ScalarProperty Name="X_GMT" ColumnName="X_GMT" />
+          <ScalarProperty Name="Y_GMT" ColumnName="Y_GMT" />
+          <ScalarProperty Name="AREA" ColumnName="AREA" />
+          <ScalarProperty Name="PROPERTY" ColumnName="PROPERTY" />
+          <ScalarProperty Name="DPI" ColumnName="DPI" />
+          <ScalarProperty Name="REG" ColumnName="REG" />
+          <ScalarProperty Name="AREA_VERIFY" ColumnName="AREA_VERIFY" />
+          <ScalarProperty Name="SUBREGION" ColumnName="SUBREGION" />
+          <ScalarProperty Name="LON" ColumnName="LON" />
+          <ScalarProperty Name="LAT" ColumnName="LAT" />
+          <ScalarProperty Name="COLOR" ColumnName="COLOR" />
+          <ScalarProperty Name="Tipo_Area" ColumnName="Tipo_Area" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionName="db_RNF_APIModel.Store.fc_Rerporte_Auditorias_Finca_Rodal_Planos" FunctionImportName="fc_Rerporte_Auditorias_Finca_Rodal_Planos">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_APIModel.fc_Rerporte_Auditorias_Finca_Rodal_Planos_Result">
+          <ScalarProperty Name="FechaDia" ColumnName="FechaDia" />
+          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="Finca_id" ColumnName="Finca_id" />
+          <ScalarProperty Name="Rodal_id" ColumnName="Rodal_id" />
+          <ScalarProperty Name="Categoria_Registro" ColumnName="Categoria_Registro" />
+          <ScalarProperty Name="AreaEfectiva" ColumnName="AreaEfectiva" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_API_Limpiar" FunctionName="db_RNF_APIModel.Store.SP_API_Limpiar" />
+  </EntityContainerMapping>
+</Mapping>

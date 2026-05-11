@@ -1,0 +1,158 @@
+﻿@model RNF_Web.Models.Tbl_Form_Formulario
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="~/Content/assets/bootstrap/bootstrap.min.css">
+<script src="~/Content/assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="~/Content/assets/js/jquery.min.js"></script>
+
+
+<script type="text/javascript">
+
+        $(document).ready(function () {
+            var Source = "/Form_Formulario/Formulario_MotivoDenegacion?form_formulario_id=" + @Model.Form_Formulario_id;
+            $('#div_MotivosDenegacion').load(Source)
+
+
+        });
+
+    function Agregar_DenegacionDetalle() {
+        var strDescription = document.getElementById("R_NewTarea").value;
+
+            $.ajax({
+                type: 'POST',
+                url: "@(Url.Action("Agregar_DenegacionDetalle", "Form_Formulario"))",
+                     dataType: 'json',
+                data: { form_formulario_id : @Model.Form_Formulario_id, descripcion: strDescription },
+                success: function (doc) {
+                var Source = "/Form_Formulario/Formulario_MotivoDenegacion?form_formulario_id=" + @Model.Form_Formulario_id;
+                $('#div_MotivosDenegacion').load(Source)
+                },
+                error: function (ex) {
+                alert('Ocurrio un error aqui. ' + ex.status);
+                }
+                });
+                return false;
+           }
+
+    function Eliminar_DenegacionDetalle(correlativo) {
+        var strDescription = document.getElementById("R_NewTarea").value;
+
+            $.ajax({
+                type: 'POST',
+                url: "@(Url.Action("Eliminar_DenegacionDetalle", "Form_Formulario"))",
+                     dataType: 'json',
+                data: { form_formulario_id: @Model.Form_Formulario_id, correlativo: correlativo },
+                success: function (doc) {
+                var Source = "/Form_Formulario/Formulario_MotivoDenegacion?form_formulario_id=" + @Model.Form_Formulario_id;
+                $('#div_MotivosDenegacion').load(Source)
+                },
+                error: function (ex) {
+                alert('Ocurrio un error aqui. ' + ex.status);
+                }
+                });
+                return false;
+           }
+
+
+</script>
+
+
+
+<div id="div_MotivosDenegacion"></div>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(model => model.FirmaElectronica_Estado_id)
+        @Html.HiddenFor(model => model.Form_Formulario_id)
+        @Html.HiddenFor(model => model.TipoFormulario_id)
+        @Html.HiddenFor(model => model.Estado_id)
+        @Html.HiddenFor(model => model.ArchivoNombre)
+
+        @Html.HiddenFor(model => model.swcreatedby)
+        @Html.HiddenFor(model => model.swdatecreated)
+        @Html.HiddenFor(model => model.swcreatedbyinterno)
+        @Html.HiddenFor(model => model.swupdatedby)
+        @Html.HiddenFor(model => model.swdateupdated)
+        @Html.HiddenFor(model => model.swupdatedbyinterno)
+
+        @if (Model.Tbl_Gest_Etapa_RespuestaFormulario_Tipo.AplicaFirmaDigital == true)
+        {
+            <table>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Usuario_FirmaElectronica, "Usuario:", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Usuario_FirmaElectronica, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Usuario_FirmaElectronica, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Password_FirmaElectronica, "Password:", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Password_FirmaElectronica, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Password_FirmaElectronica, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        }
+        else
+        {
+            <table hidden>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Usuario_FirmaElectronica, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Usuario_FirmaElectronica, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Usuario_FirmaElectronica, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Password_FirmaElectronica, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Password_FirmaElectronica, new { htmlAttributes = new { type = "password" } })
+                                @Html.ValidationMessageFor(model => model.Password_FirmaElectronica, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+        }
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @if (Model.Estado_id == false)
+                {
+                    <input type="submit" value="Finalizar formulario" class="btn-next" />
+                }
+            </div>
+        </div>
+    </div>
+}
+

@@ -1,0 +1,520 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Gest_EtapaSolicitud>
+
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@{
+    string Query;
+
+
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    ViewBag.Title = "Bandeja de solicitudes";
+    ViewBag.SubTitle = null;
+    db_RNFEntities db = new db_RNFEntities();
+    string colorestatus = "";
+    DateTime swdatenow = DateTime.Now;
+    DateTime swdateinicio = ViewBag.swdateinicio;
+    DateTime swdatefinal = ViewBag.swdatefinal;
+
+    ViewBag.fecha_inicio = String.Format("{0:yyyy-MM-dd}", swdateinicio);
+    ViewBag.fecha_fin = String.Format("{0:yyyy-MM-dd}", swdatefinal);
+    string check = "checked";
+    int Pendientes = 0;
+    int Finalizados = 0;
+    if (ViewBag.Pendientes != null)
+    {
+        Pendientes = 1;
+    }
+    if (ViewBag.Finalizados != null)
+    {
+        Finalizados = 1;
+    }
+    string Nombre_Etapa = ViewBag.Nombre_Etapa;
+    Console.WriteLine(ViewBag.Nombre_Etapa);
+    Console.WriteLine(Nombre_Etapa);
+
+    //Accion para el boton buscar
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+
+}
+
+<script>
+
+    String.fromHtmlEntities = function (string) {
+        return (string + "").replace(/&#\d+;/gm, function (s) {
+            return String.fromCharCode(s.match(/\d+/gm)[0]);
+        })
+    };
+
+
+  
+
+    var solicitudGlobal;
+    var correlativoGlobal;
+    var selectGlobal;
+    var selectEtapa;
+
+
+    function returnEtapa(varSolicitud_id, VarCorrelativoId, SelectedName) {
+        var select = document.getElementById(SelectedName)
+        var Etapa_id = select.options[select.selectedIndex].value;
+
+       
+
+        var url = "@Url.Action("JsonReturnEtapa", "Gest_EtapaSolicitud")";
+
+
+
+        var data = { varSolicitud_id: varSolicitud_id, VarCorrelativoId: VarCorrelativoId, SelectedEtapaId: Etapa_id };
+
+
+        var confirmRatificacion = confirm('Si está seguro de regresar la etapa, presione "Aceptar"')
+        if (confirmRatificacion) {
+                    $.post(url, data).done(function (Listdata) {
+                        var objJSON = JSON.parse(Listdata);
+                        var Cod_Respuesta = objJSON.CodRespuesta;
+                        var Texto_Respuesta = objJSON.strRespuesta;
+
+                        alert(Texto_Respuesta);
+                        location.reload();
+                    }).fail(function (RespuestaJSON) {
+                        console.log(RespuestaJSON)
+                        alert('Error no identificado.');
+
+                    });
+        }
+    }
+
+
+    function returnEtapaAud(varSolicitud_id, VarCorrelativoId, SelectedName, selectEtapa, Solicitante, Fecha, Motivo) {
+        var select = document.getElementById(SelectedName);
+        var Etapa_id = select.options[select.selectedIndex].value;
+
+    
+
+
+
+        var url = "@Url.Action("JsonReturnEtapaAud", "Gest_EtapaSolicitud")";
+
+
+
+        var data = { varSolicitud_id: varSolicitud_id, VarCorrelativoId: VarCorrelativoId, SelectedEtapaId: Etapa_id, varSelectEtapa: selectEtapa ,varSolicitante: Solicitante, varFecha: Fecha, varMotivo: Motivo };
+
+
+        var confirmRatificacion = confirm('Si está seguro de regresar la etapa, presione "Aceptar"')
+        if (confirmRatificacion) {
+                    $.post(url, data).done(function (Listdata) {
+                        var objJSON = JSON.parse(Listdata);
+                        var Cod_Respuesta = objJSON.CodRespuesta;
+                        var Texto_Respuesta = objJSON.strRespuesta;
+
+                        alert(Texto_Respuesta);
+                        location.reload();
+                    }).fail(function (RespuestaJSON) {
+                        console.log(RespuestaJSON)
+                        alert('Error no identificado.');
+
+                    });
+        }
+    }
+
+    function loaddivparamsbusqueda() {
+        loaderPantalla(true);
+        var paramsbusqueda = document.getElementById('paramsbusqueda');
+        if (paramsbusqueda) {
+            var url = '@Url.Action("IndexReturnParams", "Gest_EtapaSolicitud")';
+            var Pendientes = @Pendientes;
+            var Finalizados = @Finalizados;
+
+            var fecha_inicio = '@ViewBag.fecha_inicio';
+            var fecha_fin = '@ViewBag.fecha_fin';
+            var Nombre_Etapa = String.fromHtmlEntities('@Nombre_Etapa');
+            Nombre_Etapa = encodeURI(Nombre_Etapa);
+            var Expediente = '@ViewBag.Expediente'
+
+            //var params = '?fecha_inicio=' + fecha_inicio + '&fecha_fin=' + fecha_fin + '&Nombre_Etapa_Param=' + Nombre_Etapa;// + Nombre_Etapa;
+            var params = '?fecha_inicio=' + fecha_inicio + '&fecha_fin=' + fecha_fin + '&Nombre_Etapa_Param=' + Nombre_Etapa + '&Expediente=' + Expediente;// + Nombre_Etapa;
+            if (Pendientes != 0) {
+                params += '&Pendientes=' + Pendientes;
+            }
+            if (Finalizados != 0) {
+                params += '&Finalizados=' + Finalizados;
+            }
+            console.log(url + params);
+            $('#paramsbusqueda').load(url + params);
+        }
+    }
+
+    $(document).ready(function () {
+
+        loaddivparamsbusqueda();
+
+        $("#btnHideModal").click(function () {
+
+                $('#section_Link_II').load('@ViewBag.section_Link_II')
+                $('#section_Link_III').load('@ViewBag.section_Link_III')
+                $('#section_Link_IV').load('@ViewBag.section_Link_IV')
+                $('#section_Link_V').load('@ViewBag.section_Link_V')
+
+                $("#myModal").modal('hide');
+        });
+
+
+        $("#btnHideModal_Close").click(function () {
+
+
+                $('#section_Link_II').load('@ViewBag.section_Link_II')
+                $('#section_Link_III').load('@ViewBag.section_Link_III')
+                $('#section_Link_IV').load('@ViewBag.section_Link_IV')
+                $('#section_Link_V').load('@ViewBag.section_Link_V')
+
+
+                $("#myModal").modal('hide');
+        });
+
+        $("#mdReactivarEtapa_Close").click(function () {
+
+            $("#mdReactivarEtapa").modal('hide');
+            location.reload();
+        });
+
+    });
+
+
+    $('#myModal').modal({
+        backdrop: 'static',
+        keyboard: false
+    })
+
+    $("#myModal").on('show.bs.modal', function () {
+        var modal = $(this)
+        modal.find('.modal-title').text(document.getElementById("Titulo").value);
+        modal.find('.modal-body').html(document.getElementById("Pagina").value);
+    });
+
+
+
+
+
+
+
+    function VisualizarSolicitud(varguid_id, varetapaid,varetaparutaid,varcorrelativo) {
+        var Source = "/Home/SolicitudEtapaView?guid_id=" + varguid_id + "&etapaid=" + varetapaid + "&etaparutaid=" + varetaparutaid + "&correlativo=" + varcorrelativo+"";
+
+        document.getElementById("Pagina").value = '<iframe src="' + Source + '" frameborder="0" width="100%" height="100%"></iframe>';
+        document.getElementById("Titulo").value = 'Revision de solicitud';
+        $("#myModal").modal("show");
+
+    }
+
+
+
+    function ReactivarEtapaMd(btn) {
+        let selectId = btn.getAttribute("data-select");
+        let select = document.getElementById(selectId);
+
+        let etapaTexto = select.options[select.selectedIndex].text;
+
+        solicitudGlobal = btn.dataset.solicitud;
+        correlativoGlobal = btn.dataset.correlativo;
+        selectGlobal = btn.dataset.select;
+        selectEtapa = etapaTexto
+  
+
+        $("#mdReactivarEtapa").modal("show");
+
+        //openModalPartial(Source, Titulo);
+    }
+
+    //function openModalPartial(Source, Titulo) {
+
+
+    //  $("#mdReactivarEtapa").modal("show");
+
+
+    //}
+
+    function returnEtapa_(Solicitante, Fecha, Motivo) {
+
+        let form = document.getElementById("formEtapa");
+
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+        else {
+
+            let Solicitante = document.getElementById('Solicitante').value;
+            let Fecha = document.getElementById('Fecha').value;
+            let Motivo = document.getElementById('Motivo').value;
+
+            
+            returnEtapaAud(solicitudGlobal, correlativoGlobal, selectGlobal, selectEtapa, Solicitante, Fecha, Motivo);
+
+        }    
+
+    }
+
+</script>
+
+
+@Html.Partial("_PartialPageEncabezado")
+
+<div align="center" class="form-group">
+    @using (Html.BeginForm(actionName, controllerName, FormMethod.Get))
+    {
+        <table class="table table-striped">
+            <tr>
+                <th scope="col" class="form-label"></th>
+                <th scope="col" class="form-label"></th>
+                <th scope="col" class="form-label"></th>
+                <th scope="col" class="form-label">No. Expediente</th>
+                <th scope="col" class="form-label"></th>
+            </tr>
+            <tr>
+                <th scope="col" class="form-label"></th>
+                <th scope="col" class="form-label"></th>
+                <th scope="col" class="form-label"></th>
+                <th><input type="text" class="form-control" name="Expediente" id="Expediente" value="@ViewBag.Expediente" placeholder="Ej. I-1-001-1.1.1-1997" /></th>
+                <th><input type="submit" class="btn btn-primary" value="Buscar" /></th>
+            </tr>
+        </table>
+    }
+</div>
+
+<div id="paramsbusqueda"></div>
+
+<table class="table" style="display: block; overflow-x: auto; ">
+    <tr>
+        <th width="10%">
+            Número
+        </th>
+        <th>
+            Fecha de la solicitud
+        </th>
+        <th>
+            Fecha de la etapa
+        </th>
+        <th>
+            Acción requerida
+        </th>
+        <th>
+            Tipo de solicitud
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tbl_Sol_Solicitud.Tbl_Seg_UsuarioExterno.Nombres)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tbl_Sol_Solicitud.Tbl_Seg_UsuarioExterno.Apellidos)
+        </th>
+
+        <th>
+            Historial
+        </th>
+        <th>
+            Revisar <br />
+            solicitud
+        </th>
+        <th>
+            Etapa previa
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @if (item.Tbl_Sol_Solicitud.Solicitud_NumeroExpediente != null)
+                {
+                    @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud.Solicitud_NumeroExpediente)
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud.Solicitud_NumeroTemporal)
+                }
+                <br />
+                Ref.@item.Solicitud_id
+
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud.swdateupdated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.swdatecreated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Gest_Etapa.Nombre_Etapa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud.Tbl_Sol_Solicitud_Categoria.Descripcion)
+                -
+                @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud.Tbl_Sol_Solicitud_Sub_Categoria.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud.Tbl_Seg_UsuarioExterno.Nombres)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud.Tbl_Seg_UsuarioExterno.Apellidos)
+            </td>
+            <td>
+
+                <button class="btn" rel="tooltip" title="Revisar" onclick="window.open('/Gest_EtapaSolicitud/HistorialSolicitud?Guid_id=@item.Tbl_Sol_Solicitud.Guid_id')">
+                    <i><img src="~/Content/icons/workflow.png" style="border-radius: 25%; width: 35px; height: auto" /></i>
+                    <div class="ripple-container"></div>
+                </button>
+            </td>
+            <td>
+
+                <button class="btn" rel="tooltip" title="Revisar" onclick="window.open('/Home/SolicitudEtapaView?guid_id=@item.Tbl_Sol_Solicitud.Guid_id&etapaid=@item.Etapa_id&etaparutaid=@item.EtapaRuta_id&correlativo=@item.CorrelativoEtapa_id')">
+                    <i><img src="~/Content/icons/etapas.png" style="border-radius: 25%; width: 35px; height: auto" /></i>
+                    <div class="ripple-container"></div>
+                </button>
+            </td>
+            <td>
+                <div style=" display:flex; flex-direction:column; max-width:250px">
+                    @{
+
+                        Query = $"  Select *  \n";
+                        Query += $"  From Tbl_Gest_Etapa \n";
+                        Query += $"  Where exists \n";
+                        Query += $"  ( \n";
+                        Query += $"      Select *     \n";
+                        Query += $"      From dbo.fc_Sol_GestEtapa_CorrelativosAnterioresDetallado(" + item.Solicitud_id.ToString() + ", " + item.CorrelativoEtapa_id + ") EtapasPrevias     \n";
+                        Query += $"      Where Tbl_Gest_Etapa.Etapa_id = EtapasPrevias.Etapa_id     \n";
+                        Query += $"        and Tbl_Gest_Etapa.EtapaRuta_id = EtapasPrevias.EtapaRuta_id     \n";
+                        Query += $"  ) \n";
+
+                        List<Tbl_Gest_Etapa> LstEtapas = db.Tbl_Gest_Etapa.SqlQuery(Query).ToList();
+
+
+                        ViewBag.LstEtapas = new SelectList(LstEtapas, "Etapa_id", "Nombre_Etapa");
+
+
+                    }
+
+                    <select class="form-select-sm" name="selectList_@item.CorrelativoEtapa_id" id="selectList_@item.CorrelativoEtapa_id" style="margin-bottom:10px">
+                        @foreach (Tbl_Gest_Etapa itemEtapa in LstEtapas)
+                        {
+                            <option value="@itemEtapa.Etapa_id">@itemEtapa.Nombre_Etapa</option>
+                        }
+                    </select>
+
+                    @*<button class="btn-cancel"  onclick="returnEtapa('@item.Solicitud_id', '@item.CorrelativoEtapa_id', 'selectList_@item.CorrelativoEtapa_id')">Reactivar Etapa</button>*@
+
+                    @* Modal para regreso de tarea*@
+                    @*<button class="btn-cancel" onclick="ReactivarEtapaMd()">Reactivar Etapa</button>*@
+
+                    <button class="btn btn-success"
+                            data-solicitud="@item.Solicitud_id"
+                            data-correlativo="@item.CorrelativoEtapa_id"
+                            data-select="selectList_@item.CorrelativoEtapa_id"                               
+                            onclick="ReactivarEtapaMd(this)">
+                        Reactivar Etapa
+                    </button>
+                </div>
+            </td>
+
+
+        </tr>
+
+
+
+    }
+
+
+
+</table>
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+
+
+<input type="hidden" id="Pagina" name="Pagina" value="">
+<input type="hidden" id="Titulo" name="Titulo" value="">
+<div class="container mt-3">
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" width: 700px;>
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Header</h4>
+                    <button type="button" id="btnHideModal" class="btn btn-default">
+                        X
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>The <strong>show.bs.modal</strong> asdfasdf.</p>
+                </div>
+                <div id="DatosPersonerias">
+                    <br />
+                    <br />
+                    <br />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnHideModal_Close" class="btn btn-default">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-3">
+
+    <div class="modal fade" id="mdReactivarEtapa" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                <form id="formEtapa">
+
+                    <div class="modal-header">
+                        <button type="button" id="btnHideModal" class="btn-next" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="container mb-4">
+                        <div class="row mt-4">
+
+                            <div class="col-md-5 offset-1">
+                                <label>Nombre del Solicitante</label>
+                                <input type="text" required class="form-control" name="Solicitante" id="Solicitante" />
+                            </div>
+
+                            <div class="col-md-3">
+                                <label>Fecha de solicitud</label>
+                                <input type="date" required class="form-control" name="Fecha" id="Fecha" />
+                            </div>
+
+
+
+                        </div>
+
+                     
+
+                        <div class="row mt-3">
+                            <div class="col-md-10 offset-1">
+                                <label>Motivo de la acción</label>
+                                <textarea class="form-control" minlength="50" oninvalid="this.setCustomValidity('Debe ingresar al menos 50 caracteres')" oninput="this.setCustomValidity('')" required name="Motivo" id="Motivo" rows="3"></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" style="min-width:210px;" onclick="returnEtapa_(document.getElementById('Solicitante').value,document.getElementById('Fecha').value,document.getElementById('Motivo').value)"> <i class="fa fa-play" style="margin-right:8px"></i>Procesar Etapa</button>
+                        <button type="button" id="mdReactivarEtapa_Close" style="min-width:160px;" class="btn btn-secondary px-lg-3" data-dismiss="modal">Cerrar</button>
+                    </div>
+
+                    </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

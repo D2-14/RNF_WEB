@@ -1,0 +1,151 @@
+﻿@using RNF_Web.Models;
+@model RNF_Web.Models.Tbl_Sol_Finca_Secorf_EspeciesForestales
+@{
+    db_RNFEntities db = new db_RNFEntities();
+
+    Tbl_Sol_Solicitud tbl_Sol_Solicitud = db.Tbl_Sol_Solicitud.Find(Model.Solicitud_id);
+
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<script>
+    function refreshPartialSecorfEspeciesForestales() {
+        $('#secorfEspeciesForestales').load('/Sol_Finca_ProcedenciaExterna/Secorf_EspeciesForestales?Solicitud_id=@tbl_Sol_Solicitud.Solicitud_id&firma=@tbl_Sol_Solicitud.Guid_id')
+    }
+
+    $(document).ready(function () {
+
+        refreshPartialSecorfEspeciesForestales();
+        GetRodalSecorf();
+    });
+
+    function GetRodalSecorf()
+    {
+        var url = "@Url.Action("GetRodal", "Sol_Rodal_Cultivo")";
+        var Finca = $('#Finca_id').val();
+        var Solicitud = @Model.Solicitud_id;
+        var data = { solicitud_id: Solicitud, finca_id: Finca };
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Rodal_Id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, rodal) {
+                    select.append($('<option/>', {
+                        value: rodal.Value,
+                        text: rodal.Text
+                    }));
+
+                });
+
+                GetRodalSecorfTipo();
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+    }
+
+
+    function GetRodalSecorfTipo()
+    {
+        var url = "@Url.Action("GetRodalTipo", "Sol_Rodal_Cultivo")";
+        var Finca = $('#Finca_id').val();
+        var Solicitud = @Model.Solicitud_id;
+        var Rodal = $('#Rodal_Id').val();
+        var data = { solicitud_id: Solicitud, finca_id: Finca, rodal_id: Rodal };
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Tipo_de_Area");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, rodaltipo) {
+                    select.append($('<option/>', {
+                        value: rodaltipo.Value,
+                        text: rodaltipo.Text
+                    }));
+
+                });
+
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+    }
+
+
+    $(document).on('change', '#Rodal_Id', function () {
+
+        GetRodalSecorfTipo();
+
+    }); // -----Fin de Change ddlDepartamento
+
+
+
+    $(document).on('change', '#Finca_id', function () {
+
+        GetRodalSecorf();
+
+    }); // -----Fin de Change ddlDepartamento
+
+</script>
+
+
+<br />
+<div class="titulo-dos">
+    <h4>Listado de especie(s) forestal(es) SECORF</h4>
+</div>
+
+<table width="100%">
+    <tr>
+        <td>
+            @Html.LabelFor(model => model.Finca_id, "Finca", htmlAttributes: new { @class = "control-label col-md-2" })
+        </td>
+        <td>
+            @Html.LabelFor(model => model.Rodal_id, "Rodal", htmlAttributes: new { @class = "control-label col-md-4" })
+        </td>
+        <td>
+            @Html.LabelFor(model => model.Tipo_de_Area, "Tipo de área", htmlAttributes: new { @class = "control-label col-md-12" })
+        </td>
+        <td>
+            @Html.LabelFor(model => model.Tipo_de_Area, "", htmlAttributes: new { @class = "control-label col-md-4" })
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DropDownList("Finca_id", null, htmlAttributes: new { @class = "form-select" })
+        </td>
+        <td>
+            @Html.DropDownList("Rodal_Id", null, htmlAttributes: new { @class = "form-select" })
+        </td>
+
+        <td>
+            @Html.DropDownList("Tipo_de_Area", null, htmlAttributes: new { @class = "form-select" })
+        </td>
+        <td>
+            <input type="button" class="btn btn-sm btn-success" value="Agregar" onclick="AgregarEspecieForestalSecorf()" />
+        </td>
+
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td> <label id="lblMensaje" name="lblMensaje" /></td>
+    </tr>
+</table>
+
+<div id="secorfEspeciesForestales" name="secorfEspeciesForestales" />
+<hr />
+

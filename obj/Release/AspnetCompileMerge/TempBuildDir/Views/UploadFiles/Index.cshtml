@@ -1,0 +1,34 @@
+﻿
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+<div id="DivDoctosSubidos">
+    @model IEnumerable<RNF_Web.Models.Tbl_Sol_DocumentoSubido>
+
+
+    <div class="titulo-dos">
+        <h4> Documentos subidos actualmente </h4>
+    </div>
+    <table class="table">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tbl_Sol_DocumentoTipo.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FileName)
+                </td>
+                <td>
+                    <input type="button" onclick="Mostrar('@item.Documento_id', '@item.FileName')" value="Ver" />
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</div>

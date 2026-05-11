@@ -1,0 +1,29 @@
+﻿@using RNF_Web.Models;
+@{
+    string Guid_id = ViewBag.Guid_id;
+    string GuidEtapa_id = ViewBag.EtapaSolicitudGuid;
+    int etapa_id = ViewBag.etapa_id;
+    decimal etaparuta_id = ViewBag.etaparuta_id;
+    int correlativoetapa_id = ViewBag.correlativoetapa_id;
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<script>
+    function refreshPartialResolucionRechazo() {
+        var partialparams = "?Guid_id=@Guid_id&GuidEtapa_id=@GuidEtapa_id&etapa_id=@etapa_id&etaparuta_id=@etaparuta_id&correlativoetapa_id=@correlativoetapa_id";
+        var myResolucionRechazo = document.getElementById("div_ResolucionRechazo");
+        if (myResolucionRechazo) {
+            $("#div_ResolucionRechazo").load("/Form_FormularioSubRegionalOficioRechazo/ResolucionRechazo" + partialparams);
+        }
+    }
+
+    $(document).ready(function () {
+        refreshPartialResolucionRechazo();
+    });
+</script>
+
+
+<div id="div_ResolucionRechazo"></div>

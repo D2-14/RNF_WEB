@@ -1,0 +1,61 @@
+﻿@using RNF_Web.Models;
+@model List<Tbl_API_Sol_Finca>
+
+@{
+    db_RNFEntities db = new db_RNFEntities();
+    db_RNF_APIEntities db_API = new db_RNF_APIEntities();
+    Layout = null;
+
+    long Solicitud_id = ViewBag.Solicitud_id;
+    Tbl_API_Sol_Solicitud tbl_API_Sol_Solicitud = db_API.Tbl_API_Sol_Solicitud.Where(Obj => Obj.Solicitud_id == Solicitud_id).FirstOrDefault();
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@if (Model.Count() > 0)
+{
+    foreach (var item in Model)
+    {
+        <hr style="height:10px" />
+        <div align="center">
+            <strong>Localización de la plantación en coordenadas GTM (punto centro del rodal)</strong>
+        </div>
+        <table class="table" align="center" border="1" style="text-align:center;">
+            <tr>
+                <td>
+                    <strong>GTMX</strong>
+                </td>
+                <td>
+                    <strong>GTMY</strong>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @((item.GTMX??0).ToString("0"))
+                </td>
+                <td>
+                    @((item.GTMY??0).ToString("0"))
+                </td>
+            </tr>
+        </table>
+        <div id="div_EstimacionVolumen_@item.Solicitud_id@item.Finca_Id"></div>
+        <script>
+        $(document).ready(function () {
+            var myEstimacionVolumen_@item.Solicitud_id@item.Finca_Id = document.getElementById('div_EstimacionVolumen_@item.Solicitud_id@item.Finca_Id');
+            if (myEstimacionVolumen_@item.Solicitud_id@item.Finca_Id)
+            {
+                $('#div_EstimacionVolumen_@item.Solicitud_id@item.Finca_Id').load("/@controllerName/EstimacionVolumen_Tecnico?Solicitud_id=@Solicitud_id&Finca_Id=@item.Finca_Id")
+            }
+        });
+        </script>
+    }
+}
+
+
+

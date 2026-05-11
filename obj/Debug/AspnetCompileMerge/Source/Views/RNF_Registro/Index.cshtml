@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "   Home page";
+
+    Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+
+    ViewBag.Title = "Registros Inscritos";
+    ViewBag.SubTitle = "Solicitudes Registradas";
+}
+
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+<script>
+
+    function changeImage(img) {
+        setTimeout(function () { document.getElementById('Bigimg').src = img; }, 50);
+    }
+
+    function changeImageVF(img) {
+        setTimeout(function () { document.getElementById('BigimgVF').src = img; }, 50);
+    }
+</script>
+
+@Html.Partial("_PartialPageEncabezado")
+
+<table class="table table-striped">
+    <tr>
+        <th>
+            No. Registro
+        </th>
+        <th>
+            Expediente
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <input type="text" id="Txt_NoRegistro" name="Txt_NoRegistro" value="" class="form-control" onchange="refreshPartialRNF_Registro()" placeholder="No. de Registro" />
+        </td>
+        <td>
+            <input type="text" id="Txt_Expediente" name="Txt_Expediente" value="" class="form-control" onchange="refreshPartialRNF_Registro()" placeholder="No. de Expediente" />
+        </td>
+    </tr>
+</table>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div id="div_ListaRegistros"></div>
+    </div>
+</div>
+
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+        refreshPartialRNF_Registro();
+    });
+
+    function refreshPartialRNF_Registro() {
+
+        var Txt_NoRegistro = document.getElementById('Txt_NoRegistro').value;
+        var Txt_Expediente = document.getElementById('Txt_Expediente').value;
+
+        var myListaRegistros = document.getElementById("div_ListaRegistros");
+        if (myListaRegistros) {
+            $("#div_ListaRegistros").load("/RNF_Registro/ListaRegistros?No_Registro=" + Txt_NoRegistro + "&Expediente=" + Txt_Expediente);
+        }
+    }
+</script>

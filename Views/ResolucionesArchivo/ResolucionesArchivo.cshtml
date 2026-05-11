@@ -1,0 +1,272 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+
+
+
+
+
+
+
+
+<div id="tata">
+
+    @{
+        ViewBag.Title = "Resoluciones de Archivo";
+        Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    }
+
+
+    @Html.Partial("_PartialPageEncabezado")
+
+    <br />
+    <label class="text-danger" id="lblMensaje"></label>
+
+
+
+
+    <br />
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-md-3">
+            <label class="form-control">Número de oficio de Enmienda </label>
+        </div>
+
+        <div class="col-md-3">
+            <input class="form-control" id="iNumOficio" pattern="^[0-9\-]+$" type="text" />
+        </div>
+
+    </div>
+    <br />
+    <br />
+    <hr />
+
+    <br />
+    <table>
+        <tr>
+            <th colspan="2">Datos para la firma electrónica:</th>
+        </tr>
+        <tr>
+            <td><br /></td>
+        </tr>
+        <tr>
+            <td width="1%">Usuario</td>
+            <td width="2%">
+                <input type="text" class="form-control" id="FirmaElectronicaUsuario"  name="FirmaElectronicaUsuario" value="" />
+            </td>
+    
+            <td width="1%">Password</td>
+            <td width="2%">
+                <input type="password" class="form-control" id="FirmaElectronicaPassword" name="FirmaElectronicaPassword" value="" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <br />
+            </td>
+        </tr>
+    </table>
+
+    <br />
+    <br />
+
+
+   <div class="row">
+
+       <div class="col-1">
+
+               <input type="button" class="btn btn-secondary" value="Cerrar" onclick="Cerrar()" />
+
+           </div>
+
+           <div class="col-2">
+               <button id="btnVistaprevia" class="btn btn-success bi bi-eye" onclick="VerResolucionArhivo()"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;  Vista previa</button>
+           </div>
+
+           <div class="col-2">
+               <button class="btn btn-primary" id="btnFirmarDocumento" name="btnFirmarDocumento" onclick="FirmarDocumento()" style="display:none;"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Firmar Dictamen</button>
+           </div>
+
+       </div>
+           
+      
+
+
+
+    @Html.Partial("_PartialPageEncabezadoCierre")
+
+</div>
+
+
+<script>
+
+    const input = document.getElementById("iNumOficio");
+    input.addEventListener("input", function () {
+        this.value = this.value.replace(/[^0-9a-zA-Z\-]/g, '');
+    });
+
+    function Cerrar() {
+        window.location.replace("/ResolucionesArchivo/Index");
+    }
+
+
+    function VerResolucionArhivo() {
+
+        // Leer Parametros que se enviaron de la anterior pagina
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
+        const numeroExpediente = params.get("numeroExpediente");
+        const numeroOficio = document.getElementById("iNumOficio").value;
+
+
+
+        var varSolicitud_id = id;
+        var varNumeroExpediente = numeroExpediente;
+        var varNumeroOficio = numeroOficio;
+
+
+        loaderPantalla(true);
+        var data = {
+            Solicitud_Guid_id: varSolicitud_id,
+            NumeroExpediente: varNumeroExpediente,
+            numeroOficio: varNumeroOficio
+
+        }
+
+        console.log("Parametros:", data);
+
+        var url = "@Url.Action("GeneraVistaResolucion", "ResolucionesArchivo")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            loaderPantalla(false);
+
+            console.log(data, numeroOficio);
+
+
+
+
+            if (numeroOficio.trim() !== "") {
+
+                var objJSON = JSON.parse(jsonRespuesta);
+                var Texto_Respuesta = objJSON.Ubicacion;
+
+
+                window.open('/Archivos_Generados_Que_Pueden_Borrar/' + Texto_Respuesta, '_blank');
+
+                 var TdHiddeA = document.getElementById("btnFirmarDocumento");
+                TdHiddeA.style.display = "block";
+
+            }
+            else {
+
+                alert("Ingrese el número de oficio de Enmienda correspondiente");
+                return;
+            }
+
+
+        });
+    }
+
+
+
+    function FirmarDocumento() {
+
+           const params = new URLSearchParams(window.location.search);
+           const id = params.get("id");
+
+
+
+        var varSolicitud_id = id;
+        var TdHiddeA = document.getElementById("btnFirmarDocumento");
+        TdHiddeA.style.display = "none";
+
+        varFirmaElectronicaUsuario = $('#FirmaElectronicaUsuario').val();
+        varFirmaElectronicaPassword = $('#FirmaElectronicaPassword').val();
+
+        var data = {
+            UsuarioFE: varFirmaElectronicaUsuario,
+            PasswordFE: varFirmaElectronicaPassword,
+            Solicitud_Id: varSolicitud_id
+        };
+
+    var url = "@Url.Action("JsonProcesarFirmaElectronica", "ResolucionesArchivo")";
+        loaderPantalla(true);
+        $.post(url, data).done(function (jsonrespuesta) {
+            loaderPantalla(false);
+            var oJSON = JSON.parse(jsonrespuesta);
+            var NombreDocumento = oJSON.strRespuesta;
+            var CodigoRespuesta = oJSON.CodRespuesta;
+
+
+            if ((CodigoRespuesta == '0') || (CodigoRespuesta == 0))
+            {
+                window.open("/Home/FalloFirmaElectronica?FalloFe=" + NombreDocumento, '_blank');
+            }
+            else
+            {
+                window.open(NombreDocumento, '_blank');
+                fnc_EnviarRespuesta_(8); //8 es el Id de la tabla Tbl_Gest_Etapa_Respuesta
+            }
+
+        });
+
+    }
+
+
+
+
+
+    function fnc_EnviarRespuesta_(varRespuestaid)
+    {
+
+        const params = new URLSearchParams(window.location.search);
+        const numeroOficio = document.getElementById("iNumOficio").value;
+        const id = params.get("id");
+
+
+       
+        varsolicitud_id = id;
+        varetapa_id = '26';
+        varetaparuta_id = '1.00';       
+        varMotivo = 'Se archiva expediente por Resolución de Archivo y Abandono';
+        varNumeroOficio = numeroOficio;
+        console.log("Oficiooooo",numeroOficio);
+
+        var url = "@Url.Action("ActualizaEtapaRespuestaResolucionesArchivo", "ResolucionesArchivo")";
+
+        var data = { solicitud_id: varsolicitud_id, etapa_id: varetapa_id, etaparuta_id: varetaparuta_id, motivo: varMotivo, respuestaid: varRespuestaid, NoOficio: varNumeroOficio};
+        console.log(data);
+
+        $.post(url, data).done(function (jsonRespuesta) {
+               var objJSON = JSON.parse(jsonRespuesta);
+               var Cod_Respuesta = objJSON.CodRespuesta;
+               var Texto_Respuesta = objJSON.strRespuesta;
+
+            console.log(Cod_Respuesta);
+
+            if (Cod_Respuesta == 1) {
+                window.close();
+                window.location.replace("/ResolucionesArchivo/Index");
+                } else
+                {
+
+                    $('#lblMeModelodelodelsaje').text(Texto_Respuesta);
+                    alert(Texto_Respuesta);
+
+                }
+
+           }).fail(manejarErrorAjax).always(function () {
+
+               alert('Error no identificado.');
+            });
+            return falsModel;
+
+    }
+
+</script>

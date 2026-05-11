@@ -1,0 +1,136 @@
+﻿@using RNF_Web.Models;
+@{
+    Layout = null;
+    ViewBag.Title = "Iniciar Sesión";
+
+}
+
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>@ViewBag.Title</title>
+    <link rel="icon" href="@Url.Content("../favicon.png")" />
+    <link href="/Content/bootstrap.css" rel="stylesheet" />
+    <link href="/Content/Login.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" rel="stylesheet" />
+    <link href="/Content/Layout.css" rel="stylesheet" />
+    <style>
+        .modal-backdrop {
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        <div class="form-container">
+            <form id="formLogin" method="post" action="@Url.Action("InicioSesion", "Login")">
+                <h3>Iniciar Sesión</h3>
+                @if (Constants.VisualizarInformacionDesarrollo == 1)
+                {
+                    <h3>Capacitación</h3>
+                }
+                <div class="inab">
+                    <img alt="" src="~/Content/images/Logo_INABI_TTO_Login.png" style="max-height: 100px" />
+                </div>
+                <span></span>
+                <input type="email" name="strUs" placeholder="Correo electrónico" value="" />
+                <input type="password" name="strPass" placeholder="Contraseña" value="" />
+                @if (Constants.VisualizarInformacionDesarrollo == 1)
+                {
+                    <br />
+                    <a href="/Login/AccesoColaborador"> Acceso Colaborador </a>
+                }
+
+                <a href="#" onclick="location.href='@Url.Action("ReenviarContrasenia", "UsuarioExterno")'">¿Olvidaste tu contraseña?</a>
+
+                <input type="submit" rel="tooltip" title="Ingreso al sistema" value="    Acceder      " class="btn-next-ic" />
+
+                <div class="contenedorRegistro">
+                    <a  class="btnRegistro btn btn-primary" href="#" onclick="location.href='@Url.Action("Create", "UsuarioExterno")'">Registrate aquí</a>
+                </div>
+                <div >
+                    <a class="boton-circular" href="/Content/SoporteAudioVisualUsuario/001_login.mp4">
+                        <img id="miSVG" width="40px" src="~/Content/icons/playAnimado2.gif" style="border-radius:500px" />
+                        <span style="color: #AF092C; font-weight: bold; font-family:inherit">TUTORIAL</span>
+                    </a>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+    <script src="/Scripts/jquery-3.6.0.js"></script>
+    <script src="/Scripts/bootstrap.js"></script>
+    @*<script src="/Scripts/Login.js"></script>*@
+    @if (TempData["Mensaje"] != null && TempData["Mensaje"] != "")
+    {
+        <script>
+            $(document).ready(function () { $('#myModal').modal('show') });
+        </script>
+    }
+</body>
+</html>
+
+<div class="modal" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Advertencia</h5>
+                <span type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></span>
+            </div>
+            <div class="modal-body">
+                @Html.Raw(@TempData["Mensaje"])
+                <br />
+                @Html.Raw(@TempData["MensajeA"])
+                <br />
+                @Html.Raw(@TempData["MensajeB"])
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+ $(document).ready(function () {
+        verificarCorreos();
+    });
+
+
+
+    function verificarCorreos() {
+        var url = "@Url.Action("GestionaWhatsapp", "Home")";
+        var data = {
+
+        }
+
+        $.post(url, data).done(function (jsonRespuesta) {
+        var objJSON = JSON.parse(jsonRespuesta);
+        var Resultado = objJSON.Resultado
+        console.log(Resultado);
+        }).fail(function (jsonRespuesta) {
+        var objJSON = JSON.parse(jsonRespuesta);
+        var Resultado = objJSON.Resultado
+        console.log(Resultado);
+        });
+    }
+
+    function validar(e) {
+        tecla = (document.all) ? e.keyCode : e.which;
+        if (tecla == 13) {
+            $("#formLogin").submit();
+        }
+    }
+
+    document.addEventListener("keyup", function (event) {
+        validar(event);
+    });
+
+
+</script>

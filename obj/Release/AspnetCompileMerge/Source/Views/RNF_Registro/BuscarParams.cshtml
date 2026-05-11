@@ -1,0 +1,71 @@
+﻿@using RNF_Web.Models;
+@model IEnumerable<RNF_Registro_Informacion>
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+@{
+
+}
+<table class="table">
+    <tr>
+        <th>
+            No. Registro
+        </th>
+        <th>
+            Expediente
+        </th>
+        <th>
+            Región
+        </th>
+        <th>
+            Categoria
+        </th>
+        <th>
+            Fecha de Vencimiento
+        </th>
+        <th>
+            DPI Titular
+        </th>
+        <th>
+            Titular
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.No_Registro)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Expediente)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Region)
+        ,<br />
+        @Html.DisplayFor(modelItem => item.SubRegion)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Categoria)
+        ,<br />
+        @Html.DisplayFor(modelItem => item.SubCategoria)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Fecha_De_Vencimiento)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DPI_Titular)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Titular)
+    </td>
+    <td>
+        <a href="@Url.Action("RegistroEdit","RNF_Registro", new { No_Registro = item.No_Registro })" class="btn btn-sm btn-success" target="_blank">Inspeccionar</a>
+    </td>
+</tr>
+    }
+
+</table>
+

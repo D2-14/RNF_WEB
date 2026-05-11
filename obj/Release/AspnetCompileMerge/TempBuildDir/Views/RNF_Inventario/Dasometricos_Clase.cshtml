@@ -1,0 +1,87 @@
+﻿@using RNF_Web.Models;
+@using System.Data.Entity;
+@model List<Tbl_RNF_Rodal_Dasometrico>
+@{
+    db_RNFEntities db = new db_RNFEntities();
+    int countfilas;
+    long solicitudid, fincaid, rodalid;
+    decimal dap_promedio, altura_promedio, densidad_ha, dap, altura, densidad;
+
+    dap = 0;
+    dap_promedio = 0;
+    altura_promedio = 0;
+    densidad_ha = 0;
+    altura = 0;
+    densidad = 0;
+    string No_Registro;
+    long Finca_Id, Rodal_id;
+    No_Registro = ViewBag.No_Registro;
+    Finca_Id = ViewBag.Finca_Id;
+    Rodal_id = ViewBag.Rodal_id;
+    int Clase_id = ViewBag.Clase_id;
+
+
+    countfilas = db.Database.SqlQuery<int>("SELECT count(*) from Tbl_RNF_Rodal_Dasometrico where No_Registro = @p0 and Finca_id = @p1 and Rodal_id = @p2 and Clase_id = @p3 ", No_Registro, Finca_Id, Rodal_id, Clase_id).FirstOrDefault();
+
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@if (Model.Count() > 0)
+{
+    <table class="table table-striped">
+        <tr>
+            <th id="encabezado" colspan="2">
+                Finca: @Finca_Id
+            </th>
+            <th id="encabezado" colspan="2">
+                Rodal: @Rodal_id
+            </th>
+            <th id="encabezado" colspan="3">
+                Clase: @Clase_id
+            </th>
+        </tr>
+        <tr>
+            <th id="encabezado">Finca</th>
+            <th id="encabezado">Rodal</th>
+            <th id="encabezado">Especie</th>
+            <th id="encabezado">Año de Plantación</th>
+            <th id="encabezado">DAP</th>
+            <th id="encabezado">Altura</th>
+            <th id="encabezado">Densidad (ha)</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            dap += (item.DAP_Promedio ?? 0);
+            altura += (item.Altura_Promedio ?? 0);
+            densidad = ((item.Area_Efectiva_Rodal ?? 0) / countfilas);
+            <tr>
+                <td>@item.Finca_id</td>
+                <td>@item.Rodal_id</td>
+                <td>@item.Tbl_Gral_Especie.NombreCientifico</td>
+                <td>@item.Anio_Establecimiento</td>
+                <td>@((item.DAP_Promedio??0).ToString("0.00"))</td>
+                <td>@((item.Altura_Promedio ?? 0).ToString("0.00"))</td>
+                <td>@densidad.ToString("0.00")</td>
+            </tr>
+
+            densidad_ha += densidad;
+        }
+
+        <tr>
+            @{
+                dap_promedio = dap / countfilas;
+                altura_promedio = altura / countfilas;
+            }
+            <td><strong>Total</strong></td>
+            <td colspan="3"></td>
+            <td><strong>@dap_promedio.ToString("0.00")</strong></td>
+            <td><strong>@altura_promedio.ToString("0.00")</strong></td>
+            <td><strong>@densidad_ha.ToString("0")</strong></td>
+        </tr>
+    </table>
+}
+

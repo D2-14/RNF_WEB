@@ -1,0 +1,127 @@
+﻿@using RNF_Web.Models;
+@model List<Tbl_Sol_DocumentoTipo>
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+
+}
+@ViewBag.guidid
+
+<input type="button" value="Enviar" id="gestionURL" />
+
+@foreach (var item in Model)
+{
+    <br />
+
+    <p>@item.Nombre</p>
+    <label class="switch">
+        <input type="checkbox" id="doctipo_@item.Tipo_Documento_id" name="doctipo_@item.Tipo_Documento_id" value="@item.Tipo_Documento_id" />
+        <span class="slider round"></span>
+    </label>
+
+
+}
+
+
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+</style>
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+
+<script>
+    var urlenviar = "Guid_id=@ViewBag.guidid";
+
+    $(function () {
+
+        $("#gestionURL").click(function () {
+
+                let GestionarURL = () => {
+
+                    for (let i = 0; i < 20; i++) {
+
+                        if (document.querySelector('#doctipo_' + i).checked == true) {
+                        console.log(true);
+
+                        }
+
+                    }
+
+                    console.log(urlenviar);
+                }
+
+                let agregarAUrl = (numero) => {
+                    urlenviar = urlenviar + '&TipoDocumento_id=' + numero;
+                }
+
+                GestionarURL();
+
+            })
+
+
+
+    })
+</script>

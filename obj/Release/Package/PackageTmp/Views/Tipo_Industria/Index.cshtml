@@ -1,0 +1,168 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Gral_Tipo_Industria>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    ViewBag.Title = "Tipo de Industria";
+    ViewBag.SubTitle = "Listado de Tipo de Industria";
+}
+
+@Html.Partial("_PartialPageEncabezado")
+
+<button class="btn-secondary" style="position: absolute; right: 0;" rel="tooltip" title="Agregar" onclick="location.href='@Url.Action("Create", "Tipo_Industria")'">
+    <i><img src="~/Content/icons/add_simple.png" style="border-radius: 30%; width: 45px; height: auto" /></i>
+    <div class="ripple-container"></div>
+</button>
+
+<br />
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            Nombre técnico
+        </th>
+        <th>
+            Nombres comunes
+        </th>
+        <th>
+            Industria Forestal
+        </th>
+        <th>
+            Depósitos de Productos Forestales
+        </th>
+        <th>
+            Centro de Acopio de Productos Forestales
+        </th>
+        <th>
+            Víveros Forestales
+        </th>
+        <th>
+            Exportadoras e Importadoras de Productos Forestales
+        </th>
+        <th>
+            Productos Forestales No Maderables
+        </th>
+        <th>
+            Repobladoras Forestales
+        </th>
+        <th>
+            Consultoras Forestales
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre_Tecnico)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombres_Comunes)
+            </td>
+
+            <td>
+                @if (item.Industria_Forestal == true)
+                {
+                    <input type="checkbox" checked disabled>
+                }
+                else
+                {
+                    <input type="checkbox" disabled>
+
+                }
+            </td>
+            <td>
+                @if (item.Deposito_Forestal == true)
+                {
+                    <input type="checkbox" checked disabled>
+                }
+                else
+                {
+                    <input type="checkbox" disabled>
+
+                }
+
+            </td>
+            <td>
+                @if (item.Centro_Acopio == true)
+                {
+                    <input type="checkbox" checked disabled>
+                }
+                else
+                {
+                    <input type="checkbox" disabled>
+
+                }
+
+            </td>
+            <td>
+                @if (item.Viveros_Forestales == true)
+                {
+                    <input type="checkbox" checked disabled>
+                }
+                else
+                {
+                    <input type="checkbox" disabled>
+
+                }
+            </td>
+            <td>
+                @if (item.Exporta_Importa_Producto_Forestal == true)
+                {
+                    <input type="checkbox" checked disabled>
+                }
+                else
+                {
+                    <input type="checkbox" disabled>
+
+                }
+            </td>
+            <td>
+                @if (item.Producto_Forestal_No_Maderable == true)
+                {
+                    <input type="checkbox" checked disabled>
+                }
+                else
+                {
+                    <input type="checkbox" disabled>
+
+                }
+            </td>
+            <td>
+                @if (item.Repobladoras_Forestales == true)
+                {
+                    <input type="checkbox" checked disabled>
+                }
+                else
+                {
+                    <input type="checkbox" disabled>
+
+                }
+            </td>
+            <td>
+                @if (item.Consultora_Forestal == true)
+                {
+                    <input type="checkbox" checked disabled>
+                }
+                else
+                {
+                    <input type="checkbox" disabled>
+
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.Tipo_Industria_Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@Html.Partial("_PartialPageEncabezadoCierre")

@@ -1,0 +1,55 @@
+﻿@using RNF_Web.Models;
+@model List<Tbl_RNF_Finca_PinpepOld_EspeciesForestales>
+@{
+    Layout = null;
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                Finca
+            </th>
+            <th>
+                Rodal
+            </th>
+            <th>
+                Nombre de Especie
+            </th>
+            <th>
+                Arboles Ha
+            </th>
+            <th>
+                Area
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Finca_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rodal_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreEspecie)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ArbolesPorHa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Area)
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+

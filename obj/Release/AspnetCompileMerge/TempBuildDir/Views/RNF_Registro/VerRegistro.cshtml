@@ -1,0 +1,101 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    db_RNFEntities db = new db_RNFEntities();
+    Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+    long Solicitud_id = ViewBag.solicitud;
+    Usuario objUs;
+    objUs = (Usuario)Session["User"];
+
+    Tbl_RNF_Registro rnf = (from d in db.Tbl_RNF_Registro
+                            where d.Solicitud_id == Solicitud_id
+                            select d).FirstOrDefault();
+    Tbl_Sol_Solicitud solicitud = (from d in db.Tbl_Sol_Solicitud
+                                   where d.Solicitud_id == Solicitud_id
+                                   select d).FirstOrDefault();
+}
+
+<input type="button" class="btn btn-primary" onclick="actualizacionPrimera()" value="Primer Actualización" />
+<input type="button" class="btn btn-success" onclick="actualizacionSegunda()" value="Segunda Actualización" />
+
+<h1>Propietario Persona Individual</h1>
+<div id="div_RNF_PropietarioPersonaIndividual"></div>
+<h1>Propietario Persona Jurídica</h1>
+<div id="div_RNF_PropietarioPersonaJuridica"></div>
+<h1>Representante Legal</h1>
+<div id="div_RNF_RepresentanteLegal"></div>
+<h1>Finca</h1>
+<div id="div_RNF_Finca"></div>
+<h1>Motosierra</h1>
+<div id="div_RNF_Motosierra"></div>
+<h1>Empresa Entidad</h1>
+<div id="div_RNF_Empresa_Entidad"></div>
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#div_RNF_PropietarioPersonaIndividual").load("/Sol_Comparativo/PropietarioPersonaIndividual?Solicitud_id=@Solicitud_id");
+        $("#div_RNF_PropietarioPersonaJuridica").load("/Sol_Comparativo/PropietarioPersonaJuridica?Solicitud_id=@Solicitud_id");
+        $("#div_RNF_RepresentanteLegal").load("/Sol_Comparativo/RepresentanteLegal?Solicitud_id=@Solicitud_id");
+        $("#div_RNF_Finca").load("/Sol_Comparativo/Finca?Solicitud_id=@Solicitud_id");
+        $("#div_RNF_Motosierra").load("/Sol_Comparativo/MotoSierra?Solicitud_id=@Solicitud_id");
+        $("#div_RNF_Empresa_Entidad").load("/Sol_Comparativo/Empresa_Entidad?Solicitud_id=@Solicitud_id");
+    });
+
+    function actualizacionPrimera() {
+        var Solicitud_id = "@Solicitud_id";
+        var UsuarioExterno_id = "@objUs.intUsuario_id";
+        var No_Registro = "@rnf.No_Registro";
+        var No_RegistroLiteral = "@rnf.No_RegistroLiteral";
+        var No_RegistroCorrelativo = "@rnf.No_RegistroCorrelativo";
+        var Categoria_id = "@rnf.Categoria_id";
+
+        var data = {
+            Solicitud_id: Solicitud_id,
+            UsuarioExterno_id: UsuarioExterno_id,
+            No_Registro: No_Registro,
+            No_RegistroLiteral: No_RegistroLiteral,
+            No_RegistroCorrelativo: No_RegistroCorrelativo,
+            Categoria_id: Categoria_id
+        };
+
+        var url = "@Url.Action("PrimerActualizacion", "Sol_Comparativo")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+            var NT = oJSON.NumeroTemporal;
+            alert("Proceso de actualización iniciada con número temporal: " + NT);
+        });
+    }
+
+    function actualizacionSegunda() {
+        var Solicitud_id = "@Solicitud_id";
+        var UsuarioExterno_id = "@objUs.intUsuario_id";
+        var No_Registro = "@rnf.No_Registro";
+        var No_RegistroLiteral = "@rnf.No_RegistroLiteral";
+        var No_RegistroCorrelativo = "@rnf.No_RegistroCorrelativo";
+        var Categoria_id = "@rnf.Categoria_id";
+
+        var data = {
+            Solicitud_id: Solicitud_id,
+            UsuarioExterno_id: UsuarioExterno_id,
+            No_Registro: No_Registro,
+            No_RegistroLiteral: No_RegistroLiteral,
+            No_RegistroCorrelativo: No_RegistroCorrelativo,
+            Categoria_id: Categoria_id
+        };
+
+        var url = "@Url.Action("SegundaActualizacion", "Sol_Comparativo")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+            var NT = oJSON.NumeroTemporal;
+            alert("Proceso de actualización iniciada con número temporal: " + NT);
+        });
+    }
+</script>
+

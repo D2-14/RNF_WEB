@@ -1,0 +1,127 @@
+﻿
+@model RNF_Web.Models.Tbl_Gral_Materia_Prima
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    Layout = null;
+    ViewBag.Title = "Materia Prima";
+    ViewBag.SubTitle = "Ingresar materia prima";
+    string No_Registro = ViewBag.No_Registro;
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_RNF_Registro tbl_RNF_Registro = db.Tbl_RNF_Registro.Where(Obj => Obj.No_Registro == No_Registro).FirstOrDefault();
+
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+    EdicionRNFGrants objRNFGrants = (EdicionRNFGrants)Session[Constants.session_EdicionRNFGrants];
+}
+
+
+
+<script>
+
+    function refreshPartialEmpresaEntidadMateriaPrima() {
+        $('#listadoMateriaPrima').load('/RNF_Empresa_Entidad_MateriaPrima/Index?No_Registro=@No_Registro');
+
+    }
+
+    $(document).ready(function () {
+        refreshPartialEmpresaEntidadMateriaPrima();
+    });
+
+    function AgregarMateriaPrima()
+    {
+
+        var url = "@Url.Action("AgregarMateriaPrima", "RNF_Empresa_Entidad_MateriaPrima")";
+        var No_Registro = '@No_Registro';
+        var MateriaPrimaId = $('#lstMateriaPrima').val();
+
+        var data = {
+            No_Registro: No_Registro,
+            MateriaPrimaId: MateriaPrimaId
+        };
+
+        $.post(url, data).done(function (jsonRespuesta) {
+
+            var objJSON = JSON.parse(jsonRespuesta);
+            var Cod_Respuesta = objJSON.CodRespuesta;
+            var Texto_Respuesta = objJSON.strRespuesta;
+
+            refreshPartialEmpresaEntidadMateriaPrima();
+
+        }).fail(function (jsonRespuesta) {
+
+            refreshPartialEmpresaEntidadMateriaPrima();
+
+        });
+    }
+
+    function Borrar_MateriaPrima(No_Registro, MateriaPrimaId)
+    {
+        var url = "@Url.Action("EliminarMateriaPrima", "RNF_Empresa_Entidad_MateriaPrima")";
+
+        var data = {
+            No_Registro: No_Registro,
+            MateriaPrimaId: MateriaPrimaId
+        };
+
+        $.post(url, data).done(function (jsonRespuesta) {
+
+            var objJSON = JSON.parse(jsonRespuesta);
+            var Cod_Respuesta = objJSON.CodRespuesta;
+            var Texto_Respuesta = objJSON.strRespuesta;
+
+            refreshPartialEmpresaEntidadMateriaPrima();
+
+        }).fail(function (jsonRespuesta) {
+
+            refreshPartialEmpresaEntidadMateriaPrima();
+
+        });
+
+    }
+
+
+</script>
+
+<br />
+<div style='height: 30px; width: 100%; background-color: #66bb6a; color: white; '>
+    <h4>Listado de Materia Prima</h4>
+</div>
+
+@if (objRNFGrants.Agregar)
+{
+    <table width="100%">
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Nombres_Comunes, "Materia Prima", htmlAttributes: new { @class = "control-label col-md-12" })
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DropDownList("lstMateriaPrima", null, htmlAttributes: new { @class = "form-select" })
+            </td>
+
+            <td>
+                <input type="button" class="btn-success" value="Agregar" onclick="AgregarMateriaPrima()" />
+            </td>
+
+        </tr>
+        <tr>
+            <td></td>
+            <td> <label id="lblMensaje" name="lblMensaje" /></td>
+        </tr>
+    </table>
+}
+
+<div id="listadoMateriaPrima" name="listadoMateriaPrima" />
+<hr />

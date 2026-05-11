@@ -1,0 +1,133 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_RNF_RepresentanteLegal>
+@using RNF_Web.Models;
+@using System.Data.SqlClient;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+@{
+    string Guid_id = ViewBag.Guid_id;
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_RNF_Registro tbl_RNF_Registro = db.Tbl_RNF_Registro.Where(Obj => Obj.No_Registro == Guid_id).FirstOrDefault();
+    ViewBag.Estado = tbl_RNF_Registro.Estado_id;
+
+
+    ViewBag.PropietarioIndividual = db.Tbl_RNF_PropietarioPersonaIndividual.Where(obj => obj.No_Registro == tbl_RNF_Registro.No_Registro && obj.Estado_id == true).Count();
+
+    ViewBag.PropietarioJuridico = db.Tbl_RNF_PropietarioPersonaJuridica.Where(obj => obj.No_Registro == tbl_RNF_Registro.No_Registro && obj.Estado_id == true).Count();
+
+    EdicionRNFGrants objRNFGrants = (EdicionRNFGrants)Session[Constants.session_EdicionRNFGrants];
+
+}
+
+
+
+<div class="container-fluid">
+
+
+    <div style='height: 30px; width: 100%; background-color: #66bb6a; color: white; '>
+        <h4 id="Titulo">Datos del mandatario</h4>
+    </div>
+    <br />
+
+    @if (objRNFGrants.Agregar)
+    {
+        <div class="row">
+            <div class="col-xs-5 col-md-5">
+            </div>
+            <div class="col-xs-1 col-md-1">
+            </div>
+            <div id="imgyorepresentante" class="col-xs-1 col-md-1">
+                <span class="pull-right">
+                </span>
+            </div>
+            <div id="TxtYoRepresentante" class="col-xs-2 col-md-2">
+
+            </div>
+            <div class="col-xs-1 col-md-1">
+                <span class="pull-right">
+                    <img src="~/Content/icons/add-user-9-xxl.png" onclick="Agregar_MandatarioM()" width="40" height="40" />
+                </span>
+            </div>
+
+            <div id="TxtRepresentante" class="col-xs-2 col-md-2">
+                Click en la imagen para agregar mandatario
+            </div>
+
+        </div>
+    }
+
+    <div class="col-sm-6 col-md-12">
+        <table class="table">
+            <tr>
+                <th class="border-1">
+                    Tipo
+                </th>
+                <th class="border-1">
+                    @Html.DisplayNameFor(model => model.Nombres)
+                </th>
+                <th class="border-1">
+                    @Html.DisplayNameFor(model => model.Apellidos)
+                </th>
+                <th class="border-1">
+                    Fecha de fin de nombramiento
+                </th>
+                <th class="border-1">
+                    Vigencia indefinida
+                </th>
+                <th class="border-1">
+                    Estado
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="border-end">
+                        @Html.DisplayFor(modelItem => item.Tbl_Sol_RepresentanteLegalTipo.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombres)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Apellidos)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fecha_FinNombramiento)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VigenciaIndefinida)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tbl_Sol_RepresentanteLegal_Estado.Descripcion)
+                    </td>
+                    <td width="10%">
+
+                        @if (objRNFGrants.Editar)
+                        {
+                            <img src="~/Content/icons/edit-9-xxl.png" onclick="Editar_RepresentanteLegal('@item.No_Registro', @item.RepresentanteLegal_id)" width="25" height="25" />
+                        }
+                    </td>
+                    <td width="10%">
+                        @if (objRNFGrants.Borrar)
+                        {
+                            <img src="~/Content/icons/trash_green.png" onclick="Eliminar_RepresentanteLegal('@item.No_Registro', @item.RepresentanteLegal_id)" width="25" height="25" />
+                        }
+                    </td>
+
+                </tr>
+            }
+
+        </table>
+
+    </div>
+</div>
+
+
+
+
+

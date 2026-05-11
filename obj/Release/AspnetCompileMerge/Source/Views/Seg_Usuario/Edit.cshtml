@@ -1,0 +1,389 @@
+﻿@model RNF_Web.Models.Tbl_Seg_Usuario
+
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    ViewBag.Title = "Usuario";
+    ViewBag.SubTitle = "Crear nuevo usuario";
+    string check = "checked";
+    if (Model.NotificacionWhatsapp == null) 
+    { 
+        Model.NotificacionWhatsapp = false; 
+    
+    }
+
+}
+
+
+<script>
+
+
+     $(document).ready(function () {
+
+         $('#autoRolesAsignados').load('/Seg_Usuario/UsuarioPermisos/'+ @Model.Usuario_id)
+         $('#autoSubRegionesAsignadas').load('/Seg_Usuario/UsuarioPermisosRegion/'+ @Model.Usuario_id)
+         $('#validarFirmaDigital').load('/Seg_Usuario/FirmaDigital/'+ @Model.Usuario_id)
+
+     });
+
+
+    function changeRegionGrant(region_id, subregion_id, nuevoestado) {
+
+        var url = "@Url.Action("CambioAsignacionRegion", "Seg_Usuario")";
+        var data = { usuario_id: @Model.Usuario_id, region_id: region_id, subregion_id: subregion_id, nuevoestado: nuevoestado};
+
+        $.post(url, data).done(function (Listdata) {
+        //  here inicio
+            $('#autoSubRegionesAsignadas').load('/Seg_Usuario/UsuarioPermisosRegion/'+ @Model.Usuario_id)
+        }).fail(manejarErrorAjax).always(function () {
+
+         $('#autoSubRegionesAsignadas').load('/Seg_Usuario/UsuarioPermisosRegion/'+ @Model.Usuario_id)
+
+        });
+
+         $('#autoSubRegionesAsignadas').load('/Seg_Usuario/UsuarioPermisosRegion/'+ @Model.Usuario_id)
+
+    }
+
+
+
+
+    function change(rol_id, nuevoestado) {
+
+        var url = "@Url.Action("CambioAsignacion", "Seg_Usuario")";
+        var data = { usuario_id: @Model.Usuario_id, rol_id: rol_id, nuevoestado: nuevoestado};
+
+        $.post(url, data).done(function (Listdata) {
+        //  here inicio
+         $('#autoRolesAsignados').load('/Seg_Usuario/UsuarioPermisos/'+ @Model.Usuario_id)
+        }).fail(manejarErrorAjax).always(function () {
+
+         $('#autoRolesAsignados').load('/Seg_Usuario/UsuarioPermisos/'+ @Model.Usuario_id)
+
+        });
+
+         $('#autoRolesAsignados').load('/Seg_Usuario/UsuarioPermisos/'+ @Model.Usuario_id)
+
+    }
+
+
+     function GrabarUsuario() {
+
+         var EnviarWhatsapp = document.querySelector('#chkNotificacionWhatsapp');
+
+         var varUsuario_id = $('#Usuario_id').val();
+         var varNombre = $('#Nombre').val();
+         var varApellidos = $('#Apellidos').val();
+         var varUsuario = null;
+         var varemail = $('#email').val();
+         var varwhatsapp = $('#whatsapp').val();
+         var varPalabraClave = $('#PalabraClave').val();
+         var varswdatecreated = $('#swdatecreated').val();
+         var varswcreatedby = $('#swcreatedby').val();
+
+         var varEstado = document.querySelector('#chkEstado');
+         var varEstadoEmpleado = varEstado.checked;
+
+         var varCasillero = document.querySelector('#chkCasilleroElectronico');
+         var varCasilleroElectronico = varCasillero.checked;
+
+         var DocumentoID_Tipo = $('#DocumentoID_Tipo').val();
+         var No_Documento = $('#No_Documento').val();
+
+
+
+         var varEmpleado_id = $('#Empleado_id').val();
+         var varNotificacionWhatsapp = EnviarWhatsapp.checked;
+
+        var url = "@Url.Action("GrabarUsuario", "Seg_Usuario")";
+
+         var data = {
+             Usuario_id: varUsuario_id,
+             Nombre: varNombre,
+             Apellidos: varApellidos,
+             Usuario: varUsuario,
+             email: varemail,
+             whatsapp: varwhatsapp,
+             PalabraClave: varPalabraClave,
+             swdatecreated: varswdatecreated,
+             swcreatedby: varswcreatedby,
+             Estado: varEstadoEmpleado,
+             Empleado_id: varEmpleado_id,
+             NotificacionWhatsapp: varNotificacionWhatsapp,
+             CasilleroElectronico: varCasilleroElectronico,
+             DocumentoID_Tipo: DocumentoID_Tipo,
+             No_Documento: No_Documento
+         };
+
+
+         $.post(url, data).done(function (Listdata) {
+             var objJSON = JSON.parse(Listdata);
+             var Cod_Respuesta = objJSON.CodRespuesta;
+             var Texto_Respuesta = objJSON.strRespuesta;
+
+             if (Cod_Respuesta == 0) {
+                 $('#lblMensaje').text(Texto_Respuesta);
+             } else if (Cod_Respuesta == 1) {
+                 alert(Texto_Respuesta);
+             }
+
+        }).fail(manejarErrorAjax).always(function () {
+            alert('Error no identificado.');
+        });
+
+    }
+
+
+</script>
+
+
+@Html.Partial("_PartialPageEncabezado")
+
+<button class="btn-secondary" style="position: absolute; right: 0;" rel="tooltip" title="Regresar" onclick="location.href='@Url.Action("Index", "Seg_Usuario")'">
+    <i><img src="~/Content/icons/regresar.png" style="border-radius: 30%; width: 35px; height: auto" /></i>
+    <div class="ripple-container"></div>
+</button>
+
+<br />
+<br />
+
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.HiddenFor(model => model.Usuario_id)
+    @Html.HiddenFor(model => model.swdatecreated)
+    @Html.HiddenFor(model => model.swcreatedby)
+    @Html.HiddenFor(model => model.swdateUpdated)
+    @Html.HiddenFor(model => model.swUpdatedby)
+    @Html.HiddenFor(model => model.Empleado_id)
+
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                <label class="switch">
+                    <input type="checkbox" id="chkEstado" name="chkEstado" @if ((bool)Model.Estado) { @check }>
+                    <span class="slider round"></span>
+                </label>
+
+            </div>
+        </div>
+    </div>
+    <br />
+
+
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nombre, "Nombres", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Apellidos, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Apellidos, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Apellidos, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.DocumentoID_Tipo, "Tipo de Documento", htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.DocumentoID_Tipo, null, new { @class = "form-select" } )
+                    @Html.ValidationMessageFor(model => model.DocumentoID_Tipo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.No_Documento, "Identificación", htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.No_Documento, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.No_Documento, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PalabraClave, "Palabra clave", htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PalabraClave, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PalabraClave, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.CasilleroElectronico, "Casillero Electrónico", htmlAttributes: new { @class = "control-label col-md-12" })
+
+                <label class="switch">
+                    <input type="checkbox" id="chkCasilleroElectronico" name="chkCasilleroElectronico" @if ((bool)Model.CasilleroElectronico) { @check }>
+                    <span class="slider round"></span>
+                </label>
+
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <div class="row">
+
+        <div class="col-sm-12 col-md-6">
+            <table>
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.whatsapp, htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.whatsapp, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.whatsapp, "", new { @class = "text-danger" })
+                        </div>
+                    </td>
+
+                    <td>
+                        <br />
+                        <label class="switch">
+                            <input type="checkbox" id="chkNotificacionWhatsapp" name="chkNotificacionWhatsapp" @if ((bool)Model.NotificacionWhatsapp) { @check }>
+                            <span class="slider round"></span>
+                        </label>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" }, })
+                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+        </div>
+        <div class="col-sm-12 col-md-3">
+        </div>
+        <div class="col-sm-12 col-md-3">
+            <label class="text-danger" id="lblMensaje"></label>
+            <br />
+            <input type="button" value="Guardar cambios" class="btn btn-success btn-fab btn-round" onclick="GrabarUsuario()" />
+        </div>
+    </div>
+    <br />
+    <br />
+
+</div>
+
+}
+
+<div id="validarFirmaDigital"></div>
+<div id="autoRolesAsignados"></div>
+<div id="autoSubRegionesAsignadas"></div>
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+
+
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+</style>

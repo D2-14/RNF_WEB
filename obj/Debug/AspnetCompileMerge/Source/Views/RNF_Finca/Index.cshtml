@@ -1,0 +1,206 @@
+﻿@using RNF_Web.Models;
+@using System.Data.SqlClient;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+@{
+    db_RNFEntities db = new db_RNFEntities();
+    string Guid_id = ViewBag.Guid_id;
+    Tbl_RNF_Registro tbl_RNF_Registro = db.Tbl_RNF_Registro.Where(Obj => Obj.No_Registro == Guid_id).FirstOrDefault();
+
+    ViewBag.Estado = tbl_RNF_Registro.Estado_id;
+    Usuario objUs = new Usuario();
+    objUs = (Usuario)Session["User"];
+
+    EdicionSolicitudGrants objGrant = (EdicionSolicitudGrants)Session[Constants.session_EdicionSolicitudGrants];
+    EdicionRNFGrants objRNFGrants = (EdicionRNFGrants)Session[Constants.session_EdicionRNFGrants];
+}
+
+<div id="section_Finca">
+    @model IEnumerable<RNF_Web.Models.Tbl_RNF_Finca>
+    <div class="container-fluid">
+        <div style='height: 30px; width: 100%; background-color: #66bb6a; color: white; '>
+            <h4>Datos de la Finca(s)</h4>
+        </div>
+        <br />
+
+            @if (objRNFGrants.Agregar)
+            {
+                <div class="row">
+                    <div class="col-xs-5 col-md-5">
+                    </div>
+                    <div class="col-xs-3 col-md-3">
+                        Click en la imagen para agregar finca
+                    </div>
+                    <div class="col-xs-1 col-md-1">
+                        <span class="pull-right">
+                            <img src="~/Content/icons/add_simple.png" onclick="Agregar_Finca()" width="55" height="55" />
+                        </span>
+                    </div>
+                    <div class="col-xs-1 col-md-1">
+                    </div>
+                    <div class="col-xs-1 col-md-1">
+                    </div>
+                </div>
+            }
+
+
+
+
+        <div class="col-sm-6 col-md-12">
+
+            <table class="table">
+                <tr>
+                    <th>Id</th>
+                    <th>
+                        Finca Nombre
+                    </th>
+                    <th>
+                        Constancia
+                    </th>
+                    <th>
+                        Registro
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Ubicacion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AreaTotal)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AreaARegistrar)
+                    </th>
+
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Finca_Id)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NombreFinca)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tbl_Sol_FincaConstanciaDePropiedad.Descripcion)
+                        </td>
+
+                        <td>
+                            @if ((item.ConstanciaDePropiedad_id == 1) || (item.ConstanciaDePropiedad_id == 6))
+                            {
+                                @Html.Raw(" Finca : ") @item.RegNumero
+                                @Html.Raw(" Folio : ") @item.RegFolio
+                                @Html.Raw(" Libro : ") @item.RegLibro
+                                @Html.Raw(" Departamento : ") @item.Tbl_Gral_DepartamentoRegistro.Departamento
+                            }
+
+                            @if (item.ConstanciaDePropiedad_id == 2)
+                            {
+                                @Html.Raw(" Notario : ") @item.ActaNotarial_Notario
+                            }
+
+                            @if (item.ConstanciaDePropiedad_id == 3)
+                            {
+                                @Html.Raw(" Notario : ") @item.ActaNotarial_Notario
+                                @Html.Raw(" Certificada por : ") @item.ActaNotarialConCertificacion_NombreDeCertificador
+                            }
+
+                            @if (item.ConstanciaDePropiedad_id == 4)
+                            {
+                                @Html.Raw(" Notario : ") @item.ActaNotarial_Notario
+                                @Html.Raw(" Número de escritura : ") @item.ActaNotarialDeEscrituraPublica_Numero
+                            }
+
+                            @if (item.ConstanciaDePropiedad_id == 5)
+                            {
+                                @Html.Raw(" Notario : ") @item.ActaNotarial_Notario
+                                @Html.Raw(" Número de escritura : ") @item.ActaNotarialDeEscrituraPublica_Numero
+                            }
+
+                            @if (item.ConstanciaDePropiedad_id == 7)
+                            {
+                                @Html.Raw(" Notario : ") @item.ActaNotarial_Notario
+                                @Html.Raw(" Número de escritura : ") @item.ActaNotarialDeEscrituraPublica_Numero
+                            }
+
+
+
+                        </td>
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tbl_Gral_Departamento.Departamento)
+                            @Html.DisplayFor(modelItem => item.Tbl_Gral_Municipio.Municipio)
+                            @Html.DisplayFor(modelItem => item.Ubicacion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AreaTotal)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AreaARegistrar)
+                        </td>
+
+                        <td>
+                            @if (objRNFGrants.Editar)
+                            {
+                                <img src="~/Content/icons/edit-9-xxl.png" onclick="Editar_Finca('@item.No_Registro','@item.Finca_Id')" width="25" height="25" />
+                            }
+                        </td>
+                        <td>
+                            @if (objRNFGrants.Borrar)
+                            {
+                                <img src="~/Content/icons/trash_green.png" onclick="Borrar_Finca('@item.No_Registro','@item.Finca_Id')" width="25" height="25" />
+                            }
+                        </td>
+                    </tr>
+                }
+                <hr />
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <th>Área total de las fincas (ha)</th>
+                    <th>@ViewBag.AreaTotalFincasSegunFincas</th>
+                    <th>@ViewBag.TotalAreaARegistrar</th>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td colspan="2">
+
+                        <script>
+                            document.querySelector('#InputArea').style.color = "black";
+                            document.querySelector('#InputArea').style.backgroundColor = "white";
+                            console.log("prueba");
+                        </script>
+
+                        <label style="color:white; background-color:red"> @ViewBag.FincaMensaje </label>
+
+                        @if (ViewBag.FincaMensaje != "")
+                        {
+                            <script>
+                                document.querySelector('#InputArea').style.color = "white";
+                                document.querySelector('#InputArea').style.backgroundColor = "red";
+                            </script>
+                        }
+
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+
+    </div>
+</div>
+

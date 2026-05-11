@@ -1,0 +1,129 @@
+﻿@using RNF_Web.Models;
+
+@{
+    ViewBag.Title = "   Home page";
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<style>
+    .formation {
+        height: auto;
+        max-width: 90%;
+        margin: 30px auto;
+        border-radius: 10px;
+        border-style: solid;
+        border-color: #77DD77;
+        padding: 20px;
+        box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    }
+</style>
+
+<div class="formation">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div id="DatosDasometricosTecnico" align="center"></div>
+            <br />
+            <br />
+            <div id="historialGuid" align="center"></div>
+            <div class="col-sm-1 col-md-1">
+
+            </div>
+            <div class="col-sm-11 col-md-11">
+                <h1>@TempData["MensajeHome"]</h1>
+                <h3>@TempData["MensajeHomeTwo"]</h3>
+            </div>
+
+        </div>
+        <div class="row">
+            @if (ViewBag.Categoria_id == 4)
+            {
+                <div id="gestionCultivos"></div>
+            }
+            else
+            {
+                <div id="gestionCultivos" hidden></div>
+            }
+        </div>
+
+        <div class="row">
+            @if (ViewBag.Categoria_id == 4)
+            {
+                <div id="gestionCultivosTecnico"></div>
+            }
+            else
+            {
+                <div id="gestionCultivosTecnico" hidden></div>
+            }
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        refreshApp_Visita();
+        $('#gestionCultivos').load('/Sol_Rodal_Cultivo/Create?Guid=@ViewBag.guidid')
+        $('#gestionCultivosTecnico').load('/Sol_Rodal_CultivoTecnico/Create?Guid=@ViewBag.guidid')
+
+    })
+
+    function refreshApp_Visita() {
+        var myDatosDasometricosTecnico = document.getElementById('DatosDasometricosTecnico');
+        var myhistorialGuid = document.getElementById('historialGuid');
+        if (myDatosDasometricosTecnico) {
+            $("#DatosDasometricosTecnico").load("/Form_FormularioTecnico/UploadDatosDasometricosTecnico?Guid_id=@ViewBag.guidid&etapa_id=@ViewBag.etapa_id&etaparuta_id=@ViewBag.etaparuta_id&correlativoetapa_id=@ViewBag.correlativoetapa_id");
+            }
+                if (myhistorialGuid)
+                {
+                   $('#historialGuid').load("/App_Visita_Campo/Historial?Guid_id=@ViewBag.guidid&etapa_id=@ViewBag.etapa_id&etaparuta_id=@ViewBag.etaparuta_id&correlativoetapa_id=@ViewBag.correlativoetapa_id");
+                }
+            }
+
+    function descargarDatosPoligonos() {
+
+                    var url = "@Url.Action("DescargaDatosPoligonos", "Form_FormularioTecnico")";
+                    var Guid_id = '@ViewBag.guidid';
+                    var data = {
+                    Guid_id: Guid_id
+                    }
+
+                    $.post(url, data).done(function (jsonRespuesta) {
+                    var objJSON = JSON.parse(jsonRespuesta);
+                    var Ubicacion = objJSON.Ubicacion;
+
+                        // window.open(Ubicacion, '_blank');
+                        download(Ubicacion, "FormularioGenerado.xlsx")
+                    });
+
+            }
+
+            function GenerarDocumento()
+            {
+                var data = {
+                Guid_id: "@ViewBag.guidid"
+                };
+                var url = "@Url.Action("DescargarDasometricos", "Form_FormularioTecnico")";
+
+                $.post(url, data).done(function (jsonrespuesta) {
+                var oJSON = JSON.parse(jsonrespuesta);
+                var NombreDocumento = oJSON.Ubicacion;
+                var ubicacioncompleta = NombreDocumento;
+                //var link = window.location;
+
+                //link.href = ubicacioncompleta;
+                window.open(ubicacioncompleta, '_blank');
+
+
+                });
+
+            }
+
+</script>

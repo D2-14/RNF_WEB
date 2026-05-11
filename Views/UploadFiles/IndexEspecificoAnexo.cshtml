@@ -1,0 +1,60 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Sol_DocumentoSubido>
+@using RNF_Web.Models;
+@using System.Data.SqlClient;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+@{
+
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_Sol_Solicitud tbl_sol_solicitud = db.Tbl_Sol_Solicitud.Find(ViewBag.lngSolicitud);
+    ViewBag.Estado = tbl_sol_solicitud.Estado_id;
+
+}
+
+
+
+
+@if (Model.Count() > 0)
+{
+
+
+    @*<div class="titulo-dos">
+            <h4> Documentos subidos actualmente </h4>
+        </div>*@
+    <table class="table">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td width="10"></td>
+                <td width="60"></td>
+                <td width="15"></td>
+                <td width="15"></td>
+
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FileName)
+                </td>
+                <td>
+                    <img src="~/Content/icons/ver.png" onclick="Mostrar('@item.Tipo_Documento_id', '@item.FileName')" width="50" />
+                </td>
+                <td>
+                    @if ((ViewBag.Estado != 10) && (ViewBag.Estado != 11))
+                    {
+                        <img src="~/Content/icons/trash_green.png" type="button" onclick="Borrar('@item.Tipo_Documento_id', '@item.FileName')" value="eliminar" width="30" />
+                    }
+                </td>
+
+            </tr>
+        }
+
+    </table>
+}
+

@@ -1,0 +1,106 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Sol_PropietarioPersonaJuridica>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.No_NIT)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DireccionEmpresa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DepartamentoEmpresa_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MunicipioEmpresa_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UsuarioExterno_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.swcreatedby)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.swcreatedbyinterno)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.swdatecreated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.swdateupdated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.swupdatedby)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.swupdatedbyinterno)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.No_NIT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DireccionEmpresa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DepartamentoEmpresa_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MunicipioEmpresa_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioExterno_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.swcreatedby)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.swcreatedbyinterno)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.swdatecreated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.swdateupdated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.swupdatedby)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.swupdatedbyinterno)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.PersonaJuridica_id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.PersonaJuridica_id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.PersonaJuridica_id })
+            </td>
+        </tr>
+    }
+
+</table>

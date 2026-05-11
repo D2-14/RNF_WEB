@@ -1,0 +1,174 @@
+﻿@using RNF_Web.Models;
+@model List<fc_Reporte_Auditorias_Arboles_DiferenteEspecie_Result>
+@{
+    decimal diferenciaMedida;
+    diferenciaMedida = 0;
+    AppAudit oAudit;
+    oAudit = (AppAudit)Session["App"];
+}
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@if (Model.Count() > 0)
+{
+    <h1 align="center">
+        Árboles con diferente especie
+    </h1>
+    <table class="table table-striped table-hover" border="1">
+        <thead>
+            <tr>
+                <th colspan="3"></th>
+                <th colspan="2" align="center">
+                    <strong>
+                        Especie
+                    </strong>
+                </th>
+                <th colspan="3" align="center">
+                    <strong>
+                        DAP
+                    </strong>
+                </th>
+                <th colspan="3" align="center">
+                    <strong>
+                        Altura
+                    </strong>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <strong>
+                        Finca
+                    </strong>
+                </th>
+                <th>
+                    <strong>
+                        Rodal
+                    </strong>
+                </th>
+                <th>
+                    <strong>
+                        Parcela
+                    </strong>
+                </th>
+                <th>
+                    <strong>
+                        Número de árbol
+                    </strong>
+                </th>
+                <th>
+                    <strong>
+                        Indicado (Usuario)
+                    </strong>
+                </th>
+                <th>
+                    <strong>
+                        Medido (Técnico)
+                    </strong>
+                </th>
+                <th>
+                    <strong>
+                        Indicado (Usuario)
+                    </strong>
+                </th>
+                <th>
+                    <strong>
+                        Medido (Técnico)
+                    </strong>
+                </th>
+                <th>
+                    <strong>
+                        Diferencia
+                    </strong>
+                </th>
+                <th>
+                    <strong>
+                        Indicado (Usuario)
+                    </strong>
+                </th>
+                <th>
+                    <strong>
+                        Medido (Técnico)
+                    </strong>
+                </th>
+                <th>
+                    <strong>
+                        Diferencia
+                    </strong>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Finca_id
+                    </td>
+                    <td>
+                        @item.Rodal_id
+                    </td>
+                    <td>
+                        @item.No_Parcela
+                    </td>
+                    <td>
+                        @item.Dasometrico_id
+                    </td>
+                    <td>
+                        @item.Especie_Indicada
+                    </td>
+                    <td>
+                        @item.Especie_Medida
+                    </td>
+                    <td>
+                        @((item.DAP_Indicada ?? 0).ToString("0.00"))
+
+                    </td>
+                    <td>
+                        @((item.DAP_Medida ?? 0).ToString("0.00"))
+                    </td>
+                    <td>
+                        @{
+                            diferenciaMedida = (decimal)item.DAP_Medida - (decimal)item.DAP_Indicada;
+                            diferenciaMedida = Math.Abs(diferenciaMedida);
+                        }
+                        @if (diferenciaMedida != 0)
+                        {
+                            @diferenciaMedida.ToString("0.00")
+                        }
+                    </td>
+                    <td>
+                        @((item.Altura_Indicada ?? 0).ToString("0.00"))
+                    </td>
+                    <td>
+                        @((item.Altura_Medida ?? 0).ToString("0.00"))
+                    </td>
+                    <td>
+                        @{
+                            diferenciaMedida = (decimal)item.Altura_Medida - (decimal)item.Altura_Indicada;
+                            diferenciaMedida = Math.Abs(diferenciaMedida);
+                        }
+                        @if (diferenciaMedida != 0)
+                        {
+                            @diferenciaMedida.ToString("0.00")
+                        }
+                    </td>
+                </tr>
+            }
+
+
+
+        </tbody>
+    </table>
+
+}
+else
+{
+    <p align="center">
+        <strong>No se encontraron árboles con diferente especie</strong>
+    </p>
+}
+

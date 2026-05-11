@@ -1,0 +1,27 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<table width="100%">
+    <tr>
+        <td>
+        </td>
+        <td>
+            <button class="btn btn-success" onclick="ReporteDeAprobacionTecnica()">Vista previa</button>
+        </td>
+        <td>
+            <button class="btn btn-success" id="btnconsolidar" name="btnconsolidar" onclick="Consolidar()" style="display:none;">Reporte con Anexos</button>
+        </td>
+        <td>
+            <button class="btn btn-success" id="btnFirmarDocumento" name="btnFirmarDocumento" onclick="FirmarDocumento()" style="display:none;">Firmar aprobación</button>
+        </td>
+        <td>
+        </td>
+    </tr>
+</table>
+
+
+

@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8beb6385ea2d4cce9787c90d93925c9f" Name="Diagram1">
+        <EntityTypeShape EntityType="db_RNFModel.sysdiagrams" Width="1.5" PointX="14.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_BitacoraExcepciones" Width="1.5" PointX="0.75" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Cas_CasilleroElectronicoCola" Width="1.5" PointX="2.75" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Form_Formulario" Width="1.5" PointX="28.5" PointY="102.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Form_Formulario_DetalleEstado" Width="1.5" PointX="31.5" PointY="98.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Form_Formulario_FirmaElectronica_Bitacora" Width="1.5" PointX="30.75" PointY="101.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Form_Formulario_FirmaElectronica_Estado" Width="1.5" PointX="26.25" PointY="101.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Form_Formulario_MotivoDenegacion" Width="1.5" PointX="33.75" PointY="101" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Form_FormularioEstado" Width="1.5" PointX="26.25" PointY="103.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Form_SecretariaImpresionConstancia" Width="1.5" PointX="14.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_Etapa" Width="1.5" PointX="14.25" PointY="95.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_Etapa_Respuesta" Width="1.5" PointX="34.5" PointY="113.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_Etapa_RespuestaDocumentoTipo" Width="1.5" PointX="38.75" PointY="137.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_Etapa_RespuestaFormulario" Width="1.5" PointX="36.75" PointY="110.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_Etapa_RespuestaFormulario_Tipo" Width="1.5" PointX="26.25" PointY="106" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_Etapa_RespuestaRuta" Width="1.5" PointX="36.75" PointY="129.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_Etapa_To_doList" Width="1.5" PointX="28.5" PointY="109.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_gest_EtapaRSS" Width="1.5" PointX="32.25" PointY="106" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_EtapaRuta" Width="1.5" PointX="12" PointY="96.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_EtapaSolicitud" Width="1.5" PointX="16.5" PointY="121.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_EtapaSolicitud_Documento" Width="1.5" PointX="18.75" PointY="111.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_EtapaSolicitud_Inactivacion_Enmiendas" Width="1.5" PointX="8" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_EtapaSolicitud_Inactivacion_Parrafos" Width="1.5" PointX="8" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_EtapaSolicitud_Inactivacion_Tipo" Width="1.5" PointX="5.75" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_EtapaSolicitud_InformeCircunstanciado" Width="1.5" PointX="10.75" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_EtapaSolicitud_InformeCircunstanciado_Procedimientos" Width="1.5" PointX="13" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_EtapaSolicitud_Oficio_Registro_NoProcedente" Width="1.5" PointX="4.75" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_EtapaSolicitud_Oficio_Registro_NoProcedente_Enmiendas" Width="1.5" PointX="15.75" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_EtapaSolicitud_OficioJuridico_Enmienda" Width="1.5" PointX="15.75" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_EtapaSolicitud_OficioSubRegional_Enmienda" Width="1.5" PointX="16.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_EtapaSolicitud_OficioTecnico_Enmienda" Width="1.5" PointX="17.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_EtapaSolicitud_Resolucion_Parrafos" Width="1.5" PointX="17.75" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_EtapaSolicitud_Resolucion_Parrafos_Plantilla" Width="1.5" PointX="13" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_EtapaSolicitud_ResolucionTipo" Width="1.5" PointX="10.75" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_EtapaSolicitud_RespuestaDocumentoTipo" Width="1.5" PointX="27.75" PointY="134.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_EtapaSolicitud_RespuestaFormulario" Width="1.5" PointX="30.75" PointY="123.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_EtapaSolicitud_To_doList" Width="1.5" PointX="30.75" PointY="117.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_EtapaSolicitudEstado" Width="1.5" PointX="14.25" PointY="143.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_Actividad" Width="1.5" PointX="28.5" PointY="149.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_AreaProtegida" Width="1.5" PointX="18.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_AreaProtegida_Poligono" Width="1.5" PointX="12.75" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_AreaRegion" Width="1.5" PointX="14.75" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_AreaRegion_Poligono" Width="1.5" PointX="16.75" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_Bitacora" Width="1.5" PointX="7.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_Bitacora_Tipo" Width="1.5" PointX="18.75" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_Carga" Width="1.5" PointX="3" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_Carga_Estatus" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_CargaDetalle" Width="1.5" PointX="5.25" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_CargaTipo" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_CodigoTelefonico" Width="1.5" PointX="19.75" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_Cultivo" Width="1.5" PointX="36.75" PointY="117.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_Departamento" Width="1.5" PointX="0.75" PointY="110" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_DepartamentoRegistro" Width="1.5" PointX="23.25" PointY="112.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_DocumentoID_Tipo" Width="1.5" PointX="0.75" PointY="117.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_Empresa" Width="1.5" PointX="6.75" PointY="20.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_ErroresDetectados" Width="1.5" PointX="19.75" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_Especie" Width="1.5" PointX="3.75" PointY="102.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_EvaluacionPonderacion" Width="1.5" PointX="12" PointY="111" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_FuenteSemillera_Procedencia" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_FuenteSemillera_TipoEnsayo" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_Mapa_Bosques_Naturales" Width="1.5" PointX="8.75" PointY="20.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_Mapa_Vocacion_Forestal" Width="1.5" PointX="19.75" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_Maquinaria_Utilizada" Width="1.5" PointX="25.5" PointY="166.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_Materia_Prima" Width="1.5" PointX="28.5" PointY="142.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_Municipio" Width="1.5" PointX="0.75" PointY="126" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_Pais" Width="1.5" PointX="3.75" PointY="109.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_ParametrosGenerales" Width="1.5" PointX="20.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_PerfilesRol" Width="1.5" PointX="0.75" PointY="21.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_Profesion" Width="1.5" PointX="0.75" PointY="134.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_PuebloPertenencia" Width="1.5" PointX="0.75" PointY="122.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_Region" Width="1.5" PointX="12" PointY="113.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_Secorf_TipoRegistro" Width="1.5" PointX="31.5" PointY="114.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_Sexo" Width="1.5" PointX="0.75" PointY="139.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_SolicitudConfiguracion" Width="1.5" PointX="14.25" PointY="71" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_SolicitudConfiguracionCategoria" Width="1.5" PointX="2.75" PointY="21.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_SolicitudConfiguracionTipo" Width="1.5" PointX="12" PointY="104.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_SubRegion" Width="1.5" PointX="3" PointY="127.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_SubRegionDepartamento" Width="1.5" PointX="19.75" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_Tarifario_Sub_Categoria" Width="1.5" PointX="20.75" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_Tipo_Industria" Width="1.5" PointX="20.25" PointY="105.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_Tipo_Registro" Width="1.5" PointX="31.5" PointY="147.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_VersionesDocumetoISO" Width="1.5" PointX="21.75" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Mail_History" Width="1.5" PointX="21.75" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_REPEJU_De" Width="1.5" PointX="31.5" PointY="150" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_ArrendatarioPersonaIndividual" Width="1.5" PointX="19.5" PointY="135.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_ArrendatarioPersonaIndividualHistory" Width="1.5" PointX="10.75" PointY="22.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_ArrendatarioPersonaJuridica" Width="1.5" PointX="13.5" PointY="137.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_ArrendatarioPersonaJuridicaHistory" Width="1.5" PointX="16.75" PointY="22.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_DocumentoSubido" Width="1.5" PointX="22.75" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_DocumentoSubidoHistory" Width="1.5" PointX="18.75" PointY="23.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Empresa_Entidad" Width="1.5" PointX="16.5" PointY="137.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Empresa_Entidad_Actividad" Width="1.5" PointX="18.75" PointY="143.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Empresa_Entidad_ActividadHistory" Width="1.5" PointX="22.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Empresa_Entidad_Maquinaria_Utilizada" Width="1.5" PointX="24.75" PointY="145.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Empresa_Entidad_Maquinaria_UtilizadaHistory" Width="1.5" PointX="20.75" PointY="23.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Empresa_Entidad_Materia_Prima" Width="1.5" PointX="21.75" PointY="148.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Empresa_Entidad_Materia_PrimaHistory" Width="1.5" PointX="22.75" PointY="22.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Empresa_Entidad_Tipo_Registro" Width="1.5" PointX="33.75" PointY="148.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Empresa_Entidad_Tipo_RegistroHistory" Width="1.5" PointX="23.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Empresa_Entidad_Vivero_Forestal" Width="1.5" PointX="6" PointY="127.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Empresa_Entidad_Vivero_ForestalHistory" Width="1.5" PointX="23.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Empresa_EntidadHistory" Width="1.5" PointX="12.75" PointY="24.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Finca" Width="1.5" PointX="9" PointY="125.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Finca_PinpepOld_EspeciesForestales" Width="1.5" PointX="24.75" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Finca_PinpepOld_EspeciesForestalesHistory" Width="1.5" PointX="24.75" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Finca_PinpepOld_EspeciesProteger" Width="1.5" PointX="24.75" PointY="21.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Finca_PinpepOld_EspeciesProtegerHistory" Width="1.5" PointX="22.75" PointY="25.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Finca_Probosque_EspeciesForestales" Width="1.5" PointX="24.75" PointY="25.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Finca_Probosque_EspeciesForestalesHistory" Width="1.5" PointX="25.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Finca_Secorf" Width="1.5" PointX="0.75" PointY="26.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Finca_Secorf_EspeciesForestales" Width="1.5" PointX="33.75" PointY="142" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Finca_Secorf_EspeciesForestalesHistory" Width="1.5" PointX="2.75" PointY="26.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Finca_SecorfHistory" Width="1.5" PointX="4.75" PointY="26.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_FincaHistory" Width="1.5" PointX="6.75" PointY="26.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Motosierra" Width="1.5" PointX="13.5" PointY="148.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Motosierra_Marca_Modelo" Width="1.5" PointX="18.75" PointY="150.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Motosierra_Marca_ModeloHistory" Width="1.5" PointX="25.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_MotosierraHistory" Width="1.5" PointX="26.75" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_PropietarioPersonaIndividual" Width="1.5" PointX="22.5" PointY="140.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_PropietarioPersonaIndividualHistory" Width="1.5" PointX="26.75" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_PropietarioPersonaJuridica" Width="1.5" PointX="25.5" PointY="114.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_PropietarioPersonaJuridicaHistory" Width="1.5" PointX="26.75" PointY="26.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Registro" Width="1.5" PointX="11.25" PointY="122" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Registro_Bitacora" Width="1.5" PointX="11.25" PointY="82.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Registro_BitacoraDocumento" Width="1.5" PointX="13.5" PointY="80.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Registro_BitacoraHallazgo" Width="1.5" PointX="13.5" PointY="85.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Registro_Estado" Width="1.5" PointX="9" PointY="122" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Registro_Inactivacion_Tipo" Width="1.5" PointX="12" PointY="144.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Registro_InactivacionTecnico_Tipo" Width="1.5" PointX="12" PointY="119.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Registro_InactivacionTiempo" Width="1.5" PointX="27.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Registro_Reasignacion" Width="1.5" PointX="13.5" PointY="168.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_RegistroHistory" Width="1.5" PointX="14.25" PointY="41.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_RepresentanteLegal" Width="1.5" PointX="28.5" PointY="126.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_RepresentanteLegalHistory" Width="1.5" PointX="27.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Rodal" Width="1.5" PointX="41.75" PointY="125.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Rodal_Cultivo" Width="1.5" PointX="47" PointY="130.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Rodal_CultivoHistory" Width="1.5" PointX="14.75" PointY="28.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Rodal_Dasometrico" Width="1.5" PointX="41.75" PointY="113.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Rodal_Dasometrico_Especie_Formula" Width="1.5" PointX="33.5" PointY="137" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Rodal_Dasometrico_Especie_FormulaHistory" Width="1.5" PointX="8.75" PointY="29.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Rodal_Dasometrico_ValidacionesDiametrica" Width="1.5" PointX="28.75" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Rodal_Dasometrico_ValidacionesDiametricaHistory" Width="1.5" PointX="28.75" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Rodal_DasometricoHistory" Width="1.5" PointX="20.75" PointY="29.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Rodal_Descuento" Width="1.5" PointX="28.75" PointY="23.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Rodal_Descuento_Poligono" Width="1.5" PointX="29.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Rodal_Descuento_PoligonoHistory" Width="1.5" PointX="16.75" PointY="30.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Rodal_DescuentoHistory" Width="1.5" PointX="30.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Rodal_Inventario" Width="1.5" PointX="10" PointY="55" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Rodal_InventarioHistory" Width="1.5" PointX="30.75" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Rodal_Poligono" Width="1.5" PointX="44" PointY="132.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Rodal_PoligonoHistory" Width="1.5" PointX="30.75" PointY="23.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_RodalHistory" Width="1.5" PointX="30.75" PointY="29.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_TecnicoProfesional" Width="1.5" PointX="28.5" PointY="114.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_TecnicoProfesionalHistory" Width="1.5" PointX="0.75" PointY="32.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Rpt_Filtro_Categoria_SubCategoria" Width="1.5" PointX="31.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Rpt_Filtro_Region_SubRegion" Width="1.5" PointX="2.75" PointY="32.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RSS_Usuario" Width="1.5" PointX="10.75" PointY="32.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Seg_Modulo" Width="1.5" PointX="12.75" PointY="90.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Seg_Opcion" Width="1.5" PointX="15" PointY="90.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Seg_OpcionTipo" Width="1.5" PointX="12.75" PointY="32.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Seg_Privilegio" Width="1.5" PointX="17.25" PointY="99.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Seg_Rol" Width="1.5" PointX="12" PointY="99.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Seg_Usuario" Width="1.5" PointX="3" PointY="143.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Seg_UsuarioDocumentacion" Width="1.5" PointX="5.25" PointY="144" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Seg_UsuarioDocumentoTipo" Width="1.5" PointX="3" PointY="140.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Seg_UsuarioEstado" Width="1.5" PointX="0.75" PointY="145.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Seg_UsuarioExterno" Width="1.5" PointX="3" PointY="115.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Seg_UsuarioExterno_Dependiente" Width="1.5" PointX="5.25" PointY="119.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Seg_UsuarioExterno_Dependiente_Perfil" Width="1.5" PointX="3" PointY="113.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Seg_UsuarioExterno_Estado" Width="1.5" PointX="22.75" PointY="32.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Seg_UsuarioRol" Width="1.5" PointX="26.25" PointY="110.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Seg_UsuarioSubRegion" Width="1.5" PointX="5.25" PointY="133.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_ArrendatarioPersonaIndividual" Width="1.5" PointX="19.5" PointY="123.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_ArrendatarioPersonaJuridica" Width="1.5" PointX="19.5" PointY="117.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_DocumentosSolicitar" Width="1.5" PointX="27.75" PointY="159.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_DocumentosSolicitarAuxiliar" Width="1.5" PointX="24.75" PointY="32.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_DocumentoSubido" Width="1.5" PointX="22.5" PointY="122.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_DocumentoTipo" Width="1.5" PointX="25.5" PointY="159.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Empresa_Entidad" Width="1.5" PointX="22.5" PointY="129.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Empresa_Entidad_Actividad" Width="1.5" PointX="30.75" PointY="133.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Empresa_Entidad_Maquinaria_Utilizada" Width="1.5" PointX="27.75" PointY="139.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Empresa_Entidad_Materia_Prima" Width="1.5" PointX="30.75" PointY="130.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Empresa_Entidad_TecnicoActividad" Width="1.5" PointX="30.75" PointY="136.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Empresa_Entidad_TecnicoMaquinaria_Utilizada" Width="1.5" PointX="30.75" PointY="139.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Empresa_Entidad_TecnicoMateria_Prima" Width="1.5" PointX="24.75" PointY="142.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Empresa_Entidad_TecnicoVivero_Forestal" Width="1.5" PointX="3" PointY="133.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Empresa_Entidad_Tipo" Width="1.5" PointX="32.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Empresa_Entidad_Tipo_Registro" Width="1.5" PointX="33.75" PointY="133.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Empresa_Entidad_Vivero_Forestal" Width="1.5" PointX="6" PointY="123" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Finca" Width="1.5" PointX="25.5" PointY="120.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Finca_FuenteSemillera" Width="1.5" PointX="3" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Finca_PinpepOld_EspeciesForestales" Width="1.5" PointX="32.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Finca_PinpepOld_EspeciesProteger" Width="1.5" PointX="32.75" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Finca_Probosque_EspeciesForestales" Width="1.5" PointX="32.75" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Finca_Secorf" Width="1.5" PointX="32.75" PointY="21.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Finca_Secorf_EspeciesForestales" Width="1.5" PointX="36" PointY="123.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_FincaConstanciaDePropiedad" Width="1.5" PointX="23.25" PointY="108.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_FincaObjetivoDeLaPlantacion" Width="1.5" PointX="23.25" PointY="105.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_IdentificadorOficial" Width="1.5" PointX="12" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_IdentificadorOficialGestionTipo" Width="1.5" PointX="9.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Motosierra" Width="1.5" PointX="16.5" PointY="172.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Motosierra_Marca_Modelo" Width="1.5" PointX="24.75" PointY="154.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_PersonaJuridicaTipo" Width="1.5" PointX="17.25" PointY="108.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_PropietarioPersonaIndividual" Width="1.5" PointX="22.5" PointY="115.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_PropietarioPersonaJuridica" Width="1.5" PointX="16.5" PointY="131.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_RepresentanteLegal" Width="1.5" PointX="16.5" PointY="114.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_RepresentanteLegal_Estado" Width="1.5" PointX="14.25" PointY="112.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_RepresentanteLegalTipo" Width="1.5" PointX="14.25" PointY="108.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Rodal" Width="1.5" PointX="33.75" PointY="120.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Rodal_CategoriaSIGAP" Width="1.5" PointX="31.5" PointY="110.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Rodal_Cultivo" Width="1.5" PointX="39" PointY="124.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Rodal_CultivoTecnico" Width="1.5" PointX="39" PointY="120.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Rodal_Dasometrico" Width="1.5" PointX="44.75" PointY="119.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Rodal_Dasometrico_CentroParcela" Width="1.5" PointX="32.75" PointY="26.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Rodal_Dasometrico_Clase" Width="1.5" PointX="26.75" PointY="33.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Rodal_Dasometrico_Especie_Formula" Width="1.5" PointX="19.5" PointY="130.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Rodal_Dasometrico_Especie_Formula_Id" Width="1.5" PointX="17.25" PointY="156" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Rodal_Dasometrico_EstadoFitosanitario" Width="1.5" PointX="39.5" PointY="116.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Rodal_Dasometrico_PerimetroDimensional" Width="1.5" PointX="42.5" PointY="109.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Rodal_Dasometrico_ValidacionesDiametrica" Width="1.5" PointX="32.75" PointY="31.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Rodal_Dasometrico_VolumenCenso" Width="1.5" PointX="33.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Rodal_Dasometrico_VolumenMuestreo" Width="1.5" PointX="34.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Rodal_Descuento" Width="1.5" PointX="4.75" PointY="35.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Rodal_Descuento_Poligono" Width="1.5" PointX="6.75" PointY="35.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Rodal_Inventario" Width="1.5" PointX="13" PointY="55.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Rodal_Inventario_Clase" Width="1.5" PointX="7.75" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Rodal_Poligono" Width="1.5" PointX="36" PointY="136.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Rodal_Tipo" Width="1.5" PointX="31.5" PointY="142.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Secorf_TipoRegistro" Width="1.5" PointX="34.75" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Solicitud" Width="1.5" PointX="14.25" PointY="115" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Solicitud_Categoria" Width="1.5" PointX="12" PointY="154.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Solicitud_Estado" Width="1.5" PointX="12" PointY="159.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Solicitud_OficioDictamenJuridico" Width="1.5" PointX="34.75" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Solicitud_Personeria" Width="1.5" PointX="12.75" PointY="35.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Solicitud_Sub_Categoria" Width="1.5" PointX="12" PointY="161.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Solicitud_Sub_Sub_Categoria" Width="1.5" PointX="34.75" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_TecnicoProfesional" Width="1.5" PointX="25.5" PointY="131.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_ValidacioneMotosierra" Width="1.5" PointX="34.75" PointY="23.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Tecnico_Pregunta" Width="1.5" PointX="34.75" PointY="27.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Tecnico_PreguntaRespuesta" Width="1.5" PointX="34.75" PointY="30.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Tecnico_PreguntaRespuesta_Evaluacion" Width="1.5" PointX="34.75" PointY="33.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.AATbl_Gral_SolicitudConfiguracionTipo" Width="1.5" PointX="14.75" PointY="36.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.TAB_LOCATION" Width="1.5" PointX="16.75" PointY="36.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_EtapaSolicitud_Resolucion_ParrafosBCK" Width="1.5" PointX="22.75" PointY="36.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gest_EtapaSolicitudTest" Width="1.5" PointX="24.75" PointY="36.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_MenuXml" Width="1.5" PointX="35.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_MenuXml_1" Width="1.5" PointX="26.75" PointY="36.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_MenuXml_2" Width="1.5" PointX="36.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_MenuXml_Backup" Width="1.5" PointX="36.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_MenuXml_BCK" Width="1.5" PointX="36.75" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_ParametrosGenerales_20211008" Width="1.5" PointX="36.75" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_ParametrosGeneralesCIAG" Width="1.5" PointX="36.75" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_ParametrosGeneralesINAB" Width="1.5" PointX="36.75" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Gral_ParametrosGeneralesTemp" Width="1.5" PointX="36.75" PointY="22.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Rep_Propietario" Width="1.5" PointX="36.75" PointY="26.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_RNF_Rep_Propietario_Selected" Width="1.5" PointX="36.75" PointY="29.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Seg_OpcionBck" Width="1.5" PointX="36.75" PointY="32.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Seg_UsuarioExternoBck" Width="1.5" PointX="36.75" PointY="37.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Rodal_Dasometrico_Especie_Formula_Id_BCK" Width="1.5" PointX="32.75" PointY="38.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Tbl_Sol_Solicitud_CategoriaTipoRegistro" Width="1.5" PointX="38.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.agrupacionterritorial" Width="1.5" PointX="38.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.estadoregistro" Width="1.5" PointX="38.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.personajuridica" Width="1.5" PointX="38.75" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.propietario" Width="1.5" PointX="38.75" PointY="22.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.propietarioxregistro" Width="1.5" PointX="38.75" PointY="26.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.region" Width="1.5" PointX="26.75" PointY="39.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.registro" Width="1.5" PointX="38.75" PointY="29.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.tiporegistro" Width="1.5" PointX="28.75" PointY="39.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.VW_AreaProtegidaEstadistico" Width="1.5" PointX="38.75" PointY="34.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.VW_CategoriaSubySubSub" Width="1.5" PointX="38.75" PointY="37.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.VW_RNF_ConcuerdaCorrelativo" Width="1.5" PointX="40.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.vw_RNF_Propietario" Width="1.5" PointX="6.75" PointY="41.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Vw_Seg_Sel_Rol" Width="1.5" PointX="8.75" PointY="41.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Vw_Sol_Rodal_CategoriaSIGAP" Width="1.5" PointX="10.75" PointY="41.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Vw_Sol_Rodal_Dasometrico_Especie_Formula_Id" Width="1.5" PointX="40.75" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Vw_Solicitud" Width="1.5" PointX="16.75" PointY="41.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_RNFModel.Vw_UsuariosPermisos" Width="1.5" PointX="40.75" PointY="19.25" IsExpanded="true" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Form_Fomulario_MotivoDenegacion_Tbl_Form_Fomulario" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Form_Fomulario_Tbl_Form_FomularioEstado" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Form_Formulario_FirmaElectronica_Bitacora_Tbl_Form_Formulario" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Form_Formulario_Tbl_Form_Formulario_FirmaElectronica_Estado" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Form_Formulario_Tbl_Gest_Etapa_RespuestaFormulario_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_EtapaSolicitud_RespuestaFormulario_Tbl_Form_Fomulario" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Form_Fomulario_MotivoDenegacion_Tbl_Form_Fomulario_DetalleEstado" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Form_Formulario_FirmaElectronica_Bitacora_Tbl_Form_Formulario_FirmaElectronica_Estado" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_Etapa_Respuesta_Tbl_Gest_Etapa" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_Etapa_Tbl_Gest_EtapaRuta" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_Etapa_Tbl_Seg_Rol" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_Etapa_To_doList_Tbl_Gest_Etapa" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_EtapaSolicitud_Tbl_Gest_Etapa" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_Etapa_DocumentoTipo_Tbl_Gest_Etapa_Respuesta" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_Etapa_Respuesta_Tbl_gest_EtapaRSS" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_Etapa_Respuesta_Tbl_Sol_Solicitud_Estado" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_Etapa_RespuestaFormulario_Tbl_Gest_Etapa_Respuesta" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_Etapa_RespuestaRuta_Tbl_Gest_Etapa_Respuesta" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_Etapa_RespuestaDocumentoTipo_Tbl_Sol_DocumentoTipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_Etapa_RespuestaFormulario_Tbl_Gest_Etapa_RespuestaFormulario_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_EtapaSolicitud_RespuestaFormulario_Tbl_Gest_Etapa_RespuestaFormulario_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_EtapaSolicitud_To_doList_Tbl_Gest_Etapa_To_doList" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_EtapaSolicitud_Documento_Tbl_Gest_EtapaSolicitud" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_EtapaSolicitud_RespuestaDocumentoTipo_Tbl_Gest_EtapaSolicitud" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_EtapaSolicitud_RespuestaFormulario_Tbl_Gest_EtapaSolicitud" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_EtapaSolicitud_Tbl_Gest_EtapaSolicitudEstado" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_EtapaSolicitud_Tbl_Sol_Solicitud" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_EtapaSolicitud_To_doList_Tbl_Gest_EtapaSolicitud" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_EtapaSolicitud_Inactivacion_Enmiendas_Tbl_Gest_EtapaSolicitud_Inactivacion_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_EtapaSolicitud_Inactivacion_Parrafos_Tbl_Gest_EtapaSolicitud_Inactivacion_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_EtapaSolicitud_InformeCircunstanciado_Procedimientos_Tbl_Gest_EtapaSolicitud_InformeCircunstanciado" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_EtapaSolicitud_Resolucion_Parrafos_Plantilla_Tbl_Gest_EtapaSolicitud_ResolucionTipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gest_EtapaSolicitud_RespuestaDocumentoTipo_Tbl_Sol_DocumentoTipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_RNF_E__Activ__033D368C" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_RNF_E__Activ__04315AC5" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_RNF_E__Activ__05257EFE" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_RNF_E__Activ__0619A337" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Activ__33C07256" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Activ__34B4968F" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Activ__3A827E7E" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Activ__5051C40C" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gral_Carga_Tbl_Gral_Carga_Estatus" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gral_Carga_Tbl_Gral_CargaTipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gral_CargaDetalle_Tbl_Gral_Carga" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Rodal_Cultivo_Tbl_Gral_Cultivo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Rodal_Cultivo_Tbl_Gral_Cultivo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Rodal_CultivoTecnico_Tbl_Gral_Cultivo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_RNF_E__Depar__65A1E6AD" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Depar__40DA7652" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Depar__T40DA7652" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gral_SubRegion_Tbl_Gral_Departamento" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_ArrendatarioPersonaIndividual_Tbl_Gral_Departamento" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_ArrendatarioPersonaJuridica_Tbl_Gral_Departamento" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Empresa_Entidad_Tbl_Gral_Departamento" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Empresa_Entidad_Tbl_Gral_Departamento1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Finca_Tbl_Gral_Departamento" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_PropietarioPersonaIndividual_Tbl_Gral_Departamento" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_PropietarioPersonaJuridica_Tbl_Gral_Departamento" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_TecnicoProfesional_Tbl_Gral_Departamento" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_TecnicoProfesional_Tbl_Gral_Departamento1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Seg_UsuarioExterno_Tbl_Gral_Departamento" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Seg_UsuarioExterno_Tbl_Gral_Departamento1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_ArrendatarioPersonaIndividual_Tbl_Gral_Departamento" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_ArrendatarioPersonaJuridica_Tbl_Gral_Departamento1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Empresa_Entidad_Tbl_Gral_Departamento" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Empresa_Entidad_Tbl_Gral_Departamento1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Finca_Tbl_Gral_Departamento2" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_PersonaJuridica_Tbl_Gral_Departamento" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_PersonaJuridica_Tbl_Gral_Departamento1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Solicitud_Tbl_Gral_Departamento" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_TecnicoProfesional_Tbl_Gral_Departamento" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_TecnicoProfesional_Tbl_Gral_Departamento1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Finca_Tbl_Gral_DepartamentoRegistro" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Finca_Tbl_Gral_DepartamentoRegistro" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_ArrendatarioPersonaIndividual_Tbl_Gral_DocumentoID_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_PropietarioPersonaIndividual_Tbl_Gral_DocumentoID_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_RepresentanteLegal_Tbl_Gral_DocumentoID_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_TecnicoProfesional_Tbl_Gral_DocumentoID_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Seg_Usuario_Tbl_Gral_DocumentoID_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Seg_UsuarioExterno_Tbl_Gral_DocumentoID_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_ArrendatarioPersonaIndividual_Tbl_Gral_DocumentoID_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_PersonaJuridica_Tbl_Gral_DocumentoID_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_RepresentanteLegal_Tbl_Gral_DocumentoID_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_TecnicoProfesional_Tbl_Gral_DocumentoID_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_RNF_E__Espec__66960AE6" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Espec__41CE9A8B" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Espec__4T1CE9A8B" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Rodal_Dasometrico_Especie_Formula_Tbl_Gral_Especie" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Rodal_Dasometrico_Tbl_Gral_Especie" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Rodal_Inventario_Tbl_Gral_Especie" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Rodal_Dasometrico_Especie_Formula_Tbl_Gral_Especie" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Rodal_Dasometrico_Tbl_Gral_Especie" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Rodal_Inventario_Tbl_Gral_Especie" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Solicitud_Tbl_Gral_EvaluacionPonderacion" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Solicitud_Tbl_Gral_EvaluacionPonderacion1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Solicitud_Tbl_Gral_EvaluacionPonderacion2" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Solicitud_FuenteSemillera_Tbl_Gral_FuenteSemillera_Procedencia" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Solicitud_FuenteSemillera_Tbl_Gral_FuenteSemillera_TipoEnsayo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_RNF_E__Maqui__5847EB8F" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Maqui__38852773" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Maqui__39794BAC" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Maqui__3B76A2B7" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Maqui__3D3EEF98" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_RNF_E__Mater__5E00C4E5" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_RNF_E__Mater__5EF4E91E" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Mater__396E5EB4" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Mater__3D49DC90" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Mater__3E3E00C9" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Mater__45D43599" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_RNF_E__Munic__678A2F1F" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Munic__42C2BEC4" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Munic__4T2C2BEC4" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__TMunic__4T2C2BEC4" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gral_SubRegion_Tbl_Gral_Municipio" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_ArrendatarioPersonaIndividual_Tbl_Gral_Municipio" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_ArrendatarioPersonaJuridica_Tbl_Gral_Municipio" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Empresa_Entidad_Tbl_Gral_Municipio" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Empresa_Entidad_Tbl_Gral_Municipio1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Finca_Tbl_Gral_Municipio" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_PropietarioPersonaIndividual_Tbl_Gral_Municipio" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_PropietarioPersonaJuridica_Tbl_Gral_Municipio" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_TecnicoProfesional_Tbl_Gral_Municipio" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_TecnicoProfesional_Tbl_Gral_Municipio1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Seg_UsuarioExterno_Tbl_Gral_Municipio" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Seg_UsuarioExterno_Tbl_Gral_Municipio1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_ArrendatarioPersonaIndividual_Tbl_Gral_Municipio" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_ArrendatarioPersonaJuridica_Tbl_Gral_Municipio1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Empresa_Entidad_Tbl_Gral_Municipio" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Empresa_Entidad_Tbl_Gral_Municipio1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Finca_Tbl_Gral_Municipio" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_PersonaJuridica_Tbl_Gral_Municipio" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_PersonaJuridica_Tbl_Gral_Municipio1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Solicitud_Tbl_Gral_Municipio" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_TecnicoProfesional_Tbl_Gral_Municipio" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_TecnicoProfesional_Tbl_Gral_Municipio1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_RNF_E__Pais___687E5358" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Pais___43B6E2FD" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Pais___4T3B6E2FD" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_TecnicoProfesional_Tbl_Gral_Profesion" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Seg_UsuarioExterno_Tbl_Gral_Profesion" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_TecnicoProfesional_Tbl_Gral_Profesion" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_TecnicoProfesional_Tbl_Gral_PuebloPertenencia" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Seg_UsuarioExterno_Tbl_Gral_PuebloPertenencia1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_ArrendatarioPersonaIndividual_Tbl_Gral_PuebloPertenencia" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_PersonaJuridica_Tbl_Gral_PuebloPertenencia" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_TecnicoProfesional_Tbl_Gral_PuebloPertenencia" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gral_SubRegion_Tbl_Gral_Region" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Registro_Tbl_Gral_Region" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Solicitud_Tbl_Gral_Region" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Rodal_Tbl_Gral_Secorf_TipoRegistro" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Rodal_Tbl_Gral_Secorf_TipoRegistro" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_TecnicoProfesional_Tbl_Gral_Sexo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Seg_UsuarioExterno_Tbl_Gral_Sexo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_ArrendatarioPersonaIndividual_Tbl_Gral_Sexo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_PersonaJuridica_Tbl_Gral_Sexo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_TecnicoProfesional_Tbl_Gral_Sexo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Gral_SolicitudConfiguracion_Tbl_Gral_SolicitudConfiguracionTipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Registro_Tbl_Gral_SolicitudConfiguracionTipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_RegistroHistory_Tbl_Gral_SolicitudConfiguracionTipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Solicitud_Tbl_Gral_SolicitudConfiguracionTipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Registro_Tbl_Gral_SubRegion1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Seg_UsuarioSubRegion_Tbl_Gral_SubRegion" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Solicitud_Tbl_Gral_SubRegion" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Empresa_Entidad_Tbl_Gral_Tipo_Industria" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Empresa_Entidad_Tbl_Gral_Tipo_Industria" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_RNF_E__Tipo___35BDC961" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_RNF_E__Tipo___398E5A45" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Tipo___3A2D78C3" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_RNF_E__REPEJ__34C9A528" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_RNF_E__REPEJ__389A360C" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__REPEJ__365CE7DF" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_ArrendatarioPersonaIndividual_Tbl_RNF_Registro" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_ArrendatarioPersonaJuridica_Tbl_RNF_Registro" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_RNF_Empresa___53833672" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_RNF_Empresa___593C0FC8" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_RNF_Empresa___60DD3190" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_RNF_Empresa___69727791" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Empresa_Entidad_Motosierra_Tbl_RNF_Empresa_Entidad" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Empresa_Entidad_Tbl_RNF_Registro" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Finca_Tbl_Sol_FincaConstanciaDePropiedad" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Finca_Tbl_Sol_FincaObjetivoDeLaPlantacion" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Finca_Secorf_EspeciesForestales_Tbl_RNF_Rodal" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Finca_Secorf_EspeciesForestales_Tbl_Sol_Rodal_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Motosierra_Tbl_RNF_Registro" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_PropietarioPersonaIndividual_Tbl_RNF_Registro" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_PropietarioPersonaJuridica_Tbl_RNF_Registro" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Registro_Reasignacion_Tbl_RNF_Registro" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Registro_Tbl_RNF_Registro_Estado" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Registro_Tbl_RNF_Registro_Inactivacion_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Registro_Tbl_RNF_Registro_InactivacionTecnico_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Registro_Tbl_Sol_Solicitud_Categoria" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Registro_Tbl_Sol_Solicitud_Sub_Categoria" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_RepresentanteLegal_Tbl_RNF_Registro" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_TecnicoProfesional_Tbl_RNF_Registro" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Registro_Bitacora_Tbl_RNF_Registro_Estado" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Registro_BitacoraDocumento_Tbl_RNF_Registro_Bitacora" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Registro_BitacoraHallazgo_Tbl_RNF_Registro_Bitacora" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Solicitud_Tbl_RNF_Registro_Inactivacion_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Solicitud_Tbl_RNF_Registro_InactivacionTecnico_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_RepresentanteLegal_Tbl_Sol_RepresentanteLegal_Estado" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_RepresentanteLegal_Tbl_Sol_RepresentanteLegalTipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Rodal_Cultivo_Tbl_RNF_Rodal" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Rodal_Poligono_Tbl_RNF_Rodal" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Rodal_Tbl_Sol_Rodal_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Rodal_Cultivo_Tbl_Sol_Rodal_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Rodal_Dasometrico_Tbl_Sol_Rodal_Dasometrico_EstadoFitosanitario" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Rodal_Dasometrico_Tbl_Sol_Rodal_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Rodal_Dasometrico_Especie_Formula_Tbl_Sol_Rodal_Dasometrico_Especie_Formula_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_RNF_Rodal_Inventario_Tbl_Sol_Rodal_Inventario_Clase" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Seg_Opcion_Tbl_Seg_Modulo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Seg_Privilegio_Tbl_Seg_Opcion" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Seg_Privilegio_Tbl_Seg_Rol" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Seg_UsuarioRol_Tbl_Seg_Rol" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Seg_Usuario_Tbl_Seg_UsuarioEstado" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Seg_UsuarioDocumentacion_Tbl_Seg_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Seg_UsuarioRol_Tbl_Seg_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Seg_UsuarioSubRegion_Tbl_Seg_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Seg_UsuarioDocumentacion_Tbl_Seg_UsuarioDocumentoTipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Seg_UsuarioExterno_Dependiente_Tbl_Seg_UsuarioExterno" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Seg_UsuarioExterno_Dependiente_Tbl_Seg_UsuarioExterno1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Solicitud_Tbl_Seg_UsuarioExterno" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Seg_UsuarioExterno_Dependiente_Tbl_Seg_UsuarioExterno_Dependiente_Perfil" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_ArrendatarioPersonaIndividual_Tbl_Sol_Solicitud" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_ArrendatarioPersonaJuridica_Tbl_Sol_PersonaJuridicaTipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_ArrendatarioPersonaJuridica_Tbl_Sol_Solicitud" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_DocumentosSolicitar_Tbl_Sol_DocumentoTipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_DocumentosSolicitar_Tbl_Sol_Solicitud_Categoria" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_DocumentosSubidos_Tbl_Sol_Solicitud" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_DocumentoSubido_Tbl_Sol_DocumentoTipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Solic__3A6282ED" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Solic__3E3313D1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Solic__44AB0736" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Solic__46C859D2" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Solic__5145E845" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Solic__T3A6282ED" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Solic__T44AB0736" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__Solic__T46C859D2" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__TSolic__3E3313D1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK__Tbl_Sol_E__TSolic__5145E845" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Empresa_Entidad_Motosierra_Tbl_Sol_Empresa_Entidad" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Empresa_Entidad_Tbl_Sol_Solicitud" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Empresa_Entidad_Tipo_Registro_Tbl_Sol_Empresa_Entidad" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Finca_Tbl_Sol_FincaConstanciaDePropiedad" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Finca_Tbl_Sol_FincaObjetivoDeLaPlantacion" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Finca_Tbl_Sol_Solicitud" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Rodal_Tbl_Sol_Finca" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Finca_Secorf_EspeciesForestales_Tbl_Sol_Rodal" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Finca_Secorf_EspeciesForestales_Tbl_Sol_Rodal_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_IdentificadorOficial_Tbl_Sol_IdentificadorOficialGestionTipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Motosierra_Tbl_Sol_Solicitud" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_PersonaJuridica_Tbl_Sol_PersonaJuridicaTipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_PropietarioPersonaIndividual_Tbl_Sol_Solicitud" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_PropietarioPersonaJuridica_Tbl_Sol_Solicitud" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_RepresentanteLegal_Tbl_Sol_RepresentanteLegal_Estado" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_RepresentanteLegal_Tbl_Sol_RepresentanteLegalTipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_RepresentanteLegal_Tbl_Sol_Solicitud" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Rodal_Cultivo_Tbl_Sol_Rodal" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Rodal_CultivoTecnico_Tbl_Sol_Rodal" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Rodal_Poligono_Tbl_Sol_Rodal" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Rodal_Tbl_Sol_Rodal_CategoriaSIGAP" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Rodal_Tbl_Sol_Rodal_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Rodal_Cultivo_Tbl_Sol_Rodal_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Rodal_CultivoTecnico_Tbl_Sol_Rodal_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Rodal_Dasometrico_Tbl_Sol_Rodal_Dasometrico_EstadoFitosanitario" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Rodal_Dasometrico_Tbl_Sol_Rodal_Dasometrico_PerimetroDimensional" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Rodal_Dasometrico_Tbl_Sol_Rodal_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Rodal_Dasometrico_Especie_Formula_Tbl_Sol_Rodal_Dasometrico_Especie_Formula_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Rodal_Dasometrico_Especie_Formula_Tbl_Sol_Solicitud" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Rodal_Inventario_Tbl_Sol_Rodal_Inventario_Clase" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Solicitud_Tbl_Sol_Solicitud_Categoria" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Solicitud_Tbl_Sol_Solicitud_Estado" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_Solicitud_Tbl_Sol_Solicitud_Sub_Categoria" ManuallyRouted="false" />
+        <AssociationConnector Association="db_RNFModel.FK_Tbl_Sol_TecnicoProfesional_Tbl_Sol_Solicitud" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

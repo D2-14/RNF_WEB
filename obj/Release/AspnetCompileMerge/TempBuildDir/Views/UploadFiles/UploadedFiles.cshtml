@@ -1,0 +1,646 @@
+﻿@using RNF_Web.Models;
+@using System.Data.SqlClient;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+@{
+    EdicionSolicitudGrants objGrant = (EdicionSolicitudGrants)Session[Constants.session_EdicionSolicitudGrants];
+    ViewBag.Edicion = objGrant.boolSubirDocumentos;
+
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_Sol_Solicitud tbl_sol_solicitud = db.Tbl_Sol_Solicitud.Find(ViewBag.solicitud_id);
+    ViewBag.Solicitud_id = tbl_sol_solicitud.Solicitud_id;
+
+    ViewBag.Estado = tbl_sol_solicitud.Estado_id;
+
+    string sqlQuery;
+
+    sqlQuery = " Select * \n";
+    sqlQuery += " From Tbl_Gest_EtapaSolicitud \n";
+    sqlQuery += " Where Solicitud_id = " + tbl_sol_solicitud.Solicitud_id.ToString() + "  \n";
+    sqlQuery += " and EtapaSolicitudEstado_id = 1  \n";
+    sqlQuery += " and exists  \n";
+    sqlQuery += " ( \n";
+    sqlQuery += " Select * \n";
+    sqlQuery += " From Tbl_Gest_Etapa \n";
+    sqlQuery += " Where EtapaRuta_id = Tbl_Gest_EtapaSolicitud.EtapaRuta_id \n";
+    sqlQuery += "  and Etapa_id   = Tbl_Gest_EtapaSolicitud.Etapa_id \n";
+    sqlQuery += "     and Rol_id in \n";
+    sqlQuery += "         ( \n";
+    sqlQuery += "     Select UsuarioExterno \n";
+    sqlQuery += "     From Tbl_Gral_PerfilesRol \n";
+    sqlQuery += "     ) \n";
+    sqlQuery += "     	  ) \n";
+
+    ViewBag.etapaSolicitudcantidad = db.Database.SqlQuery<Tbl_Gest_EtapaSolicitud>(sqlQuery).ToList().Count();
+
+    ViewBag.etapaSolicitud = db.Database.SqlQuery<Tbl_Gest_EtapaSolicitud>(sqlQuery).ToList();
+
+
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string Nombre_Div = "div_Sol_Permisos_UploadedFiles";
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+    fc_Gral_Sol_Configuracion_Result permisos = db.fc_Gral_Sol_Configuracion(tbl_sol_solicitud.Solicitud_id, controllerName, boolEsInterno).FirstOrDefault();
+
+    decimal truncsolicitudtipoid = Math.Truncate(tbl_sol_solicitud.SolicitudTipo_id);
+    decimal solicitudtipoid = tbl_sol_solicitud.SolicitudTipo_id - truncsolicitudtipoid;
+
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <div id="@Nombre_Div"></div>
+}
+
+
+
+<script type="text/javascript">
+
+
+    function visualizarPermisos(solicitudid, controllername, esinterno, nombrediv) {
+        var solicitudId = solicitudid;
+        var controllerName = controllername;
+        var esInterno = esinterno;
+
+        var mySolPermisos = document.getElementById(nombrediv);
+        if (mySolPermisos) {
+            $("#" + nombrediv).load("/Gral_SolicitudConfiguracion/PermisosRecibidos?Solicitud_id=" + solicitudId + "&controllerName=" + controllerName + "&EsInterno=" + esInterno);
+        }
+
+    }
+
+    $(document).ready(function () {
+
+        visualizarPermisos('@tbl_sol_solicitud.Solicitud_id', '@controllerName', '@objUs.EsInterno', '@Nombre_Div');
+
+        var myInactivacion = document.getElementById("div_Inactivacion");
+        if (myInactivacion) {
+            $("#div_Inactivacion").load("/Sol_Solicitud_Inactivacion/Index?firma=@ViewBag.firma&Solicitud_id=@tbl_sol_solicitud.Solicitud_id");
+        }
+
+       var myEnmiendasSubRegionalSolicitud = document.getElementById("div_EnmiendasSubRegional_Solicitud");
+        if (myEnmiendasSubRegionalSolicitud) {
+            $("#div_EnmiendasSubRegional_Solicitud").load("/Form_FormularioSubRegionalOficioEnmiendas/EnmiendasSubRegionalSolicitud?firma=@ViewBag.firma&Solicitud_id=@tbl_sol_solicitud.Solicitud_id");
+        }
+
+        $("#btnHideModal").click(function () {
+            $("#imgModal").modal('hide');
+        });
+        $("#btnHideModalCerrar").click(function () {
+            $("#modalRecepDocs").modal('hide');
+        });
+
+        $("#btnRecepcionDocs").click(function () {
+            $("#modalRecepDocs").modal('show');
+        });
+
+      listarDocumentosRequeridos();
+
+        @*for (let i = 0; i < 40; i++)
+        {
+            var myEle = document.getElementById('DivDoctosSubidosEspecificos_' + i);
+            if (myEle) {
+                  $('#DivDoctosSubidosEspecificos_' + i).load('/UploadFiles/IndexEspecifico?id=' + i + "&firma=@ViewBag.firma&solicitud_id=@tbl_sol_solicitud.Solicitud_id");
+              }
+        }*@
+
+
+
+    });
+
+
+
+    function listarDocumentosRequeridos() {
+        var Guid_id = '@ViewBag.firma';
+
+        var data = {
+            Guid_id: Guid_id
+        };
+
+
+        var url = '@Url.Action("ConsultarDocumentosRequeridos", "UploadFiles")';
+
+        $.post(url, data).done(function (RespuestaJSON) {
+
+            var oJSON = RespuestaJSON;
+            console.log(oJSON);
+
+
+
+            for (let i = 0; i < oJSON.length; i++) {
+
+                var ElementoActual = oJSON[i];
+                var Tipo_Documento_id = ElementoActual.Tipo_Documento_id;
+
+                var myEle = document.getElementById('DivDoctosSubidosEspecificos_' + Tipo_Documento_id);
+                if (myEle) {
+                    $('#DivDoctosSubidosEspecificos_' + Tipo_Documento_id).load('/UploadFiles/IndexEspecifico?id=' + Tipo_Documento_id + "&firma=@ViewBag.firma&solicitud_id=@tbl_sol_solicitud.Solicitud_id")
+                }
+
+            }
+
+
+
+
+        }).fail(function (RespuestaJSON) {
+
+            console.log(RespuestaJSON);
+
+            alert('Ocurrió un error: ' + RespuestaJSON);
+
+        });
+
+
+    }
+
+    function fnc_EnviarRespuesta(varRespuestaid, solicitudid, etapaid, etaparutaid, correlativoetapaid, EtapaSolicitudGUIDid)
+    {
+
+
+        varsolicitud_id = solicitudid;
+        varetapa_id = etapaid;
+        varetaparuta_id = etaparutaid;
+        varcorrelativoetapa_id = correlativoetapaid;
+        varMotivo = '';
+        varEtapaSolicitud_GUIDid= EtapaSolicitudGUIDid;
+
+
+
+        var url = "@Url.Action("ActualizaEtapaRespuesta", "UsuarioExterno")";
+
+        var data = { solicitud_id: varsolicitud_id, etapa_id: varetapa_id, etaparuta_id: varetaparuta_id, correlativoetapa_id: varcorrelativoetapa_id, motivo: varMotivo, respuestaid: varRespuestaid, EtapaSolicitud_GUIDid: varEtapaSolicitud_GUIDid };
+        $.post(url, data).done(function (jsonRespuesta) {
+               var objJSON = JSON.parse(jsonRespuesta);
+               var Cod_Respuesta = objJSON.CodRespuesta;
+               var Texto_Respuesta = objJSON.strRespuesta;
+
+
+                if (Cod_Respuesta == 0) {
+                    $('#lblMensaje').text(Texto_Respuesta);
+                } else if (Cod_Respuesta == 1) {
+                    location.reload();
+                    alert(Texto_Respuesta);
+                }
+
+           }).fail(function () {
+               alert('Error no identificado.');
+            });
+            return false;
+
+    }
+
+
+    function Borrar(id, varfilename) {
+        $.ajax({
+            type: 'POST',
+            url: "@(Url.Action("BorrarArchivo", "UploadFiles"))",
+            dataType: 'json',
+            data: { id: id, filename: varfilename, firma: '@ViewBag.firma', solicitud_id: @ViewBag.solicitud_id  },
+            success: function (doc) {
+                console.log(id);
+                console.log("Se hizo click");
+                $('#DivDoctosSubidosEspecificos_' + id).load('/UploadFiles/IndexEspecifico?id=' + id + "&firma=@ViewBag.firma&solicitud_id=@tbl_sol_solicitud.Solicitud_id");
+                //location.reload();
+            },
+            error: function (ex) {
+                alert('error. ' + ex.status);
+            }
+
+        });
+        return false;
+    }
+
+    function DescargarPlantacionVoluntariaJuridico(varSolicitud_id, varPersonaJuridica) {
+        loaderPantalla(true);
+        setTimeout(function () {
+            var data = {
+                Solicitud_id: varSolicitud_id,
+                firma: '@ViewBag.firma'
+            };
+            var url = "@Url.Action("GenerarFormularioDeSolicitud", "ReportePV")";
+
+            $.post(url, data).done(function (jsonrespuesta) {
+                loaderPantalla(false);
+                var oJSON = JSON.parse(jsonrespuesta);
+                var NombreDocumento = oJSON.Ubicacion;
+                var Result = oJSON.Result;
+                var Mensaje = oJSON.Mensaje;
+
+                if (Result == 1) {
+                    window.open('/Documentos/' + NombreDocumento, '_blank');
+                } else {
+                    alert(Mensaje);
+                }
+
+            }).fail(function (jsonRespuesta) {
+                loaderPantalla(false);
+            });
+        }, 2000);
+
+    }
+
+    function ExportarPDFS__old() {
+            $.ajax({
+                type: 'POST',
+                url: "@(Url.Action("ExportToPDF", "Home"))",
+                     dataType: 'json',
+                data: {},
+                   success: function (doc) {
+                       window.open('/Documentos/' + doc, '_blank');
+                    },
+                    error: function (ex) {
+                        alert('Ocurrio un error aqui. ' + ex.status);
+                    }
+
+                });
+            return false;
+        }
+
+    function RevisarPDFS() {
+            $.ajax({
+                type: 'POST',
+                url: "@(Url.Action("RevisarToPDF", "Home"))",
+                     dataType: 'json',
+                data: {},
+                   success: function (doc) {
+
+                       window.open('/Documentos/' + doc, '_blank');
+
+                    },
+                    error: function (ex) {
+                        alert('Ocurrio un error aqui. ' + ex.status);
+                    }
+
+                });
+            return false;
+        }
+
+    function refreshImagenes(e) {
+        $('#DivDoctosSubidosEspecificos_' + e).load('/UploadFiles/IndexEspecifico?id=' + e + "&firma=@ViewBag.firma&solicitud_id=@tbl_sol_solicitud.Solicitud_id");
+    }
+
+    function SeleccionarArchivo(Nfile, Objeto) {
+
+        var componente = "Hand_" + Nfile;
+
+        var x = document.getElementById(componente);
+
+        x.src = "/Content/icons/click_hand.gif";
+
+
+        filename = Objeto.files[0].name
+
+        console.log(filename);
+    }
+
+    function hide_myModal() {
+        $("#imgModal").modal('hide');
+    }
+
+    function myModalShow(id, filename) {
+        $("#imgModal").modal('show');
+
+    }
+
+    function MostrarT(id, filename) {
+        $("#imgModal").modal('show');
+
+    }
+
+    function Mostrar(id, filename) {
+        $.ajax({
+                    type: 'POST',
+                    url: "@(Url.Action("Obtenerhref", "UploadFiles"))",
+                    dataType: 'json',
+            data: { id: id, varfilename: filename, solicitud_id: @ViewBag.solicitud_id , firma: '@ViewBag.firma' },
+            success: function (doc) {
+
+
+                var imgDoc = document.getElementById("imDoc");
+                var ifDoc = document.getElementById("ifDoc");
+                var miHref = document.getElementById("miHref");
+
+                if (filename.split(".")[1] == "pdf" || filename.split(".")[1] == "PDF" ||
+                    filename.split(".")[1] == "jpg" || filename.split(".")[1] == "JPG" ||
+                    filename.split(".")[1] == "bmp" || filename.split(".")[1] == "BMP" ||
+                    filename.split(".")[1] == "png" || filename.split(".")[1] == "PNG" ||
+                    filename.split(".")[1] == "gif" || filename.split(".")[1] == "GIF") {
+
+                    if (filename.split(".")[1] == "pdf" || filename.split(".")[1] == "PDF") {
+                        imgDoc.src = "";
+                        ifDoc.src = doc;
+                        ifDoc.style.visibility = "visible";
+                        miHref.href = doc;
+                        $("#imgModal").modal('show');
+                    }
+                    else {
+
+                        ifDoc.src = "";
+                        imgDoc.src = doc;
+                        miHref.href = doc;
+                        $("#imgModal").modal('show');
+                        ifDoc.style.visibility = "hidden";
+                    }
+                }
+                else {
+                    window.location.href = doc;
+                }
+
+            },
+            error: function (ex) {
+                alert('error. ' + ex.status);
+            }
+
+        });
+        return false;
+
+    }
+
+
+    // Inicio Subir Documento
+    // Inicio Validar Tipo de Documento
+    function ValidateExtension() {
+        var allowedFiles = [".doc", ".docx", ".pdf", ".jpg", ".png", ".bmp", ".gif", ".xlsx",".xls"];
+        var fileUpload = document.getElementById("fileUpload");
+
+
+        var lblError = document.getElementById("lblError");
+        var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
+        if (!regex.test(fileUpload.value.toLowerCase())) {
+            $('#DivDoctosSubidos').load('/UploadFiles/Index')
+            lblError.innerHTML = "Por favor, el archivo debe se seleccionado y no debe contener caracteres como '(', '-' o caracteres especiales. Recuerde, únicamente puede subir archivos con extensión: <b>" + allowedFiles.join(', ') + "</b> .";
+            return false;
+        }
+
+        lblError.innerHTML = "";
+
+        return true;
+    }
+
+
+    $(function () {
+        $("#fileUpload").change(function () {
+            var file = document.getElementById('fileUpload').files[0];
+            alert(" El archivo seleccionador fué  👉 : "+ file.name);
+
+        });
+
+    });
+
+    function SubirDocumento(DocumentoASubir) {
+        loaderPantalla(true);
+        setTimeout(function () {
+
+            var file = document.getElementById('fileUpload').files[0];
+            var e = DocumentoASubir;
+
+            var componente = "Hand_" + e;
+
+            var x = document.getElementById(componente);
+
+            x.src = "/Content/icons/ImagenVacia.png";
+
+
+            if (e.value == 0) {
+                loaderPantalla(false);
+                alert("Debe indicar el tipo de documento a agregar.");
+            }
+            else {
+                    if (ValidateExtension()) {
+
+                                var formData = new FormData();
+
+
+                                formData.append("archivo_a_grabar", file);
+                                formData.append("Tipo_De_Archivo", e);
+                                formData.append("Nombre_Archivo", file.name);
+
+                                formData.append("solicitud_id", @ViewBag.solicitud_id);
+                                formData.append("firma", '@ViewBag.firma');
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "@(Url.Action("UploadFile", "UploadFiles"))",
+                                    data: formData,
+                                    processData: false,
+                                    contentType: false,
+                                    success: function (response) {
+                                        loaderPantalla(false);
+                                        refreshImagenes(DocumentoASubir);
+                                        lblError.innerHTML = "";
+                                    },
+                                    error: function (response) {
+                                        loaderPantalla(false);
+                                        alert("Error: No se pudo subir el archivo subido de forma exitosa.");
+                                    }
+
+                                });
+                    }
+                }
+
+        }, 2000);
+    }
+</script>
+
+<label style="color: green; background-color: yellow; font-weight: 800; font-size: 20px" id="lblError"></label>
+
+
+
+@if (solicitudtipoid == 0.04M)
+{
+
+    if ((ViewBag.Estado == 0) || (ViewBag.Estado == 4))
+    {
+
+        <div id="div_Inactivacion"></div>
+        <br />
+
+
+    }
+
+}
+else
+{
+
+    if ((ViewBag.Estado == 0) || (ViewBag.Estado == 4))
+    {
+
+        <table style="width: 100%; table-layout: fixed;">
+            <colgroup>
+                <col style="width: 97%;">
+                <col style="width: 5%;">
+            </colgroup>
+            <tr>
+                <th style="max-width: 97%;">
+                    <button class="btn-next-ic" style="width:100%" onclick="DescargarPlantacionVoluntariaJuridico(@ViewBag.Solicitud_id,1); return false;">
+                        <i class="fa in fa-print" aria-hidden="true"></i><br>Imprimir formulario
+                    </button>
+                </th>
+                <th style="max-width: 3%;">
+                    <img src="/Content/icons/click_hand.gif" id="Hand_formulario" name="Hand_formulario" width="60">
+
+                    <script>
+                        // Set a timer to hide the image after 30 seconds
+                        setTimeout(function () {
+                            document.getElementById("Hand_formulario").style.display = "none";
+                        }, 30000);
+                    </script>
+
+                </th>
+            </tr>
+        </table>
+        <div class="row">
+            <div class="col" style="text-align: center">
+                <h4>
+                    Debe imprimirlo, firmalo y luego subirlo como formulario de la solicitud (Adjuntarlo).
+                </h4>
+            </div>
+        </div>
+
+
+    }
+
+}
+
+
+<div class="titulo-dos">
+    <h4> Documentos requeridos en la solicitud </h4>
+</div>
+<input type="file" style="visibility:hidden;" name="FileUpload" id="fileUpload" />
+
+
+
+@foreach (var itemDocumentos in ViewBag.DocumentosPendientes)
+{
+    <div class="card mt-2 mb-2">
+        <h3 class="card-header">
+            @itemDocumentos.Nombre
+        </h3>
+        <div class="card-body">
+            <blockquote class="blockquote mb-0">
+                @if ((itemDocumentos.EjemploHref ?? "") != "")
+                {
+                    <h6>&nbsp;</h6>
+                    <a href="@itemDocumentos.EjemploHref" target="_blank">
+                        <img width="50" height="auto" src="~/Content/icons/VideoTutoria.gif" />
+                    </a>
+                    <h6>&nbsp;</h6>
+                }
+                @if ((bool)permisos.Agregar)
+                {
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label for="fileUpload" id="fileUpload_@itemDocumentos.Tipo_Documento_id" class="btn-next-ic" onclick="SeleccionarArchivo(@itemDocumentos.Tipo_Documento_id,this)">&nbsp;&nbsp;&nbsp;&nbsp;Seleccionar archivo&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        </div>
+                        <div class="col-md-5">
+                            <span id="nombre_Archivo" name="nombre_Archivo"></span>
+                            <input id="btnUploadDocumento" type="button" class="btn btn-primary btn-outlined" onclick="SubirDocumento(@itemDocumentos.Tipo_Documento_id)" value="Subir Documento" />
+                            <img src="~/Content/icons/ImagenVacia.png" id="Hand_@itemDocumentos.Tipo_Documento_id" name="Hand_@itemDocumentos.Tipo_Documento_id" width="60" />
+                        </div>
+                        <div class="col-md-2">
+                            <img src="~/Content/icons/refresh.png" type="button" onclick="refreshImagenes('@itemDocumentos.Tipo_Documento_id')" value="eliminar" width="30" />
+                        </div>
+                    </div>
+                }
+                <div id='DivDoctosSubidosEspecificos_@itemDocumentos.Tipo_Documento_id'>
+                </div>
+            </blockquote>
+        </div>
+    </div>
+}
+
+<h1>@TempData["MensajeFile"]</h1>
+
+    Tipos de archivos solicitados(.doc, .docx, .pdf, .jpg, .png, .bmp, .gif)
+<br />
+<div>
+    <br />
+    <input type="file" style="visibility:hidden;" name="FileUpload" id="fileUpload" />
+    <br />
+</div>
+
+@if ((ViewBag.Estado == 0) || (ViewBag.Estado == 4))
+{
+    <h4>Favor subir los archivos requeridos.</h4>
+    <table width="100%">
+        <tr>
+            <td width="20%"></td>
+            <td width="20%"></td>
+            <td width="20%"></td>
+            <td width="20%"></td>
+            <td width="20%">
+                <input type="button" style="width:250px; height:50px; " value="Enviar" id="RevisarPDF" class="btn-next" onclick="EnviarSolicitud('0')" />
+            </td>
+        </tr>
+    </table>
+
+}
+else
+{
+    <h4> El estado actual no permite subir documentos.</h4>
+}
+
+@if (ViewBag.etapaSolicitudcantidad > 0)
+{
+    <div id="div_EnmiendasSubRegional_Solicitud"></div>
+}
+
+@foreach (Tbl_Gest_EtapaSolicitud itemEtapaSolicitud in ViewBag.etapaSolicitud)
+{
+    <h4>Realizadas las correcciones reenviar para evaluación .</h4>
+    <table width="100%">
+        <tr>
+            <td width="20%"></td>
+            <td width="20%"></td>
+            <td width="20%"></td>
+            <td width="20%"></td>
+            <td width="20%">
+                <input type="button" style="width:250px; height:50px; " value="Re-Enviar" id="RevisarPDF" class="btn-next" onclick="fnc_EnviarRespuesta(1, '@itemEtapaSolicitud.Solicitud_id' , '@itemEtapaSolicitud.Etapa_id', '@itemEtapaSolicitud.EtapaRuta_id', '@itemEtapaSolicitud.CorrelativoEtapa_id', '@itemEtapaSolicitud.EtapaSolicitud_GUID_id')" />
+            </td>
+        </tr>
+    </table>
+
+
+}
+
+
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" id="imgModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" width: 700px;>
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="hide_myModal()">
+                    X
+                </button>
+                <h4 class="modal-title">Vista preliminar del documento cargado</h4>
+            </div>
+            <div class="modal-body">
+                @*<a ID="miHref" name="miHref" href="" target="_blank">Ver en pagina Completa</a>*@
+
+                <a ID="miHref" name="miHref" href="" target="_blank" style="display:none">Ver en pagina Completa</a>
+                <button class="btn-next" onclick="MostrarCompleta()">Mostrar en página completa</button>
+
+
+                <img src="~/Content/icons/click_hand.gif" width="80" />
+                <img style="max-height:1000px;max-width:800px;height:auto;width:auto;" id="imDoc" Visible="false" />
+                <iframe ID="ifDoc" style="height:600px;width:800px;" visible="false"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" onclick="hide_myModal()">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+

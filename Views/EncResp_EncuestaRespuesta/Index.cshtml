@@ -1,0 +1,76 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_EncResp_Encuesta_Pregunta>
+@using RNF_Web.Models;
+@{
+    Layout = null;
+    ViewBag.Title = "Respuestas ingresadas en el monitoreo";
+    ViewBag.SubTitle = "Listado de preguntas y respuestas";
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@Html.Partial("_PartialPageEncabezado")
+
+
+
+<table class="table">
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <h5>@Html.DisplayFor(modelItem => item.Tbl_Enc_Encuesta_Pregunta.descripcion)</h5>
+            </td>
+            <td>
+                <table>
+                    @foreach (var itemRespuestas in item.Tbl_EncResp_Encuesta_PreguntaRespuesta)
+                    {
+                        <tr>
+                            <td> ● @itemRespuestas.Tbl_Enc_Encuesta_Respuesta.respuesta</td>
+                            <td>
+                                @if (itemRespuestas.Tbl_Enc_Encuesta_Respuesta.ExplicacionIncluir == true)
+                                {
+                                    <h4>@itemRespuestas.Tbl_Enc_Encuesta_Respuesta.ExplicacionTexto</h4>
+                                    <textarea>@itemRespuestas.Respuesta_Observaciones</textarea>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </table>
+                <table>
+                    @{
+                        string partialpathrep = "/Encuesta/" + item.id_encuesta + "/" + item.swcreatedby + "/" + item.id_Correlativo + "/" + item.id_pregunta + "/";
+                        partialpathrep = partialpathrep.Replace(".", "_");
+                    }
+                    @foreach (var itemDocumento in item.Tbl_EncResp_Encuesta_Documento)
+                    {
+                        <tr>
+                            <td>
+                                @itemDocumento.Documento
+                            </td>
+                            <td>
+                                <img src="~/Content/icons/ver.png" onclick="window.open('@partialpathrep@itemDocumento.Documento')" width="35" />
+                            </td>
+                        </tr>
+
+                    }
+
+                </table>
+            </td>
+
+            @if ((item.Tbl_Enc_Encuesta_Pregunta.tiene_observacion == true) || (item.Tbl_Enc_Encuesta_Pregunta.id_tipo_respuesta == 1))
+            {
+                <td>
+                    <h4>@item.Tbl_Enc_Encuesta_Pregunta.titulo_observacion</h4>
+                    <textarea>@item.Respuesta_Observaciones</textarea>
+                </td>
+            }
+        </tr>
+    }
+
+</table>
+
+
+@Html.Partial("_PartialPageEncabezadoCierre")

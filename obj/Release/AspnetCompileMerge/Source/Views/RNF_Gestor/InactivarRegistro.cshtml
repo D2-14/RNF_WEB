@@ -1,0 +1,372 @@
+﻿@using RNF_Web.Models;
+@model Tbl_RNF_Registro
+
+@{
+    Layout = "~/Views/Shared/_LayoutMoreSimple.cshtml";
+    db_RNFEntities db = new db_RNFEntities();
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+
+    string Tipo = ViewBag.Tipo;
+    decimal tipoid = decimal.Parse(Tipo);
+    string tecnicoinactivaid = null;
+    string secretariainactivaid = null;
+    string subregionalinactivaid = null;
+    string regionalinactivaid = null;
+    string administradorinactivaid = null;
+
+
+    int intSubRegionaRol = db.Database.SqlQuery<int>("select max(SubRegional) from Tbl_Gral_PerfilesRol").FirstOrDefault();
+    int intDirectorRegionalRol = db.Database.SqlQuery<int>("select max(Regional) from Tbl_Gral_PerfilesRol").FirstOrDefault();
+    int intAdministradorRol = db.Database.SqlQuery<int>("select max(AdministradorRNF) from Tbl_Gral_PerfilesRol").FirstOrDefault();
+    int intTecnicoRol = db.Database.SqlQuery<int>("select max(TecnicoForestal) from Tbl_Gral_PerfilesRol").FirstOrDefault();
+    int intSecretariaRol = db.Database.SqlQuery<int>("select max(Secretaria) from Tbl_Gral_PerfilesRol").FirstOrDefault();
+    fc_Seg_Sel_RolUsuario_Result fc_RolSubRegional = db.fc_Seg_Sel_RolUsuario(objUs.intUsuario_id, 1).Where(Obj => Obj.Rol_id == intSubRegionaRol).FirstOrDefault();
+    fc_Seg_Sel_RolUsuario_Result fc_RolDirectorRegional = db.fc_Seg_Sel_RolUsuario(objUs.intUsuario_id, 1).Where(Obj => Obj.Rol_id == intDirectorRegionalRol).FirstOrDefault();
+    fc_Seg_Sel_RolUsuario_Result fc_RolAdminsitrador = db.fc_Seg_Sel_RolUsuario(objUs.intUsuario_id, 1).Where(Obj => Obj.Rol_id == intAdministradorRol).FirstOrDefault();
+    fc_Seg_Sel_RolUsuario_Result fc_RolTecnicoForestal = db.fc_Seg_Sel_RolUsuario(objUs.intUsuario_id, 1).Where(Obj => Obj.Rol_id == intTecnicoRol).FirstOrDefault();
+    fc_Seg_Sel_RolUsuario_Result fc_RolSecretaria = db.fc_Seg_Sel_RolUsuario(objUs.intUsuario_id, 1).Where(Obj => Obj.Rol_id == intSecretariaRol).FirstOrDefault();
+    Tbl_Gral_ParametrosGenerales tbl_Gral_ParametrosGenerales = db.Tbl_Gral_ParametrosGenerales.FirstOrDefault();
+
+    tbl_Gral_ParametrosGenerales.Administrador_PermitirModificarRegistroSinRestriccion = tbl_Gral_ParametrosGenerales.Administrador_PermitirModificarRegistroSinRestriccion ?? false;
+    tbl_Gral_ParametrosGenerales.DirectorRegional_PermitirModificarRegistroSinRestriccion = tbl_Gral_ParametrosGenerales.DirectorRegional_PermitirModificarRegistroSinRestriccion ?? false;
+    tbl_Gral_ParametrosGenerales.SubRegiona_PermitirModificarRegistroSinRestriccion = tbl_Gral_ParametrosGenerales.SubRegiona_PermitirModificarRegistroSinRestriccion ?? false;
+
+
+    bool RolSubRegional = false;
+    bool RolAdministrador = false;
+    bool RolDirectorRegional = false;
+    bool RolTecnicoForestal = false;
+    bool RolSecretaria = false;
+
+    if (fc_RolSubRegional != null)
+    {
+        RolSubRegional = true;
+    }
+    if (fc_RolDirectorRegional != null)
+    {
+        RolDirectorRegional = true;
+    }
+    if (fc_RolAdminsitrador != null)
+    {
+        RolAdministrador = true;
+    }
+    if (fc_RolTecnicoForestal != null)
+    {
+        RolTecnicoForestal = true;
+    }
+    if (fc_RolSecretaria != null)
+    {
+        RolSecretaria = true;
+    }
+
+    if (tipoid == 95.04M)
+    {
+        RolAdministrador = true;
+        administradorinactivaid = "" + objUs.intUsuario_id + "";
+    }
+    if (tipoid == 96.04M)
+    {
+        RolDirectorRegional = true;
+        regionalinactivaid = "" + objUs.intUsuario_id + "";
+    }
+    if (tipoid == 97.04M)
+    {
+        RolSubRegional = true;
+        subregionalinactivaid = "" + objUs.intUsuario_id + "";
+    }
+    if (tipoid == 98.04M)
+    {
+        RolSecretaria = true;
+        secretariainactivaid = "" + objUs.intUsuario_id + "";
+    }
+    if (tipoid == 99.04M)
+    {
+        RolTecnicoForestal = true;
+        tecnicoinactivaid = "" + objUs.intUsuario_id + "";
+    }
+
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+<script>
+
+    function iniciarGestEtapaSolicitudInactivacion(solicitud) {
+        var AsignarTecnico = '@RolTecnicoForestal';
+        var Solicitud_id = solicitud;
+        var data = {
+            Solicitud_id: Solicitud_id,
+            AsignarTecnico: AsignarTecnico
+        };
+
+        var url = '@Url.Action("IniciarGestEstapaSolicitud", "RNF_Registro")';
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            var oJSON = RespuestaJSON;
+            var CodRespuesta = oJSON.CodRespuesta;
+            var StrMensaje = oJSON.StrMensaje;
+            if (CodRespuesta == 1) {
+                var etapa_id = oJSON.etapa_id;
+                var etaparuta_id = oJSON.etaparuta_id;
+                var correlativoetapa_id = oJSON.correlativoetapa_id;
+                var Solicitud = oJSON.Solicitud;
+                var firma = oJSON.firma;
+                //alert("Proceso de inactivación iniciada para el expediente: " + NE);
+                location.href = '/Gest_EtapaSolicitud/Edit?solicitud_id=' + Solicitud + '&etapa_id=' + etapa_id + '&etaparuta_id=' + etaparuta_id + '&correlativoetapa_id=' + correlativoetapa_id;
+
+            } else {
+                alert(StrMensaje);
+            }
+        }).fail(function (Error) {
+
+        });
+
+    }
+
+    function inactivacionRegistro(noregistroliteral, noregistrocorrelativo, categoriaid) {
+        var No_RegistroLiteral = noregistroliteral;
+        var No_RegistroCorrelativo = noregistrocorrelativo;
+        var Categoria_id = categoriaid;
+        var SolicitudTipoID = '@tipoid';
+        var data = {
+            No_RegistroLiteral: No_RegistroLiteral,
+            No_RegistroCorrelativo: No_RegistroCorrelativo,
+            Categoria_id: Categoria_id,
+            SolicitudTipoID: SolicitudTipoID
+        };
+
+        //var url = "@Url.Action("SolicitudInactivacionTecnico", "RNF_Registro")";
+        var url = "@Url.Action("SolicitudInactivacionInterno", "RNF_Registro")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+            var CodRespuesta = oJSON.CodRespuesta;
+            if (CodRespuesta == 1) {
+                var NT = oJSON.NumeroTemporal;
+                var NE = oJSON.NumeroExpediente;
+                var solicitud = oJSON.Solicitud;
+                var firma = oJSON.firma;
+                iniciarGestEtapaSolicitudInactivacion(solicitud);
+                //alert("Proceso de inactivación iniciada para el expediente: " + NE);
+                //location.href = '/Home/SolicitudEtapaView?guid_id=' + firma + '&etapaid=1&etaparutaid=1&correlativo=1';
+                //location.replace("/Home/SolicitudTap/" + solicitud + "?firma=" + firma);
+            } else {
+                var StrMensaje = oJSON.StrMensaje;
+                alert(StrMensaje);
+            }
+        }).fail(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+            loaderPantalla(false);
+            alert("Algo salió mal");
+        });
+
+
+    }
+
+    function agregarInactivacionTecnico() {
+        var No_Registro = '@Model.No_Registro';
+        var InactivacionTecnico_Tipo_id = document.getElementById("InactivacionTecnico_Tipo").value;
+        var Motivo = document.getElementById("Motivo").value;
+        var TiempoInactivacion = document.getElementById("TiempoInactivacion").value;
+        var AsignarTecnico = '@RolTecnicoForestal';
+        if ((Motivo == null) || (Motivo.trim() == '')) {
+            alert("El motivo de inactivación no puede estar en blanco");
+            return;
+        }
+
+        if (InactivacionTecnico_Tipo_id == 2) {
+            TiempoInactivacion = 0;
+        }
+
+        var data = {
+            No_Registro: No_Registro,
+            InactivacionTecnico_Tipo_id: InactivacionTecnico_Tipo_id,
+            Motivo: Motivo,
+            TiempoInactivacion: TiempoInactivacion
+        }
+
+        var url = '@Url.Action("GeneraInactivacionTecnico", "RNF_Gestor")';
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            var oJSON = RespuestaJSON;
+            var CodRespuesta = oJSON.CodRespuesta;
+            var StrRespuesta = oJSON.StrRespuesta;
+
+            if (CodRespuesta == 1) {
+                var Estado_id = '@Model.Estado_id';
+                var InactivacionTemporal = false;
+                var InactivacionDefinitiva = false;
+                var TecnicoInactiva_id = '@tecnicoinactivaid';
+                var SubRegional_Inactiva_id = '@subregionalinactivaid';
+                var Secretaria_Inactiva_id = '@secretariainactivaid';
+                var RegionalInactiva_id = null;
+                var AdministradorInactiva_id = '@administradorinactivaid';
+
+                if (InactivacionTecnico_Tipo_id == 1) {
+                    InactivacionTemporal = true;
+                }
+
+                if (InactivacionTecnico_Tipo_id == 2) {
+                    InactivacionDefinitiva = true;
+                }
+
+                url = '@Url.Action("CambiarEstadoRegistro", "RNF_Registro_Reasignacion")'
+                var data2 = {
+                    No_Registro: No_Registro,
+                    Estado_id: Estado_id,
+                    Motivo: Motivo,
+                    InactivacionTemporal: InactivacionTemporal,
+                    InactivacionDefinitiva: InactivacionDefinitiva,
+                    TecnicoInactiva_id: TecnicoInactiva_id,
+                    SubRegional_Inactiva_id: SubRegional_Inactiva_id,
+                    RegionalInactiva_id: RegionalInactiva_id,
+                    AdministradorInactiva_id: AdministradorInactiva_id,
+                    AsignarTecnico: AsignarTecnico,
+                    TiempoInactivacion: TiempoInactivacion
+                }
+
+                $.post(url, data2).done(function (Respuesta2) {
+                    var oJSON2 = Respuesta2;
+                    console.log(oJSON2);
+                    var Result = oJSON2.Result;
+                    var Mensaje = oJSON.Mensaje;
+
+                    if (Result == 1) {
+                        inactivacionRegistro('@Model.No_RegistroLiteral', '@Model.No_RegistroCorrelativo', '@Model.Categoria_id');
+                        //location.replace('@Url.Action("RegistroAgregado","Home")')
+                    } else {
+                        alert(Mensaje);
+                    }
+
+                }).fail(function (Error2) {
+                    console.log(Error2);
+                    alert('Error: ' + Error2);
+                })
+
+
+
+            } else {
+                alert(StrRespuesta);
+            }
+
+        }).fail(function (RespuestaJSON) {
+            console.log(RespuestaJSON);
+            alert('Error: ' + RespuestaJSON);
+
+        })
+
+
+
+    }
+
+    function activarDiasInactivacion() {
+
+        var cb_InactivacionTecnico_Tipo = document.getElementById('InactivacionTecnico_Tipo');
+        var cb_TiempoInactivacion = document.getElementById('TiempoInactivacion');
+        var InactivacionTecnico_Tipo = cb_InactivacionTecnico_Tipo.value;
+        var TiempoInactivacion = cb_TiempoInactivacion.value;
+
+        console.log(InactivacionTecnico_Tipo);
+        console.log(TiempoInactivacion);
+
+        if (InactivacionTecnico_Tipo == 2) {
+            cb_TiempoInactivacion.style.display = "none";
+        } else {
+            cb_TiempoInactivacion.style.display = "inline";
+        }
+
+    }
+
+    function validarVistaTipo() {
+        var tr_tipo = document.getElementById('tr_tipo');
+        var SolicitudTipoID = '@tipoid';
+        var RolSecretaria = '@RolSecretaria';
+        var RolTecnicoForestal = '@RolTecnicoForestal';
+
+        if (RolSecretaria && (SolicitudTipoID == 98.04))
+        {
+            tr_tipo.style.visibility = 'hidden';
+        }
+
+        if (RolTecnicoForestal && (SolicitudTipoID == 99.04)) {
+            tr_tipo.style.visibility = 'hidden';
+        }
+
+    }
+
+    $(document).ready(function () {
+
+        validarVistaTipo();
+
+        activarDiasInactivacion();
+
+        $(document).on('change', '#InactivacionTecnico_Tipo', function () {
+
+            activarDiasInactivacion();
+
+
+        }); // -----Fin de cambio de InactivacionTecnicoTipo
+
+    });
+
+</script>
+
+
+<table width="100%">
+    <tr>
+        <td width="50%"></td>
+        <td width="30%">
+        </td>
+        <td width="10%">
+            <button rel="tooltip" title="Regresar" onclick="location.href='@Url.Action("", "RNF_Gestor", new { No_Registro = Model.No_Registro })'">
+                <i><img src="~/Content/icons/regresar.png" style="border-radius: 30%; width: 40px; height: auto" /></i>
+                <div class="ripple-container"></div>
+                Regresar
+            </button>
+        </td>
+        <td width="10%"></td>
+    </tr>
+</table>
+
+
+<div align="center">
+    <strong style="color:red;">El acceso a esta gestión generará una nueva solicitud de inactivación</strong>
+</div>
+<table class="table">
+    <tr id="tr_tipo" name="tr_tipo" style="visibility:visible">
+        <th>
+            Tipo de Inactivación
+        </th>
+        <td>
+            @Html.DropDownList("InactivacionTecnico_Tipo", null, htmlAttributes: new { @class = "form-select" })
+        </td>
+        <td>
+            @Html.DropDownList("TiempoInactivacion", null, htmlAttributes: new { @class = "form-select" })
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Motivo
+        </th>
+        <td colspan="2">
+            <textarea class="form-control" rows="5" id="Motivo" name="Motivo" placeholder="Razón de inactivación"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+            <input type="button" class="btn btn-success" value="Solicitar Inactivación" onclick="agregarInactivacionTecnico()" />
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,597 @@
+﻿@using RNF_Web.Models;
+@model RNF_Web.Models.Tbl_Sol_Empresa_Entidad
+@using System.Data.SqlClient;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_Sol_Solicitud tbl_sol_solicitud = db.Tbl_Sol_Solicitud.Find(ViewBag.solicitud_id);
+
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    controllerName = "Sol_Empresa_Entidad";
+    string Nombre_Div = "div_Sol_Permisos_Empresa_Entidad_Actividad_Create";
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+
+    fc_Gral_Sol_Configuracion_Result permisos = db.fc_Gral_Sol_Configuracion(tbl_sol_solicitud.Solicitud_id, controllerName, boolEsInterno).FirstOrDefault();
+
+}
+
+
+<style>
+    .formation {
+        height: auto;
+        max-width: 90%;
+        margin: 30px auto;
+        border-radius: 10px;
+        border-style: solid;
+        border-color: #77DD77;
+        padding: 20px;
+        box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    }
+</style>
+
+
+@{
+    ViewBag.Title = "Evaluación de Áreasss";
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+}
+
+
+<link href="~/Content/assets_section/style.css" rel="stylesheet" />
+<div class="formation">
+
+    <table width="100%">
+        <tr>
+            <td width="50%"></td>
+            <td width="30%">
+            </td>
+            <td width="10%">
+                <button rel="tooltip" title="Regresar" onclick="location.href='@Url.Action("Edit", "Gest_EtapaSolicitud", new { solicitud_id = Model.Solicitud_id, etapa_id = ViewBag.etapa_id, etaparuta_id = ViewBag.etaparuta_id, correlativoetapa_id = ViewBag.correlativoetapa_id })'">
+                    <i><img src="~/Content/icons/regresar.png" style="border-radius: 30%; width: 40px; height: auto" /></i>
+                    <div class="ripple-container"></div>
+                    Regresar
+                </button>
+            </td>
+            <td width="10%"></td>
+        </tr>
+    </table>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/qrcode.js"></script>
+
+
+    <div class="container-fluid">
+
+        <div style='height: 30px; width: 100%; background-color: #66bb6a; color: white; '>
+            <h4>Datos de la Entidad</h4>
+        </div>
+        <br />
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @Html.HiddenFor(model => model.Solicitud_id)
+            @Html.HiddenFor(model => model.swcreatedby)
+            @Html.HiddenFor(model => model.swdatecreated)
+            @Html.HiddenFor(model => model.swcreatedbyinterno)
+
+            @Html.HiddenFor(model => model.swdateupdated)
+            @Html.HiddenFor(model => model.swupdatedby)
+            @Html.HiddenFor(model => model.swupdatedbyinterno)
+
+
+            <input type="hidden" name="etapa_id" id="Etapa_id" value="@ViewBag.etapa_id" />
+            <input type="hidden" name="EtapaRuta_id" id="etaparuta_id" value="@ViewBag.etaparuta_id" />
+            <input type="hidden" name="CorrelativoEtapa_id" id="correlativoetapa_id" value="@ViewBag.correlativoetapa_id" />
+
+
+            @*ViewBag.etapa_id = etapa_id;
+
+            ViewBag.etaparuta_id = etaparuta_id;
+
+            ViewBag.correlativoetapa_id = correlativoetapa_id;*@
+
+
+            if ((tbl_sol_solicitud.Categoria_id == 5) && (tbl_sol_solicitud.Sub_Categoria_id == 1))
+            {
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        @Html.LabelFor(model => model.Tipo_Industria_id, htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-12">
+                            @Html.DropDownList("Tipo_Industria_id", null, htmlAttributes: new { @class = "form-select", @disabled = "disabled" })
+                            @Html.ValidationMessageFor(model => model.Tipo_Industria_id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                @Html.HiddenFor(model => model.Tipo_Industria_id)
+            }
+
+
+            <div class="row">
+                <div class="col-xs-8 col-md-8">
+                    @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                        @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-xs-4 col-md-4">
+                    @Html.LabelFor(model => model.No_NIT, htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.No_NIT, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                        @Html.ValidationMessageFor(model => model.No_NIT, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4 col-md-4">
+                    @Html.LabelFor(model => model.DireccionEmpresa, htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.DireccionEmpresa, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                        @Html.ValidationMessageFor(model => model.DireccionEmpresa, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-xs-4 col-md-4">
+                    @Html.LabelFor(model => model.DepartamentoEmpresaEntidad_id, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("DepartamentoEmpresaEntidad_id", null, htmlAttributes: new { @class = "form-select", @disabled = "disabled" })
+                        @Html.ValidationMessageFor(model => model.DepartamentoEmpresaEntidad_id, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <div class="col-xs-4 col-md-4">
+
+                    @Html.LabelFor(model => model.MunicipioEmpresaEntidad_id, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("MunicipioEmpresaEntidad_id", null, htmlAttributes: new { @class = "form-select", @disabled = "disabled" })
+                        @Html.ValidationMessageFor(model => model.MunicipioEmpresaEntidad_id, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4 col-md-4">
+                    @Html.LabelFor(model => model.Aldea, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Aldea, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                        @Html.ValidationMessageFor(model => model.Aldea, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-xs-4 col-md-4">
+                    @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                        @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-xs-4 col-md-4">
+                    @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                        @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4 col-md-4">
+                    @Html.LabelFor(model => model.Objeto_Empresa, "Objeto de la empresa", htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Objeto_Empresa, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                        @Html.ValidationMessageFor(model => model.Objeto_Empresa, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @if (((tbl_sol_solicitud.Sub_Categoria_id ?? 0) == 1) ||
+                 ((tbl_sol_solicitud.Sub_Categoria_id ?? 0) == 2) ||
+                 ((tbl_sol_solicitud.Sub_Categoria_id ?? 0) == 3) ||
+                 ((tbl_sol_solicitud.Sub_Categoria_id ?? 0) == 4) ||
+                 ((tbl_sol_solicitud.Sub_Categoria_id ?? 0) == 5)
+                 )
+                {
+
+                    <div class="col-xs-4 col-md-4">
+                        @Html.LabelFor(model => model.CapacidadInstalada, "Capacidad Instalada (m³) mensuales", htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.CapacidadInstalada, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                            @Html.ValidationMessageFor(model => model.CapacidadInstalada, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                }
+
+                @if (tbl_sol_solicitud.Sub_Categoria_id == 3)
+                {
+                    <div class="col-xs-12 col-md-12">
+                        @Html.LabelFor(model => model.RNF_Inscripcion_Vinculada, htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.RNF_Inscripcion_Vinculada, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                            @Html.ValidationMessageFor(model => model.RNF_Inscripcion_Vinculada, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                }
+
+
+
+                <div class="row" id="DireccionMovil">
+                    <br />
+                    &nbsp;
+                    @*<label>Dirección de trabajo de la industria Forestal Movil</label>*@
+                    <label>Dirección de funcionamiento</label>
+                    <hr />
+                </div>
+                <div class="row" id="DireccionMovilD">
+                    <table>
+                        <tr>
+                            <td>
+                                &nbsp;&nbsp;
+                            </td>
+                            <td>
+                                @Html.LabelFor(model => model.DireccionEmpresaMovil, "Dirección", htmlAttributes: new { @class = "control-label col-md-6" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.DireccionEmpresaMovil, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                                    @Html.ValidationMessageFor(model => model.DireccionEmpresaMovil, "", new { @class = "text-danger" })
+                                </div>
+
+                            </td>
+                            <td>
+                                @Html.LabelFor(model => model.DepartamentoEmpresaMovilEntidad_id, "Departamento", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("DepartamentoEmpresaMovilEntidad_id", null, htmlAttributes: new { @class = "form-select", @disabled = "disabled" })
+                                    @Html.ValidationMessageFor(model => model.DepartamentoEmpresaMovilEntidad_id, "", new { @class = "text-danger" })
+                                </div>
+
+                            </td>
+                            <td>
+                                @Html.LabelFor(model => model.MunicipioEmpresaEntidadMovil_id, "Municipio", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("MunicipioEmpresaEntidadMovil_id", null, htmlAttributes: new { @class = "form-select", @disabled = "disabled" })
+                                    @Html.ValidationMessageFor(model => model.MunicipioEmpresaEntidadMovil_id, "", new { @class = "text-danger" })
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <label>Coordenadas de la ubicación movil</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4 col-md-4">
+                    @Html.LabelFor(model => model.GTMX, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.GTMX, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                        @Html.ValidationMessageFor(model => model.GTMX, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-xs-4 col-md-4">
+                    @Html.LabelFor(model => model.GTMY, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.GTMY, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                        @Html.ValidationMessageFor(model => model.GTMY, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-sm-4 col-md-4" align="left">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4 col-md-4">
+                    @Html.LabelFor(model => model.GTMX_Tecnico, "GTMX obtenido por el técnico", htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.GTMX_Tecnico, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.GTMX_Tecnico, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-xs-4 col-md-4">
+                    @Html.LabelFor(model => model.GTMY_Tecnico, "GTMY obtenido por el técnico", htmlAttributes: new { @class = "control-label col-md-12", @disabled = "disabled" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.GTMY_Tecnico, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.GTMY_Tecnico, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-sm-4 col-md-4" align="left">
+                    <br />
+                    <input type="button" name="name" value="Reporte de inspección" class="btn btn-primary" onclick="GenerarFormularioDeInspeccionEntidad()" />
+                </div>
+
+
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-xs-4 col-md-4">
+                </div>
+                <div class="col-xs-4 col-md-4">
+                </div>
+                <div class="col-xs-4 col-md-4">
+                    @if ((bool)permisos.Agregar)
+                    {
+                        <input type="submit" value="Guardar cambios" class="btn btn-success" />
+                    }
+                </div>
+            </div>
+        }
+        <div id="div_RegionSubRegion_EmpresaEntidad"></div>
+
+        <form class="form-register" action="#" method="post">
+            <div id="form-total">
+
+                @*@if (ViewBag.section_0 == true)
+                {
+                    <section>
+                        <div class="col-md-12">
+                            <div id="section_Link_0"></div>
+                        </div>
+                    </section>
+                    <br /><br />
+                }*@
+                @if (ViewBag.section_1 == true)
+                {
+                    <section>
+                        <div class="col-md-12">
+                            <div id="section_Link_1"></div>
+                        </div>
+                    </section>
+                    <br /><br />
+                }
+
+                @if (ViewBag.section_2 == true)
+                {
+                    <section>
+                        <div class="col-md-12">
+                            <div id="section_Link_2"></div>
+                        </div>
+                    </section>
+                }
+
+                @if (ViewBag.section_3 == true)
+                {
+                    <section>
+                        <div class="col-md-12">
+                            <div id="section_Link_3"></div>
+                        </div>
+                    </section>
+                }
+
+                @if (ViewBag.section_4 == true)
+                {
+                    <section>
+                        <div class="col-md-12">
+                            <div id="section_Link_4"></div>
+                        </div>
+                    </section>
+                }
+                @if (ViewBag.section_5 == true)
+                {
+                    <section>
+                        <div class="col-md-12">
+                            <div id="section_Link_5"></div>
+                        </div>
+                    </section>
+                }
+            </div>
+
+
+        </form>
+
+        <br /><br />
+
+
+        <h5>@TempData["MensajeEmpresa"]</h5>
+
+        <hr />
+
+    </div>
+
+</div>
+
+
+@Html.Raw(ViewBag.section_Link_1);
+
+<script>
+
+    $(document).ready(function () {
+
+        var s0 = '@ViewBag.section_0';
+        var s1 = '@ViewBag.section_1';
+        var s2 = '@ViewBag.section_2';
+        var s3 = '@ViewBag.section_3';
+        var s4 = '@ViewBag.section_4';
+        var s5 = '@ViewBag.section_5';
+
+        @*if (s0) {
+            $('#section_Link_0').load('@Html.Raw(ViewBag.section_Link_0)')
+        }*@
+        if (s1) {
+            $('#section_Link_1').load('@Html.Raw(ViewBag.section_Link_1)')
+        }
+        if (s2) {
+            $('#section_Link_2').load('@Html.Raw(ViewBag.section_Link_2)')
+        }
+        if (s3) {
+            $('#section_Link_3').load('@Html.Raw(ViewBag.section_Link_3)')
+        }
+        if (s4) {
+            $('#section_Link_4').load('@Html.Raw(ViewBag.section_Link_4)')
+        }
+        if (s5) {
+            $('#section_Link_5').load('@Html.Raw(ViewBag.section_Link_5)')
+        }
+
+        //var myRegionSubRegion_EmpresaEntidad = document.getElementById("div_RegionSubRegion_EmpresaEntidad");
+        //if (myRegionSubRegion_EmpresaEntidad) {
+        //    $("#div_RegionSubRegion_EmpresaEntidad").load("/Sol_RegionSubRegion/IndexEmpresaEntidad");
+        //}
+        //var myEmpresa_Entidad_RNF = document.getElementById("div_Empresa_Entidad_RNF");
+        //if (myEmpresa_Entidad_RNF) {
+        //}
+
+    });
+
+
+</script>
+
+
+
+
+<script>
+
+    function GenerarFormularioDeInspeccionEntidad() {
+        loaderPantalla(true);
+
+        setTimeout(function () {
+            var data = {
+                Solicitud_id: '@ViewBag.solicitud_id',
+                firma: '@ViewBag.firma'
+            };
+
+            var url = "@Url.Action("GenerarFormularioDeInspeccionEntidad", "Form_FormularioTecnico_InspeccionEmpresa")";
+
+            $.post(url, data).done(function (jsonrespuesta) {
+                loaderPantalla(false);
+                var oJSON = JSON.parse(jsonrespuesta);
+                var NombreDocumento = oJSON.Ubicacion;
+                var Result = oJSON.Result;
+                var Mensaje = oJSON.Mensaje;
+            if (Result == 1) {
+                window.open('/Documentos/' + NombreDocumento, '_blank');
+            } else {
+                alert(Mensaje);
+            }
+
+            }).fail(function (jsonRespuesta) {
+                loaderPantalla(false);
+            });
+        }, 2000);
+
+    }
+
+</script>
+
+
+<script>
+
+    $(document).ready(function () {
+
+        var varTipoIndustria = $('#Tipo_Industria_id').val();
+
+        var varCategoria = $('#Categoria_id').val();
+        var varSubCategoria = $('#Tipo_Industria_id').val();
+
+        if (varTipoIndustria == 2) {
+            var TdHiddeA = document.getElementById("DireccionMovil");
+            TdHiddeA.style.display = "block";
+            var TdHiddeA = document.getElementById("DireccionMovilD");
+            TdHiddeA.style.display = "block";
+        }
+        else {
+            var TdHiddeA = document.getElementById("DireccionMovil");
+            TdHiddeA.style.display = "none";
+            var TdHiddeA = document.getElementById("DireccionMovilD");
+            TdHiddeA.style.display = "none";
+        }
+
+        if (('@tbl_sol_solicitud.Categoria_id' == 5) && ('@tbl_sol_solicitud.Sub_Categoria_id' == 3))
+        {
+            var TdHiddeA = document.getElementById("DireccionMovil");
+            TdHiddeA.style.display = "block";
+            var TdHiddeA = document.getElementById("DireccionMovilD");
+            TdHiddeA.style.display = "block";
+        }
+
+        $(document).on('change', '#Tipo_Industria_id', function () {
+            var TipoIndustria = $('#Tipo_Industria_id').val();
+
+            if (TipoIndustria == 2) {
+                var TdHiddeA = document.getElementById("DireccionMovil");
+                TdHiddeA.style.display = "block";
+                var TdHiddeA = document.getElementById("DireccionMovilD");
+                TdHiddeA.style.display = "block";
+            }
+            else
+            {
+                var TdHiddeA = document.getElementById("DireccionMovil");
+                TdHiddeA.style.display = "none";
+                var TdHiddeA = document.getElementById("DireccionMovilD");
+                TdHiddeA.style.display = "none";
+            }
+
+
+        });
+
+        $(document).on('change', '#DepartamentoEmpresaEntidad_id', function () {
+
+            var url = "@Url.Action("GetMunicipios", "Sol_Solicitud")";
+            var Departamento = $('#DepartamentoEmpresaEntidad_id').val();
+            var data = { Departamento: Departamento};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#MunicipioEmpresaEntidad_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text: municipio.Text
+                    }));
+
+                });
+
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+        $(document).on('change', '#DepartamentoEmpresaMovilEntidad_id', function () {
+
+            var url = "@Url.Action("GetMunicipios", "Sol_Solicitud")";
+            var Departamento = $('#DepartamentoEmpresaMovilEntidad_id').val();
+            var data = { Departamento: Departamento};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#MunicipioEmpresaEntidadMovil_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text: municipio.Text
+                    }));
+
+                });
+
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+
+    });
+
+</script>

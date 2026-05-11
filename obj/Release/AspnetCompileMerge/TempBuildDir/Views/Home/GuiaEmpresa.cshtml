@@ -1,0 +1,61 @@
+﻿@using RNF_Web.Models;
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutSimple.cshtml";
+    ViewBag.Title = "Empresa";
+    ViewBag.SubTitle = "Guia para seleccionar de forma adecuada la empresa forestal";
+}
+
+
+<div class="container">
+    <div class="titulo-dos">
+        <h4>@ViewBag.SubTitle</h4>
+    </div>
+    <br />
+
+    <p><span>Si ya conoce el tipo de Empresa Forestal a la que aplicará para inciar la solicitud de inscripción, seleccione las opciones conforme a las caracteristicas de su empresa, si no los conoce, continue en esta sección.</span></p>
+    <p><span>&emsp;1.- Si el objeto principal de su empresa es la transormación de productos forestales, utilizando maquinaria y</span></p>
+    <p><span>&emsp;&emsp;equipo de carpinteria, aserradero, impregnadora, etc.  Usted necesita inscribirse como:</span></p>
+    <p><span>&emsp;&emsp;a) Industria Forestal Estacionaria. Si la industria es fija o permanente</span></p>
+    <p><span>&emsp;&emsp;&emsp;(esto quiere decir que no se moverá continuamente)</span></p>
+    <p><span>&emsp;&emsp;b) Industria Forestal Movil: Con capacidad de movilizarse</span></p>
+
+    <p><span>&emsp;2.- Si el objeto de su empresa es la compra y venta de productos forestales, su empresa forestal es:</span></p>
+    <p><span>&emsp;&emsp;&emsp;Depósito Forestal</span></p>
+
+    <p><span>&emsp;3.- Si el objeto de su empresa es la reproducción de plantulas forestales, su empresa es:</span></p>
+    <p><span>&emsp;&emsp;&emsp;Vivero Forestal</span></p>
+
+    <p><span>&emsp;4.- Si su empresa realiza actividades de exportación e importación de productos forestales, su empresa forestal es:</span></p>
+    <p><span>&emsp;&emsp;&emsp;Exportadora e Importadora de productos forestales</span></p>
+    <p><span>&emsp;&emsp;&emsp;(No será necesario que la patente de comerio indique como objeto del negocio la actividad forestal)</span></p>
+
+    <p><span>&emsp;5.- Si el objeto de su empresa es la producción de resinas, látex y otros productos del bosque, su empresa es:</span></p>
+    <p><span>&emsp;&emsp;&emsp;Productoras forestales (No maderables)</span></p>
+
+    <p><span>&emsp;6.- Si su empresa se dedica al establecimiento de plantaciones forestales, su empresa forestal es:</span></p>
+    <p><span>&emsp;&emsp;&emsp;Repobladoras forestales</span></p>
+
+    <p><span>&emsp;7.- Si su empresa se dedica a la investigación técnica para realizar acciones que permitan el desarrollo y la solución de problemas en materia forestal, su empresa forestal es:</span></p>
+    <p><span>&emsp;&emsp;&emsp;Consultora forestal</span></p>
+
+    <p><span>&emsp;8.- Si su empresa requiere de un  lugar para el almacenamiento temporal de productos forestales maderables necesita inscribirse como un:</span></p>
+    <p>
+        <span>&emsp;&emsp;&emsp;Centro de acopio</span>
+        <span>
+            &emsp;(No autorizado para la venta de productos forestales y tiene que pertenecer a una emrpesa forestal
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;previamente inscrita).
+        </span>
+    </p>
+
+
+
+</div>
+
+
+
+

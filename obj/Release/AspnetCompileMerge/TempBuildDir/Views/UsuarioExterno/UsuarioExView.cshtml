@@ -1,0 +1,394 @@
+﻿@model RNF_Web.Models.Tbl_Seg_UsuarioExterno
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+@{
+
+    ViewBag.Title = "   Información personal y de la cuenta ";
+    ViewBag.SubTitle = null;
+
+    //Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+
+}
+
+
+<script src="~/Scripts/jquery-3.6.0.js"></script>
+<script src="~/Content/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="~/Content/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+
+        $("#Fecha_Nacimiento").datepicker({
+            yearRange: "-120:+0",
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true
+        });
+
+
+        $(document).on('change', '#DepartamentoDPI_id', function () {
+
+            var url = "@Url.Action("GetMunicipios", "Sol_Solicitud")";
+            var Departamento = $('#DepartamentoDPI_id').val();
+            var data = { Departamento: Departamento};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#MunicipioDPI_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text: municipio.Text
+                    }));
+
+                });
+
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+
+        $(document).on('change', '#Departamento_id', function () {
+
+            var url = "@Url.Action("GetMunicipios", "Sol_Solicitud")";
+            var Departamento = $('#Departamento_id').val();
+            var data = { Departamento: Departamento};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Municipio_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text: municipio.Text
+                    }));
+
+                });
+
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+
+
+
+    });
+
+</script>
+
+<br />
+
+@Html.Partial("_PartialPageEncabezado")
+
+
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+@Html.HiddenFor(model => model.Estado_id)
+@Html.HiddenFor(model => model.Usuario_id)
+@Html.HiddenFor(model => model.swupdatedby)
+@Html.HiddenFor(model => model.swdateupdated)
+@Html.HiddenFor(model => model.swupdateUsuarioInterno)
+@Html.HiddenFor(model => model.CambioPW)
+
+<br />
+<div class="container-fluid" style="width:100%;">
+
+    <button type="button" style="width:100%; color:green;" data-toggle="collapse" data-target="#Cuenta">(+) Usuario y contraseña&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    <br />
+    <div id="Cuenta" class="collapse" style="border: 1px dashed #1bb828;">
+        <br />
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nombres, htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Nombres, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Nombres, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Apellidos, htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Apellidos, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Apellidos, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Correo, "Correo :", htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Correo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Clave, "Contraseña actual:", htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-md-10">
+                        <input class="form-control input100" type="password" name="Clave" placeholder="Ingrese la Contraseña" value="@Model.Clave">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                    &nbsp;&nbsp;Nueva contraseña:
+                    <div class="col-md-10">
+                        <input class="form-control input100" type="password" name="ClaveNueva" placeholder="No ingresar datos si no desea actualizar la contraseña" value="@ViewBag.ClaveConfirmacion">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                    &nbsp;&nbsp;Confirmar nueva contraseña:
+                    <div class="col-md-10">
+                        <input class="form-control input100" type="password" name="ClaveConfirmacion" placeholder="Confirmación de Contraseña" value="@ViewBag.ClaveConfirmacion">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Telefono_Celular, "Telefono Celular:", htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => Model.Telefono_Celular, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Telefono_Celular, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Telefono_Oficina, "Telefono Oficina:", htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Telefono_Oficina, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Telefono_Oficina, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+
+            </div>
+
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Telefono_Oficina_Extension, " Extensión:", htmlAttributes: new { @class = "control-label col-md-5" })
+                    <div class="col-md-5">
+                        @Html.EditorFor(model => model.Telefono_Oficina_Extension, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Telefono_Oficina_Extension, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <br />
+    </div>
+    <br />
+    <button type="button" style="width:100%; color:green;" data-toggle="collapse" data-target="#Generales">(+) Datos generales del solicitante</button>
+    <br />
+    <div id="Generales" class="collapse" style="border: 1px dashed #1bb828;">
+        <br />
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Fecha_Nacimiento, "Fecha de nacimiento", htmlAttributes: new { @class = "control-label col-md-6", style = "text-align: left; font-size:18px;" })
+                    <div class="col-md-7">
+                        @Html.TextBoxFor(model => model.Fecha_Nacimiento, "{0:dd-MM-yyyy}", new { @class = "dateInput", @placeholder = "dd/mm/yyyy", data_val = false })
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.No_NIT, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.No_NIT, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.No_NIT, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.LabelFor(model => model.PuebloPertenencia_id, htmlAttributes: new { @class = "control-label col-md-6" })
+                        @Html.DropDownList("PuebloPertenencia_id", null, htmlAttributes: new { @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.PuebloPertenencia_id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Sexo_id, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("Sexo_id", null, htmlAttributes: new { @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.Sexo_id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+
+                <div class="form-group">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DocumentoID_Tipo, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("DocumentoID_Tipo", null, htmlAttributes: new { @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.DocumentoID_Tipo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.No_Documento, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.No_Documento, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.No_Documento, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DepartamentoDPI_id, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("DepartamentoDPI_id", null, htmlAttributes: new { @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.DepartamentoDPI_id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MunicipioDPI_id, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("MunicipioDPI_id", null, htmlAttributes: new { @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.MunicipioDPI_id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <br />
+    </div>
+    <br />
+    <button type="button" style="width:100%; color:green;" data-toggle="collapse" data-target="#Direccion">(+) Dirección de notificación&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    <br />
+    <div id="Direccion" class="collapse" style="border: 1px dashed #1bb828;">
+        <br />
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Direccion, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Direccion, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Departamento_id, htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("Departamento_id", null, htmlAttributes: new { @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.Departamento_id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Municipio_id, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("Municipio_id", null, htmlAttributes: new { @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.Municipio_id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+    </div>
+
+    <br />
+    <button type="button" style="width:100%; color:green;" data-toggle="collapse" data-target="#Formacion" hidden>(+) Formación y datos laborales&nbsp;&nbsp;&nbsp;</button>
+    <br />
+   
+
+</div>
+
+<table class="model-state">
+    @foreach (var item in ViewContext.ViewData.ModelState)
+    {
+        if (item.Value.Errors.Any())
+        {
+            <tr>
+                <td> <h1 style="background-color:powderblue;">@(string.Join("; ", item.Value.Errors.Select(x => x.ErrorMessage)))</h1></td>
+            </tr>
+        }
+    }
+</table>
+
+
+<br />
+
+
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+
+

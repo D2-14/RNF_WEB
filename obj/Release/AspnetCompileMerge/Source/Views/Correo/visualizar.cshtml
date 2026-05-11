@@ -1,0 +1,37 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+
+@model RNF_Web.Models.Tbl_Mail_History
+
+<table>
+    <tr>
+        <td>
+            Para:
+        </td>
+        <td>
+            @Model.para
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Subject:
+        </td>
+        <td>
+            @Model.Subject
+        </td>
+    </tr>
+    <tr>
+        <td>
+        </td>
+        <td>
+            @Html.Raw(@Model.Cuerpo)
+        </td>
+    </tr>
+</table>
+

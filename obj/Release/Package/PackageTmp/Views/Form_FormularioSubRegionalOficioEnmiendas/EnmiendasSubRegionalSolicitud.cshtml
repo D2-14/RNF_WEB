@@ -1,0 +1,48 @@
+﻿@using RNF_Web.Models;
+@{
+    Layout = null;
+}
+@model IEnumerable<RNF_Web.Models.Tbl_Gest_EtapaSolicitud_OficioSubRegional_Enmienda>
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@if (Model.Count() > 0)
+{
+    <table class="table table-striped">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th>
+                Escrito por
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @if ((bool)item.EstadoEnmiendaTecnico_id)
+                    {
+                        <label class="text-primary">Técnico</label>
+                    }
+                    else if ((bool)item.EstadoEnmiendaJuridico_id)
+                    {
+                        <label class="text-primary">Jurídico</label>
+                    }
+                    else if ((bool)item.EstadoEnmiendaSubRegional_id)
+                    {
+                        <label class="text-primary">SubRegional</label>
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+

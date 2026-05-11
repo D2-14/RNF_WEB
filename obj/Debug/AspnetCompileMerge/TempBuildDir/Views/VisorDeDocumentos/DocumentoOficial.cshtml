@@ -1,0 +1,52 @@
+﻿
+@using RNF_Web.Models;
+
+@{
+    Layout = "~/Views/Shared/_LayoutMoreSimple.cshtml";
+
+}
+
+
+<h1 class="text-danger">Si el sistema le indica que tiene bloqueado el acceso a ventanas emergentes, por favor permita siempre las ventanas emergentes para este sitio</h1>
+<h1 class="text-danger">Esta ventana se cerrará en un momento!!</h1>
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+        ubicacion = '@ViewBag.Ubicacion';    
+        activarVisorDeDocumentosFirmado(ubicacion)
+        setTimeout(function () {
+            window.close();
+        },15000)
+    });
+
+
+
+    function activarVisorDeDocumentos(ubicacion) {
+        document.getElementById("ubicacionVisor").value = ubicacion;
+        $("#VisorDeDocumentos").submit();
+    }
+
+    function activarVisorDeDocumentosFirmado(ubicacion) {
+        document.getElementById("ubicacionVisorFirmado").value = ubicacion;
+        $("#VisorDeDocumentosFirmado").submit();
+    }
+
+
+</script>
+
+<input type="hidden" id="URLLocation" value="/U9BBC645FA28446EA88D328AFAC05D08AU9BBC64/" style="display:none" />
+
+@using (Html.BeginForm("Index", "VisorDeDocumentos", FormMethod.Post, new { id = "VisorDeDocumentos", target = "_blank" }))
+
+{
+    <input type="hidden" name="ubicacionVisor" id="ubicacionVisor" value="" />
+}
+@using (Html.BeginForm("IndexFirmados", "VisorDeDocumentos", FormMethod.Post, new { id = "VisorDeDocumentosFirmado", target = "_blank" }))
+{
+    <input type="hidden" name="ubicacionVisorFirmado" id="ubicacionVisorFirmado" value="" />
+}
+

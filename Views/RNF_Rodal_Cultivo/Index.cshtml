@@ -1,0 +1,109 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_RNF_Rodal_Cultivo>
+@using RNF_Web.Models;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+@{
+    db_RNFEntities db = new db_RNFEntities();
+    Layout = null;
+    ViewBag.Title = "Cultivos SAF";
+    ViewBag.SubTitle = "Listado de Especies";
+    EdicionRNFGrants objRNFGrants = (EdicionRNFGrants)Session[Constants.session_EdicionRNFGrants];
+    decimal volumen_ha = 0, volumen_rodal = 0;
+
+}
+
+
+
+
+@*@Html.Partial("_PartialPageEncabezado")*@
+
+
+<br />
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            Finca
+        </th>
+        <th>
+            Area Id
+        </th>
+        <th>
+            Tipo de área
+        </th>
+        <th>
+            Especie
+        </th>
+        <th>
+            Nombre común
+        </th>
+        <th>
+            Año de establecimiento
+        </th>
+        <th>
+            Volumen rodal
+        </th>
+        <th>
+            Volumen ha
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        volumen_rodal = (item.Volumen_Rodal ?? 0);
+        volumen_ha = (item.Volumen_ha ?? 0);
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Finca_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rodal_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Sol_Rodal_Tipo.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Gral_Cultivo.Nombre_Tecnico)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Gral_Cultivo.Nombres_Comunes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Anio_Establecimiento)
+            </td>
+            <th>
+                @volumen_rodal.ToString("0.00")
+            </th>
+            <th>
+                @volumen_ha.ToString("0.00")
+            </th>
+
+            <td>
+                @if (objRNFGrants.Borrar)
+                {
+                    <img src="~/Content/icons/trash_green.png" onclick="Borrar_Cultivo('@item.No_Registro', @item.Finca_id,@item.Rodal_Id,@item.Tipo_de_Area, @item.Cultivo_id)" width="25" height="25" />
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@*@Html.Partial("_PartialPageEncabezadoCierre")*@
+
+
+
+
+
+
+

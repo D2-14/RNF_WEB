@@ -1,0 +1,68 @@
+﻿@using RNF_Web.Models;
+@{ 
+    Layout = null;
+    long Solicitud_id = ViewBag.Solicitud_id;
+}
+@if(Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<script>
+
+    function agregarEnmiendaRegistroNoProcedente() {
+        var Solicitud_id = '@Solicitud_id';
+        var Enmienda = document.getElementById("Enmienda_OficioRegistro").value;
+        var data = {
+            Solicitud_id: Solicitud_id,
+            Enmienda: Enmienda
+        }
+
+        var url = "@Url.Action("AgregarEnmienda", "Form_FormularioRegionalOficioDenegacion")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            //var oJSON = jsonRespuesta;
+            refreshPartialEnmiendasOficioRegistroNoProcedente();
+        }).fail(function (jsonRespuesta) {
+            //var oJSON = jsonRespuesta;
+            refreshPartialEnmiendasOficioRegistroNoProcedente();
+        });
+    }
+
+    function cambioEstadoEnmiendaOficioRegistroNoProcedente(Enmienda_id) {
+        var Solicitud_id = '@Solicitud_id';
+        var data = {
+            Solicitud_id: Solicitud_id,
+            Enmienda_id: Enmienda_id
+        }
+        var url = "@Url.Action("CambiarEstadoEnmienda", "Form_FormularioRegionalOficioDenegacion")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            //var oJSON = jsonRespuesta;
+            refreshPartialEnmiendasOficioRegistroNoProcedente();
+        }).fail(function (jsonRespuesta) {
+            //var oJSON = jsonRespuesta;
+            refreshPartialEnmiendasOficioRegistroNoProcedente();
+        });
+    }
+
+    function refreshPartialEnmiendasOficioRegistroNoProcedente() {
+        var Solicitud_id = '@Solicitud_id';
+        document.getElementById("Enmienda_OficioRegistro").value = "";
+        var myListarEnmiendasOficioRegistroNoProcedente = document.getElementById("div_ListarEnmiendasOficioRegistroNoProcedente");
+        if (myListarEnmiendasOficioRegistroNoProcedente) {
+            $("#div_ListarEnmiendasOficioRegistroNoProcedente").load("/Form_FormularioRegionalOficioDenegacion/ListarEnmiendas?Solicitud_id=" + Solicitud_id)
+        }
+    }
+
+    $(document).ready(function () {
+        refreshPartialEnmiendasOficioRegistroNoProcedente();
+    });
+</script>
+
+<div class="col-10">
+    <input type="text" id="Enmienda_OficioRegistro" name="Enmienda_OficioRegistro" value="" placeholder="Inconsistencias a Registrar" maxlength="3000" class="form-control" />
+    <input type="button" id="AgregarEnmienda" name="AgregarEnmienda" value="Agregar" onclick="agregarEnmiendaRegistroNoProcedente()" class="btn btn-sm btn-primary"" />
+</div>
+
+<div id="div_ListarEnmiendasOficioRegistroNoProcedente"></div>

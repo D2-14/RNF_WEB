@@ -1,0 +1,49 @@
+﻿@model RNF_Web.Models.Tbl_Seg_UsuarioExterno
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+
+    ViewBag.Title = "   Activación de Usuario";
+    ViewBag.SubTitle = "   Activación de usuario";
+
+    Layout = "~/Views/Shared/_LayoutBanner.cshtml";
+
+}
+
+<br />
+<div class="container">
+    <img src="~/Content/images/bannerregistro.png" width="100%" />
+    <div class="col-md-12">
+        <div class="card mb-4 border-0">
+            <div class="card-header" style="color: #1E88E5; background-color: #7AF0B3;">
+                <h4 class="title">&nbsp;&nbsp;&nbsp;@ViewBag.Title</h4>
+            </div>
+
+            <div class="card-content">
+
+                @if (ViewBag.Mensaje != "")
+                {
+                    <h1 style="background-color:powderblue;">@ViewBag.Mensaje</h1>
+                    <p style="color: blue;">@ViewBag.Mensaje_II</p>
+                }
+                else
+                {
+                    <h1 style="background-color:powderblue;">Link no valido</h1>
+                    <p style="color: blue;">Link no valido</p>
+
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+<button class="btn btn-link" type="button" onclick="location.href='@Url.Action("Index","Login", new { usuario = ViewBag.Usuario, password = ViewBag.Password, idk = ViewBag.idk })'">Presione aquí para Ingresar.</button>
+<br />
+

@@ -1,0 +1,43 @@
+﻿@using RNF_Web.Models;
+@using PagedList.Mvc;
+
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+
+@{
+    ViewBag.Title = "Verificación de Constancia";
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+
+
+
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+}
+
+@*<h2><i class="fa fa-certificate" aria-hidden="true"></i>   Verificación de Constancia</h2>*@
+
+
+
+
+
+
+@Html.Partial("_PartialPageEncabezado")
+
+
+
+<br />
+<br />
+<br />
+
+<div class="row">
+    <div class="col-md-3">
+        <label>* Ingrese código de registro</label>
+
+    </div>
+
+    <div class="col-md-4">
+        <input class="form-control" id="iNumRegistro" pattern="^[0-9\-]+$" type="text" />
+    </div>
+
+</div>

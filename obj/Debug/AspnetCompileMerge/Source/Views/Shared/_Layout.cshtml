@@ -1,0 +1,86 @@
+﻿@using RNF_Web.Models;
+
+@{
+    Usuario objUs = (Usuario)Session["User"];
+    if (objUs != null)
+    {
+        ViewBag.Nombres = objUs.strNombre_Usuario;
+    }
+    else
+    {
+        ViewBag.Nombres = "REGISTRO DE NUEVO USUARIO";
+    }
+}
+
+
+<script>
+    function download(filename, NombreDescarga) {
+
+        var element = document.createElement('a');
+        element.setAttribute('href', filename);
+        element.setAttribute('download', NombreDescarga);
+        document.body.appendChild(element);
+        element.click();
+        //document.body.removeChild(element);
+    }
+</script>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    @*
+        Paleta de colores https://htmlcolorcodes.com/es/
+        RGB to Hexa       https://www.rgbtohex.net/
+    *@
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="~/Content/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/assets/css/Login-Form-Clean.css">
+    <link rel="stylesheet" href="~/Content/assets/css/styles.css">
+    <script src="~/Content/assets/js/index.js"></script>
+
+
+</head>
+<body>
+    @Html.Action("renderMenuHTML", "Menu")
+
+    <div style='height: 50px; width: 100%; background-color: green; color: white;'>
+        <table width="100%">
+            <tr>
+                <td width="5%">
+                    <div class=" d-sm-block d-md-none">
+                        <img class=".d-md-none .d-lg-block" width="44" height="44" src="~/Content/icons/trespuntos.png" onclick="mostrarMenuLateral()" />
+                    </div>
+                </td>
+                <td width="95%">
+                    <br />
+                    <div class="titulo-dos">
+                        <h6 style="border-bottom:2px solid orangered;padding-bottom:5px;">@Html.Raw(Constants.Layout_Titulo)</h6>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <br />
+
+    @RenderBody()
+
+    <script src="~/Scripts/chosen.jquery.js"></script>
+
+    <script src="~/Content/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Content/assets/js/jquery.min.js"></script>
+
+
+</body>
+</html>
+<script>
+    window.addEventListener("beforeunload", function (e) {
+        document.cookie = "ASP.NET_SessionId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    });
+   
+</script>

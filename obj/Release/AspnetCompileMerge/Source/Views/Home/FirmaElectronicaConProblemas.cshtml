@@ -1,0 +1,44 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Form_Formulario_FirmaElectronica_Bitacora>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+<p>
+    Error al intentar firmar el documento.
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Firmante)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Resultado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tbl_Form_Formulario_FirmaElectronica_Estado.Descripcion)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Firmante)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Resultado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Form_Formulario_FirmaElectronica_Estado.Descripcion)
+            </td>
+        </tr>
+    }
+
+</table>
+<p>
+    Reporte este error a informatica o intente de nuevo con algunas correcciones.
+</p>

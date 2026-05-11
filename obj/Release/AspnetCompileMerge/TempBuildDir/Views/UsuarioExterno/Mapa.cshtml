@@ -1,0 +1,51 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    ViewBag.Title = "Tierra de vocación forestal";
+    ViewBag.SubTitle = "Cargar nuevo mapa";
+}
+
+
+
+@Html.Partial("_PartialPageEncabezado")
+
+<button class="btn-secondary" style="position: absolute; right: 0;" rel="tooltip" title="Regresar" onclick="location.href='@Url.Action("Index", "Seg_Usuario")'">
+    <i><img src="~/Content/icons/regresar.png" style="border-radius: 30%; width: 35px; height: auto" /></i>
+    <div class="ripple-container"></div>
+</button>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+
+    <img src="@ViewBag.Fotografia" />
+    <form method="post" enctype="multipart/form-data" asp-controller="UsuarioExterno" asp-action="Fotografia">
+        <Table>
+            <tr>
+                <td><span>Seleccionar fotografia:</span></td>
+                <td><input type="file" name="postedFiles" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Subir fotografía" /></td>
+            </tr>
+        </Table>
+    </form>
+    <span style="color:green">@TempData["MessageFoto"]</span>
+</body>
+</html>
+
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+
+

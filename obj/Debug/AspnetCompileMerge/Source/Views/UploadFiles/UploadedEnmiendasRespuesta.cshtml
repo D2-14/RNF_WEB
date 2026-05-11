@@ -1,0 +1,199 @@
+﻿@model RNF_Web.Models.Tbl_Gest_EtapaSolicitud
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    Layout = null;
+
+    ViewBag.Respuesta_Id_DocumentosCompletos = 1;
+
+}
+
+<script>
+
+    function Cerrar()
+    {
+        window.location.replace("/Main/Index");
+    }
+
+    function fnc_EnviarRespuesta(varRespuestaid)
+    {
+        varsolicitud_id = '@Model.Solicitud_id';
+        varetapa_id = '@Model.Etapa_id';
+        varetaparuta_id = '@Model.EtapaRuta_id';
+        varcorrelativoetapa_id = '@Model.CorrelativoEtapa_id';
+        varMotivo = $('#Motivo').val();
+        varEtapaSolicitud_GUIDid= '@Model.EtapaSolicitud_GUID_id';
+
+
+        var url = "@Url.Action("ActualizaEtapaRespuestaIndexSolicitud", "Form_FormularioSecretaria")";
+
+        var data = { solicitud_id: varsolicitud_id, etapa_id: varetapa_id, etaparuta_id: varetaparuta_id, correlativoetapa_id: varcorrelativoetapa_id, motivo: varMotivo, respuestaid: varRespuestaid, EtapaSolicitud_GUIDid: varEtapaSolicitud_GUIDid };
+        $.post(url, data).done(function (jsonRespuesta) {
+               var objJSON = JSON.parse(jsonRespuesta);
+               var Cod_Respuesta = objJSON.CodRespuesta;
+               var Texto_Respuesta = objJSON.strRespuesta;
+
+
+                if (Cod_Respuesta == 0) {
+                    $('#lblMensaje').text(Texto_Respuesta);
+                } else if (Cod_Respuesta == 1) {
+                    window.location.replace("/Gest_EtapaSolicitud/Index");
+                    alert(Texto_Respuesta);
+                }
+
+           }).fail(manejarErrorAjax).always(function () {
+
+               alert('Error no identificado.');
+            });
+            return false;
+
+    }
+
+
+    function ImprimeConstancia1() {
+
+        var varGuid_id = '@ViewBag.Guid_id';
+
+        var varFacturaSerie ='NA';
+        var varFacturaNumero = 'NA';
+        var varCantidadFolios = $('#CantidadFolios').val();
+        var varTitularRecepcionista = $('#TitularRecepcionista').val();
+
+
+
+        if (varFacturaSerie == '') {
+            $('#lblMensaje').text('Debe indicar el numero de serie de la factura.');
+        }
+        else if (varFacturaNumero == '') {
+            $('#lblMensaje').text('Debe indicar el número de factura.');
+        }
+        else if (varCantidadFolios == 0) {
+            $('#lblMensaje').text('Debe indicar la cantidad de folios recibidos');
+        }
+        else if (($("#divEsPropietario").css("display") === "block") && (varTitularRecepcionista == "")) {
+            $('#lblMensaje').text('Debe indicar el nombre de la persona que va a recepcionar');
+        }
+        else {
+
+
+        var data = {
+            guidid: varGuid_id,
+            facturaserie: varFacturaSerie,
+            facturanumero: varFacturaNumero,
+            cantidadfolios: varCantidadFolios,
+            GuidEtapa_id: '@Model.EtapaSolicitud_GUID_id',
+            Titular: campoInput.style.display,
+            TitularRecepcionista: varTitularRecepcionista
+
+            };
+
+
+        var url = "@Url.Action("GenerarConstanciaImprimirFormularioSinCobro", "Form_FormularioSecretaria")";
+
+            loaderPantalla(true);
+            $.post(url, data).done(function (jsonrespuesta) {
+                loaderPantalla(false);
+                var oJSON = JSON.parse(jsonrespuesta);
+                var NombreDocumento = oJSON.Ubicacion;
+                window.open('/Archivos_ConFirmaElectronica/' + NombreDocumento, '_blank');
+            });
+
+
+        }
+
+    }
+
+
+    // Obtener referencias a los elementos del DOM
+    var radioSi = document.getElementById("radioSi");
+    var radioNo = document.getElementById("radioNo");
+    var campoInput = document.getElementById("divEsPropietario");
+
+
+    // Agregar un event listener al radio button
+    radioSi.addEventListener("change", function () {
+        // Si el radio button "Sí" está seleccionado, mostrar el campo de entrada; de lo contrario, ocultarlo
+        if (radioSi.checked) {
+            campoInput.style.display = "none";
+
+        } else {
+            campoInput.style.display = "block";
+        }
+    });
+
+    radioNo.addEventListener("change", function () {
+        // Si el radio button "Sí" está seleccionado, mostrar el campo de entrada; de lo contrario, ocultarlo
+        if (radioNo.checked) {
+            campoInput.style.display = "block";
+        } else {
+            campoInput.style.display = "none";
+        }
+    });
+
+
+</script>
+
+<div class="row">
+    <div class="col-sm-3 col-md-3 mt-3">
+        <label> Cantidad de folios</label>
+        <br />
+        <input type="text" id="CantidadFolios" name="CantidadFolios" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" value="0" />
+    </div>
+
+    <div class="col-sm-5 col-md-5 mt-3">
+        <div style="display:flex; flex-direction:row">
+            <label> Es propietario?&nbsp;&nbsp;&nbsp;</label>
+            <div>
+                <input type="radio" id="radioSi" name="radioPropietario" value="Si" checked>
+                <label for="Si">Si&nbsp;&nbsp;&nbsp;&nbsp;</label><br>
+            </div>
+            <div>
+                <input type="radio" id="radioNo" name="radioPropietario" value="No">
+                <label for="NO">No (Ingreso Manual)&nbsp;&nbsp;</label><br>
+            </div>
+        </div>
+        <div id="divEsPropietario" style="display:none;">
+            <input type="text" id="TitularRecepcionista" width="300" name="TitularRecepcionista" placeholder="Ingrese el nombre" />
+
+        </div>
+    </div>
+
+    @*<div class="col-sm-3 col-md-3">
+
+            <label> Propietario Recepcionista</label>
+            <br />
+            <input type="text" id="TitularRecepcionista" name="TitularRecepcionista" />
+        </div>*@
+
+</div>
+
+<table>
+
+    <tr>
+        <td><br /></td>
+        <td>
+            <label style="color: red;font-weight: 500; font-size:15px" id="lblMensaje" />
+        </td>
+    </tr>
+
+    <tr>
+        <td></td>
+        <td>
+            <button onclick="ImprimeConstancia1()">Imprimir constancia</button>
+        </td>
+        <td></td>
+        <td>
+            @*<input type="button" class="btn btn-success" value="Anexos recibidos y subidos al sistema (Informar a Sub Regional)" onclick="fnc_EnviarRespuesta('@ViewBag.Respuesta_Id_DocumentosCompletos')" />*@
+        </td>
+        <td width="10%"></td>
+        <td>&nbsp;&nbsp;&nbsp;</td>
+        <td>&nbsp;&nbsp;&nbsp;</td>
+    </tr>
+
+</table>
+

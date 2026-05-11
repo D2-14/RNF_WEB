@@ -1,0 +1,42 @@
+﻿@using RNF_Web.Models;
+@using System.Configuration;
+
+@{
+    Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+
+    ViewBag.Title = "Actualización de casillero electrónico";
+    ViewBag.SubTitle = "Cambiar su casillero electrónico actual";
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@Html.Partial("_PartialPageEncabezado")
+
+
+<div class="container-fluid">
+
+    <span>
+        <h1>Vinculación de casillero electrónico<hr width="100%" size="1" color="silver"></h1>
+        <div style="display:flex; justify-content:center; align-items:center; flex-direction:column;  padding-bottom:10px">
+            <span>Para poder continuar con su solicitud primero debe crear su casillero electrónico en el siguiente enlace</span>
+            <a target="_blank" class="btn-next-ic" style="text-decoration: none; padding-left: 35px; padding-right: 35px" href="@ConfigurationManager.AppSettings["urlCasilleroRNF"]">Crear casillero</a>
+        </div>
+        <h3>El número de Documento Personal de Identificación (DPI) asignado al casillero electrónico que vinculará debe ser el mismo de usuario que ha registrado en este sistema. </h3>
+        <h3>Esto para poder ser vinculado el casillero electrónico.</h3>
+        <hr width="100%" size="1" color="silver">
+        <form id="formLogin" method="post" action="@Url.Action("ActualizarCasillero", "CasilleroElectronico")">
+            <input type="text" id="NoCasillero" name="NoCasillero" placeholder="No de Casillero" />
+            <input type="submit" value="Vincular Casillero" class="btn-next" />
+            <label style="color: red;">@ViewBag.MensajeError</label>
+        </form>
+    </span>
+
+</div>
+
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+
+

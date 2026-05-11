@@ -1,0 +1,216 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Sol_RepresentanteLegal>
+@using RNF_Web.Models;
+@using System.Data.SqlClient;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+@{
+
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_Sol_Solicitud tbl_sol_solicitud = db.Tbl_Sol_Solicitud.Find(Session[Constants.session_Solicitud]);
+    ViewBag.Estado = tbl_sol_solicitud.Estado_id;
+
+    EdicionSolicitudGrants objGrant = (EdicionSolicitudGrants)Session[Constants.session_EdicionSolicitudGrants];
+
+    ViewBag.PropietarioIndividual = db.Tbl_Sol_PropietarioPersonaIndividual.Where(obj => obj.Solicitud_id == tbl_sol_solicitud.Solicitud_id && obj.Estado_id == true).Count();
+
+    ViewBag.PropietarioJuridico = db.Tbl_Sol_PropietarioPersonaJuridica.Where(obj => obj.Solicitud_id == tbl_sol_solicitud.Solicitud_id && obj.Estado_id == true).Count();
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string Nombre_Div = "div_Sol_Permisos_Sol_RepresentanteLegal";
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+    fc_Gral_Sol_Configuracion_Result permisos = db.fc_Gral_Sol_Configuracion(tbl_sol_solicitud.Solicitud_id, controllerName, boolEsInterno).FirstOrDefault();
+
+}
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <div id="@Nombre_Div"></div>
+}
+
+<div class="container-fluid">
+
+
+    <div class="titulo-dos">
+
+        @if (ViewBag.PropietarioIndividual > 0)
+        {
+            <div class="row mt-2">
+                <div class="titulo-dos">
+                    <h4>Datos del mandatario</h4>
+                </div>
+            </div>
+        }
+        else
+        {
+
+            <div class="row mt-2">
+                <div class="titulo-dos">
+                    <h4>Datos de representación legal</h4>
+                </div>
+            </div>
+
+        }
+    </div>
+    <br />
+
+    @if ((ViewBag.Estado == 0) || (ViewBag.Estado == 4))
+    {
+<div class="row">
+    <div class="col-xs-5 col-md-5">
+    </div>
+    <div class="col-xs-1 col-md-1">
+    </div>
+    @if (ViewBag.PropietarioJuridico > 0)
+    {
+        if ((bool)permisos.Agregar)
+        {
+            <div id="imgyorepresentante" class="col-xs-1 col-md-1">
+                <span class="pull-right">
+
+                    <img src="~/Content/icons/addme_II.png" onclick="Agregarme_Como_Representante(@ViewBag.solicitud_id, 2)" width="40" height="40" />
+                </span>
+            </div>
+            <div id="TxtYoRepresentante" class="col-xs-2 col-md-2">
+                Click en la imagen para agregarme como representante
+            </div>
+        }
+    }
+    <div class="col-xs-1 col-md-1">
+        <span class="pull-right">
+            @if ((bool)permisos.Agregar)
+            {
+                <img src="~/Content/icons/add-user-9-xxl.png" onclick="Agregar_Mandatario()" width="40" height="40" />
+            }
+        </span>
+    </div>
+
+    @if (ViewBag.PropietarioJuridico > 0)
+    {
+
+        if ((bool)permisos.Agregar)
+        {
+            <div id="TxtRepresentante" class="col-xs-2 col-md-2">
+                Click en la imagen para agregar representante
+            </div>
+        }
+    }
+    else
+    {
+        if ((bool)permisos.Agregar)
+        {
+            <div id="TxtRepresentante" class="col-xs-2 col-md-2">
+                Click en la imagen para agregar mandatario
+            </div>
+        }
+    }
+
+
+
+</div>
+            }
+
+    <div class="col-sm-6 col-md-12">
+        <table class="table">
+            <tr>
+                <th class="border-1">
+                    Tipo
+                </th>
+                <th class="border-1">
+                    @Html.DisplayNameFor(model => model.Nombres)
+                </th>
+                <th class="border-1">
+                    @Html.DisplayNameFor(model => model.Apellidos)
+                </th>
+                <th class="border-1">
+                    Fecha de fin de nombramiento
+                </th>
+                <th class="border-1">
+                    Vigencia indefinida
+                </th>
+                <th class="border-1">
+                    Estado
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="border-end">
+                        @Html.DisplayFor(modelItem => item.Tbl_Sol_RepresentanteLegalTipo.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombres)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Apellidos)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fecha_FinNombramiento)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VigenciaIndefinida)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tbl_Sol_RepresentanteLegal_Estado.Descripcion)
+                    </td>
+                    <td width="10%">
+
+                        @if ((bool)permisos.Editar)
+                        {
+                            <img src="~/Content/icons/edit-9-xxl.png" onclick="Editar_RepresentanteLegal(@item.Solicitud_id, @item.RepresentanteLegal_id)" width="25" height="25" />
+                        }
+                    </td>
+                    <td width="10%">
+                        @if ((bool)permisos.Borrar)
+                        {
+                            <img src="~/Content/icons/trash_green.png" onclick="Eliminar_RepresentanteLegal(@item.Solicitud_id, @item.RepresentanteLegal_id)" width="25" height="25" />
+                        }
+                    </td>
+
+                </tr>
+            }
+
+        </table>
+
+
+        @if (objGrant.boolEtapaView)
+        {
+            <div id="div_RepresentanteLegal_RNF"></div>
+        }
+
+    </div>
+</div>
+
+
+<script>
+    function visualizarPermisos(solicitudid, controllername, esinterno, nombrediv) {
+        var solicitudId = solicitudid;
+        var controllerName = controllername;
+        var esInterno = esinterno;
+
+        var mySolPermisos = document.getElementById(nombrediv);
+        if (mySolPermisos) {
+            $("#" + nombrediv).load("/Gral_SolicitudConfiguracion/PermisosRecibidos?Solicitud_id=" + solicitudId + "&controllerName=" + controllerName + "&EsInterno=" + esInterno);
+        }
+
+    }
+
+    $(document).ready(function () {
+        var myRepresentanteLegal_RNF = document.getElementById("div_RepresentanteLegal_RNF");
+        if (myRepresentanteLegal_RNF) {
+            $("#div_RepresentanteLegal_RNF").load("/Sol_Comparativo/RepresentanteLegal?Solicitud_id=@tbl_sol_solicitud.Solicitud_id");
+        }
+        visualizarPermisos('@tbl_sol_solicitud.Solicitud_id', '@controllerName', '@objUs.EsInterno', '@Nombre_Div');
+
+    });
+</script>

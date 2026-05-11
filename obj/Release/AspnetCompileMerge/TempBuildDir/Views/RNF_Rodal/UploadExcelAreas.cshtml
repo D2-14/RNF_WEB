@@ -1,0 +1,191 @@
+﻿<div id="section_ExcelRodal">
+
+    @model System.Data.DataTable
+    @using System.Data;
+    @using RNF_Web.Models;
+    @using System.Data.SqlClient;
+    @if (Constants.VisualizarInformacionDesarrollo == 1)
+    {
+        <h3>@this.Url.Action()</h3>
+    }
+
+
+    @{
+
+        db_RNFEntities db = new db_RNFEntities();
+        string No_Registro = ViewBag.No_Registro;
+
+        Tbl_RNF_Registro tbl_RNF_Registro = db.Tbl_RNF_Registro.Where(Obj => Obj.No_Registro == No_Registro).FirstOrDefault();
+
+        EdicionRNFGrants objRNFGrants = (EdicionRNFGrants)Session[Constants.session_EdicionRNFGrants];
+
+        ViewBag.Title = "Carga de Polígono";
+        Usuario objUs = (Usuario)Session["User"];
+        bool boolEsInterno = false;
+        if (objUs.EsInterno == 1)
+        {
+            boolEsInterno = true;
+        }
+    }
+
+    <script src="~/Scripts/jquery-3.6.0.js"></script>
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+
+    <div style='height: 30px; width: 100%; background-color: green; color: white; '>
+        <h4 class="title">&nbsp;&nbsp;&nbsp;@ViewBag.Title</h4>
+    </div>
+
+    <span id="result_CargaRodales"></span>
+    @using (Html.BeginForm("UploadExcel", "RNF_Rodal", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <form id="uploader">
+                    @*<h1>@TempData["MensajeFile"]</h1>*@
+
+                    @if (objRNFGrants.Editar)
+                    {
+                        <table>
+                            <tr>
+                                <td>
+                                    <label>
+                                        @*<img src="~/Content/icons/btnSubirArchivo.png" width="100%" height="auto" id="upfile1" style="cursor:pointer" />*@
+                                        <label for="uploadAreas" id="upfileuploadAreas" class="btn-next-ic">&nbsp;&nbsp;&nbsp;&nbsp;Seleccionar archivo&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                        <input type="file" id="uploadAreas" name="uploadAreas" style="display:none">
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="button" id="btsubirAreas" class="btn btn-primary btn-outlined" width="100%"
+                                           value="Subir archivo" disabled/>
+                                    <br />
+                                    <span id="nombre_ArchivoRodales"></span>
+
+                                </td>
+                                <td>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                </td>
+                                <td>
+                                    <a href="~/Content/Machotes/Datos_Poligono_En_Blanco_Interno.xlsx">Archivo para carga de coordenadas</a>
+                                </td>
+                                <td>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                </td>
+                                <td>
+                                    <a href="~/Content/Machotes/Datos_Poligono_Ejemplo_Interno.xlsx">Archivo de ejemplo</a>
+                                </td>
+                            </tr>
+                            <tr>
+                            </tr>
+                        </table>
+
+                    }
+                    <br /><br />
+
+                </form>
+            </div>
+            <div class="col-sm-3"></div>
+        </div>
+
+    }
+
+</div>
+
+<script>
+    $(document).ready(function () {
+    });
+
+    var ArchivoAreas = ($("#uploadAreas"))[0].files[0];
+    $(function () {
+
+        $("#uploadAreas").change(function () {
+            ArchivoAreas = ($("#uploadAreas"))[0].files[0];
+            console.log(ArchivoAreas);
+            document.getElementById("nombre_ArchivoRodales").innerHTML = ArchivoAreas.name;
+            var botonSubir = document.getElementById("btsubirAreas");
+            if ((ArchivoAreas != "") && (ArchivoAreas != null)) {
+                botonSubir.classList.add("btn-primary");
+                botonSubir.disabled = false;
+            } else {
+                botonSubir.classList.remove("btn-primary");
+                botonSubir.disabled = true;
+            }
+        })
+
+
+        $("#btsubirAreas").click(function () {
+            loaderPantalla(true);
+            setTimeout(function () {
+
+                ArchivoAreas = ($("#uploadAreas"))[0].files[0];
+                console.log(ArchivoAreas);
+
+                var formData = new FormData();
+                formData.append("No_Registro", '@tbl_RNF_Registro.No_Registro');
+
+
+                function adjuntarImagenAreas() {
+                    formData.append("upload", ArchivoAreas);
+                    $.ajax({
+                        //url: "UploadExcel",
+                        url: "UploadExcelRodales",
+                        type: "POST",
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        async: false,
+                        success: function (data) {
+                            var oJSON = JSON.parse(data);
+                            var StrMensaje = oJSON.StrMensaje;
+                            var CodResult = oJSON.CodResult;
+                            console.log(oJSON);
+                            var color = "#000000";
+                            if (CodResult == 1) {
+                                color = "#27FF00";
+                            } else {
+                                color = "#FF0000";
+                            }
+                            document.getElementById("result_CargaRodales").innerHTML = StrMensaje;
+                            document.getElementById("result_CargaRodales").style.color = color;
+                            $("#uploadAreas").prop("value", "");
+                            document.getElementById("nombre_ArchivoRodales").innerHTML = "";
+                            var botonSubir = document.getElementById("btsubirAreas");
+                            botonSubir.classList.remove("btn-primary");
+                            botonSubir.disabled = true;
+                            setTimeout(function () {
+                                document.getElementById("result_CargaRodales").innerHTML = "";
+                            }, 3000);
+                            //location.reload();
+                        },
+                        error: function (data) {
+                            var oJSON = JSON.parse(data);
+                            console.log(oJSON);
+                            //location.reload();
+                        }
+                    });
+
+                }
+
+                if (ArchivoAreas != null) {
+                    adjuntarImagenAreas();
+                } else {
+                    alert("No se ha seleccionado ningún archivo");
+                }
+
+
+            }, 2000);
+
+
+
+        })
+    })
+
+</script>

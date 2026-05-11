@@ -1,0 +1,100 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+@{
+    ViewBag.Title = "   Home page";
+
+    Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+}
+
+
+<script>
+    $(document).ready(function () {
+
+        $("#btnHideModal").click(function () {
+            @*
+                $('#section_Link_II').load('@ViewBag.section_Link_II')
+            $('#section_Link_III').load('@ViewBag.section_Link_III')
+            $('#section_Link_V').load('@ViewBag.section_Link_V')
+                *@
+
+                $("#myModal").modal('hide');
+        });
+
+
+        $("#btnHideModal_Close").click(function () {
+
+            @*
+                $('#section_Link_II').load('@ViewBag.section_Link_II')
+            $('#section_Link_III').load('@ViewBag.section_Link_III')
+            $('#section_Link_V').load('@ViewBag.section_Link_V')
+                *@
+
+                $("#myModal").modal('hide');
+        });
+
+
+        $("#myBtn").click(function () {
+            $("#myModal").modal("show");
+        });
+
+
+
+        $('#myModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        })
+
+        $("#myModal").on('show.bs.modal', function () {
+            alert('The modal is about to be shown.');
+        });
+
+    });
+</script>
+
+
+<body>
+
+    <div class="container mt-3">
+        <h2>Modal Events - show.bs.modal</h2>
+        <!-- Trigger the modal with a button -->
+        <button type="button" class="btn btn-primary" id="myBtn">Open Modal</button>
+
+        <!-- Modal -->
+
+
+
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" width: 700px;>
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Modal Header</h4>
+                        <button type="button" id="btnHideModal" class="btn btn-default">
+                            X
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>The <strong>show.bs.modal</strong> asdfasdf.</p>
+                    </div>
+                    <div id="DatosPersonerias">
+                        <br />
+                        <br />
+                        <br />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnHideModal_Close" class="btn btn-default">
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>

@@ -1,0 +1,395 @@
+﻿@using RNF_Web.Models;
+@{
+    Layout = "~/Views/Shared/_LayoutMoreSimple.cshtml";
+    Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+    decimal? GTMX = ViewBag.GTMX;
+    decimal? GTMY = ViewBag.GTMY;
+    CoordenadasResponse coordenadasResponse = ViewBag.JSONCoordenadasRazor;
+
+
+
+
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<script>
+    function verificarCoordenadas() {
+        var objetonuevo = '@ViewBag.JSONCoordenadasRazor';
+        console.log(objetonuevo);
+    }
+
+
+    function convertirGRJunto() {
+        var LatLon = document.getElementById("LatLon").value;
+        if ((LatLon == null) || (LatLon.trim() == "")) {
+            alert("La información proporcionada no es válida");
+            return;
+        } else {
+            var LatLonSplitted = LatLon.split(",")
+            var countLength = LatLonSplitted.length;
+            if ((countLength > 2) || (countLength < 2)) {
+                alert("Debe colocar Latitud y Longitud separados por coma para poder realizar la conversión");
+                return;
+            } else {
+                var Coordenadas = LatLon;
+                var Latitud = LatLonSplitted[0].trim();
+                var Longitud = LatLonSplitted[1].trim();
+
+                if (isNaN(Latitud)) {
+                    alert("Latitud no es un número");
+                    return;
+                }
+                if (isNaN(Longitud)) {
+                    alert("Longitud no es un número");
+                    return;
+                }
+
+                var data = {
+                    Coordenadas: Coordenadas,
+                    Latitud: Latitud,
+                    Longitud: Longitud
+                };
+                var url = "@Url.Action("ConvertGRJunto", @controllerName)";
+
+                $.post(url, data).done(function (jsonRespuesta) {
+                    var oJSON = jsonRespuesta;
+                    var Result = oJSON.Result;
+                    var Mensaje = oJSON.Mensaje;
+
+                    if (Result == 1) {
+                        var Coordenadas = oJSON.Coordenadas;
+                        console.log(Coordenadas);
+                        document.getElementById("Latitud").value = Coordenadas.GR_Latitud;
+                        document.getElementById("Longitud").value = Coordenadas.GR_Longitud;
+                        document.getElementById("GTMX").value = Coordenadas.GTM_X;
+                        document.getElementById("GTMY").value = Coordenadas.GTM_Y;
+
+                        actualizaCoordenadas(Coordenadas.GR_Latitud, Coordenadas.GR_Longitud, 30);
+
+                    } else {
+                        alert(Mensaje);
+                    }
+
+                }).fail(function (jsonRespuesta) {
+                    alert("Hubo un errror");
+                });
+
+            }
+        }
+    }
+
+    function convertirGR() {
+        var Latitud = document.getElementById("Latitud").value;
+        var Longitud = document.getElementById("Longitud").value;
+        if (((Latitud == null) || (Latitud.trim() == "")) || ((Longitud == null) || (Longitud.trim() == ""))) {
+            alert("La información proporcionada no es válida");
+            return;
+        } else {
+
+            if (isNaN(Latitud)) {
+                alert("Latitud no es un número");
+                return;
+            }
+            if (isNaN(Longitud)) {
+                alert("Longitud no es un número");
+                return;
+            }
+
+            document.getElementById("LatLon").value = Latitud + ', ' + Longitud;
+
+            var data = {
+                Latitud: Latitud,
+                Longitud: Longitud
+            };
+            var url = "@Url.Action("ConvertGR", @controllerName)";
+
+            $.post(url, data).done(function (jsonRespuesta) {
+                var oJSON = jsonRespuesta;
+                var Result = oJSON.Result;
+                var Mensaje = oJSON.Mensaje;
+
+                if (Result == 1) {
+                    var Coordenadas = oJSON.Coordenadas;
+                    console.log(Coordenadas);
+                    document.getElementById("GTMX").value = Coordenadas.GTM_X;
+                    document.getElementById("GTMY").value = Coordenadas.GTM_Y;
+                    //actualizaCoordenadas(Coordenadas.GR_Latitud, Coordenadas.GR_Longitud, 30);
+
+                } else {
+                    alert(Mensaje);
+                }
+
+            }).fail(function (jsonRespuesta) {
+                alert("Hubo un errror");
+            });
+
+        }
+    }
+
+    function convertirGTM() {
+        var GTMX = document.getElementById("GTMX").value;
+        var GTMY = document.getElementById("GTMY").value;
+        if (((GTMY == null) || (GTMY.trim() == "")) || ((GTMX == null) || (GTMX.trim() == ""))) {
+            alert("La información proporcionada no es válida");
+            return;
+        } else {
+
+            if (isNaN(GTMY)) {
+                alert("GTMY no es un número");
+                return;
+            }
+            if (isNaN(GTMX)) {
+                alert("GTMX no es un número");
+                return;
+            }
+
+            var data = {
+                GTMY: GTMY,
+                GTMX: GTMX
+            };
+            var url = "@Url.Action("ConvertGTM", @controllerName)";
+
+            $.post(url, data).done(function (jsonRespuesta) {
+                var oJSON = jsonRespuesta;
+                var Result = oJSON.Result;
+                var Mensaje = oJSON.Mensaje;
+
+                if (Result == 1) {
+                    var Coordenadas = oJSON.Coordenadas;
+                    console.log(Coordenadas);
+                    document.getElementById("Longitud").value = Coordenadas.GR_Longitud;
+                    document.getElementById("Latitud").value = Coordenadas.GR_Latitud;
+                    document.getElementById("LatLon").value = Coordenadas.GR_Latitud + ', ' + Coordenadas.GR_Longitud;
+                    actualizaCoordenadas(Coordenadas.GR_Latitud, Coordenadas.GR_Longitud, 30);
+
+                } else {
+                    alert(Mensaje);
+                }
+
+            }).fail(function (jsonRespuesta) {
+                alert("Hubo un errror");
+            });
+
+        }
+    }
+
+    function copiarTexto(input, label) {
+        var copyText = document.getElementById(input);
+        navigator.clipboard.writeText(copyText.value);
+        document.getElementById(label).innerHTML = "Texto copiado";
+    }
+
+    function copiarGTMX() {
+        copiarTexto("GTMX", "Lbl_GTMX");
+    }
+
+    function copiarGTMY() {
+        copiarTexto("GTMY", "Lbl_GTMY");
+    }
+
+    function copiarLatitud() {
+        copiarTexto("Latitud", "Lbl_Latitud");
+    }
+
+    function copiarLongitud() {
+        copiarTexto("Longitud", "Lbl_Longitud");
+    }
+
+    function copiarLatLon() {
+        copiarTexto("LatLon", "Lbl_LatLon");
+    }
+
+    function limpiar() {
+        document.getElementById("Lbl_GTMX").innerHTML = "";
+        document.getElementById("Lbl_GTMY").innerHTML = "";
+        document.getElementById("Lbl_Latitud").innerHTML = "";
+        document.getElementById("Lbl_Longitud").innerHTML = "";
+        document.getElementById("Lbl_LatLon").innerHTML = "";
+        document.getElementById("GTMX").value = "";
+        document.getElementById("GTMY").value= "";
+        document.getElementById("Latitud").value = "";
+        document.getElementById("Longitud").value = "";
+        document.getElementById("LatLon").value = "";
+    }
+
+</script>
+
+<div class="container-fluid" id="div_ConversorGR">
+    <p>En el mapa a continuación encontrará su ubicación aproximada, si es distinta puede dar clic en el mapa que se encuentra a continuación para obtener sus coordenadas deseadas</p>
+    @*<p>Si no conoce su ubicación o la ubicación a registrar es diferente, también puede abrir <a href="https://www.google.es/maps/?hl=es" target="_blank" class="btn btn-sm btn-outline-success"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Google_Maps_icon_%282015-2020%29.svg/2048px-Google_Maps_icon_%282015-2020%29.svg.png" alt="Google Maps Logo" width="25" height="25" />Google Maps</a> y dar clic derecho a su ubicación para copiar las coordenadas correspondientes en el cuadro <strong style="color:red;">Latitud y Longitud Google Maps</strong></p>*@
+
+    <table class="table table-striped table-hover">
+        <tr>
+            <th colspan="3">
+                <p>Latitud y Longitud Google Maps</p>
+            </th>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="text" name="LatLon" id="LatLon" placeholder="Ej. 14.59651062320446, -90.52819352681975" class="form-control" />
+                <label style="color:red;" id="Lbl_LatLon"></label>
+            </td>
+            <td>
+                <input type="button" value="Convertir" class="btn btn-primary" onclick="convertirGRJunto()" />
+                <input type="button" value="Limpiar" class="btn btn-primary" onclick="limpiar()" />
+            </td>
+        </tr>
+
+    </table>
+
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>
+                <p>Longitud</p>
+            </th>
+            <td>
+                <input type="number" name="Longitud" id="Longitud" placeholder="Ej. -90.52819352681975" class="form-control" />
+                <label style="color:red;" id="Lbl_Longitud"></label>
+            </td>
+            <th>
+                <p>Latitud</p>
+            </th>
+            <td>
+                <input type="number" name="Latitud" id="Latitud" placeholder="Ej. 14.59651062320446" class="form-control" />
+                <label style="color:red;" id="Lbl_Latitud"></label>
+            </td>
+            <td>
+                <input type="button" value="Convertir" class="btn btn-primary" onclick="convertirGR()" />
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <p>GTM X <small>(para copiar texto de un clic a la coordenada)</small></p>
+            </th>
+            <td>
+                <input type="text" name="GTMX" id="GTMX" class="form-control" readonly onclick="copiarGTMX()" />
+                <label style="color:red;" id="Lbl_GTMX"></label>
+            </td>
+            <th>
+                <p>GTM Y <small>(para copiar texto de un clic a la coordenada)</small></p>
+            </th>
+            <td>
+                <input type="text" name="GTMY" id="GTMY" class="form-control" readonly onclick="copiarGTMY()" />
+                <label style="color:red;" id="Lbl_GTMY"></label>
+            </td>
+            <td>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<script src="~/Scripts/leaflet/leaflet.js"></script>
+<script src="~/Scripts/leaflet.draw.js"></script>
+<link href="~/Scripts/leaflet/leaflet.css" rel="stylesheet" />
+<script src="~/Content/assets/js/jquery.min.js"></script>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    #map {
+        width: 90%;
+        height: 90vh;
+    }
+</style>
+<div id="map"></div>
+<div align="center">
+</div>
+
+<script>
+    var Input_Latitud = document.getElementById("Latitud");
+    var Input_Longitud = document.getElementById("Longitud");
+
+    // Map initialization
+    var map = L.map('map').setView([0, 0], 6);
+
+    //osm layer
+    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+    osm.addTo(map);
+
+    if (!navigator.geolocation) {
+        console.log("Tu navegador no permite acceder a la ubicación")
+    } else {
+        /*setInterval(() => {
+            navigator.geolocation.getCurrentPosition(getPosition)
+        }, 5000);*/
+    }
+
+
+    map.on('click', function (e) {
+        console.log(e);
+        actualizaCoordenadas(e.latlng.lat, e.latlng.lng, 30);
+    });
+
+    function actualizaCoordenadas(lat, long, accuracy) {
+        if (marker) {
+            map.removeLayer(marker)
+        }
+
+        if (circle) {
+            map.removeLayer(circle)
+        }
+
+        marker = L.marker([lat, long])
+        circle = L.circle([lat, long], { radius: accuracy })
+        var featureGroup = L.featureGroup([marker, circle]).addTo(map)
+        map.fitBounds(featureGroup.getBounds())
+
+        Input_Latitud.value = lat;
+        Input_Longitud.value = long;
+        convertirGR();
+    }
+
+    var marker, circle;
+
+    function getPosition(position) {
+        console.log(position)
+        var lat = position.coords.latitude
+        var long = position.coords.longitude
+        var accuracy = position.coords.accuracy
+
+        var resultcoordenadasresponse = @coordenadasResponse.Result;
+
+        if (resultcoordenadasresponse == 1) {
+            lat = @coordenadasResponse.Coordenadas.GR_Latitud;
+            long = @coordenadasResponse.Coordenadas.GR_Longitud;
+        }
+
+        if (marker) {
+            map.removeLayer(marker)
+        }
+
+        if (circle) {
+            map.removeLayer(circle)
+        }
+
+        marker = L.marker([lat, long])
+        circle = L.circle([lat, long], { radius: accuracy })
+
+        var featureGroup = L.featureGroup([marker, circle]).addTo(map)
+
+        map.fitBounds(featureGroup.getBounds())
+
+        console.log("Your coordinate is: Lat: " + lat + " Long: " + long + " Accuracy: " + accuracy)
+
+        actualizaCoordenadas(lat, long, accuracy);
+
+    }
+
+    $(document).ready(function () {
+        // body...
+        navigator.geolocation.getCurrentPosition(getPosition);
+
+
+    })
+
+</script>

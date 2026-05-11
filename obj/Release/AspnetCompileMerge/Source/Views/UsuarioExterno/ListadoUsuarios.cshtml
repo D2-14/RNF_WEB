@@ -1,0 +1,138 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Seg_UsuarioExterno>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    ViewBag.Title = "Usuarios";
+    ViewBag.SubTitle = "Listado de usuario externos";
+}
+
+
+@Html.Partial("_PartialPageEncabezado")
+
+
+<script src="~/Scripts/jquery-3.6.0.js"></script>
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+
+
+
+
+
+    function ResetPassword(varusuario_id,varno_documento) {
+         $.ajax({
+                type: 'POST',
+                url: "@(Url.Action("PasswordTemporal", "UsuarioExterno"))",
+                     dataType: 'json',
+             data: { usuario_id: varusuario_id, no_documento: varno_documento},
+                   success: function (doc) {
+                       alert('Password temporal asigando "1234".');
+                    },
+                    error: function (ex) {
+                        alert('Ocurrio un error aqui. ' + ex.status);
+                    }
+
+                });
+            return false;
+    }
+
+
+    function UpdateContrasenia(varusuario_id, varno_documento) {
+        var varcorreo = document.getElementById('Correo_' + varusuario_id).value;
+
+         $.ajax({
+                type: 'POST',
+                url: "@(Url.Action("UpdateCorreo", "UsuarioExterno"))",
+                     dataType: 'json',
+             data: { usuario_id: varusuario_id, no_documento: varno_documento, correo : varcorreo},
+                   success: function (doc) {
+                       document.getElementById('CurrentCorreo_' + varusuario_id).innerHTML = varcorreo;
+                       alert('El correo ha sido actualizado.');
+                    },
+                    error: function (ex) {
+                        alert('Ocurrio un error aqui. ' + ex.status);
+                    }
+
+                });
+            return false;
+    }
+
+
+</script>
+
+
+<form asp-controller="Formulario" asp-action="Index">
+    <br />
+    <table>
+        <tr>
+            <td>
+                Nombre/Apellido/DPI/Correo :
+            </td>
+            <td>
+                <input type="text" name="idx" id="idx" value="@ViewBag.idx" />
+            </td>
+            <td>
+                <input type="submit" value="Buscar" />
+            </td>
+        </tr>
+    </table>
+    <br />
+</form>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Correo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombres)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Apellidos)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Telefono_Celular)
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <p style="color:blue" id="CurrentCorreo_@item.Usuario_id">@item.Correo</p>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombres)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Apellidos)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefono_Celular)
+            </td>
+            <td>
+                <input type="button" value="Asignar Contraseña Temporal" class="btn btn-success" onclick="ResetPassword('@item.Usuario_id','@item.No_Documento')" />
+            </td>
+
+            <td>
+                <input type="text" id="Correo_@item.Usuario_id" value="@item.Correo">
+                <input type="button" value="Actualizar correo" class="btn btn-success" onclick="UpdateContrasenia('@item.Usuario_id','@item.No_Documento')" />
+            </td>
+
+        </tr>
+    }
+
+</table>
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+

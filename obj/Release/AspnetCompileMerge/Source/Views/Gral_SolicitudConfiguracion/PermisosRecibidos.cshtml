@@ -1,0 +1,64 @@
+﻿@using RNF_Web.Models;
+@model fc_Gral_Sol_Configuracion_Result
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+@{
+    long Solicitud_id = ViewBag.Solicitud_id;
+    string controllerName = ViewBag.controllerName;
+    int EsInterno = ViewBag.EsInterno;
+    bool boolEsInterno = ViewBag.boolEsInterno;
+}
+
+<div style="visibility:visible">
+    <table border="1">
+        <tr>
+            <th>
+                Agregar
+            </th>
+            <th>
+                Editar
+            </th>
+            <th>
+                Borrar
+            </th>
+            <th>
+                Estado
+            </th>
+            <th>
+                Tipo
+            </th>
+            <th>
+                Controller Enviado
+            </th>
+            <th>
+                Controller Recibido
+            </th>
+        </tr>
+        <tr>
+            <td>
+                @Model.Agregar
+            </td>
+            <td>
+                @Model.Editar
+            </td>
+            <td>
+                @Model.Borrar
+            </td>
+            <td>
+                @Model.Estado_id
+            </td>
+            <td>
+                @Model.SolicitudTipo_id
+            </td>
+            <td>
+                @Model.Controlador_Recibido
+            </td>
+            <td>
+                @Model.Controlador_Devuelto
+            </td>
+        </tr>
+    </table>
+</div>
+

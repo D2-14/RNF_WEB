@@ -1,0 +1,56 @@
+﻿@using RNF_Web.Models;
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    Usuario objUs = (Usuario)Session["User"];
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+    string Control = ViewBag.Control;
+    string Key = ViewBag.Key;
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_Gral_ParametrosGenerales tbl_Gral_ParametrosGenerales = db.Tbl_Gral_ParametrosGenerales.FirstOrDefault();
+
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+<span>
+    Si no apareciera nada en pantalla presione <input type="button" class="btn btn-sm btn-primary" value="aquí" onclick="obtenerSession()" />
+</span>
+<iframe name="reporte" id="reporte" width="100%" height="500px"></iframe>
+
+
+
+<script>
+    function obtenerSession() {
+
+        var url = '@Url.Action("ObtenerDatos", controllerName)';
+        var data = {
+
+        };
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            var oJSON = RespuestaJSON;
+            var Result = oJSON.Result;
+            var Mensaje = oJSON.Mensaje;
+
+            if (Result == 1) {
+                var data = oJSON.data;
+
+                var source = '@tbl_Gral_ParametrosGenerales.Direccion_URL_Reportes/@Control?Reporte=@Key';
+                var params = '&Nombre_Usuario=' + encodeURIComponent(data.Nombre_Usuario) + '&EsInterno=' + encodeURIComponent(data.EsInterno) + '&Usuario_id=' + encodeURIComponent(data.Usuario_id) + '&ts=' + encodeURIComponent(data.ts);
+                var ifDoc = document.getElementById("reporte");
+                ifDoc.src = source + params;
+                //$('#reporte').attr('src', source + params).load();
+
+            }
+
+        }).fail(function (ErrorJSON) {
+            console.log(ErrorJSON);
+        })
+    }
+
+    $(document).ready(function () {
+        obtenerSession();
+    });
+</script>

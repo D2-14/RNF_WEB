@@ -1,0 +1,368 @@
+﻿
+
+<div id="section_ExcelRodal">
+    @model System.Data.DataTable
+    @using System.Data;
+    @using RNF_Web.Models;
+    @using System.Data.SqlClient;
+
+
+    @if (Constants.VisualizarInformacionDesarrollo == 1)
+    {
+        <h3>@this.Url.Action()</h3>
+    }
+
+
+    @{
+        string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+
+        db_RNFEntities db = new db_RNFEntities();
+        string No_Registro = ViewBag.No_Registro;
+
+        Tbl_RNF_Registro tbl_RNF_Registro = db.Tbl_RNF_Registro.Where(Obj => Obj.No_Registro == No_Registro).FirstOrDefault();
+        //Tbl_Sol_Solicitud tbl_sol_solicitud = db.Tbl_Sol_Solicitud.Find(Session[Constants.session_Solicitud]);
+
+        EdicionRNFGrants objRNFGrants = (EdicionRNFGrants)Session[Constants.session_EdicionRNFGrants];
+
+        ViewBag.Title = "   Carga de datos dasométricos ";
+
+
+        Usuario objUs = (Usuario)Session["User"];
+        bool boolEsInterno = false;
+        if (objUs.EsInterno == 1)
+        {
+            boolEsInterno = true;
+        }
+
+        //Layout = "~/Views/Shared/_LayoutMoreSimple.cshtml";
+
+        int intSubRegionaRol = db.Database.SqlQuery<int>("select max(SubRegional) from Tbl_Gral_PerfilesRol").FirstOrDefault();
+        fc_Seg_Sel_RolUsuario_Result fc_RolSubRegional = db.fc_Seg_Sel_RolUsuario(objUs.intUsuario_id, 1).Where(Obj => Obj.Rol_id == intSubRegionaRol).FirstOrDefault();
+
+        bool RolSubRegional = false;
+
+        if (fc_RolSubRegional != null)
+        {
+            RolSubRegional = true;
+        }
+    }
+
+
+    @if (RolSubRegional == false)
+    {
+        <div style='height: 30px; width: 100%; background-color: green; color: white; '>
+            <h4 class="title">&nbsp;&nbsp;&nbsp;@ViewBag.Title</h4>
+        </div>
+    }
+    else
+    {
+        <div style='height: 30px; width: 100%; background-color: green; color: white; '>
+            <h4 class="title">&nbsp;&nbsp;&nbsp;Carga de Datos dasométricos Subregional</h4>
+        </div>
+    }
+
+
+    <span id="result_CargaDasometricos"></span>
+    @using (Html.BeginForm("UploadDatosDasometricos", "RNF_Rodal", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <form id="uploader">
+                    @*<h1>@Html.Raw(@TempData["MensajeFileDasom"])</h1>*@
+
+                    @if (RolSubRegional == false)
+                    {
+                        if (objRNFGrants.Editar)
+                        {
+                            <table>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            @*<img src="~/Content/icons/btnSubirArchivo.png" width="100%" height="auto" id="upfile1" style="cursor:pointer" />*@
+
+                                            <label for="uploadDasometricos" id="upfileuploadDasometricos" class="btn-next-ic">&nbsp;&nbsp;&nbsp;&nbsp;Seleccionar archivo&nbsp;&nbsp;&nbsp;&nbsp;</label>
+
+                                            <input type="file" id="uploadDasometricos" name="uploadDasometricos" style="display:none">
+
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input type="button" id="btsubirDasometricos" class="btn btn-primary btn-outlined" width="100%"
+                                               value="Subir archivo" disabled />
+                                        <br />
+                                        <span id="nombre_ArchivoDasometricos"></span>
+
+                                    </td>
+                                    <td>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                    </td>
+                                    <td>
+                                        @if (tbl_RNF_Registro.Categoria_id == 6)
+                                        {
+                                            <a href="~/Content/Machotes/DatosDasometricos_En_Blanco_FuenteSemillera_Interno.xlsx">Bajar archivo para carga de datos dasometricos</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="~/Content/Machotes/DatosDasometricos_En_Blanco_Interno.xlsx">Bajar archivo para carga de datos dasometricos</a>
+                                        }
+                                        @*<a href="~/Content/Machotes/DatosDasometricos_En_Blanco_Interno.xlsx">Bajar archivo para carga de datos dasometricos</a>*@
+                                    </td>
+                                    <td>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                    </td>
+                                    <td>
+                                        @if (tbl_RNF_Registro.Categoria_id == 6)
+                                        {
+                                            <a href="~/Content/Machotes/DatosDasometricos_Ejemplo_FuenteSemillera_Interno.xlsx">Archivo de ejemplo</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="~/Content/Machotes/DatosDasometricos_Ejemplo_Interno.xlsx">Archivo de ejemplo</a>
+                                        }
+                                        @*<a href="~/Content/Machotes/DatosDasometricos_Ejemplo_Interno.xlsx">Archivo de ejemplo</a>*@
+                                    </td>
+                                </tr>
+                                <tr>
+                                </tr>
+                            </table>
+                        }
+                        <br /><br />
+
+                    }
+                    else
+                    {
+
+                        <table>
+                            <tr>
+                                <td>
+                                    <label>
+                                        @*<img src="~/Content/icons/btnSubirArchivo.png" width="100%" height="auto" id="upfile1" style="cursor:pointer" />*@
+
+                                        <label for="uploadDasometricos2" id="upfileuploadDasometricos2" class="btn-next-ic">&nbsp;&nbsp;&nbsp;&nbsp;Seleccionar archivo&nbsp;&nbsp;&nbsp;&nbsp;</label>
+
+                                        <input type="file" id="uploadDasometricos2" name="uploadDasometricos2" style="display:none">
+
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="button" id="btsubirDasometricos2" class="btn btn-primary btn-outlined" width="100%"
+                                           value="Subir archivo" disabled />
+                                    <br />
+                                    <span id="nombre_ArchivoDasometricos2"></span>
+
+                                </td>
+                                <td>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                </td>
+                                <td>
+                                    @if (tbl_RNF_Registro.Categoria_id == 6)
+                                    {
+                                        <a href="~/Content/Machotes/DatosDasometricos_En_Blanco_FuenteSemillera_Interno.xlsx">Bajar archivo para carga de datos dasometricos</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="~/Content/Machotes/DatosDasometricoSubregional.xlsx">Bajar archivo para carga de datos dasometricos</a>
+                                    }
+                                    @*<a href="~/Content/Machotes/DatosDasometricos_En_Blanco_Interno.xlsx">Bajar archivo para carga de datos dasometricos</a>*@
+                                </td>
+                                <td>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                </td>
+                                @*<td>
+                                    @if (tbl_RNF_Registro.Categoria_id == 6)
+                                    {
+                                        <a href="~/Content/Machotes/DatosDasometricos_Ejemplo_FuenteSemillera_Interno.xlsx">Archivo de ejemplo</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="~/Content/Machotes/DatosDasometricos_Ejemplo_Interno.xlsx">Archivo de ejemplo</a>
+                                    }
+                                  
+                                </td>*@
+                            </tr>
+                            <tr>
+                            </tr>
+                        </table>
+                    }
+                </form>
+            </div>
+            <div class="col-sm-3"></div>
+        </div>
+
+    }
+
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+    });
+    
+
+
+    $(function () {
+        //var ArchivoDasometricos = ($("#uploadDasometricos"))[0].files[0];
+
+        $("#uploadDasometricos").change(function () {
+            ArchivoDasometricos = ($("#uploadDasometricos"))[0].files[0];
+            console.log(ArchivoDasometricos);
+            document.getElementById("nombre_ArchivoDasometricos").innerHTML = ArchivoDasometricos.name;
+            var botonSubir = document.getElementById("btsubirDasometricos");
+            if ((ArchivoDasometricos != "") && (ArchivoDasometricos != null)) {
+                botonSubir.classList.add("btn-primary");
+                botonSubir.disabled = false;
+            } else {
+                botonSubir.classList.remove("btn-primary");
+                botonSubir.disabled = true;
+            }
+        })
+
+
+        /*Edicion Subregional*/
+
+        var ArchivoDasometricos2 = ($("#uploadDasometricos2"))[0].files[0];
+            $("#uploadDasometricos2").change(function () {
+                ArchivoDasometricos2 = ($("#uploadDasometricos2"))[0].files[0];
+                console.log(ArchivoDasometricos2);
+                document.getElementById("nombre_ArchivoDasometricos2").innerHTML = ArchivoDasometricos2.name;
+                var botonSubir2 = document.getElementById("btsubirDasometricos2");
+                if ((ArchivoDasometricos2 != "") && (ArchivoDasometricos2 != null)) {
+                    botonSubir2.classList.add("btn-primary");
+                    botonSubir2.disabled = false;
+                } else {
+                    botonSubir2.classList.remove("btn-primary");
+                    botonSubir2.disabled = true;
+                }
+            })
+
+
+
+        $("#btsubirDasometricos").click(function () {
+            setTimeout(function () {
+
+                ArchivoDasometricos = ($("#uploadDasometricos"))[0].files[0];
+                console.log(ArchivoDasometricos);
+
+                var formData = new FormData();
+                formData.append("No_Registro", '@tbl_RNF_Registro.No_Registro');
+
+
+                function adjuntarImagenDasometricos() {
+                    formData.append("upload", ArchivoDasometricos);
+                    $.ajax({
+                        url: "UploadExcelDatosDasometricos",
+                        type: "POST",
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        async: false,
+                        success: function (data) {
+                            var oJSON = JSON.parse(data);
+                            var StrMensaje = oJSON.StrMensaje;
+                            var CodResult = oJSON.CodResult;
+                            console.log(oJSON);
+                            var color = "#000000";
+                            if (CodResult == 1) {
+                                color = "#27FF00";
+                            } else {
+                                color = "#FF0000";
+                            }
+                            document.getElementById("result_CargaDasometricos").innerHTML = StrMensaje;
+                            document.getElementById("result_CargaDasometricos").style.color = color;
+                            $("#uploadDasometricos").prop("value", "");
+                            document.getElementById("nombre_ArchivoDasometricos").innerHTML = "";
+                            var botonSubir = document.getElementById("btsubirDasometricos");
+                            botonSubir.classList.remove("btn-primary");
+                            botonSubir.disabled = true;
+                            setTimeout(function () {
+                                document.getElementById("result_CargaDasometricos").innerHTML = "";
+                            }, 3000);
+                            //location.reload();
+                        },
+                        error: function (data) {
+                            //location.reload();
+                        }
+                    });
+
+                }
+
+                if (ArchivoDasometricos != null) {
+                    adjuntarImagenDasometricos();
+                } else {
+                    alert("No se ha seleccionado ningún archivo");
+                }
+
+
+            }, 2000);
+
+        })
+
+
+        //Edicion Subregional
+        $("#btsubirDasometricos2").click(function () {
+            setTimeout(function () {
+
+                ArchivoDasometricos2 = ($("#uploadDasometricos2"))[0].files[0];
+                console.log(ArchivoDasometricos2);
+
+                var formData = new FormData();
+                formData.append("No_Registro", '@tbl_RNF_Registro.No_Registro');
+
+
+                function adjuntarImagenDasometricos() {
+                    formData.append("upload", ArchivoDasometricos2);
+                    $.ajax({
+                        url: "UploadExcelDatosDasometricos2",
+                        type: "POST",
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        async: false,
+                        success: function (data) {
+                            var oJSON = JSON.parse(data);
+                            var StrMensaje = oJSON.StrMensaje;
+                            var CodResult = oJSON.CodResult;
+                            console.log(oJSON);
+                            var color = "#000000";
+                            if (CodResult == 1) {
+                                color = "#27FF00";
+                            } else {
+                                color = "#FF0000";
+                            }
+                            document.getElementById("result_CargaDasometricos").innerHTML = StrMensaje;
+                            document.getElementById("result_CargaDasometricos").style.color = color;
+                            $("#uploadDasometricos2").prop("value", "");
+                            document.getElementById("nombre_ArchivoDasometricos2").innerHTML = "";
+                            var botonSubir2 = document.getElementById("btsubirDasometricos2");
+                            botonSubir2.classList.remove("btn-primary");
+                            botonSubir2.disabled = true;
+                            setTimeout(function () {
+                                document.getElementById("result_CargaDasometricos").innerHTML = "";
+                            }, 3000);
+                            //location.reload();
+                        },
+                        error: function (data) {
+                            //location.reload();
+                        }
+                    });
+
+                }
+
+                if (ArchivoDasometricos2 != null) {
+                    adjuntarImagenDasometricos();
+                } else {
+                    alert("No se ha seleccionado ningún archivo");
+                }
+
+
+            }, 2000);
+
+        })
+
+    })
+
+</script>

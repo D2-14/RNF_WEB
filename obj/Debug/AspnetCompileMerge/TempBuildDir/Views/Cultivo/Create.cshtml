@@ -1,0 +1,162 @@
+﻿@model RNF_Web.Models.Tbl_Gral_Cultivo
+@using RNF_Web.Models;
+
+@{
+    Layout = "~/Views/Shared/_LayoutSimple.cshtml";
+    ViewBag.Title = "Cultivo ";
+    ViewBag.SubTitle = "Ingresar Especie Nueva ";
+}
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@Html.Partial("_PartialPageEncabezado")
+
+<button class="btn-secondary" style="position: absolute; right: 0;" rel="tooltip" title="Regresar" onclick="location.href='@Url.Action("Index", "Gral_Cultivo")'">
+    <i><img src="~/Content/icons/regresar.png" style="border-radius: 30%; width: 35px; height: auto" /></i>
+    <div class="ripple-container"></div>
+</button>
+
+<br />
+<br />
+
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.HiddenFor(model => model.Cultivo_Id)
+    @Html.HiddenFor(model => model.swdatecreated)
+    @Html.HiddenFor(model => model.swdateupdated)
+
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nombre_Tecnico, " Nombre técnico", htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Nombre_Tecnico, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Nombre_Tecnico, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nombres_Comunes, " Nombres comunes", htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Nombres_Comunes, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Nombres_Comunes, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table>
+            <tr>
+                <td> &nbsp; </td>
+            </tr>
+
+            <tr>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>Árbol frutal</td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.Arbol_Frutales)
+                </td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>Cultivo Silvopastoril</td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.Cultivo_SilvoPastoril)
+                </td>
+            </tr>
+            <tr>
+                <td> &nbsp; </td>
+            </tr>
+
+            <tr>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>Especies agrícolas permanentes</td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.Especies_Agricolas_Permanentes)
+                </td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>Especie Agricola Anual/Bianual</td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.Especies_Agricolas_Bianuales)
+                </td>
+            </tr>
+            <tr>
+                <td> &nbsp; </td>
+            </tr>
+
+            <tr>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>Especie Agricola para Huerto Familiar</td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.Especies_Mixtas)
+                </td>
+            </tr>
+        </table>
+
+
+        <br />
+        <br />
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+            </div>
+            <div class="col-sm-12 col-md-3">
+            </div>
+            <div class="col-sm-12 col-md-3">
+                @TempData["RollMessage"]
+                <input type="submit" value="Guardar cambios" class="btn btn-success btn-fab btn-round" />
+            </div>
+        </div>
+        <br />
+        <br />
+    </div>
+
+}
+
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+

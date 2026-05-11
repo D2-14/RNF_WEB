@@ -1,0 +1,138 @@
+﻿@using RNF_Web.Models;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+@model IEnumerable<Tbl_Sol_Solicitud>
+
+@{
+    ViewBag.Title = "Bandeja de solicitudes";
+    ViewBag.SubTitle = null;
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@Html.Partial("_PartialPageEncabezado")
+
+
+
+<table class="table">
+    <tr>
+        <th width="10%">
+            Número
+        </th>
+        <th width="10%">
+            Estado Solicitud
+        </th>
+        <th>
+            Fecha de la solicitud
+        </th>
+        <th>
+            Fecha de la etapa
+        </th>
+        <th>
+            Tipo
+        </th>
+        <th>
+            Solicitante
+        </th>
+        <th colspan="2">
+            Revisar solicitud
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @if ((item.Solicitud_NumeroExpediente != null) && (item.Solicitud_NumeroExpediente != ""))
+                {
+                    @Html.DisplayFor(modelItem => item.Solicitud_NumeroExpediente)
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Solicitud_NumeroTemporal)
+                }
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud_Estado.Descripcion)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.swdateupdated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.swdatecreated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud_Categoria.Descripcion) - <br />
+                @Html.DisplayFor(modelItem => item.Tbl_Sol_Solicitud_Sub_Categoria.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tbl_Seg_UsuarioExterno.Nombres) @Html.DisplayFor(modelItem => item.Tbl_Seg_UsuarioExterno.Apellidos)
+            </td>
+            <td>
+                @*@if ((item.Estado_id == 1) || (item.Estado_id == 3))
+                    {
+                        <button class="btn-secondary" rel="tooltip" title="Panel de Asignación" onclick="window.open('/App_Visita_Campo/PanelAsignacion?Guid_id=@item.Guid_id')">
+                            <i><img src="~/Content/icons/workflow.png" style="border-radius: 25%; width: 35px; height: auto" /></i>
+                            <div class="ripple-container"></div>
+                        </button>
+                    }*@
+            </td>
+            <td>
+                <button class="btn-secondary" rel="tooltip" title="Revisar" onclick="window.open('/Gest_EtapaSolicitud/Historial?Guid_id=@item.Guid_id')">
+                    <i><img src="~/Content/icons/etapas.png" style="border-radius: 25%; width: 35px; height: auto" /></i>
+                    <div class="ripple-container"></div>
+                </button>
+            </td>
+
+
+        </tr>
+    }
+
+</table>
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+
+<input type="hidden" id="Pagina" name="Pagina" value="">
+<input type="hidden" id="Titulo" name="Titulo" value="">
+<div class="container mt-3">
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" width: 700px;>
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Header</h4>
+                    <button type="button" id="btnHideModal" class="btn btn-default">
+                        X
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>The <strong>show.bs.modal</strong> asdfasdf.</p>
+                </div>
+                <div id="DatosPersonerias">
+                    <br />
+                    <br />
+                    <br />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnHideModal_Close" class="btn btn-default">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

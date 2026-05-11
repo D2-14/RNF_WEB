@@ -1,0 +1,567 @@
+﻿@model RNF_Web.Models.Tbl_Sol_Solicitud
+@using RNF_Web.Models;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@{
+
+    db_RNF_APIEntities db_API = new db_RNF_APIEntities();
+
+    string ComparativoArea = db_API.Database.SqlQuery<string>("select [dbo].[Fcn_Gest_ComparativoArea]('" + Model.Solicitud_id + "')").FirstOrDefault();
+
+    string srcimage64 = String.Format("data:image/png;base64,{0}", Convert.ToBase64String(ViewBag.BytesQR));
+
+    ViewBag.EvaluacionArea = "";
+    ViewBag.EvaluacionBoletaDeDecision = "";
+    ViewBag.EvaluacionDasometrica = "";
+    ViewBag.EvaluacionCentroParcela = "";
+
+    ViewBag.Empresa = "";
+
+    if ((Model.SolicitudTipo_id != (decimal)5.00) && (Model.SolicitudTipo_id != (decimal)9.00) && (Model.SolicitudTipo_id != (decimal)10.00))
+    {
+        ViewBag.Empresa = "hidden";
+
+    }
+
+    if ((Model.SolicitudTipo_id == (decimal)1.00) || (Model.SolicitudTipo_id == (decimal)5.00))
+    {
+        ViewBag.EvaluacionArea = "hidden";
+        ViewBag.EvaluacionBoletaDeDecision = "hidden";
+        ViewBag.EvaluacionDasometrica = "hidden";
+        ViewBag.EvaluacionCentroParcela = "hidden";
+    }
+
+    if ((Model.SolicitudTipo_id == (decimal)3.00) || (Model.SolicitudTipo_id == (decimal)6.00))
+    {
+        ViewBag.EvaluacionBoletaDeDecision = "hidden";
+    }
+
+    if ((Model.SolicitudTipo_id - Model.Categoria_id) > 0)
+    {
+        ViewBag.EvaluacionBoletaDeDecision = "hidden";
+    }
+
+
+    if (ViewBag.ModoVista == "1")
+    {
+        ViewBag.EvaluacionBoletaDeDecision = "hidden";
+        //ViewBag.EvaluacionDasometrica = "hidden";    A Petición de Nancy 2023/10/24 para que pueda corregirlo el técnico
+    }
+
+}
+<style>
+    .formation {
+        height: auto;
+        max-width: 90%;
+        margin: 30px auto;
+        border-radius: 10px;
+        border-style: solid;
+        border-color: #77DD77;
+        padding: 20px;
+        box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    }
+
+
+    #a_Navegacionaceptar:link, #a_Navegacionaceptar:visited {
+        background-color: forestgreen;
+        color: white;
+        margin: 30px auto;
+        border-radius: 10px;
+        padding: 15px 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    #a_Navegacionaceptar:hover, #a_Navegacionaceptar:active {
+        background-color: limegreen;
+    }
+
+    #a_Navegacionaceptar {
+        margin: auto;
+        width: 50%;
+        border: 3px solid green;
+        padding: 10px;
+    }
+
+
+    #a_NavegacionEnmienda:link, #a_NavegacionEnmienda:visited {
+        background-color: cornflowerblue;
+        color: white;
+        margin: 30px auto;
+        border-radius: 10px;
+        padding: 15px 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    #a_NavegacionEnmienda:hover, #a_NavegacionEnmienda:active {
+        background-color: deepskyblue;
+    }
+
+    #a_NavegacionEnmienda {
+        margin: auto;
+        width: 50%;
+        border: 3px solid green;
+        padding: 10px;
+    }
+
+
+    #a_Navegaciondenegar:link, #a_Navegaciondenegar:visited {
+        background-color: #e54131;
+        color: white;
+        margin: 30px auto;
+        border-radius: 10px;
+        padding: 15px 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    #a_Navegaciondenegar:hover, #a_Navegaciondenegar:active {
+        background-color: #d15a4e;
+    }
+
+    #a_Navegaciondenegar {
+        margin: auto;
+        width: 50%;
+        border: 3px solid green;
+        padding: 10px;
+    }
+
+    #a_Navegacionsalir:link, #a_Navegacionsalir:visited {
+        background-color: gray;
+        color: white;
+        margin: 30px auto;
+        border-radius: 10px;
+        padding: 15px 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+
+    #a_Navegacionsalir:hover, #a_Navegacionsalir:active {
+        background-color: darkgray;
+    }
+
+
+    #a_Navegacionsalir {
+        margin: auto;
+        width: 50%;
+        border: 3px solid green;
+        padding: 10px;
+    }
+</style>
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<table>
+    <tr>
+        <td width="10%">
+        </td>
+        <td width="10%">
+            <img src="@srcimage64" height="200" width="200" />
+        </td>
+        <td width="10%">
+        </td>
+        <td width="50%">
+        </td>
+        <td width="10%">
+        </td>
+    </tr>
+    <tr>
+        <td width="10%">
+        </td>
+        <td width="10%">
+        </td>
+        <td width="10%">
+        </td>
+        <td width="50%">
+            @Model.Guid_id
+        </td>
+    </tr>
+</table>
+
+
+<div class="formation" @Html.Raw(ViewBag.EvaluacionArea)>
+    <table class="table-condensed" width="100%">
+        <tbody>
+            <tr>
+                <td colspan="4">
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td colspan="3" rowspan="3" align="center">
+                    @if (Model.Tbl_Gral_EvaluacionPonderacion1 == null)
+                    {
+                        <h4>Evaluación aún</h4>
+                        <h4>No realizada</h4>
+                    }
+                    else
+                    {
+                        <h1>@Model.Tbl_Gral_EvaluacionPonderacion1.Descripcion</h1>
+                    }
+                </td>
+                <td>
+                </td>
+                <td rowspan="3" align="center">
+                    <a href="/Form_FormularioTecnico/AnalisisRodal?Guid_id=@Model.Guid_id&etapa_id=@ViewBag.etapa_id&etaparuta_id=@ViewBag.etaparuta_id&correlativoetapa_id=@ViewBag.correlativoetapa_id">
+                        @if ((ViewBag.Owner == 0) || (ViewBag.ModoVista == "1"))
+                        {
+                            <button class="btn  btn-primary">Revisar</button>
+                        }
+                        else
+                        {
+                            <button class="btn  btn-primary">Realizar evaluación</button>
+                        }
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td rowspan="3">
+
+                    <a href="#">
+                        <img src="~/Content/icons/DocumentoPlano.jpg" width="100" alt="ÁNALISIS DE RODALES Y ÁRBOLES EN LINEA">
+                    </a>
+                </td>
+                <td colspan="4">
+                    <h4>
+                        ANÁLISIS DE ÁREAS
+                    </h4>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <strong>
+                        Presione el boton para realizar la revisión de áreas.
+                    </strong>
+                    <br>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+
+<div class="formation" @Html.Raw(ViewBag.EvaluacionDasometrica)>
+    <table class="table-condensed" width="100%">
+        <tbody>
+            <tr>
+                <td colspan="4">
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td colspan="3" rowspan="3" align="center">
+                    @if (Model.Tbl_Gral_EvaluacionPonderacion == null)
+                    {
+                        <h4>Evaluación aún</h4>
+                        <h4>No realizada</h4>
+                    }
+                    else
+                    {
+                        <h1>@Model.Tbl_Gral_EvaluacionPonderacion.Descripcion</h1>
+                    }
+                </td>
+                <td>
+                </td>
+                <td rowspan="3" align="center">
+                    <a href="/App_Visita_Campo/Index?Guid_id=@Model.Guid_id&etapa_id=@ViewBag.etapa_id&etaparuta_id=@ViewBag.etaparuta_id&correlativoetapa_id=@ViewBag.correlativoetapa_id">
+
+                        @if ((ViewBag.Owner == 0) || (ViewBag.ModoVista == "1"))
+                        {
+                            <button class="btn  btn-primary">Revisar</button>
+                        }
+                        else
+                        {
+                            <button class="btn  btn-primary">Realizar evaluación</button>
+                        }
+
+
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td rowspan="3">
+
+                    <a href="#">
+                        <img src="~/Content/icons/DocumentoEnRevisionTecnico.jpg" width="100" alt="ÁNALISIS DE DATOS DASOMETRICOS">
+                    </a>
+                </td>
+                <td colspan="4">
+                    <h4>
+                        ANÁLISIS DE DATOS DASOMETRICOS
+                    </h4>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <strong>
+                        Presione el link inferior para realizar la revisión de datos dasometricos.
+                    </strong>
+                    <br>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+
+
+<div class="formation" @Html.Raw(ViewBag.EvaluacionBoletaDeDecision)>
+    <table class="table-condensed" width="100%">
+        <tbody>
+            <tr>
+                <td colspan="4">
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td colspan="3" rowspan="3" align="center">
+                    @if (Model.Tbl_Gral_EvaluacionPonderacion2 == null)
+                    {
+                        <h4>Evaluación aún</h4>
+                        <h4>No realizada</h4>
+                    }
+                    else
+                    {
+                        <h1>@Model.Tbl_Gral_EvaluacionPonderacion2.Descripcion</h1>
+                    }
+                </td>
+                <td>
+                </td>
+                <td rowspan="3" align="center">
+                    <a href="/Form_FormularioTecnico/Index?GuidEtapa_id=@ViewBag.GuidEtapa_id&Guid_id=@Model.Guid_id&etapa_id=@ViewBag.etapa_id&etaparuta_id=@ViewBag.etaparuta_id&correlativoetapa_id=@ViewBag.correlativoetapa_id">
+
+                        @if ((ViewBag.Owner == 0) || (ViewBag.ModoVista == "1"))
+                        {
+                            <button class="btn  btn-primary">Revisar</button>
+                        }
+                        else
+                        {
+                            <button class="btn  btn-primary">Realizar evaluación</button>
+                        }
+
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td rowspan="3">
+
+                    <a href="#">
+                        <img src="~/Content/icons/DocumentoEnRevision.jpg" width="100" alt="ÁNALISIS DE DATOS DASOMETRICOS">
+                    </a>
+                </td>
+                <td colspan="4">
+                    <h4>
+                        BOLETA DE DECISIÓN
+                    </h4>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <strong>
+                        Presione el boton para realizar la revisión de formulario.
+                    </strong>
+                    <br>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+
+
+<div class="formation" @Html.Raw(ViewBag.EvaluacionCentroParcela)>
+    <table class="table-condensed" width="100%">
+        <tbody>
+            <tr>
+                <td colspan="4">
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td colspan="3" rowspan="3" align="center">
+                    <h4>Acceso para </h4>
+                    <h4>gestionar los datos de centro de parcela</h4>
+                </td>
+                <td>
+                </td>
+                <td rowspan="3" align="center">
+                    <a href="/Form_FormularioTecnico/AnalisisCentroParcela?Guid_id=@Model.Guid_id&etapa_id=@ViewBag.etapa_id&etaparuta_id=@ViewBag.etaparuta_id&correlativoetapa_id=@ViewBag.correlativoetapa_id">
+                        @if ((ViewBag.Owner == 0) || (ViewBag.ModoVista == "1"))
+                        {
+                            <button class="btn  btn-primary">Revisar</button>
+                        }
+                        else
+                        {
+                            <button class="btn  btn-primary">Realizar evaluación</button>
+                        }
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td rowspan="3">
+                    <a href="#">
+                        <img src="~/Content/icons/DocumentoEnRevisionTecnico.jpg" width="100" alt="ÁNALISIS DE DATOS CENTRO PARCELA">
+                    </a>
+                </td>
+                <td colspan="4">
+                    <h4>
+                        ANÁLISIS DE CENTRO DE PARCELA
+                    </h4>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <strong>
+                        Presione el boton para realizar la revisión de centro de parcela.
+                    </strong>
+                    <br>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+
+
+<div class="formation" @Html.Raw(ViewBag.Empresa)>
+    <table class="table-condensed" width="100%">
+        <tbody>
+            <tr>
+                <td colspan="4">
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td colspan="3" rowspan="3" align="center">
+                    <h4>Acceso para </h4>
+                    <h4>gestionar los datos de empresa</h4>
+                </td>
+                <td>
+                </td>
+                <td rowspan="3" align="center">
+                    <a href="/Form_FormularioTecnico/AnalisisEmpresa?Guid_id=@Model.Guid_id&etapa_id=@ViewBag.etapa_id&etaparuta_id=@ViewBag.etaparuta_id&correlativoetapa_id=@ViewBag.correlativoetapa_id">
+                        @if ((ViewBag.Owner == 0) || (ViewBag.ModoVista == "1"))
+                        {
+                            <button class="btn  btn-primary">Revisar</button>
+                        }
+                        else
+                        {
+                            <button class="btn  btn-primary">Realizar evaluación</button>
+                        }
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td rowspan="3">
+                    <a href="#">
+                        <img src="~/Content/icons/DocumentoEmpresa.jpg" width="100" alt="ÁNALISIS DE EMPRESA O ENTIDAD">
+                    </a>
+                </td>
+                <td colspan="4">
+                    <h4>
+                        ANÁLISIS DE EMPRESA
+                    </h4>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <strong>
+                        Presione el boton para realizar la revisión de empresa.
+                    </strong>
+                    <br>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+
+<h3>@Html.Raw(ComparativoArea??"")</h3>
+

@@ -1,0 +1,194 @@
+﻿@using RNF_Web.Models;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@model Tbl_Sol_Solicitud
+
+@{
+    db_RNFEntities db = new db_RNFEntities();
+
+    ViewBag.CantidadFincas = db.Tbl_Sol_Finca.Where(Obj => Obj.Solicitud_id == Model.Solicitud_id).Count();
+
+    if (ViewBag.CantidadFincas > 0)
+    {
+        ViewBag.MaxFincaId = db.Tbl_Sol_Finca.Where(Finca => Finca.Solicitud_id == Model.Solicitud_id).Max(u => u.Finca_Id);
+    }
+    else
+    {
+        ViewBag.MaxFincaId = 0;
+    }
+
+}
+
+<script>
+    $(document).ready(function () {
+        $(document).on('change', '#PonderacionEvaluacionTecnicaDeArea_id', function () {
+
+            var url = "@Url.Action("EvaluacionArea", "Form_FormularioTecnico")";
+            var Opcion = $('#PonderacionEvaluacionTecnicaDeArea_id').val();
+            var data = {
+                Guid_id: '@ViewBag.guidid',
+                Opcion: Opcion
+            };
+
+            $.post(url, data).done(function (ListData) {
+
+            }).fail(manejaErrorAjax).always(function () {
+
+            });
+
+        });
+    })
+
+
+     function PlanoXFinca()
+        {
+         var MaxFincaId = @ViewBag.MaxFincaId;
+
+         var Guid = '@ViewBag.guidid';
+
+            var NoFinca = $('#No_Finca').val();
+
+            if (NoFinca == 0)
+            {
+                alert('El número de finca no debe ser cero, debe ser valido, entre 1 y ' + MaxFincaId + ',  acorde al Id. de la finca para la que desea el plano')
+            }
+            else
+            if (NoFinca > MaxFincaId)
+            {
+                alert('El número de finca debe ser valido, entre 1 y ' + MaxFincaId + ',  acorde al Id. de la finca para la que desea el plano')
+            }
+            else
+            {
+                window.open('/Form_FormularioTecnicoLocation/IndexRodalPlano?Guid_id=' + Guid + '&Finca_id=' + NoFinca + "&Rodal_id=0&Tipo_de_Area=0", '_blank');
+
+            }
+
+        }
+
+
+    function descargarDatosPoligonos()
+    {
+        var url = "@Url.Action("DescargaDatosPoligonos", "Form_FormularioTecnico")";
+            var Guid_id = '@ViewBag.guidid';
+        var data = {
+            Guid_id: Guid_id
+        }
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var objJSON = JSON.parse(jsonRespuesta);
+            var Ubicacion = objJSON.Ubicacion;
+            //alert(Ubicacion);
+            //window.open(Ubicacion, '_blank');
+            download(Ubicacion,"CoordendasUsuario.xlsx")
+        });
+    }
+
+
+</script>
+
+
+@*<script>
+        function download(filename) {
+            axios({
+                url: filename,
+                method: 'GET',
+                responseType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            })
+                .then((response) => {
+                    const url = window.URL
+                        .createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', filename);
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                })
+        }
+    </script>*@
+
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<table width="100%">
+    <tr>
+        <td>
+            <a href="@Url.Action("IndexRodal", "Locacion", new {Rodal_id = 0, solicitud_id= @ViewBag.solicitud_id , firma= @ViewBag.guidid } )" target="_blank">Mapa de ubicación del área solicitada</a>
+        </td>
+        <td>
+            <a href="@Url.Action("IndexRodalGoogleMaps", "Locacion", new {Rodal_id = 0, solicitud_id= @ViewBag.solicitud_id , firma= @ViewBag.guidid } )" target="_blank">Mapa de ubicación del área solicitada Google</a>
+        </td>
+        <td>
+            <a href="@Url.Action("IndexRodalPlanoVertical", "Locacion", new {Finca_id = 0, Rodal_id = 0, solicitud_id= @ViewBag.solicitud_id , firma= @ViewBag.guidid } )" target="_blank">Plano de ubicación del área solicitada completo</a>
+        </td>
+        <td>
+            <a href="@Url.Action("IndexRodalPlano", "Form_FormularioTecnicoLocation", new { Guid_id = ViewBag.guidid, Finca_id = 0, Rodal_id = 0, Tipo_de_Area = 0 } )" target="_blank">Plano completo comparativo</a>
+        </td>
+        <td>
+            No. Finca
+            <input type="text" id="No_Finca" name="No_Finca" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" value="0" />
+            <input type="button" value="Plano por finca" onclick="PlanoXFinca()" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+            <a href="@Url.Action("IndexRodalPlanoTecnico", "Form_FormularioTecnicoLocation", new { Guid_id = ViewBag.guidid, Finca_id = 0, Rodal_id = 0, Tipo_de_Area = 0 } )" target="_blank">Plano técnico</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+            <a href="@Url.Action("IndexRodalPlanoUsuario", "Form_FormularioTecnicoLocation", new { Guid_id = ViewBag.guidid, Finca_id = 0, Rodal_id = 0, Tipo_de_Area = 0 } )" target="_blank">Plano solicitante</a>
+        </td>
+    </tr>
+</table>
+
+<br />
+<h3>Resultado de Evaluación</h3>
+<br />
+
+<div class="row">
+    <div class="form-group">
+
+
+        @if (ViewBag.Owner == 1)
+        {
+            @Html.DropDownList("PonderacionEvaluacionTecnicaDeArea_id", null, htmlAttributes: new { @class = "form-select" })
+        }
+        else
+        {
+            @Html.DropDownList("PonderacionEvaluacionTecnicaDeArea_id", null, htmlAttributes: new { @class = "form-select", @disabled = "disabled" })
+        }
+
+        @Html.HiddenFor(m => m.PonderacionEvaluacionTecnicaDeArea_id)
+        @Html.ValidationMessageFor(model => model.PonderacionEvaluacionTecnicaDeArea_id, "", new { @class = "text-danger" })
+
+
+
+    </div>
+
+</div>
+
+
+

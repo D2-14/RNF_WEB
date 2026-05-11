@@ -1,0 +1,1233 @@
+﻿* {
+    font-size: 13px !important;
+    font-family: sans-serif !important;
+    font-weight: normal;
+    text-shadow: none !important;
+    outline: none !important;
+    -webkit-text-size-adjust: 100%;
+}
+
+#formContent {
+    animation-name: aparicion;
+    animation-duration: 1s;
+}
+
+.ui-header-text {
+    font-size: 20px !important;
+    color: green !important;
+    font-weight: bold;
+}
+
+.ui-widget-content {
+    border: 1px solid #53E58E;
+}
+
+.ui-column-title {
+    color: green !important;
+    font-size: 14px !important;
+    font-weight: bold;
+}
+
+.ui-datatable {
+    box-shadow: 1px 3px 10px #72C485 !important;
+}
+
+/*Fondo del boton INAB*/
+th.ui-state-default {
+    border: 1px solid #EAF3E8 !important; /* border: 1px solid #EAF3E8 !important; 20220105*/
+    background: green !important; /* background: #ffffff !important; 20220105*/
+}
+
+th.ui-filter-column {
+    padding-left: 4px !important;
+    padding-right: 15px !important;
+}
+
+.ui-datatable-odd {
+    background: #72C485;
+}
+/*Fondo del boton INAB*/
+tr.ui-widget-content {
+    border: 1px solid #EAF3E8;
+}
+/*Fondo del boton INAB*/
+tfoot > tr {
+    border: 1px solid #EAF3E8 !important;
+}
+
+    tfoot > tr > td.ui-state-default {
+        background: none !important;
+        border: none !important;
+    }
+
+.ui-paginator {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    border: 1px solid #72C485 !important;
+    border-top: none !important;
+    text-align: right !important;
+    background: #ffffff;
+}
+
+    .ui-paginator > .ui-state-default, .ui-paginator > .ui-paginator-pages > .ui-state-default {
+        border: none;
+        text-align: left;
+        background: #ffffff;
+        color: green;
+        border-radius: 25px !important;
+    }
+
+    .ui-paginator > .ui-state-hover, .ui-paginator > .ui-paginator-pages > .ui-state-hover {
+        background: #72C485;
+    }
+
+.ui-paginator-pages > span.ui-state-active {
+    background: green !important;
+    color: #ffffff !important;
+}
+
+button {
+    min-height: 30px;
+    border: none !important;
+    box-shadow: 1px 3px 10px #72C485 !important;
+    background: #ffffff !important;
+    transition: all 0.2s;
+}
+
+.ui-button-text {
+    color: green !important;
+}
+
+button.ui-state-hover {
+    box-shadow: 0 0 0 10px #248a4f !important;
+}
+
+.ui-btn-primary {
+    border: none !important;
+    box-shadow: 1px 3px 10px #72C485 !important;
+    background: green !important;
+    transition: all 0.2s;
+}
+
+    .ui-btn-primary > .ui-button-text {
+        color: #ffffff !important;
+    }
+
+    .ui-btn-primary.ui-state-hover {
+        border: none !important;
+        background: green !important;
+        box-shadow: 0 0 0 10px #cfcfd0 !important;
+    }
+
+.ui-fieldset {
+    text-align: left !important;
+    box-shadow: 1px 3px 10px #72C485 !important;
+}
+
+legend.ui-fieldset-legend {
+    border: none !important;
+    background: #ffffff !important;
+    color: green !important;
+    font-size: 14px !important;
+}
+
+.ui-inputfield {
+    width: 100% !important;
+    border: none !important;
+    border-bottom: 1px solid #72C485 !important;
+    transition: all 0.2s;
+}
+
+    .ui-inputfield.ui-state-hover {
+        border-bottom-color: green !important;
+    }
+
+    .ui-inputfield.ui-state-focus {
+        border-bottom-color: green !important;
+        box-shadow: 0px 1px green !important;
+    }
+
+.ui-selectonemenu {
+    width: 102% !important;
+    border: none !important;
+    border-bottom: 1px solid #72C485 !important;
+    transition: border-bottom-color 0.2s;
+}
+
+    .ui-selectonemenu.ui-state-hover {
+        border-bottom-color: green !important;
+    }
+
+    .ui-selectonemenu.ui-state-focus {
+        border-bottom-color: green !important;
+        box-shadow: 0px 1px green !important;
+    }
+
+    .ui-selectonemenu > .ui-inputfield {
+        border: none !important;
+        width: 100% !important;
+        color: #000000 !important;
+    }
+
+.ui-selectonemenu-trigger {
+    background: #ffffff !important;
+    border: none !important;
+}
+
+.ui-selectonemenu-items-wrapper {
+    box-shadow: 1px 3px 10px #72C485 !important;
+}
+
+.ui-selectonemenu-item {
+    background: #ffffff;
+    transition: background 0.2s;
+}
+
+    .ui-selectonemenu-item.ui-state-hover, .ui-selectonemenu-item.ui-state-highlight {
+        background: #EEEEEE;
+    }
+
+.ui-selectcheckboxmenu {
+    display: block !important;
+    width: 102% !important;
+    border: none !important;
+    background: #ffffff !important;
+}
+
+.ui-selectcheckboxmenu-trigger {
+    top: -1px !important;
+    background: #ffffff !important;
+    border: none !important;
+    border-bottom: 1px solid #72C485 !important;
+    transition: border-bottom-color 0.2s;
+}
+
+.ui-selectcheckboxmenu > span > label {
+    border-bottom: 1px solid #72C485 !important;
+    transition: border-bottom-color 0.2s;
+}
+
+.ui-selectcheckboxmenu > span > .ui-state-hover,
+.ui-selectcheckboxmenu > .ui-state-hover {
+    border-bottom-color: green !important;
+    background: #ffffff !important;
+    font-weight: normal !important;
+}
+
+.ui-selectcheckboxmenu.ui-state-focus > span > label,
+.ui-selectcheckboxmenu > .ui-state-focus {
+    border-bottom-color: green !important;
+    box-shadow: 0px 1px green !important;
+}
+
+.ui-selectcheckboxmenu-panel {
+    box-shadow: 1px 3px 10px #72C485 !important;
+}
+
+.ui-selectcheckboxmenu-header {
+    border: none !important;
+    border-bottom: 1px solid #72C485 !important;
+}
+
+    .ui-selectcheckboxmenu-header > a.ui-state-hover {
+        background: #ffffff !important;
+        border: none !important;
+    }
+
+.ui-line {
+    height: 2px;
+    width: 100%;
+    background-color: green;
+    box-shadow: 1px 3px 10px #72C485 !important;
+    animation-name: barraExpansiva;
+    animation-duration: 0.5s;
+}
+
+@keyframes barraExpansiva {
+    0% {
+        width: 0%;
+    }
+
+    100% {
+        width: 100%;
+    }
+}
+
+/*Fondo del boton INAB*/
+.ui-accordion-content {
+    border: 1px solid #EAF3E8 !important;
+    box-shadow: 1px 3px 10px #72C485 !important;
+    margin-bottom: 20px !important;
+}
+
+/*Fondo del boton INAB*/
+.ui-accordion > h3.ui-state-default {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    box-shadow: 1px 3px 10px #72C485 !important;
+    border: 1px solid #EAF3E8 !important;
+    border-left: 6px solid #72C485 !important;
+    background: #FFFFFF;
+    color: green !important;
+    font-weight: normal;
+    text-align: left;
+    transition: all 0.2s;
+}
+
+.ui-accordion > h3.ui-state-hover {
+    border-left-color: #07662F !important;
+}
+
+.ui-accordion > h3.ui-state-active {
+    
+    border-left-color: green !important;
+}
+
+.ui-accordion > h3.ui-tabs-outline {
+    z-index: 0;
+}
+
+.ui-form-effect > tbody > tr > td > label {
+    position: relative;
+    left: 35px;
+    opacity: 0.54 !important;
+    font-size: 11px !important;
+    /* top: -8px; */
+}
+
+.ui-form-effect > tbody > tr > td {
+    padding-bottom: 25px !important;
+}
+
+.ui-inputfield-effect > tbody > tr > td > label {
+    position: relative;
+    pointer-events: none;
+    top: -44px;
+    left: 5px;
+    color: #000000 !important;
+    opacity: 0.54 !important;
+    font-size: 11px !important;
+    transition: all 0.2s;
+}
+
+.ui-inputfield-effect > tbody > tr > td > :placeholder-shown ~ label {
+    top: -22px;
+    opacity: 0.87 !important;
+    font-size: 13px !important;
+}
+
+.ui-inputfield-effect > tbody > tr > td > input.ui-state-focus ~ label {
+    top: -44px;
+    font-size: 11px !important;
+    color: green !important;
+    opacity: 1 !important;
+}
+
+.ui-inputfield-effect > tbody > tr > td > input::-webkit-input-placeholder {
+    color: #FFFFFF !important;
+}
+
+.ui-inputfield-effect > tbody > tr > td > input::-moz-placeholder {
+    color: #FFFFFF !important;
+}
+
+.ui-inputfield-effect > tbody > tr > td > input:-ms-input-placeholder {
+    color: #FFFFFF !important;
+}
+
+.ui-inputfield-effect > tbody > tr,
+.ui-inputfield-effect > tbody > tr > td {
+    border: none !important;
+}
+
+    .ui-inputfield-effect > tbody > tr > td {
+        padding-left: 0px !important;
+    }
+
+    .ui-inputfield-effect > tbody > tr > td {
+        padding-top: 15px !important;
+    }
+
+        .ui-inputfield-effect > tbody > tr > td > .ui-messages > div {
+          
+            box-shadow: none !important;
+            margin-top: -20px;
+        }
+
+            .ui-inputfield-effect > tbody > tr > td > .ui-messages > div > ul > li > span {
+                margin-left: -30px;
+                font-weight: normal;
+            }
+
+        .ui-inputfield-effect > tbody > tr > td > .ui-messages > .ui-messages-warn > ul > li > span {
+            color: #ffa726 !important;
+        }
+
+        .ui-inputfield-effect > tbody > tr > td > .ui-messages > .ui-messages-info > ul > li > span {
+            color: #9ccc65 !important;
+        }
+
+        .ui-inputfield-effect > tbody > tr > td > .ui-messages > .ui-messages-error > ul > li > span {
+            color: #ef5350 !important;
+        }
+
+.ui-widget-header {
+    background: #FFFFFF !important;
+    border-bottom-color: green;
+}
+
+.ui-datepicker-calendar > tbody > tr > td > a.ui-state-default {
+    border-radius: 25px !important;
+    width: 20px;
+    text-align: center;
+    font-weight: normal !important;
+}
+
+.ui-datepicker-calendar > tbody > tr > td > a.ui-state-hover {
+    background: #EEEEEE !important;
+}
+
+.ui-datepicker-calendar > tbody > tr > td > a.ui-state-active {
+    background: green !important;
+}
+
+.ui-datepicker-month,
+.ui-datepicker-year {
+    border: none !important;
+}
+
+.ui-datepicker {
+    box-shadow: 1px 3px 10px #72C485 !important;
+}
+
+.ui-inputtextarea {
+    text-align: justify;
+}
+
+.ui-messages-info {
+    background: #9ccc65 !important;
+    border: none !important;
+    box-shadow: 1px 3px 10px #72C485 !important;
+}
+
+.ui-messages-warn {
+    background: #ffa726 !important;
+    border: none !important;
+    box-shadow: 1px 3px 10px #72C485 !important;
+}
+
+.ui-messages-error {
+    background: #ef5350 !important;
+    border: none !important;
+    box-shadow: 1px 3px 10px #72C485 !important;
+}
+
+.ui-messages-info-summary,
+.ui-messages-warn-summary,
+.ui-messages-error-summary {
+    color: #FFFFFF !important;
+}
+
+.ui-messages-info > .ui-messages-info-icon,
+.ui-messages-warn > .ui-messages-warn-icon,
+.ui-messages-error > .ui-messages-error-icon {
+    display: none;
+}
+
+.ui-messages-info > ul,
+.ui-messages-warn > ul,
+.ui-messages-error > ul,
+.ui-messages-info > ul > li > span,
+.ui-messages-warn > ul > li > span,
+.ui-messages-error > ul > li > span {
+    margin: 0 !important;
+}
+
+.ui-dialog {
+    border: none !important
+}
+
+.ui-dialog-titlebar {
+    padding-bottom: 10px !important;
+    padding-top: 10px !important;
+    box-shadow: 1px 3px 10px #72C485 !important;
+    background: green !important;
+}
+
+    .ui-dialog-titlebar > a.ui-state-hover {
+        background: none !important;
+        border: none !important;
+    }
+
+    .ui-dialog-titlebar > span.ui-dialog-title {
+        font-weight: bold;
+        padding-left: 12px;
+        font-size: 20px !important;
+        color: #FFFFFF !important;
+    }
+
+.ui-inputswitch {
+    border: none !important;
+    padding-right: 2px !important;
+    width: 44px !important;
+    overflow: visible !important;
+}
+
+.ui-inputswitch-off,
+.ui-inputswitch-on {
+    height: 8px !important;
+    margin-top: 6px;
+    border-radius: 25px !important;
+}
+
+/*Fondo del boton INAB*/
+.ui-inputswitch-off {
+    background: #EAF3E8 !important;
+}
+
+.ui-inputswitch-on {
+    background: green !important;
+    margin-left: 3px;
+}
+
+    .ui-inputswitch-off > span,
+    .ui-inputswitch-on > span {
+        visibility: hidden;
+    }
+
+.ui-inputswitch-handle {
+    border-radius: 25px !important;
+    height: 20px !important;
+    width: 19px !important;
+    margin-top: 2px;
+    margin-left: 1px;
+    background: #FFFFFF !important;
+    border: 1px solid #72C485 !important;
+    box-shadow: 0px 0px 5px #72C485 !important;
+}
+
+    .ui-inputswitch-handle:active,
+    .ui-inputswitch-off:active ~ .ui-inputswitch-handle,
+    .ui-inputswitch-on:active ~ .ui-inputswitch-handle {
+        box-shadow: 0 0 0 10px rgba(207, 207, 208, 0.3) !important;
+    }
+
+.ui-chkbox {
+    transition: all 0.2s;
+}
+
+    .ui-chkbox > .ui-state-default {
+        background: #FFFFFF !important;
+        border: 1px solid #72C485 !important;
+        box-shadow: 1px 3px 10px #72C485 !important;
+        transition: all 0.2s;
+    }
+
+    .ui-chkbox > .ui-state-hover {
+        border: 1px solid #07662F !important;
+    }
+
+    .ui-chkbox > .ui-state-active {
+        border: 1px solid green !important;
+    }
+
+    .ui-chkbox:active {
+        box-shadow: 0 0 0 10px rgba(207, 207, 208, 0.3) !important;
+    }
+
+.ui-radiobutton {
+    margin-right: 11px !important;
+}
+
+    .ui-radiobutton > .ui-state-default {
+        background: #FFFFFF !important;
+        border: 2px solid #72C485 !important;
+        box-shadow: 1px 3px 10px #72C485 !important;
+        border-radius: 25px !important;
+        padding: 2px;
+        height: 12px !important;
+        width: 12px !important;
+        transition: all 0.2s;
+    }
+
+    .ui-radiobutton > .ui-state-hover {
+        border: 2px solid #07662F !important;
+    }
+
+    .ui-radiobutton > .ui-state-active {
+        border: 2px solid green !important;
+    }
+
+.ui-radiobutton-box > span {
+    border-radius: 25px !important;
+    height: 12px;
+    width: 12px;
+    background-image: none !important;
+    margin: 0px auto;
+    overflow: visible;
+}
+
+.ui-radiobutton > .ui-state-active > span {
+    background: green;
+    animation-name: oneRadio;
+    animation-duration: 0.2s;
+}
+
+@keyframes oneRadio {
+    0% {
+        height: 0px;
+        width: 0px;
+    }
+
+    100% {
+        height: 12px;
+        width: 12px;
+    }
+}
+
+.ui-tabs {
+    border: none;
+}
+/*Fondo del boton INAB*/
+.ui-tabs-panels {
+    border: 1px solid #EAF3E8;
+    box-shadow: 1px 3px 10px #72C485 !important;
+}
+
+.ui-tabs-nav > li.ui-state-default {
+    border: none !important;
+    border-bottom: 4px solid #72C485 !important;
+    background: #FFFFFF;
+    transition: all 0.2s;
+}
+
+    .ui-tabs-nav > li.ui-state-default > a {
+        color: green !important;
+    }
+
+.ui-tabs-nav > li.ui-state-hover {
+    border-bottom-color: #07662F !important;
+}
+
+.ui-tabs-nav > li.ui-state-active {
+    border-bottom-color: green !important;
+}
+/*Fondo del boton INAB*/
+.ui-fileupload-buttonbar {
+    border: none;
+    border-bottom: 1px solid #EAF3E8 !important;
+    padding-left: 0px !important;
+}
+/*Fondo del boton INAB*/
+.ui-fileupload-content {
+    border: 1px solid #EAF3E8;
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
+}
+
+.ui-fileupload-buttonbar > button {
+    min-height: 30px;
+    border: none !important;
+    box-shadow: 1px 3px 10px #72C485 !important;
+    background: #ffffff !important;
+    transition: all 0.2s;
+}
+
+    .ui-fileupload-buttonbar > button.ui-state-hover {
+        z-index: 1;
+        box-shadow: 0 0 0 10px rgba(207, 207, 208, 0.3) !important;
+    }
+
+    .ui-fileupload-buttonbar > button > span,
+    .ui-fileupload-buttonbar > span > span {
+        background-image: none !important;
+        padding-left: 15px !important;
+    }
+
+.ui-fileupload-buttonbar > span {
+    min-height: 30px;
+    border: none !important;
+    box-shadow: 1px 3px 10px #72C485 !important;
+    background: green !important;
+    transition: all 0.2s;
+}
+
+    .ui-fileupload-buttonbar > span > .ui-button-text {
+        color: #ffffff !important;
+        margin-top: 3px;
+    }
+
+    .ui-fileupload-buttonbar > span.ui-state-hover {
+        z-index: 1;
+        box-shadow: 0 0 0 10px rgba(207, 207, 208, 0.3) !important;
+    }
+
+.ui-fileupload-preview + td,
+.ui-fileupload-progress {
+    display: none;
+}
+
+.ui-dlg-hidden {
+    display: none;
+}
+
+.ui-dlg-visible {
+    display: table;
+    width: 100%;
+    max-width: 100% !important;
+    height: 100%;
+    z-index: 2;
+    top: 0px;
+    left: 0px;
+    position: fixed;
+    background: rgba(0,0,0, 0.4);
+}
+
+.ui-dlg {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.ui-dlg-header {
+    text-align: left;
+}
+
+.ui-dlg-center-header {
+    text-align: center;
+}
+
+.ui-dlg-header,
+.ui-dlg-center-header {
+    padding-bottom: 10px !important;
+    padding-top: 10px !important;
+    padding-left: 35px;
+    padding-right: 35px;
+    background: green !important;
+    margin: auto;
+}
+
+    .ui-dlg-header > div,
+    .ui-dlg-center-header > div {
+        font-weight: bold;
+        font-size: 20px !important;
+        color: #FFFFFF !important;
+    }
+
+.ui-dlg-content {
+    background: #FFFFFF !important;
+    padding-left: 35px;
+    padding-right: 35px;
+    margin: auto;
+}
+
+.ui-steps {
+    display: table !important;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.ui-steps-item {
+    height: 0px;
+    border: 1px solid #72C485;
+    opacity: 1;
+}
+
+    .ui-steps-item > a {
+        padding: 0px !important;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+        text-align: -webkit-center !important;
+        text-align: -moz-center !important;
+    }
+
+.ui-steps-number {
+    border-radius: 50px !important;
+    width: 20px;
+    height: 20px;
+    color: #72C485 !important;
+    background: #72C485;
+    margin-top: -10px;
+    transition: all 0.2s;
+}
+
+.ui-state-default > a:hover > span.ui-steps-number {
+    box-shadow: 0 0 0 10px rgba(207, 207, 208, 0.3) !important;
+}
+
+.ui-state-highlight > a > .ui-steps-number {
+    color: green !important;
+    background: green;
+    box-shadow: 0 0 0 3px #226B11, 0 0 0 15px rgba(207, 207, 208, 0.3) !important;
+}
+
+.ui-steps-title {
+    margin-top: 20px;
+    margin-left: auto !important;
+    opacity: 0.54 !important;
+    transition: all 0.2s;
+}
+
+.ui-state-highlight > a > .ui-steps-title {
+    opacity: 1 !important;
+    color: green !important;
+}
+
+.ui-panelgrid > .ui-grid-responsive {
+    border: none;
+}
+
+.ui-separator {
+    border: 0.5px solid #72C485 !important;
+}
+
+.tituloVista {
+    font-weight: bold;
+    font-size: 20px !important;
+    opacity: 0.4;
+}
+
+a {
+    text-decoration: none;
+}
+
+    a > label {
+        cursor: pointer;
+    }
+
+.ui-datalist-no-border > .ui-datalist-content {
+    border: none;
+}
+
+@media screen and (max-width: 35em) {
+    .ui-datatable-reflow > div > table > tbody > tr > td > .ui-column-title {
+        width: 100% !important;
+    }
+
+    .ui-datatable-reflow > div > table > tbody > tr > td {
+        width: 100% !important;
+        text-align: left !important;
+    }
+}
+
+body {
+    margin: 0;
+}
+
+.ui-cml-effect > img {
+    opacity: 0.5;
+    margin: 0px 5px;
+    background: #72C485;
+    border-radius: 50px !important;
+    padding: 5px;
+    transition: all 0.2s;
+}
+
+    .ui-cml-effect > img:hover {
+        opacity: 1 !important;
+    }
+
+.headerAgenciaVirtual {
+    width: 100%;
+    box-shadow: 0px 5px 10px #53e58e !important; /* color de los botones al posicionarse en ellos */
+
+    z-index: 1;
+    overflow: hidden;
+}
+
+    .headerAgenciaVirtual > tbody > tr > td {
+        width: 200px;
+    }
+
+        .headerAgenciaVirtual > tbody > tr > td > div {
+            height: 90px;
+            position: absolute;
+            transform: rotate(60deg);
+            padding-right: 550px;
+            border-bottom: solid 5px #226B11;
+        }
+
+        .headerAgenciaVirtual > tbody > tr > td > label {
+            color: white !important;  /* Color Blanco Menu de Opciones INAB*/
+        }
+
+        .headerAgenciaVirtual > tbody > tr > td + td {
+            background: green !important;
+            text-align: center;
+            width: auto;
+        }
+
+            .headerAgenciaVirtual > tbody > tr > td + td > a {
+                display: none;
+                float: left;
+                position: relative;
+            }
+
+                .headerAgenciaVirtual > tbody > tr > td + td > a > img {
+                    border: solid 2px green;
+                    border-radius: 50px !important;
+                    padding: 5px;
+                    transition: all 0.2s;
+                }
+
+                    .headerAgenciaVirtual > tbody > tr > td + td > a > img:hover {
+                        border: solid 2px #226B11;
+                    }
+
+            .headerAgenciaVirtual > tbody > tr > td + td > label {
+                font-size: 20px !important;
+                font-weight: bold;
+                position: relative;
+            }
+
+            .headerAgenciaVirtual > tbody > tr > td + td + td {
+                text-align: right;
+                width: 180px;
+            }
+
+                .headerAgenciaVirtual > tbody > tr > td + td + td > label {
+                    position: initial !important;
+                    font-size: 13px !important;
+                    font-weight: normal !important;
+                }
+
+                .headerAgenciaVirtual > tbody > tr > td + td + td > * {
+                    display: none;
+                }
+
+                .headerAgenciaVirtual > tbody > tr > td + td + td > label + br + label {
+                    display: initial;
+                    padding-right: 3px;
+                }
+
+.botonFlotante {
+    text-align: right;
+    bottom: 20px;
+    right: 20px;
+}
+
+    .botonFlotante > div {
+        margin-top: 15px;
+        height: 46px;
+        width: 46px;
+        border-radius: 50px !important;
+        float: right;
+    }
+
+    .botonFlotante > ul {
+        display: none;
+        list-style: none;
+    }
+
+        .botonFlotante > ul > li {
+            padding: 5px 0px;
+        }
+
+    .botonFlotante:hover > ul {
+        display: initial;
+    }
+
+        .botonFlotante:hover > ul > li {
+            animation-name: aparicion;
+            animation-duration: 0.5s;
+        }
+
+    .botonFlotante > ul > li > a > img {
+        padding: 10px;
+        background: green;
+        border-radius: 50px !important;
+        transition: all 0.2s;
+    }
+
+    .botonFlotante > div,
+    .botonFlotante > ul > li > a > img {
+        box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28) !important;
+    }
+
+        .botonFlotante > div > img {
+            padding: 5px;
+            border-radius: 50px !important;
+            background: #226B11;
+            transition: all 0.5s;
+        }
+
+    .botonFlotante:hover > div > img {
+        transform: rotate(90deg);
+    }
+
+    .botonFlotante > ul > li > a > span {
+        padding: 5px 10px !important;
+        box-shadow: 1px 3px 10px #72C485 !important;
+        border-radius: 5px !important;
+        position: relative;
+        top: -17px !important;
+        right: 16px;
+        background: #226B11; /* #06A5D6; */
+    }
+
+    .botonFlotante > ul > li > a:hover > img {
+        opacity: 0.8;
+    }
+
+.contentAgenciaVirtual {
+    width: 100%;
+}
+
+    .contentAgenciaVirtual > tbody > tr > td {
+        width: 192px;
+        vertical-align: top;
+    }
+
+        .contentAgenciaVirtual > tbody > tr > td + td {
+            width: auto;
+        }
+
+        .contentAgenciaVirtual > tbody > tr > td > center > div {
+            max-width: 800px;
+        }
+
+            /*Fondo del boton INAB*/
+            .contentAgenciaVirtual > tbody > tr > td > center > div > div > a > div {
+                text-align: left;
+                padding: 15px;
+                padding-left: 40px !important;
+                border-bottom: 1px solid #EAF3E8;
+                opacity: 0.7;
+                transition: all 0.2s;
+            }
+
+            .contentAgenciaVirtual > tbody > tr > td > center > div > div {
+                border: none !important;
+                box-shadow: none !important;
+                padding: 15px 0 !important;
+            }
+            /*Fondo del boton INAB*/
+            .contentAgenciaVirtual > tbody > tr > td > center > div > .ui-state-default {
+                padding-left: 15px !important;
+                border-bottom: solid 1px #EAF3E8 !important;
+            }
+
+            .contentAgenciaVirtual > tbody > tr > td > center > div > .ui-state-hover {
+                background: #f7f7f8;
+            }
+
+            .contentAgenciaVirtual > tbody > tr > td > center > div > .ui-state-active {
+                font-weight: bold;
+                font-size: 16px !important;
+            }
+
+                .contentAgenciaVirtual > tbody > tr > td > center > div > .ui-state-active + div {
+                    border-top: solid 1px green !important;
+                    margin-bottom: 0px !important;
+                }
+
+            .contentAgenciaVirtual > tbody > tr > td > center > div > h3 > span {
+                display: none;
+            }
+
+            .contentAgenciaVirtual > tbody > tr > td > center > div > div > a > div:hover {
+                background: #f7f7f8;
+            }
+
+            .contentAgenciaVirtual > tbody > tr > td > center > div > h3,
+            .contentAgenciaVirtual > tbody > tr > td > center > div > div > a > div {
+                animation-name: masPaddingBottom;
+                animation-duration: 1s;
+            }
+
+        .contentAgenciaVirtual > tbody > tr > td > div {
+            height: 100%;
+                
+            width: 280px;   /* ancho del boton para el el menu estado desplegado INAB*/
+            padding-left: 10px;
+            padding-right: 10px;
+            left: 0px;
+        }
+
+            .contentAgenciaVirtual > tbody > tr > td > div > a > div {
+                height: 53px;
+                background: forestgreen;    /* 20210105  No existia*/
+                border: solid 2px forestgreen; /*Orilla del boton del menú INAB*/
+                border-radius: 50px !important;
+                margin-top: 10px;
+                transition: all 0.2s;
+            }
+                /*Fondo del boton INAB*/
+                .contentAgenciaVirtual > tbody > tr > td > div > a > div:hover {
+                    background: #55d539; /* background: #EAF3E8; */
+                }
+
+                .contentAgenciaVirtual > tbody > tr > td > div > a > div > img {
+                    background: green; /* Color de circunferencia imagen */
+                    border-radius: 50px !important;
+                    padding: 2px;      /* grosor de circunferencia imagen */
+                }
+
+                .contentAgenciaVirtual > tbody > tr > td > div > a > div > label {
+                    position: relative;
+                    bottom: 2px;   /* aqui se configura para que las letras queden centradas en el boton INAB*/
+                    left: 10px;
+                    transition: all 0.2s;
+                }
+
+                .contentAgenciaVirtual > tbody > tr > td > div > a > div:hover > label {
+                    left: 30px;
+                }
+
+.categoriaActiva > div {
+    background: green !important;
+}
+
+    .categoriaActiva > div > label {
+        left: 10px !important;
+       
+    }
+
+.msgBienvenida {
+    margin-bottom: -60px;
+    opacity: 0;
+    animation-name: mostrar;
+    animation-duration: 10.5s;
+}
+
+    .msgBienvenida > div {
+        animation-name: ocultar;
+        animation-delay: 10s;
+        animation-duration: 1s;
+    }
+
+.menuLateralVisible > tbody > tr > td {
+    display: table-cell !important;
+    z-index: 1;
+}
+
+    .menuLateralVisible > tbody > tr > td + td {
+        position: initial;
+        z-index: 0;
+    }
+
+    .menuLateralVisible > tbody > tr > td > div {
+       
+        width: 280px;   /* ancho del boton del menu cuando se despliega INAB*/
+        animation-name: leftToRight;
+        animation-duration: 1s;
+    }
+
+.msgInformativo,
+.msgAlertivo,
+.msgCritico {
+    float: right;
+    top: -37px;
+    position: relative;
+    padding: 5px 10px;
+    border-radius: 50px !important;
+   
+}
+
+.msgInformativo {
+    background: #9ccc65 !important;
+}
+
+.msgAlertivo {
+    background: #ffa726 !important;
+}
+
+.msgCritico {
+    background: #ef5350 !important;
+}
+
+@keyframes masPaddingBottom {
+    0% {
+        padding-bottom: 0;
+    }
+
+    100% {
+        padding-bottom: 15px;
+    }
+}
+
+@keyframes aparicion {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes ocultar {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes mostrar {
+    0% {
+        opacity: 1;
+        margin-bottom: 0px;
+    }
+
+    100% {
+        opacity: 1;
+        margin-bottom: 0px;
+    }
+}
+
+@keyframes leftToRight {
+    0% {
+        left: -187px;
+    }
+
+    100% {
+        left: 0px;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .headerAgenciaVirtual > tbody > tr > td {
+        width: 280px;
+    }
+
+        .headerAgenciaVirtual > tbody > tr > td + td {
+            width: auto;
+        }
+
+            .headerAgenciaVirtual > tbody > tr > td + td + td {
+                width: 95px;
+            }
+
+        .headerAgenciaVirtual > tbody > tr > td > div {
+            padding-right: 500px;
+        }
+
+        .headerAgenciaVirtual > tbody > tr > td + td > a {
+            display: initial;
+        }
+
+        .headerAgenciaVirtual > tbody > tr > td > a + label {
+            display: none;
+        }
+
+        .headerAgenciaVirtual > tbody > tr > td + td + td > * {
+            display: initial;
+        }
+
+    .contentAgenciaVirtual > tbody > tr > td {
+        display: none;
+    }
+
+        .contentAgenciaVirtual > tbody > tr > td + td {
+            display: table-cell;
+        }
+}
+
+@media screen and (min-width: 651px) {
+    .menuLateralVisible > tbody > tr > td > div {
+        width: 280px;  /*INAB transicion en tamaño de boton*/
+    }
+}
+

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Gest_EtapaSolicitud>
+@using RNF_Web.Models;
+@using System.Data.SqlClient;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Url.Action("EstatusActual", "Gest_EtapaSolicitud")
+}
+
+
+@{
+    Layout = "~/Views/Shared/_LayoutSimple.cshtml";
+    ViewBag.Title = "Etapas de avance.";
+    ViewBag.SubTitle = null;
+
+    ViewBag.Correlativo = 1;
+}
+
+
+@foreach (var item in Model)
+{
+
+    <div class="card text-white bg-info mb-3">
+        <div class="card-header">
+            Datos de la etapa
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">@item.Tbl_Gest_Etapa.Nombre_Etapa</h5>
+            <p class="card-text">Fecha de creación: @item.Tbl_Sol_Solicitud.swdateupdated</p>
+            <p class="card-text">Fecha de ultima actualización: @item.Tbl_Sol_Solicitud.swdateupdated</p>
+
+            <table>
+                <tr>
+                    <td width="60%"></td>
+                    <td width="20%">
+                        @if ((item.Etapa_id == 1) && (item.Respuesta_id == 2))
+                        {
+                            <a href="/Gest_EtapaSolicitud/email?EtapaSolicitud_Guid_id=@item.EtapaSolicitud_GUID_id" target="_blank">
+                                <img src="~/Content/icons/mailrecibido.gif" width="160" />
+                            </a>
+                        }
+                    </td>
+                    <td width="20%"></td>
+                </tr>
+            </table>
+
+            <p class="card-text">Estado: @item.Tbl_Gest_EtapaSolicitudEstado.Descripcion</p>
+        </div>
+    </div>
+    <br />
+
+
+}
+
+

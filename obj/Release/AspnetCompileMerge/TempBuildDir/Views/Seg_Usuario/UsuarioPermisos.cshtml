@@ -1,0 +1,71 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    ViewBag.Title = "UsuarioPermisos";
+
+    ViewBag.Title = "Permisos Asignados";
+    ViewBag.Usuario = "bbarillas";
+    ViewBag.Password = "ASDF";
+
+}
+
+@Html.Partial("_PartialPageEncabezadodetails")
+
+<table class="table">
+    <tr>
+        <th class="fa-bold">
+            Permisos asignados
+        </th>
+        <th>
+            Permisos no asignados
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <table>
+                @foreach (var item in ViewBag.RolesAsignados)
+                {
+                    <tr>
+                        <td>
+                        </td>
+                        <td>
+                            @item.Nombre
+                        </td>
+                        <td>
+
+                            <input type="checkbox" id="CambioEstatus" name="EstadoActivo" value="Estatus" onclick="change(@item.Rol_id, 0)" checked>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </td>
+        <td>
+            <table>
+                @foreach (var item in ViewBag.RolesNoAsignados)
+                {
+                    <tr>
+                        <td>
+                        </td>
+                        <td>
+                            @item.Nombre
+                        </td>
+                        <td>
+                            <input type="checkbox" id="CambioEstatus" name="EstadoActivo" value="Estatus" onclick="change(@item.Rol_id, 1)">
+                        </td>
+                    </tr>
+                }
+            </table>
+        </td>
+    </tr>
+
+</table>
+
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+
+

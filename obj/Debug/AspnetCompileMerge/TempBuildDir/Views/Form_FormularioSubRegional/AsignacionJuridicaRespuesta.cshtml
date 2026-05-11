@@ -1,0 +1,95 @@
+﻿@model RNF_Web.Models.Tbl_Gest_EtapaSolicitud
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+@{
+    Layout = null;
+
+    ViewBag.Respuesta_Id_AsignacionRealizada = 1;
+
+}
+
+
+<script>
+
+    function Cerrar()
+    {
+        window.location.replace("/Main/Index");
+    }
+
+    function fnc_EnviarRespuesta(varRespuestaid)
+    {
+        varsolicitud_id = '@Model.Solicitud_id';
+        varetapa_id = '@Model.Etapa_id';
+        varetaparuta_id = '@Model.EtapaRuta_id';
+        varcorrelativoetapa_id = '@Model.CorrelativoEtapa_id';
+        varMotivo = $('#Motivo').val();
+        varEtapaSolicitud_GUIDid= '@Model.EtapaSolicitud_GUID_id';
+
+
+        var url = "@Url.Action("ActualizaEtapaRespuestaIndexSolicitud", "Form_FormularioSubRegional")";
+
+        var data = { solicitud_id: varsolicitud_id, etapa_id: varetapa_id, etaparuta_id: varetaparuta_id, correlativoetapa_id: varcorrelativoetapa_id, motivo: varMotivo, respuestaid: varRespuestaid, EtapaSolicitud_GUIDid: varEtapaSolicitud_GUIDid };
+        $.post(url, data).done(function (jsonRespuesta) {
+               var objJSON = JSON.parse(jsonRespuesta);
+               var Cod_Respuesta = objJSON.CodRespuesta;
+               var Texto_Respuesta = objJSON.strRespuesta;
+
+
+                if (Cod_Respuesta == 1) {
+                    window.location.replace("/Gest_EtapaSolicitud/Index");
+                } else
+                {
+                    $('#lblMensaje').text(Texto_Respuesta);
+                    alert(Texto_Respuesta);
+
+
+                }
+
+           }).fail(manejarErrorAjax).always(function () {
+
+               alert('Error no identificado.');
+            });
+            return false;
+
+    }
+
+
+</script>
+
+
+
+
+
+
+<table>
+
+    <tr>
+        <td><br /></td>
+        <td>
+            <label style="color: red;font-weight: 500; font-size:15px" id="lblMensaje" />
+        </td>
+    </tr>
+
+
+    @if (Model.Respuesta_id == 0)
+    {
+        <tr>
+            <td></td>
+            <td>
+                <input type="button" class="btn btn-success" value="Asignación jurídica realizada" onclick="fnc_EnviarRespuesta('@ViewBag.Respuesta_Id_AsignacionRealizada')" />
+            </td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
+            <td>
+                @*<input type="button" class="btn btn-secondary" value="Cerrar y continuar despues" onclick="Cerrar()" />*@
+            </td>
+        </tr>
+    }
+</table>
+
+

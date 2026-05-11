@@ -1,0 +1,31 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+@{
+    Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+    ViewBag.Title = "   Tierras de vocación forestal ";
+    ViewBag.SubTitle = null;
+}
+
+
+@Html.Partial("_PartialPageEncabezado")
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <img src="@ViewBag.Fotografia" />
+    <span style="color:green">@TempData["MessageFoto"]</span>
+</body>
+</html>
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+

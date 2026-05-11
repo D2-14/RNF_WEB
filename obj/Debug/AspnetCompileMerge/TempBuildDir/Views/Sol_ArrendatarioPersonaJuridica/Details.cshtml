@@ -1,0 +1,98 @@
+﻿@model RNF_Web.Models.Tbl_Sol_ArrendatarioPersonaJuridica
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Tbl_Sol_ArrendatarioPersonaJuridica</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.No_NIT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.No_NIT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UsuarioExterno_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UsuarioExterno_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.swcreatedby)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.swcreatedby)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.swcreatedbyinterno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.swcreatedbyinterno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.swdatecreated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.swdatecreated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.swdateupdated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.swdateupdated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.swupdatedby)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.swupdatedby)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.swupdatedbyinterno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.swupdatedbyinterno)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PersonaJuridica_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+

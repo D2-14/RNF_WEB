@@ -1,0 +1,78 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Sol_Finca_Secorf_EspeciesForestales>
+
+<table class="table">
+    <tr>
+        <th>
+            Finca
+        </th>
+        <th>
+            Rodal
+        </th>
+        <th>
+            Tipo de Área
+        </th>
+        <th>
+            Área ha
+        </th>
+        <th>
+            Especie
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DAP)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Altura)
+        </th>
+        <th>
+            Densidad ha
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Volumen)
+        </th>
+        <th>
+            Año establecimiento
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @item.Finca_id
+    </td>
+    <td>
+        @item.Rodal_id
+    </td>
+    <td>
+        @item.Tbl_Sol_Rodal_Tipo.Descripcion
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Area_ha)
+    </td>
+    <td>
+        @item.Especie_id
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DAP)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Altura)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Densidad_ha)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Volumen)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Anio_Establecimiento)
+    </td>
+    <td>
+        <div class="div-icons-table" onclick="BorrarEspecieForestalSecorf('@item.Finca_id', '@item.Rodal_id', '@item.Tipo_de_Area', '@item.Correlativo_id')">
+            <i class="fa in fa-trash-o" aria-hidden="true"></i>
+        </div>
+    </td>
+</tr>
+}
+
+</table>

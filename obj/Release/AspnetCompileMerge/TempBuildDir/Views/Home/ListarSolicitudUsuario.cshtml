@@ -1,0 +1,189 @@
+﻿@using RNF_Web.Models;
+@model IEnumerable<Tbl_Sol_Solicitud>
+@{
+    if (Session[Constants.session_Tabulador] == null)
+    {
+        Session[Constants.session_Tabulador] = "";
+    }
+    int limit = ViewBag.limit;
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+<style>
+    body {
+        font-family: Arial;
+    }
+
+    /* Style the tab */
+    .tab {
+        overflow: hidden;
+    }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+            border-color: #6C8EAA;
+        }
+
+            /* Change background color of buttons on hover */
+            .tab button:hover {
+                background-color: #ddd;
+                border-radius: .50em;
+                border: .2em solid #fff;
+            }
+
+            /* Create an active/current tablink class */
+            .tab button.active {
+                background-color: #6C8EAA;
+                color: white;
+                border-color: #6C8EAA;
+                border-radius: .50em;
+                border: .2em solid #fff;
+            }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        -webkit-animation: fadeEffect 1s;
+        /*background: #FAFAC1;*/
+        animation: fadeEffect 1s;
+        padding: 2em 3em;
+        border-radius: .50em;
+        border: .2em solid #fff;
+        border-color: #6C8EAA;
+    }
+</style>
+
+<p>
+    Expedientes
+    <select name="limit" id="limit" onchange="filtLimit()">
+        <option value="0">Todos</option>
+        <option value="5">Últimos 5</option>
+        <option value="10">Últimos 10</option>
+        <option value="25">Últimos 25</option>
+        <option value="50">Últimos 50</option>
+    </select>
+    &nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="/Content/SoporteAudioVisualUsuario/003_PantallaPrincipal.mp4" target="_blank">
+        <img width="50" height="auto" src="~/Content/icons/VideoTutoria.gif" />
+    </a>
+
+
+</p>
+
+
+<div class="tab">
+    @foreach (var item in Model)
+    {
+        <button class="tablinks" onclick="openCity(event, 'Solicitud_@item.Solicitud_id')" id="defaultSolicitud_@item.Solicitud_id">Ref. @Html.Raw((@item.No_Registro??@item.Solicitud_NumeroExpediente)??@item.Solicitud_NumeroTemporal)</button>
+    }
+</div>
+
+@foreach (var item in Model)
+{
+    <div id="Solicitud_@item.Solicitud_id" class="tabcontent">
+        <div id="div_Solicitud_@item.Solicitud_id"></div>
+    </div>
+}
+
+
+
+
+<script>
+    function filtLimit() {
+        filtroslimite();
+    }
+
+    function filtroslimite() {
+        var cod_limitcant = document.getElementById("limit").value;
+
+        var myRSSGet = document.getElementById('tablonRSS');
+        if (myRSSGet) {
+            $('#tablonRSS').load("/Home/ListarSolicitudUsuario?limit=" + cod_limitcant);
+        }
+
+
+    }
+
+
+    function listarSolicitudesRSS() {
+        var data = {
+            limite : 10
+        };
+        var url = '@Url.Action("ListaSolicitudUsuarioHome", "Home")';
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            var oJSON = RespuestaJSON;
+            console.log(oJSON);
+            var Result = oJSON.Result;
+            var Mensaje = oJSON.Mensaje;
+
+            if (Result == 1) {
+                var data = oJSON.data;
+                var Solicitud_id = 0;
+                var Guid_Solicitud = '';
+                for (let i = 0; i < data.length; i++) {
+                    //console.log(data[i]);
+                    Solicitud_id = data[i].Solicitud_id;
+                    Guid_Solicitud = data[i].Guid_Solicitud;
+                    var divsol = document.getElementById('div_Solicitud_' + Solicitud_id);
+
+                    if (divsol) {
+                        console.log('/Home/FeedRSS_Solicitud?Solicitud_id=' + Solicitud_id + '&Guid_Solicitud=' + Guid_Solicitud);
+                        $('#div_Solicitud_' + Solicitud_id).load('/Home/FeedRSS_Solicitud?Solicitud_id=' + Solicitud_id + '&Guid_Solicitud=' + Guid_Solicitud);
+                    }
+
+                }
+
+            }
+
+
+        }).fail(function (ErrorJSON) {
+
+        });
+    };
+
+    $(document).ready(function () {
+
+        listarSolicitudesRSS();
+
+
+        var limit = "@limit";
+        document.getElementById("limit").value = limit;
+
+    });
+</script>
+
+
+<script>
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    // Get the element with id="defaultOpen" and click on it
+    /**/
+    /**/
+    document.getElementById('@Session[Constants.session_Tabulador]').click();
+</script>

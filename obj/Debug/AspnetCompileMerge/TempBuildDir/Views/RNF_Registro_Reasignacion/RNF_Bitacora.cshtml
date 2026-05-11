@@ -1,0 +1,135 @@
+﻿@using RNF_Web.Models;
+@model IEnumerable<RNF_Web.Models.Tbl_RNF_Registro_Bitacora>
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    Layout = "~/Views/Shared/_LayoutMoreSimple.cshtml";
+    Layout = null;
+    string No_Registro = ViewBag.No_Registro;
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_RNF_Registro tbl_RNF_Registro = db.Tbl_RNF_Registro.Where(Obj => Obj.No_Registro == No_Registro).FirstOrDefault();
+    long usuarioid = 0;
+    string nombreusuario = "";
+    EdicionRNFGrants objRNFGrants = (EdicionRNFGrants)Session[Constants.session_EdicionRNFGrants];
+    int hallazgos = 0;
+
+    Usuario objUs = (Usuario)Session[Constants.session_User];
+    int intDirectorRegionalRol = db.Database.SqlQuery<int>("select max(Regional) from Tbl_Gral_PerfilesRol").FirstOrDefault();
+    int intAdministradorRol = db.Database.SqlQuery<int>("select max(AdministradorRNF) from Tbl_Gral_PerfilesRol").FirstOrDefault();
+    int intSubRegionaRol = db.Database.SqlQuery<int>("select max(SubRegional) from Tbl_Gral_PerfilesRol").FirstOrDefault();
+
+    fc_Seg_Sel_RolUsuario_Result fc_RolDirectorRegional = db.fc_Seg_Sel_RolUsuario(objUs.intUsuario_id, 1).Where(Obj => Obj.Rol_id == intDirectorRegionalRol).FirstOrDefault();
+    fc_Seg_Sel_RolUsuario_Result fc_RolAdminsitrador = db.fc_Seg_Sel_RolUsuario(objUs.intUsuario_id, 1).Where(Obj => Obj.Rol_id == intAdministradorRol).FirstOrDefault();
+    fc_Seg_Sel_RolUsuario_Result fc_RolSubRegional = db.fc_Seg_Sel_RolUsuario(objUs.intUsuario_id, 1).Where(Obj => Obj.Rol_id == intSubRegionaRol).FirstOrDefault();
+
+    bool RolAdministrador = false;
+    bool RolDirectorRegional = false;
+    bool RolSubRegional = false;
+
+
+
+    //No se colocó la disponibilidad de agregar bitácora al subregional para prevenir que ellos realicen cambios no deseados como el estado del registro
+    //Esto a petición de Nancy 2023/09/18
+    if (fc_RolSubRegional != null)
+    {
+        RolSubRegional = true;
+    }
+    if (fc_RolDirectorRegional != null)
+    {
+        RolDirectorRegional = true;
+    }
+    if (fc_RolAdminsitrador != null)
+    {
+        RolAdministrador = true;
+    }
+
+
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@if (objRNFGrants.Editar) {
+    if(RolAdministrador || RolDirectorRegional)
+    {
+        <div align="center">
+            <button class="btn btn-danger" onclick="Reasignacion_Estado()">Grabar Bitácora</button>
+        </div>
+    }
+}
+
+
+<table class="table">
+    <tr>
+        <th>
+            Estado
+        </th>
+        <th>
+            Motivo
+        </th>
+        <th>
+            Fecha de Creación
+        </th>
+        <th>
+            Asignado por
+        </th>
+        <th>
+            Documentación
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @if(item.Estado_id != null)
+                {
+                    @Html.DisplayFor(modelItem => item.Tbl_RNF_Registro_Estado.Descripcion)
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Motivo)
+            </td>
+            <td>
+                @if(item.swdatecreated != null)
+                {
+                    @Html.DisplayFor(modelItem => item.swdatecreated)
+                }
+            </td>
+            <td>
+                @if(item.swcreatedbyinterno != null) {
+                    if ((bool)item.swcreatedbyinterno)
+                    {
+                        usuarioid = (long)item.swcreatedby;
+                        Tbl_Seg_Usuario tbl_Seg_Usuario = (from d in db.Tbl_Seg_Usuario
+                                                           where d.Usuario_id == usuarioid
+                                                           select d).FirstOrDefault();
+                        if (tbl_Seg_Usuario != null)
+                        {
+                            nombreusuario = (tbl_Seg_Usuario.Nombre ?? "") + " " + (tbl_Seg_Usuario.Apellidos ?? "");
+                            @Html.Raw("Personal Interno: " + nombreusuario)
+                        }
+                    }
+                    else
+                    {
+                        usuarioid = (long)item.swcreatedby;
+                        Tbl_Seg_UsuarioExterno tbl_Seg_Usuario = (from d in db.Tbl_Seg_UsuarioExterno
+                                                                  where d.Usuario_id == usuarioid
+                                                                  select d).FirstOrDefault();
+                        if (tbl_Seg_Usuario != null)
+                        {
+                            nombreusuario = (tbl_Seg_Usuario.Nombres ?? "") + " " + (tbl_Seg_Usuario.Apellidos ?? "");
+                            @Html.Raw("Usuario: " + nombreusuario)
+                        }
+                    }
+                }
+            </td>
+            <td>
+                <a class="btn btn-primary" href="@Url.Action("DocumentosCambioEstado","RNF_Registro_Reasignacion", new { No_Registro = item.No_Registro, Bitacora_id = item.Bitacora_id })" style="width:160px;">Documentación</a>
+                <br />
+                <input type="button" class="btn btn-primary" id="agregarhallazgo" name="agregarhallazgo" value="Hallazgos" onclick="Agregar_Hallazgo('@item.Bitacora_id')"  style="width:160px;"/>
+            </td>
+        </tr>
+    }
+
+</table>

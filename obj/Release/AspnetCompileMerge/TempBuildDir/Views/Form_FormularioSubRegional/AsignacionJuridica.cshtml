@@ -1,0 +1,138 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+<style>
+    .formation {
+        height: auto;
+        max-width: 90%;
+        margin: 30px auto;
+        border-radius: 10px;
+        border-style: solid;
+        border-color: #77DD77;
+        padding: 20px;
+        box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    }
+</style>
+
+
+
+<script>
+
+    function Fnc_AplicaNombramiento()
+    {
+            var varJuridico = $('#Juridico').val();
+
+            var data = {
+                juridico: varJuridico
+            }
+            var url = "@Url.Action("AplicaNombramiento", "Form_FormularioSubRegional")";
+
+            $.post(url, data).done(function (jsonrespuesta) {
+                var oJSON = JSON.parse(jsonrespuesta);
+                var AplicaNombramiento = oJSON.AplicaNombramiento;
+
+                if (AplicaNombramiento == 'Si')
+                {
+                    var varTablaNombramiento = document.getElementById("TablaNombramiento");
+                    varTablaNombramiento.style.display = "block";
+                }
+                else
+                {
+                    var varNo_Nombramiento = document.getElementById("TablaNombramiento");
+                    varNo_Nombramiento.style.display = "none";
+
+                }
+            });
+    }
+
+
+    function AsignarJuridica() {
+        var varJuridico = $('#Juridico').val();
+        var varNo_Nombramiento = $('#No_Nombramiento').val();
+        var varGuid_id = '@ViewBag.Guid_id';
+        var varTablaNombramiento = document.getElementById("TablaNombramiento");
+        if (TablaNombramiento.style.display == "none")
+        {
+            varNo_Nombramiento = "N/A";
+        }
+
+        if (varNo_Nombramiento == '' || varNo_Nombramiento == 'NaN') {
+            $('#lblMensaje').text('Por favor. Debe de indicar el numero de nombramiento.');
+        }
+        else
+        {
+            var data = {
+                juridico: varJuridico,
+                nombramiento: varNo_Nombramiento,
+                Guid_id: varGuid_id
+            }
+
+
+            var url = "@Url.Action("AsignacionJurista", "Form_FormularioSubRegional")";
+
+
+            $.post(url, data).done(function (jsonRespuesta) {
+
+                var objJSON = JSON.parse(jsonRespuesta);
+                var Cod_Respuesta = objJSON.CodRespuesta;
+                var Texto_Respuesta = objJSON.strRespuesta;
+
+                if (Cod_Respuesta == 1) {
+                    alert('👉 Asignación jurídica realizada con éxito. \n ✉ Al aceptar se Notificará de forma electrónica .');
+                } else
+                {
+                    alert(Texto_Respuesta);
+                }
+            });
+
+        }
+
+
+    }
+
+
+    $(document).ready(function () {
+        Fnc_AplicaNombramiento();
+
+        $(document).on('change', '#Juridico', function () {
+            Fnc_AplicaNombramiento();
+        });
+
+    });
+
+</script>
+
+
+
+<div class="formation">
+
+    <h3>
+        Asignación jurídica
+    </h3>
+
+    @Html.DropDownList("Juridico", null, htmlAttributes: new { @class = "form-select" })
+    <br />
+    <table id="TablaNombramiento" name="TablaNombramiento">
+        <tr>
+            <td>
+                <h4>Número de nombramientos</h4>
+            </td>
+            <td>
+                &nbsp;&nbsp;&nbsp;&nbsp; <input type="text" id="No_Nombramiento" name="No_Nombramiento" value="@ViewBag.JuridicoAsignadoNombramiento">&nbsp;&nbsp;&nbsp;Nombramiento: @ViewBag.JuridicoAsignadoNombramiento</>
+            </td>
+        </tr>
+    </table>
+    <br />
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <img id="imgAddme" src="~/Content/icons/EnviarMail.png" onmouseover="this.style.cursor='hand'" onmouseout="this.style.cursor='default'" onclick="AsignarJuridica()" width="280" height="auto" />
+    <br />
+    <br />
+    <br />
+</div>

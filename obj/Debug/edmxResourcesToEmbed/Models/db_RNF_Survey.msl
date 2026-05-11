@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="db_RNF_SurveyModelStoreContainer" CdmEntityContainer="db_RNF_SurveyEntities">
+    <EntitySetMapping Name="Tbl_Enc_Encuesta">
+      <EntityTypeMapping TypeName="db_RNF_SurveyModel.Tbl_Enc_Encuesta">
+        <MappingFragment StoreEntitySet="Tbl_Enc_Encuesta">
+          <ScalarProperty Name="id_encuesta" ColumnName="id_encuesta" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
+          <ScalarProperty Name="fecha_final" ColumnName="fecha_final" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swdateupdated" ColumnName="swdateupdated" />
+          <ScalarProperty Name="swupdatedby" ColumnName="swupdatedby" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_Enc_Encuesta_Pregunta">
+      <EntityTypeMapping TypeName="db_RNF_SurveyModel.Tbl_Enc_Encuesta_Pregunta">
+        <MappingFragment StoreEntitySet="Tbl_Enc_Encuesta_Pregunta">
+          <ScalarProperty Name="id_encuesta" ColumnName="id_encuesta" />
+          <ScalarProperty Name="id_pregunta" ColumnName="id_pregunta" />
+          <ScalarProperty Name="id_tipo_respuesta" ColumnName="id_tipo_respuesta" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="pregunta_final" ColumnName="pregunta_final" />
+          <ScalarProperty Name="tiene_observacion" ColumnName="tiene_observacion" />
+          <ScalarProperty Name="titulo_observacion" ColumnName="titulo_observacion" />
+          <ScalarProperty Name="PreguntaOrigen" ColumnName="PreguntaOrigen" />
+          <ScalarProperty Name="RespuestaOrigen" ColumnName="RespuestaOrigen" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swdateupdated" ColumnName="swdateupdated" />
+          <ScalarProperty Name="swupdatedby" ColumnName="swupdatedby" />
+          <ScalarProperty Name="id_estado" ColumnName="id_estado" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_Enc_Encuesta_Respuesta">
+      <EntityTypeMapping TypeName="db_RNF_SurveyModel.Tbl_Enc_Encuesta_Respuesta">
+        <MappingFragment StoreEntitySet="Tbl_Enc_Encuesta_Respuesta">
+          <ScalarProperty Name="id_encuesta" ColumnName="id_encuesta" />
+          <ScalarProperty Name="id_pregunta" ColumnName="id_pregunta" />
+          <ScalarProperty Name="id_respuesta" ColumnName="id_respuesta" />
+          <ScalarProperty Name="id_Estado" ColumnName="id_Estado" />
+          <ScalarProperty Name="respuesta" ColumnName="respuesta" />
+          <ScalarProperty Name="salta_pregunta" ColumnName="salta_pregunta" />
+          <ScalarProperty Name="respuesta_final" ColumnName="respuesta_final" />
+          <ScalarProperty Name="ExplicacionIncluir" ColumnName="ExplicacionIncluir" />
+          <ScalarProperty Name="ExplicacionTexto" ColumnName="ExplicacionTexto" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swdateupdated" ColumnName="swdateupdated" />
+          <ScalarProperty Name="swupdatedby" ColumnName="swupdatedby" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_Enc_EncuestaXCategoria">
+      <EntityTypeMapping TypeName="db_RNF_SurveyModel.Tbl_Enc_EncuestaXCategoria">
+        <MappingFragment StoreEntitySet="Tbl_Enc_EncuestaXCategoria">
+          <ScalarProperty Name="id_encuesta" ColumnName="id_encuesta" />
+          <ScalarProperty Name="id_categoria" ColumnName="id_categoria" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_Enc_Tipo_Respuesta">
+      <EntityTypeMapping TypeName="db_RNF_SurveyModel.Tbl_Enc_Tipo_Respuesta">
+        <MappingFragment StoreEntitySet="Tbl_Enc_Tipo_Respuesta">
+          <ScalarProperty Name="id_tipo_respuesta" ColumnName="id_tipo_respuesta" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swdateupdated" ColumnName="swdateupdated" />
+          <ScalarProperty Name="swupdatedby" ColumnName="swupdatedby" />
+          <ScalarProperty Name="multiple" ColumnName="multiple" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_EncResp_Encuesta">
+      <EntityTypeMapping TypeName="db_RNF_SurveyModel.Tbl_EncResp_Encuesta">
+        <MappingFragment StoreEntitySet="Tbl_EncResp_Encuesta">
+          <ScalarProperty Name="id_encuesta" ColumnName="id_encuesta" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="id_Correlativo" ColumnName="id_Correlativo" />
+          <ScalarProperty Name="No_Registro" ColumnName="No_Registro" />
+          <ScalarProperty Name="No_RegistroLiteral" ColumnName="No_RegistroLiteral" />
+          <ScalarProperty Name="No_RegistroCorrelativo" ColumnName="No_RegistroCorrelativo" />
+          <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
+          <ScalarProperty Name="fecha_final" ColumnName="fecha_final" />
+          <ScalarProperty Name="id_estado" ColumnName="id_estado" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swdateupdated" ColumnName="swdateupdated" />
+          <ScalarProperty Name="swupdatedby" ColumnName="swupdatedby" />
+          <ScalarProperty Name="NombreDocumentoFirmado" ColumnName="NombreDocumentoFirmado" />
+          <ScalarProperty Name="NombreDocumentoNoFirmado" ColumnName="NombreDocumentoNoFirmado" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_EncResp_Encuesta_Documento">
+      <EntityTypeMapping TypeName="db_RNF_SurveyModel.Tbl_EncResp_Encuesta_Documento">
+        <MappingFragment StoreEntitySet="Tbl_EncResp_Encuesta_Documento">
+          <ScalarProperty Name="id_encuesta" ColumnName="id_encuesta" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="id_Correlativo" ColumnName="id_Correlativo" />
+          <ScalarProperty Name="id_pregunta" ColumnName="id_pregunta" />
+          <ScalarProperty Name="id_CorrelativoDocumento" ColumnName="id_CorrelativoDocumento" />
+          <ScalarProperty Name="Documento" ColumnName="Documento" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="NombreBase" ColumnName="NombreBase" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_EncResp_Encuesta_Estado">
+      <EntityTypeMapping TypeName="db_RNF_SurveyModel.Tbl_EncResp_Encuesta_Estado">
+        <MappingFragment StoreEntitySet="Tbl_EncResp_Encuesta_Estado">
+          <ScalarProperty Name="id_estado" ColumnName="id_estado" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_EncResp_Encuesta_Pregunta">
+      <EntityTypeMapping TypeName="db_RNF_SurveyModel.Tbl_EncResp_Encuesta_Pregunta">
+        <MappingFragment StoreEntitySet="Tbl_EncResp_Encuesta_Pregunta">
+          <ScalarProperty Name="id_encuesta" ColumnName="id_encuesta" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="id_Correlativo" ColumnName="id_Correlativo" />
+          <ScalarProperty Name="id_pregunta" ColumnName="id_pregunta" />
+          <ScalarProperty Name="Respuesta_Observaciones" ColumnName="Respuesta_Observaciones" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swupdatedby" ColumnName="swupdatedby" />
+          <ScalarProperty Name="swdateupdated" ColumnName="swdateupdated" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_EncResp_Encuesta_PreguntaRespuesta">
+      <EntityTypeMapping TypeName="db_RNF_SurveyModel.Tbl_EncResp_Encuesta_PreguntaRespuesta">
+        <MappingFragment StoreEntitySet="Tbl_EncResp_Encuesta_PreguntaRespuesta">
+          <ScalarProperty Name="id_encuesta" ColumnName="id_encuesta" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="id_Correlativo" ColumnName="id_Correlativo" />
+          <ScalarProperty Name="id_pregunta" ColumnName="id_pregunta" />
+          <ScalarProperty Name="id_respuesta" ColumnName="id_respuesta" />
+          <ScalarProperty Name="Respuesta_Observaciones" ColumnName="Respuesta_Observaciones" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swupdatedby" ColumnName="swupdatedby" />
+          <ScalarProperty Name="swdateupdated" ColumnName="swdateupdated" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_Web_Formulario">
+      <EntityTypeMapping TypeName="db_RNF_SurveyModel.Tbl_Web_Formulario">
+        <MappingFragment StoreEntitySet="Tbl_Web_Formulario">
+          <ScalarProperty Name="id_web_form" ColumnName="id_web_form" />
+          <ScalarProperty Name="html" ColumnName="html" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="fecha_vencimiento" ColumnName="fecha_vencimiento" />
+          <ScalarProperty Name="tipo_empresa" ColumnName="tipo_empresa" />
+          <ScalarProperty Name="swdatecreated" ColumnName="swdatecreated" />
+          <ScalarProperty Name="swcreatedby" ColumnName="swcreatedby" />
+          <ScalarProperty Name="swdateupdated" ColumnName="swdateupdated" />
+          <ScalarProperty Name="swupdatedby" ColumnName="swupdatedby" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SP_Enc_BajarPregunta" FunctionName="db_RNF_SurveyModel.Store.SP_Enc_BajarPregunta">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_SurveyModel.SP_Enc_BajarPregunta_Result">
+          <ScalarProperty Name="respuesta" ColumnName="respuesta" />
+          <ScalarProperty Name="mensaje" ColumnName="mensaje" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_enc_crate_update_encuesta" FunctionName="db_RNF_SurveyModel.Store.sp_enc_crate_update_encuesta" />
+    <FunctionImportMapping FunctionImportName="SP_Enc_SubirPregunta" FunctionName="db_RNF_SurveyModel.Store.SP_Enc_SubirPregunta">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_SurveyModel.SP_Enc_SubirPregunta_Result">
+          <ScalarProperty Name="respuesta" ColumnName="respuesta" />
+          <ScalarProperty Name="mensaje" ColumnName="mensaje" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Sp_EncResp_Encuesta_Pregunta" FunctionName="db_RNF_SurveyModel.Store.Sp_EncResp_Encuesta_Pregunta">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_SurveyModel.Sp_EncResp_Encuesta_Pregunta_Result">
+          <ScalarProperty Name="respuesta" ColumnName="respuesta" />
+          <ScalarProperty Name="mensaje" ColumnName="mensaje" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Sp_EncResp_Encuesta_PreguntaEspecifica" FunctionName="db_RNF_SurveyModel.Store.Sp_EncResp_Encuesta_PreguntaEspecifica">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="db_RNF_SurveyModel.Sp_EncResp_Encuesta_PreguntaEspecifica_Result">
+          <ScalarProperty Name="respuesta" ColumnName="respuesta" />
+          <ScalarProperty Name="mensaje" ColumnName="mensaje" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_send_data" FunctionName="db_RNF_SurveyModel.Store.sp_send_data" />
+  </EntityContainerMapping>
+</Mapping>

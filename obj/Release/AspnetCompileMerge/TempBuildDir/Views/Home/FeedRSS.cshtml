@@ -1,0 +1,477 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@model List<Tbl_RSS_Usuario>
+
+<style>
+    .formation {
+        height: auto;
+        max-width: 90%;
+        margin: 30px auto;
+        border-radius: 10px;
+        border-style: solid;
+        border-color: #77DD77;
+        padding: 20px;
+        box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    }
+</style>
+
+@{
+    string targetblank = "target=\"blank\"";
+    string strDatoBusqueda = ViewBag.strDatoBusqueda;
+    Usuario objUs;
+    objUs = (Usuario)Session["User"];
+    string strLink = "";
+}
+<p>
+    Antigüedad
+    <select name="strFiltro" id="strFiltro" onchange="filtMeses()">
+        <option value="0">Todos</option>
+        <option value="1">1 Mes</option>
+        <option value="3">3 Meses</option>
+        <option value="6">6 Meses</option>
+    </select>
+    &nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="/Content/SoporteAudioVisualUsuario/003_PantallaPrincipal.mp4" target="_blank">
+        <img width="50" height="auto" src="~/Content/icons/VideoTutoria.gif" />
+    </a>
+
+
+</p>
+<div class="container-fluid">
+    @foreach (var item in Model)
+    {
+
+        if (((bool)item.Msg_ParaInterno) && (objUs.EsInterno != 0))
+        {
+            <div class="formation">
+                <table class="table-condensed" width="100%">
+
+                    <tr>
+                        <td colspan="4">
+                            @item.swdatecreated
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td rowspan="4" align="center">
+
+                            @if (((bool)!item.ExternoLeido) && (objUs.EsInterno == 0))
+                            {
+                                <img src="~/Content/icons/newMessage.gif" width="75" />
+                            }
+                            else if (((bool)!item.InternoLeido) && (objUs.EsInterno != 0))
+                            {
+                                <img src="~/Content/icons/newMessage.gif" width="75" />
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3">
+                            @{
+                                strLink = item.imagen_url;
+                                if ((strLink == null) || (strLink == ""))
+                                {
+                                    strLink = "#";
+                                }
+                            }
+                            @if ((item.imagen_Link != null) && (item.imagen_Link != ""))
+                            {
+                                <a href="@strLink">
+                                    <img src="@item.imagen_Link" width="150" alt="@item.Titulo" />
+                                </a>
+                            }
+                        </td>
+                        <td colspan="4">
+                            <h4>
+                                @item.Titulo
+                            </h4>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            @item.Cuerpo
+                            <br />
+                            @if ((item.Pasos_a_seguir != null) && (item.Pasos_a_seguir != ""))
+                            {
+                                strLink = item.Link_Pasos_a_seguir;
+                                if ((strLink == null) || (strLink == ""))
+                                {
+                                    strLink = "#";
+                                }
+                                <strong>
+                                    Acción Requerida
+                                </strong>
+                                <br />
+                                <a href="@strLink">@item.Pasos_a_seguir</a>
+                            }
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @{
+                                strLink = item.link_A;
+                                if ((strLink == null) || (strLink == ""))
+                                {
+                                    strLink = "#";
+                                }
+                            }
+                            @if (((bool)item.link_A_Externo) && (objUs.EsInterno == 0))
+                            {
+                                if ((item.link_A_descripcion != null) && (item.link_A_descripcion != ""))
+                                {
+                                    <a href="@strLink" @if ((bool)item.link_A_Target_Blank) { @targetblank }>@item.link_A_descripcion</a>
+                                }
+                            }
+                            else if (objUs.EsInterno != 0)
+                            {
+                                if ((item.link_A_descripcion != null) && (item.link_A_descripcion != ""))
+                                {
+                                    <a href="@strLink" @if ((bool)item.link_A_Target_Blank) { @targetblank }>@item.link_A_descripcion</a>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @{
+                                strLink = item.link_B;
+                                if ((strLink == null) || (strLink == ""))
+                                {
+                                    strLink = "#";
+                                }
+                            }
+                            @if (((bool)item.link_B_Externo) && (objUs.EsInterno == 0))
+                            {
+                                if ((item.link_B_descripcion != null) && (item.link_B_descripcion != ""))
+                                {
+                                    <a href="@strLink" @if ((bool)item.link_B_Target_Blank) { @targetblank }>@item.link_B_descripcion</a>
+                                }
+                            }
+                            else if (objUs.EsInterno != 0)
+                            {
+                                if ((item.link_B_descripcion != null) && (item.link_B_descripcion != ""))
+                                {
+                                    <a href="@strLink" @if ((bool)item.link_B_Target_Blank) { @targetblank }>@item.link_B_descripcion</a>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @{
+                                strLink = item.link_C;
+                                if ((strLink == null) || (strLink == ""))
+                                {
+                                    strLink = "#";
+                                }
+                            }
+                            @if (((bool)item.link_C_Externo) && (objUs.EsInterno == 0))
+                            {
+                                if ((item.link_C_descripcion != null) && (item.link_C_descripcion != ""))
+                                {
+                                    <a href="@strLink" @if ((bool)item.link_C_Target_Blank) { @targetblank }>@item.link_C_descripcion</a>
+                                }
+                            }
+                            else if (objUs.EsInterno != 0)
+                            {
+                                if ((item.link_C_descripcion != null) && (item.link_C_descripcion != ""))
+                                {
+                                    <a href="@strLink" @if ((bool)item.link_C_Target_Blank) { @targetblank }>@item.link_C_descripcion</a>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @{
+                                strLink = item.link_D;
+                                if ((strLink == null) || (strLink == ""))
+                                {
+                                    strLink = "#";
+                                }
+                            }
+                            @if (((bool)item.link_D_Externo) && (objUs.EsInterno == 0))
+                            {
+                                if ((item.link_D_descripcion != null) && (item.link_D_descripcion != ""))
+                                {
+                                    <a href="@strLink" @if ((bool)item.link_D_Target_Blank) { @targetblank }>@item.link_D_descripcion</a>
+                                }
+                            }
+                            else if (objUs.EsInterno != 0)
+                            {
+                                if ((item.link_D_descripcion != null) && (item.link_D_descripcion != ""))
+                                {
+                                    <a href="@strLink" @if ((bool)item.link_D_Target_Blank) { @targetblank }>@item.link_D_descripcion</a>
+                                }
+                            }
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        }
+        else if (((bool)item.Msg_ParaExterno) && (objUs.EsInterno == 0))
+        {
+            <div class="formation">
+                <table class="table-condensed" width="100%">
+                    <tr>
+                        <td colspan="4">
+                            @item.swdatecreated
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td rowspan="4" align="center">
+                            @if (((bool)!item.ExternoLeido) && (objUs.EsInterno == 0))
+                            {
+                                <img src="~/Content/icons/newMessage.gif" width="75" />
+                            }
+                            else if (((bool)!item.InternoLeido) && (objUs.EsInterno != 0))
+                            {
+                                <img src="~/Content/icons/newMessage.gif" width="75" />
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3">
+                            @{
+                                strLink = item.imagen_url;
+                                if ((strLink == null) || (strLink == ""))
+                                {
+                                    strLink = "#";
+                                }
+                            }
+                            @if ((item.imagen_Link != null) && (item.imagen_Link != ""))
+                            {
+                                <a href="@strLink">
+                                    <img src="@item.imagen_Link" width="150" alt="@item.Titulo" />
+                                </a>
+                            }
+                        </td>
+                        <td colspan="4">
+                            <h4>
+                                @item.Titulo
+                            </h4>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            @item.Cuerpo
+                            <br />
+                            @if ((item.Pasos_a_seguir != null) && (item.Pasos_a_seguir != ""))
+                            {
+                                strLink = item.Link_Pasos_a_seguir;
+                                if ((strLink == null) || (strLink == ""))
+                                {
+                                    strLink = "#";
+                                }
+                                <strong>
+                                    Acción Requerida
+                                </strong>
+                                <br />
+                                <a href="@strLink">@item.Pasos_a_seguir</a>
+                            }
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @{
+                                strLink = item.link_A;
+                                if ((strLink == null) || (strLink == ""))
+                                {
+                                    strLink = "#";
+                                }
+                            }
+                            @if (((bool)item.link_A_Externo) && (objUs.EsInterno == 0))
+                            {
+                                if ((item.link_A_descripcion != null) && (item.link_A_descripcion != ""))
+                                {
+                                    <a href="@strLink" @if ((bool)item.link_A_Target_Blank) { @targetblank }>@item.link_A_descripcion</a>
+                                }
+                            }
+                            else if (objUs.EsInterno != 0)
+                            {
+                                if ((item.link_A_descripcion != null) && (item.link_A_descripcion != ""))
+                                {
+                                    <a href="@strLink" @if ((bool)item.link_A_Target_Blank) { @targetblank }>@item.link_A_descripcion</a>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @{
+                                strLink = item.link_B;
+                                if ((strLink == null) || (strLink == ""))
+                                {
+                                    strLink = "#";
+                                }
+                            }
+                            @if (((bool)item.link_B_Externo) && (objUs.EsInterno == 0))
+                            {
+                                if ((item.link_B_descripcion != null) && (item.link_B_descripcion != ""))
+                                {
+                                    <a href="@strLink" @if ((bool)item.link_B_Target_Blank) { @targetblank }>@item.link_B_descripcion</a>
+                                }
+                            }
+                            else if (objUs.EsInterno != 0)
+                            {
+                                if ((item.link_B_descripcion != null) && (item.link_B_descripcion != ""))
+                                {
+                                    <a href="@strLink" @if ((bool)item.link_B_Target_Blank) { @targetblank }>@item.link_B_descripcion</a>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @{
+                                strLink = item.link_C;
+                                if ((strLink == null) || (strLink == ""))
+                                {
+                                    strLink = "#";
+                                }
+                            }
+                            @if (((bool)item.link_C_Externo) && (objUs.EsInterno == 0))
+                            {
+                                if ((item.link_C_descripcion != null) && (item.link_C_descripcion != ""))
+                                {
+                                    <a href="@strLink" @if ((bool)item.link_C_Target_Blank) { @targetblank }>@item.link_C_descripcion</a>
+                                }
+                            }
+                            else if (objUs.EsInterno != 0)
+                            {
+                                if ((item.link_C_descripcion != null) && (item.link_C_descripcion != ""))
+                                {
+                                    <a href="@strLink" @if ((bool)item.link_C_Target_Blank) { @targetblank }>@item.link_C_descripcion</a>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @{
+                                strLink = item.link_D;
+                                if ((strLink == null) || (strLink == ""))
+                                {
+                                    strLink = "#";
+                                }
+                            }
+                            @if (((bool)item.link_D_Externo) && (objUs.EsInterno == 0))
+                            {
+                                if ((item.link_D_descripcion != null) && (item.link_D_descripcion != ""))
+                                {
+                                    <a href="@strLink" @if ((bool)item.link_D_Target_Blank) { @targetblank }>@item.link_D_descripcion</a>
+                                }
+                            }
+                            else if (objUs.EsInterno != 0)
+                            {
+                                if ((item.link_D_descripcion != null) && (item.link_D_descripcion != ""))
+                                {
+                                    <a href="@strLink" @if ((bool)item.link_D_Target_Blank) { @targetblank }>@item.link_D_descripcion</a>
+                                }
+                            }
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        }
+    }
+</div>
+
+<script>
+    function filtMeses() {
+        filtros();
+    }
+
+    function filtros() {
+        var cod_mesescant = document.getElementById("strFiltro").value;
+        var combo_mesescant = document.getElementById("strFiltro");
+        var selected_mesescant = combo_mesescant.options[combo_mesescant.selectedIndex].text;
+
+        var data = {
+            strDatoBusqueda: cod_mesescant,
+        }
+
+        console.log(cod_mesescant);
+
+        url = "@Url.Action("FeedRSS", "Home")";
+
+        $.get(url, data).done(function () {
+            var myRSSGet = document.getElementById('tablonRSS');
+            if (myRSSGet) {
+                $('#tablonRSS').load("/Home/FeedRSS?strDatoBusqueda=" + cod_mesescant);//?strDatoBusqueda=" + strDatoBusqueda
+            }
+
+        });
+
+    }
+
+    var usuarioid = "@objUs.intUsuario_id";
+    var dataUpdate = new FormData();
+    var esinterno = @objUs.EsInterno;
+    dataUpdate.append("usuario_id", usuarioid);
+    dataUpdate.append("esinterno", esinterno);
+
+    function UpdateRSS() {
+        $.ajax({
+            url: "UpdateRSS/",
+            type: "POST",
+            data: dataUpdate,
+            contentType: false,
+            processData: false,
+            async: false,
+            success: function (data) {
+
+            },
+            error: function (data){
+
+            }
+        });
+    }
+
+    $(document).ready(function () {
+
+        UpdateRSS();
+
+        /*if (esinterno == 0) {
+            UpdateRSS();
+        } else {
+            UpdateRSS();
+        }*/
+
+
+        filtro = "@strDatoBusqueda";
+        if (filtro != "") {
+            document.getElementById("strFiltro").value = filtro;
+            actualizarleidos();
+        }
+    })
+
+
+</script>

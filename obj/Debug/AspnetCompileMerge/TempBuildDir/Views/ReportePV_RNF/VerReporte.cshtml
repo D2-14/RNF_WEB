@@ -1,0 +1,61 @@
+﻿@using RNF_Web.Models;
+@{
+    string No_Registro = ViewBag.No_Registro;
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+<h1 class="text-danger">Si el sistema le indica que tiene bloqueado el acceso a ventanas emergentes, por favor permita siempre las ventanas emergentes para este sitio</h1>
+<h1 class="text-danger">Esta ventana se cerrará en un momento</h1>
+
+<script>
+    function abrirEnlace(url, metodo = '_blank') {
+        var element = document.createElement('a');
+        element.setAttribute('href', url);
+        element.setAttribute('target', metodo);
+        document.body.appendChild(element);
+        element.click();
+    }
+
+    function ReportePV_RNF() {
+        var No_Registro = '@No_Registro';
+        var data = {
+            No_Registro: No_Registro
+        };
+
+        var url = '@Url.Action("GenerarFormularioDeSolicitud", "ReportePV_RNF")';
+
+        $.post(url, data).done(function (RespuestaJSON) {
+
+            var oJSON = JSON.parse(RespuestaJSON);
+            var Result = oJSON.Result;
+            var Mensaje = oJSON.Mensaje;
+
+            if (Result == 1) {
+
+                var NombreDocumento = oJSON.Ubicacion;
+                //location.replace()
+                //window.open('/Documentos/' + NombreDocumento, '_blank');
+                abrirEnlace('/Documentos/' + NombreDocumento)
+                setTimeout(function () {
+                    window.history.back();
+                    //window.close();
+                }, 25000)
+
+            } else {
+                alert(Mensaje);
+            }
+
+
+        }).fail(function (ErrorJSON) {
+            console.log(ErrorJSON);
+            alert('Ocurrió un error: ' + ErrorJSON);
+        });
+    }
+
+    $(document).ready(function () {
+        ReportePV_RNF();
+    });
+</script>

@@ -1,0 +1,129 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_Gral_Cultivo>
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    ViewBag.Title = "Cultivos SAF";
+    ViewBag.SubTitle = "Listado de Especies";
+}
+
+
+@Html.Partial("_PartialPageEncabezado")
+
+<button class="btn-secondary" style="position: absolute; right: 0;" rel="tooltip" title="Agregar" onclick="location.href='@Url.Action("Create", "Gral_Cultivo")'">
+    <i><img src="~/Content/icons/add_simple.png" style="border-radius: 30%; width: 45px; height: auto" /></i>
+    <div class="ripple-container"></div>
+</button>
+
+<br />
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            Nombre técnico
+        </th>
+        <th>
+            Nombres comunes
+        </th>
+        <th>
+            Árboles frutales
+        </th>
+        <th>
+            Cultivos Silvopastoriles
+        </th>
+        <th>
+            Especies Agricolas Permanentes
+        </th>
+        <th>
+            Especie Agricola Anual/Bianual
+        </th>
+        <th>
+            Especie Agricola para Huerto Familiar
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre_Tecnico)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombres_Comunes)
+            </td>
+
+            <td>
+                @if (item.Arbol_Frutales == true)
+                {
+                    <input type="checkbox" checked disabled>
+                }
+                else
+                {
+                    <input type="checkbox" disabled>
+
+                }
+            </td>
+            <td>
+                @if (item.Cultivo_SilvoPastoril == true)
+                {
+                    <input type="checkbox" checked disabled>
+                }
+                else
+                {
+                    <input type="checkbox" disabled>
+
+                }
+
+            </td>
+            <td>
+                @if (item.Especies_Agricolas_Permanentes == true)
+                {
+                    <input type="checkbox" checked disabled>
+                }
+                else
+                {
+                    <input type="checkbox" disabled>
+
+                }
+
+            </td>
+            <td>
+                @if (item.Especies_Agricolas_Bianuales == true)
+                {
+                    <input type="checkbox" checked disabled>
+                }
+                else
+                {
+                    <input type="checkbox" disabled>
+
+                }
+            </td>
+            <td>
+                @if (item.Especies_Mixtas == true)
+                {
+                    <input type="checkbox" checked disabled>
+                }
+                else
+                {
+                    <input type="checkbox" disabled>
+
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.Cultivo_Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+

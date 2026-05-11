@@ -1,0 +1,48 @@
+﻿@model IEnumerable<RNF_Web.Models.Tbl_gest_EtapaRSS>
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+    ViewBag.Title = "Roles";
+    ViewBag.SubTitle = "Listado de configuraciones para mensajes de correo, RSS y whatsapp";
+}
+
+@Html.Partial("_PartialPageEncabezado")
+
+<table class="table">
+    <tr>
+        <th>
+            Código
+        </th>
+        <th>
+            Descripción
+        </th>
+        <th>
+            Detalle de su funcionalidad
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EtapaRSS_id)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescripcionDetallada)
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+

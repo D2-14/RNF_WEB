@@ -1,0 +1,151 @@
+﻿@model RNF_Web.Models.Tbl_Gral_Profesion
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    ViewBag.Title = "Profesional";
+    ViewBag.SubTitle = "Crear de un nuevo tipo de profesional";
+}
+
+
+
+@Html.Partial("_PartialPageEncabezado")
+
+<button class="btn-secondary" style="position: absolute; right: 0;" rel="tooltip" title="Regresar" onclick="location.href='@Url.Action("Index", "Gral_Profesion")'">
+    <i><img src="~/Content/icons/regresar.png" style="border-radius: 30%; width: 35px; height: auto" /></i>
+    <div class="ripple-container"></div>
+</button>
+
+<br />
+<br />
+
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Profesion_id)
+        @Html.HiddenFor(model => model.swdatecreated)
+        @Html.HiddenFor(model => model.swcreatedby)
+        @Html.HiddenFor(model => model.swdateUpdated)
+        @Html.HiddenFor(model => model.swUpdatedby)
+
+        <div class="row">
+            <div class="col-sm-6 col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 col-md-3">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Tecnico, htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.Tecnico)
+                            @Html.ValidationMessageFor(model => model.Tecnico, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 col-md-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Profesional, htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.Profesional)
+                            @Html.ValidationMessageFor(model => model.Profesional, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br />
+        <h6>Categoría</h6>
+        <div class="row">
+            <div class="col-sm-3 col-md-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Regente, htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.Regente)
+                            @Html.ValidationMessageFor(model => model.Regente, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 col-md-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ElaboradorDePlanesManejoForestal, htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.ElaboradorDePlanesManejoForestal)
+                            @Html.ValidationMessageFor(model => model.ElaboradorDePlanesManejoForestal, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 col-md-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ElaboradorDeEstudiosUsodelSuelo, htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.ElaboradorDeEstudiosUsodelSuelo)
+                            @Html.ValidationMessageFor(model => model.ElaboradorDeEstudiosUsodelSuelo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 col-md-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CertificadorDeFuentesSemilleras, htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.CertificadorDeFuentesSemilleras)
+                            @Html.ValidationMessageFor(model => model.CertificadorDeFuentesSemilleras, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <br />
+        <br />
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+            </div>
+            <div class="col-sm-12 col-md-3">
+            </div>
+            <div class="col-sm-12 col-md-3">
+                @TempData["RollMessage"]
+                <input type="submit" value="Guardar cambios" class="btn btn-success btn-fab btn-round" />
+            </div>
+        </div>
+        <br />
+        <br />
+    </div>
+
+}
+
+
+@Html.Partial("_PartialPageEncabezadoCierre")
+
+

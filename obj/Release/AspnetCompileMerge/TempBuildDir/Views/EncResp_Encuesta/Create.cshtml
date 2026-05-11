@@ -1,0 +1,80 @@
+﻿@using RNF_Web.Models;
+@model RNF_Web.Models.Tbl_EncResp_Encuesta
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.id_encuesta)
+    @Html.HiddenFor(model => model.id_EmpresaTipo)
+
+    <div class="card bg-light mt-4">
+        <div class="card-header">
+            <div class="text-center">
+                <h1 class="display-6">Creación de monitoreo</h1>
+            </div>
+        </div>
+        <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#encuesta" type="button" role="tab" aria-selected="true">Datos del monitoreo</button>
+            </li>
+            <li class="nav-item disabled" role="presentation">
+                <button class="nav-link" disabled id="profile-tab" data-bs-toggle="tab" data-bs-target="#preguntas" type="button" role="tab" aria-selected="false">Preguntas</button>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade show active p-4" id="encuesta" role="tabpanel" aria-labelledby="home-tab">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Nombre de encuesta:</span>
+                            @Html.EditorFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Fecha Inicio</span>
+                            @Html.EditorFor(model => model.fecha_inicio, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                            @Html.ValidationMessageFor(model => model.fecha_inicio, "", new { @class = "text-danger" })
+                            <span class="input-group-text">Fecha Final</span>
+                            @Html.EditorFor(model => model.fecha_final, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                            @Html.ValidationMessageFor(model => model.fecha_final, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+                    <div class="col-sm-6 text-center">
+                        <img src="/Content/img/undraw_instant_information_re_c5v5.svg" alt="" style="max-height: 300px;" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div>
+                    <div class="row">
+                        <div class="col gap-2 d-grid">
+                            <a class="nav-link" href="@Url.Action("Index","Encuesta")">
+                                <div class="col gap-2 d-grid">
+                                    <input type="button" value="Cancelar" class="btn btn-danger" />
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col gap-2 d-grid">
+                            <input type="submit" class="btn btn-primary" value="Guardar cambios" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+

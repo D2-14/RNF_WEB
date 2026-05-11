@@ -1,0 +1,664 @@
+﻿@using RNF_Web.Models;
+@using System.Data.SqlClient;
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Url.Action("IndexFincaRodalDasometricos", "Sol_Finca")
+}
+
+
+@{
+
+    db_RNFEntities db = new db_RNFEntities();
+
+    Tbl_Sol_Solicitud tbl_sol_solicitud = db.Tbl_Sol_Solicitud.Find(ViewBag.Solicitud_id);
+    decimal solicitudtipo = tbl_sol_solicitud.SolicitudTipo_id - Math.Truncate(tbl_sol_solicitud.SolicitudTipo_id);
+
+    ViewBag.SolicitudGuid = tbl_sol_solicitud.Guid_id;
+
+    int Categoria_id = tbl_sol_solicitud.Categoria_id ?? 0;
+
+    int intCategoriaPlantacion = db.Tbl_Sol_Solicitud_Categoria.Where(Obj => Obj.Descripcion.Contains("semilleras") && Obj.Categoria_id == tbl_sol_solicitud.Categoria_id).Count();
+
+    int intCategoriaPlantacionesForestales = db.Tbl_Sol_Solicitud_Categoria.Where(Obj => Obj.Categoria_id == tbl_sol_solicitud.Categoria_id && (Obj.Descripcion.Contains("Plantaciones forestales") || Obj.Descripcion.Contains("Sistemas agroforestales") || Obj.Descripcion.Contains("Plantaciones de árboles frutales"))).Count();
+
+    ViewBag.intCategoriaPlantacion = intCategoriaPlantacion;
+
+    ViewBag.intCategoriaPlantacionesForestales = intCategoriaPlantacionesForestales;
+
+    ViewBag.Estado = tbl_sol_solicitud.Estado_id;
+
+    ViewBag.Categoria_id = Categoria_id;
+
+    ViewBag.AreaTotalFincas = tbl_sol_solicitud.AreaTotalFincas ?? 0;
+
+    //ViewBag.NoBoleta = tbl_sol_solicitud.NoBoleta;
+
+    ViewBag.AreaTotalFincasSegunFincas = db.Tbl_Sol_Finca.Where(Obj => Obj.Solicitud_id == tbl_sol_solicitud.Solicitud_id).Sum(Obj => Obj.AreaTotal);
+
+    ViewBag.intCantidadFincas = db.Tbl_Sol_Finca.Where(Obj => Obj.Solicitud_id == tbl_sol_solicitud.Solicitud_id).Count();
+    decimal resultante = tbl_sol_solicitud.SolicitudTipo_id - Math.Truncate(tbl_sol_solicitud.SolicitudTipo_id);
+
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string Nombre_Div1 = "div_Sol_Permisos_Sol_Finca_IndexFincaRodalDasometricos";
+    string Nombre_Div2 = "div_Sol_Permisos_Sol_Finca_Region";
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+    fc_Gral_Sol_Configuracion_Result permisos = db.fc_Gral_Sol_Configuracion(tbl_sol_solicitud.Solicitud_id, controllerName, boolEsInterno).FirstOrDefault();
+    fc_Gral_Sol_Configuracion_Result permisosRegion = db.fc_Gral_Sol_Configuracion(tbl_sol_solicitud.Solicitud_id, controllerName, boolEsInterno).FirstOrDefault();
+}
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <div id="@Nombre_Div1"></div>
+    <div id="@Nombre_Div2"></div>
+}
+
+<script>
+
+
+    function visualizarPermisos(solicitudid, controllername, esinterno, nombrediv) {
+        var solicitudId = solicitudid;
+        var controllerName = controllername;
+        var esInterno = esinterno;
+
+        var mySolPermisos = document.getElementById(nombrediv);
+        if (mySolPermisos) {
+            $("#" + nombrediv).load("/Gral_SolicitudConfiguracion/PermisosRecibidos?Solicitud_id=" + solicitudId + "&controllerName=" + controllerName + "&EsInterno=" + esInterno);
+        }
+
+    }
+
+    $(document).ready(function () {
+
+
+        visualizarPermisos('@tbl_sol_solicitud.Solicitud_id', '@controllerName', '@objUs.EsInterno', '@Nombre_Div1');
+        visualizarPermisos('@tbl_sol_solicitud.Solicitud_id', '@controllerName', '@objUs.EsInterno', '@Nombre_Div2');
+
+
+        $(document).on('change', '#RegionFinca_id', function () {
+            var url = "@Url.Action("GetSubRegion", "Sol_Solicitud")";
+            var Region = $('#RegionFinca_id').val();
+            var data = { Region: Region};
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#SubRegionFinca_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text:  municipio.Text
+                    }));
+
+                });
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlRegion
+
+    });
+
+    $(document).on('change', '#SubRegionFinca_id', function () {
+        refreshMunicipio()
+    });
+
+
+
+
+   function refreshMunicipio()
+        {
+            var url = "@Url.Action("GetMunicipiosRegion", "Sol_Solicitud")";
+       var Departamento = $('#Notificacion_Departamento_id').val();
+           var SubRegion = $('#SubRegionFinca_id').val();
+
+            var data = { Departamento: Departamento, SubRegionId: SubRegion };
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Notificacion_Municipio_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text: municipio.Text
+                    }));
+
+                });
+            }).fail(manejarErrorAjax).always(function () {
+
+            });
+
+        }
+
+
+    function actualizar()
+    {
+        var varRegionFinca_id = $('#RegionFinca_id').val();
+        var varSubRegionFinca_id = $('#SubRegionFinca_id').val();
+
+        var varNotificacion_Direccion = $('#Notificacion_Direccion').val();
+        var varNotificacion_Departamento_id = $('#Notificacion_Departamento_id').val();
+        var varNotificacion_Municipio_id = $('#Notificacion_Municipio_id').val();
+
+
+
+
+        var data = {
+            regionid: varRegionFinca_id,
+            subregionid: varSubRegionFinca_id,
+            Notificacion_Direccion: varNotificacion_Direccion,
+            Notificacion_Departamento_id: varNotificacion_Departamento_id,
+            Notificacion_Municipio_id: varNotificacion_Municipio_id
+        };
+
+        var url = "@Url.Action("actualizarregion", "Sol_Finca")";
+
+             $.post(url, data).done(function (jsonRespuesta) {
+
+                var objJSON = JSON.parse(jsonRespuesta);
+                var Cod_Respuesta = objJSON.CodRespuesta;
+                var Texto_Respuesta = objJSON.strRespuesta;
+
+                alert(Texto_Respuesta);
+
+                if (Cod_Respuesta == 0) {
+                    $('#lblMensaje').text(Texto_Respuesta);
+                } else if (Cod_Respuesta == 1) {
+                    alert(Texto_Respuesta);
+                }
+            });
+
+    }
+
+    function actualizarArea()    {    
+        
+        var varArea = $('#inputArea').val();  
+        var data = {
+            areafinca: varArea,
+            solicitud_id:@ViewBag.Solicitud_id ,
+            firma: '@ViewBag.SolicitudGuid'           
+        };
+
+
+        var url = "@Url.Action("actualizarArea", "Sol_Finca")";
+
+             $.post(url, data).done(function (jsonRespuesta) {
+
+                var objJSON = JSON.parse(jsonRespuesta);
+                var Cod_Respuesta = objJSON.CodRespuesta;
+                var Texto_Respuesta = objJSON.strRespuesta;
+
+                if (Cod_Respuesta == 0) {
+                    $('#lblMensaje').text(Texto_Respuesta);
+                } else if (Cod_Respuesta == 1) {
+                    var TdHiddeA = document.getElementById("section_Finca");
+                    TdHiddeA.style.display = "block";
+                    $('#lblMensaje').text(Texto_Respuesta);
+                    location.reload();
+                }
+            });
+
+    }
+
+</script>
+
+@if ((ViewBag.Estado == 0) || (ViewBag.Estado == 4))
+{
+    <div class="row">
+        <div class="col">
+            <div class="titulo-dosNoUpperCase">
+                <h4>ÁREA TOTAL DE LAS FINCAS (ha)</h4>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-8">
+        <div class="col-md-5">
+            <h4>Definir área:</h4>
+        </div>
+        <div class="col-md-2">
+            <input type="number" id="inputArea" step="0.00001" class="form-control" name="inputArea" value="@ViewBag.AreaTotalFincas" />
+        </div>
+
+       
+        <div class="col-md-3 text-center">
+            <div class="d-grid gap-2">
+                @if ((bool)permisos.Editar || (bool)permisos.Agregar)
+                {
+                    @*<input type="button" value="Guardar" class="btn-next-ic" onclick="actualizarArea()" />*@
+                    <input type="button" value="Guardar área" class="btn-next-ic" onclick="actualizarArea()" />
+                }
+                <a href="/Content/SoporteAudioVisualUsuario/005_Fincas.mp4" target="_blank">
+                    <img width="50" height="auto" src="~/Content/icons/VideoTutoria.gif" />
+                </a>
+            </div>
+        </div>
+    
+
+    </div>
+
+
+    <div class="row mt-2 mb-2">
+        <div class="col text-center">
+            <h4 id="lblMensaje"> Área total definida: @ViewBag.AreaTotalFincas (ha)</h4>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row mt-2 mb-2">
+        <div class="col text-center">
+            <h4 id="lblMensaje"> Área total definida: @ViewBag.AreaTotalFincas (ha)</h4>
+        </div>
+    </div>
+}
+
+
+
+
+@if (ViewBag.AreaTotalFincas == 0)
+{
+    <div id="section_Finca" style="display: none"></div>
+}
+else
+{
+
+
+    <div class="row mt-2 mb-2">
+        <button class="btn-next-ic" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" id="Btn_DatosRegistro" name="Btn_DatosRegistro">
+            <i class="fa in fa-file-text-o" aria-hidden="true"></i><br>DATOS DE LA FINCA(S)
+        </button>
+    </div>
+    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            <div id="section_Finca"></div>
+        </div>
+    </div>
+
+}
+
+
+@if (((ViewBag.Categoria_id == 1) || (ViewBag.Categoria_id == 2) || (ViewBag.Categoria_id == 3) || (ViewBag.Categoria_id == 4) || (ViewBag.Categoria_id == 6)) && (ViewBag.intCantidadFincas > 0))
+{
+
+    <div class="row mt-2 mb-2">
+        <button class="btn-next-ic" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseOne" id="Btn_DatosUbicacion" name="Btn_DatosUbicacion">
+            <i class="fa in fa-home" aria-hidden="true"></i><br>DIRECCIÓN SUBREGIONAL
+        </button>
+    </div>
+
+    if (Constants.VisualizarInformacionDesarrollo == 1)
+    {
+        @Url.Action("IndexFincaRodalDasometricos", "Sol_Finca")
+    }
+
+    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            <div class="titulo-dos">
+                <h4>Dirección Subregional en donde se realiza la gestión.</h4>
+            </div>
+            <div class="row mt-2">
+                <div class="col">
+                    Región
+                    @Html.DropDownList("RegionFinca_id", null, htmlAttributes: new { @class = "form-select" })
+                </div>
+                <div class="col">
+                    Sub-Región
+                    @Html.DropDownList("SubRegionFinca_id", null, htmlAttributes: new { @class = "form-select" })
+                    <a href="http://www.inab.gob.gt/index.php/quienes-somos/oficinas-inab" target="_blank"> Consultar directorio</a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="titulo-dos">
+                    <h4>Dirección de notificación</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            Dirección de notificación
+                            <input class="form-control text-box single-line" id="Notificacion_Direccion" name="Notificacion_Direccion" type="text" value="@ViewBag.Notificacion_Direccion">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            Departamento
+                            @Html.DropDownList("Notificacion_Departamento_id", null, htmlAttributes: new { @class = "form-select" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            Municipio
+                            @Html.DropDownList("Notificacion_Municipio_id", null, htmlAttributes: new { @class = "form-select" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row mt-2">
+                <div class="col">
+                </div>
+                <div class="col">
+                </div>
+                <div class="col text-center">
+                    <div class="d-grid gap-2">
+
+                        <button class="btn-next-ic" onclick="actualizar(); return false;" id="ClickPropietario">
+                            Guardar Cambios
+                        </button>
+                    </div>
+                </div>
+                <div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@if (ViewBag.AreaTotalFincas == 0)
+{
+    <div id="section_Rodal" style="display: none"></div>
+    <div id="section_Rodal_Descuento" style="display: none"></div>
+}
+else
+{
+
+    <div class="row mt-2 mb-2">
+        <button class="btn-next-ic" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseOne" id="Btn_DatosUbicacion" name="Btn_DatosUbicacion">
+            <i class="fa in fa-pencil-square-o" aria-hidden="true"></i><br>ÁRBOLES EN LíNEA, RODALES Y ÁREAS DE DESCUENTO
+        </button>
+    </div>
+    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+
+        <div id="section_Rodal"></div>
+        <div id="section_Rodal_Descuento"></div>
+    </div>
+}
+@if (tbl_sol_solicitud.Procedencia_secorf && (resultante == 0.00M))
+{
+
+}
+else
+{
+
+
+    if (ViewBag.AreaTotalFincas == 0)
+    {
+        <div id="section_RodalDasometricos" style="display: none"></div>
+    }
+    else
+    {
+        if ((tbl_sol_solicitud.Procedencia_PinpepOld || tbl_sol_solicitud.Procedencia_PinpepNew || tbl_sol_solicitud.Procedencia_Probosque) && (resultante == 0))
+        {
+        }
+        else
+        {
+            <div class="row mt-2 mb-2">
+                <button class="btn-next-ic" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseOne" id="Btn_DatosDasometricos" name="Btn_DatosDasometricos">
+                    <i class="fa in fa-leaf" aria-hidden="true"></i><br>DATOS DASOMETRICOS
+                </button>
+            </div>
+            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div id="section_RodalDasometricos"></div>
+            </div>
+
+        }
+
+    }
+}
+
+
+
+
+@if (ViewBag.AreaTotalFincas == 0)
+{
+    <div id="section_Rodal_Inventario" style="display: none"></div>
+}
+else
+{
+    if (ViewBag.intCategoriaPlantacion == 0)
+    {
+        <div id="section_Rodal_Inventario" style="display: none"></div>
+    }
+    else
+    {
+
+        @*<div class="row mt-2 mb-2">
+                <button class="btn-next-ic" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseOne" id="Btn_Inventario" name="Btn_Inventario">
+                    <i class="fa in fa-check-square-o" aria-hidden="true"></i><br>INVENTARIO DE ÁRBOLES
+                </button>
+            </div>
+            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div id="section_Rodal_Inventario"></div>
+            </div>*@
+
+    }
+
+}
+
+
+@if (ViewBag.AreaTotalFincas == 0)
+{
+    <div id="section_Dasometrico_Formula" style="display: none"></div>
+}
+else
+{
+    if (ViewBag.intCategoriaPlantacionesForestales == 0)
+    {
+        <div id="section_Dasometrico_Formula" style="display: none "></div>
+    }
+    else
+    {
+
+        <div class="row mt-2 mb-2">
+            <button class="btn-next-ic" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseOne" id="Btn_Formulas" name="Btn_Formulas">
+                <i class="fa in fa-cogs" aria-hidden="true"></i><br>FORMULAS UTILIZADAS
+            </button>
+        </div>
+        <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div id="section_Dasometrico_Formula"></div>
+        </div>
+
+    }
+}
+
+
+
+<div class="row mb-4">
+    @if (tbl_sol_solicitud.Procedencia_Probosque)
+    {
+
+        <div class="row mt-2 mb-2">
+            <button class="btn-next-ic" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven" id="Btn_Oficio" name="Btn_Oficio">
+                <i class="fa in fa-eraser" aria-hidden="true"></i><br>LISTADO DE ESPECIE(S) FORESTAL(ES) PROBOSQUE
+            </button>
+        </div>
+        <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <div id="div_EspeciesForestales_Probosque"></div>
+            </div>
+        </div>
+    }
+    @if (tbl_sol_solicitud.Procedencia_PinpepOld)
+    {
+
+        <div class="row mt-2 mb-2">
+            <button class="btn-next-ic" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven" id="Btn_Oficio" name="Btn_Oficio">
+                <i class="fa in fa-eraser" aria-hidden="true"></i><br>LISTADO DE ESPECIE(S) FORESTAL(ES) PINPEP
+            </button>
+        </div>
+        <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <div id="div_EspeciesForestales_PinpepOld"></div>
+                <div id="div_EspeciesProteger_PinpepOld"></div>
+            </div>
+        </div>
+
+
+    }
+    @if (tbl_sol_solicitud.Procedencia_secorf)
+    {
+        if (solicitudtipo == 0)
+        {
+            <div class="row mt-2 mb-2">
+                <button class="btn-next-ic" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven" id="Btn_Oficio" name="Btn_Oficio">
+                    <i class="fa in fa-eraser" aria-hidden="true"></i><br>LISTADO DE ESPECIE(S) FORESTAL(ES) SECORF
+                </button>
+            </div>
+            <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div id="div_EspeciesForestales_Secorf"></div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<script>
+        $(document).ready(function () {
+            var div_EspeciesForestales_Probosque = document.getElementById("div_EspeciesForestales_Probosque");
+            var div_EspeciesForestales_PinpepOld = document.getElementById("div_EspeciesForestales_PinpepOld");
+            var div_EspeciesProteger_PinpepOld = document.getElementById("div_EspeciesProteger_PinpepOld");
+            var div_Secorf_Rodal = document.getElementById("div_Secorf_Rodal");
+            var div_EspeciesForestales_Secorf = document.getElementById("div_EspeciesForestales_Secorf");
+
+            if (div_EspeciesForestales_Probosque) {
+                $('#div_EspeciesForestales_Probosque').load('/Sol_Finca_ProcedenciaExterna/Probosque_EspeciesForestales?Solicitud_id=@tbl_sol_solicitud.Solicitud_id&firma=@tbl_sol_solicitud.Guid_id');
+            }
+            if (div_EspeciesForestales_PinpepOld) {
+                $('#div_EspeciesForestales_PinpepOld').load('/Sol_Finca_ProcedenciaExterna/PinpepOld_EspeciesForestales?Solicitud_id=@tbl_sol_solicitud.Solicitud_id&firma=@tbl_sol_solicitud.Guid_id');
+            }
+            if (div_EspeciesProteger_PinpepOld) {
+                $('#div_EspeciesProteger_PinpepOld').load('/Sol_Finca_ProcedenciaExterna/PinpepOld_EspeciesProteger?Solicitud_id=@tbl_sol_solicitud.Solicitud_id&firma=@tbl_sol_solicitud.Guid_id');
+            }
+            if (div_Secorf_Rodal) {
+                $('#div_Secorf_Rodal').load('/Sol_Finca_ProcedenciaExterna/Secorf_Rodal?Solicitud_id=@tbl_sol_solicitud.Solicitud_id&firma=@tbl_sol_solicitud.Guid_id');
+            }
+            if (div_EspeciesForestales_Secorf) {
+                $('#div_EspeciesForestales_Secorf').load('/Sol_Finca_ProcedenciaExterna/Secorf_EspeciesForestales_Create?Solicitud_id=@tbl_sol_solicitud.Solicitud_id&firma=@tbl_sol_solicitud.Guid_id');
+            }
+
+        });
+</script>
+
+<br />
+<div class="row mb-4">
+    @if (ViewBag.Estado == 0)
+    {
+        <div class="col">
+            <div class="d-grid gap-2">
+                <input type="button" value="Cancelar el proceso" class="btn-cancel" onclick="EliminarSolicitud(0)" />
+            </div>
+        </div>
+    }
+    <div class="col">
+        <div class="d-grid gap-2">
+            @if ((ViewBag.Estado == 0) || (ViewBag.Estado == 4))
+            {
+                <input type="button" onclick="location.href='/home/Index';" value="Cerrar y continuar despues" class="btn-warn" />
+            }
+            else
+            {
+                <input type="button" onclick="location.href='/home/Index';" value="Cerrar" class="btn-warn" />
+            }
+        </div>
+    </div>
+
+    @if ((ViewBag.Estado == 0) || (ViewBag.Estado == 4))
+    {
+        <div class="col">
+            <div class="d-grid gap-2">
+                <input type="submit" class="btn-next" value="Siguiente" onclick="Refresh()"></input>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+<script>
+
+    $(document).ready(function () {
+        var section_Rodal = document.getElementById('section_Rodal');
+        if (section_Rodal) {
+            $('#section_Rodal').load('/Sol_Rodal/Index?solicitud_id=@ViewBag.Solicitud_id&firma=@ViewBag.SolicitudGuid')
+        }
+        var section_Rodal_Descuento = document.getElementById('section_Rodal_Descuento');
+        if (section_Rodal_Descuento) {
+            $('#section_Rodal_Descuento').load('/Sol_Rodal/IndexDescuento?solicitud_id=@ViewBag.Solicitud_id&firma=@ViewBag.SolicitudGuid')
+        }
+
+        $('#section_Finca').load('/Sol_Finca/Index?solicitud_id=@ViewBag.Solicitud_id&firma=@ViewBag.SolicitudGuid')
+
+        var section_RodalDasometricos = document.getElementById('section_RodalDasometricos');
+        if (section_RodalDasometricos) {
+            $('#section_RodalDasometricos').load('/Sol_Rodal_Dasometrico/Index?solicitud_id=@ViewBag.Solicitud_id&firma=@ViewBag.SolicitudGuid')
+
+        }
+        var section_Rodal_Inventario = document.getElementById('section_Rodal_Inventario');
+        if (section_Rodal_Inventario) {
+            $('#section_Rodal_Inventario').load('/Sol_Rodal_Inventario/Index?Id=@ViewBag.Solicitud_id&firma=@ViewBag.SolicitudGuid')
+        }
+        $('#section_Dasometrico_Formula').load('/Sol_Rodal_Dasometrico_Especie_Formula/Index?solicitud_id=@ViewBag.Solicitud_id&firma=@ViewBag.SolicitudGuid')
+
+
+        //CR_24/07/24
+
+          $(document).on('change', '#Notificacion_Departamento_id', function () {
+
+            var url = "@Url.Action("GetMunicipios", "Sol_Solicitud")";
+            var Departamento = $('#Notificacion_Departamento_id').val();
+            var data = { Departamento: Departamento};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#Notificacion_Municipio_id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text: municipio.Text
+                    }));
+
+                });
+
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+    });
+
+
+</script>

@@ -1,0 +1,132 @@
+﻿@model RNF_Web.Models.Tbl_Gral_Actividad
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    Layout = null;
+    ViewBag.Title = "Actividad";
+    ViewBag.SubTitle = "Ingresar actividades";
+    db_RNFEntities db = new db_RNFEntities();
+    Tbl_Sol_Solicitud tbl_sol_solicitud = db.Tbl_Sol_Solicitud.Find(Session[Constants.session_Solicitud]);
+    string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    controllerName = "Sol_Empresa_Entidad";
+    string Nombre_Div = "div_Sol_Permisos_Empresa_Entidad_Actividad_Create";
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+
+    fc_Gral_Sol_Configuracion_Result permisos = db.fc_Gral_Sol_Configuracion(tbl_sol_solicitud.Solicitud_id, controllerName, boolEsInterno).FirstOrDefault();
+}
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <div id="@Nombre_Div"></div>
+}
+
+<script>
+    function visualizarPermisos(solicitudid, controllername, esinterno, nombrediv) {
+        var solicitudId = solicitudid;
+        var controllerName = controllername;
+        var esInterno = esinterno;
+        var urlpart = "@Url.Action("PermisosRecibidos", "Gral_SolicitudConfiguracion")";
+        var urlparams = "?Solicitud_id=" + solicitudId + "&controllerName=" + controllerName + "&EsInterno=" + esInterno;
+        var mySolPermisos = document.getElementById(nombrediv);
+        if (mySolPermisos) {
+            $("#" + nombrediv).load(urlpart + urlparams);
+        }
+
+    }
+
+    $(document).ready(function () {
+        visualizarPermisos('@tbl_sol_solicitud.Solicitud_id', '@controllerName', '@objUs.EsInterno', '@Nombre_Div');
+        $('#listadoActividades').load('/Sol_Empresa_Entidad_TecnicoActividad/Index?SolicitudId=@ViewBag.SolicitudId');
+
+    });
+
+    function AgregarActividad()
+    {
+
+        var url = "@Url.Action("AgregarActividad", "Sol_Empresa_Entidad_TecnicoActividad")";
+        var SolicitudId = @ViewBag.SolicitudId;
+        var ActividadId = $('#lstActividad').val();
+
+        var data = {
+            SolicitudId: SolicitudId,
+            ActividadId: ActividadId
+        };
+
+        $.post(url, data).done(function (jsonRespuesta) {
+
+                var objJSON = JSON.parse(jsonRespuesta);
+                var Cod_Respuesta = objJSON.CodRespuesta;
+                var Texto_Respuesta = objJSON.strRespuesta;
+
+                    $('#listadoActividades').load('/Sol_Empresa_Entidad_TecnicoActividad/Index?SolicitudId=@ViewBag.SolicitudId')
+
+            });
+    }
+
+    function Borrar_Actividad(SolicitudId, ActividadId)
+    {
+        var url = "@Url.Action("EliminarActividad", "Sol_Empresa_Entidad_TecnicoActividad")";
+
+        var data = {
+            SolicitudId: SolicitudId,
+            ActividadId: ActividadId
+        };
+
+        $.post(url, data).done(function (jsonRespuesta) {
+
+            var objJSON = JSON.parse(jsonRespuesta);
+            var Cod_Respuesta = objJSON.CodRespuesta;
+            var Texto_Respuesta = objJSON.strRespuesta;
+
+            $('#listadoActividades').load('/Sol_Empresa_Entidad_TecnicoActividad/Index?SolicitudId=@ViewBag.SolicitudId');
+
+        });
+
+    }
+
+
+</script>
+
+<br />
+<div style='height: 30px; width: 100%; background-color: #66bb6a; color: white; '>
+    <h4>Listado de actividad(es)</h4>
+</div>
+
+<table width="100%">
+    <tr>
+        <td>
+            @Html.LabelFor(model => model.Nombres_Comunes, "Actividad", htmlAttributes: new { @class = "control-label col-md-12" })
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DropDownList("lstActividad", null, htmlAttributes: new { @class = "form-select" })
+        </td>
+
+        <td>
+            @if ((bool)permisos.Agregar)
+            {
+                <input type="button" class="btn-success" value="Agregar" onclick="AgregarActividad()" />
+            }
+        </td>
+
+    </tr>
+    <tr>
+        <td></td>
+        <td> <label id="lblMensaje" name="lblMensaje" /></td>
+    </tr>
+</table>
+
+<div id="listadoActividades" name="listadoActividades" />
+<hr />

@@ -1,0 +1,313 @@
+﻿@model RNF_Web.Models.Tbl_Sol_Solicitud
+@using RNF_Web.Models;
+
+@{
+    ViewBag.Title = "   Etapa";
+    Layout = null;
+}
+
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+<style>
+    .formation {
+        height: auto;
+        max-width: 90%;
+        margin: 30px auto;
+        border-radius: 10px;
+        border-style: solid;
+        border-color: #77DD77;
+        padding: 20px;
+        box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    }
+</style>
+
+<script type="text/javascript">
+
+    function DescargarCaratulaRegistro() {
+        var data = {
+            Solicitud_id: '@Model.Solicitud_id'
+        };
+        var url = "@Url.Action("DescargarCaratulaRegistro","Form_FormularioSecretaria")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+            var result = oJSON.result;
+            var message = oJSON.message;
+            var ok = 1;
+            var ubicacion = oJSON.ubicacion;
+            if (result == ok) {
+                activarVisorDeDocumentos(ubicacion);
+            } else
+            {
+                alert(message);
+            }
+
+        }).fail(function (jsonRespuesta){
+            alert('Ocurrió un error');
+        });
+    }
+
+    function ImprimeConstancia() {
+
+        var varGuid_id = '@ViewBag.Guid_id';
+
+        var varFacturaSerie = $('#FacturaSerie').val();
+        var varFacturaNumero = $('#FacturaNumero').val();
+        var varCantidadFolios = $('#CantidadFolios').val();
+    
+        if (isNaN(varFacturaNumero) == true) {
+            $('#lblMensaje').text('El número de factura no acepta caracteres.');
+        }
+        else
+        if (varFacturaSerie == '') {
+            $('#lblMensaje').text('Debe indicar el numero de serie de la factura.');
+        }
+        else if (varFacturaNumero == '') {
+            $('#lblMensaje').text('Debe indicar el número de factura.');
+        }
+        //else if (varCantidadFolios == 0) {
+        //    $('#lblMensaje').text('Debe indicar la cantidad de folios recibidos');
+    //} 
+    else if ($('#txtPropietario').val().trim() == '' && $("#divEsPropietario").css("display") === "block") {
+            $('#lblMensaje').text('Ingrese el nombre del firmante');
+        } else if ($('#txtComoActua').val().trim() == '' && $("#divEsPropietario").css("display") === "block") {
+            $('#lblMensaje').text('Ingrese la forma como actua el firmante');
+        }
+        else {
+            /*Asignar firmante*/
+            if ($("#divEsPropietario").css("display") === "block") {
+                //seteamos el valor del firmante
+                var urlSetFirmante = "@Url.Action("SetFirmaSolicitante", "Form_FormularioSecretaria")";
+                $.post(urlSetFirmante, { nombreFirmante: $('#txtPropietario').val().trim(), comoActua: $('#txtComoActua').val().trim() })
+            } else {
+                var urlSetFirmante = "@Url.Action("SetFirmaSolicitante", "Form_FormularioSecretaria")";
+                $.post(urlSetFirmante, { nombreFirmante: "", comoActua:"" })
+            }
+
+
+        var data = {
+            guidid: varGuid_id,
+            facturaserie: varFacturaSerie,
+            facturanumero: varFacturaNumero,
+            cantidadfolios: varCantidadFolios,
+            GuidEtapa_id : '@ViewBag.GuidEtapa_id'
+            };
+
+
+
+            var url = "@Url.Action("GenerarConstanciaImprimirFormulario", "Form_FormularioSecretaria")";
+
+            loaderPantalla(true);
+            $.post(url, data).done(function (jsonrespuesta) {
+                loaderPantalla(false);
+                document.getElementById("btnDescargarCaratulaRegistro").style.display = "block";
+                var oJSON = JSON.parse(jsonrespuesta);
+                var NombreDocumento = oJSON.Ubicacion;               
+                activarVisorDeDocumentos('/Archivos_ConFirmaElectronica/' + NombreDocumento);
+
+
+            });
+
+
+        }
+
+    }
+
+    function ImprimeConstanciaConExoneracion() {
+
+        var varGuid_id = '@ViewBag.Guid_id';
+
+        var varFacturaSerie = 'Exoneracion';
+        var varFacturaNumero = 'No aplica cobro';
+        var varCantidadFolios = $('#CantidadFolios').val();
+
+        if (varFacturaSerie == '') {
+            $('#lblMensaje').text('Debe indicar el numero de serie de la factura.');
+        }
+        else if (varFacturaNumero == '') {
+            $('#lblMensaje').text('Debe indicar el número de factura.');
+        }
+        //else if (varCantidadFolios == 0) {
+        //    $('#lblMensaje').text('Debe indicar la cantidad de folios recibidos');
+        //}
+        else {
+
+
+        var data = {
+            guidid: varGuid_id,
+            facturaserie: varFacturaSerie,
+            facturanumero: varFacturaNumero,
+            cantidadfolios: varCantidadFolios,
+            GuidEtapa_id : '@ViewBag.GuidEtapa_id'
+            };
+
+
+            var url = "@Url.Action("GenerarConstanciaImprimirFormularioConExoneracion", "Form_FormularioSecretaria")";
+
+
+            loaderPantalla(true);
+            $.post(url, data).done(function (jsonrespuesta) {
+                loaderPantalla(false);
+
+                document.getElementById("btnDescargarCaratulaRegistro").style.display = "block";
+
+                var oJSON = JSON.parse(jsonrespuesta);
+                var NombreDocumento = oJSON.Ubicacion;
+
+                activarVisorDeDocumentos('/Archivos_ConFirmaElectronica/' + NombreDocumento);
+
+            });
+
+
+        }
+
+    }
+
+    function obtenerCaratula(Solicitud_id) {
+        var data = {
+            Solicitud_id: Solicitud_id
+        };
+        var url = "@Url.Action("DescargarCaratulaRegistro","Form_FormularioSecretaria")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+            var result = oJSON.result;
+            var message = oJSON.message;
+            var ok = 1;
+            var ubicacion = oJSON.ubicacion;
+            if (result == ok) {
+                activarVisorDeDocumentos(ubicacion);
+            } else {
+                alert(message);
+            }
+
+        }).fail(function (jsonRespuesta){
+            alert('Ocurrió un error');
+        });
+    }
+
+
+    // Obtener referencias a los elementos del DOM
+    var radioSi = document.getElementById("radioSi");
+    var radioNo = document.getElementById("radioNo");
+    var campoInput = document.getElementById("divEsPropietario");
+
+    // Agregar un event listener al radio button
+    radioSi.addEventListener("change", function () {
+        // Si el radio button "Sí" está seleccionado, mostrar el campo de entrada; de lo contrario, ocultarlo
+        if (radioSi.checked) {
+            campoInput.style.display = "none";
+        } else {
+            campoInput.style.display = "block";
+        }
+    });
+
+    radioNo.addEventListener("change", function () {
+        // Si el radio button "Sí" está seleccionado, mostrar el campo de entrada; de lo contrario, ocultarlo
+        if (radioNo.checked) {
+            campoInput.style.display = "block";
+        } else {
+            campoInput.style.display = "none";
+        }
+    });
+
+</script>
+
+
+<div class="formation">
+
+    <div style='height: 70px;  top:50%; width: 100%; background-color: darkgreen; color: white; '>
+        <br />
+        <h4> Impresión de constancia de recepción de documentos </h4>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <label> Serie de la Factura de cobro </label>
+            <br />
+            <input  class="form-control" type="text" id="FacturaSerie" name="FacturaSerie" value="@Model.FacturaSerie" />
+        </div>
+        <div class="col-sm-6 col-md-6">
+            <label> Número de la Factura de cobro</label>
+            <br />
+            <input  class="form-control" type="text" id="FacturaNumero" name="FacturaNumero" value="@Model.FacturaNumero" />
+        </div>
+    </div>
+    <br />
+
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <label> Cantidad de folios</label>
+            <br />
+            <input  class="form-control" type="text" id="CantidadFolios" name="CantidadFolios" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" value="@Model.CantidadFolios" />
+        </div>
+
+        <div class="col-sm-6 col-md-6">
+            <div style="display:flex; flex-direction:row">
+                <label> Es propietario?&nbsp;&nbsp;&nbsp;</label>
+                <div>
+                    <input type="radio" id="radioSi" name="radioPropietario" value="Si" checked>
+                    <label for="Si">Si&nbsp;&nbsp;&nbsp;&nbsp;</label><br>
+                </div>
+                <div>
+                    <input type="radio" id="radioNo" name="radioPropietario" value="No" >
+                    <label for="NO">No&nbsp;&nbsp;</label><br>
+                </div>
+            </div>
+            <div id="divEsPropietario" style="display:none;">
+                <input type="text" id="txtPropietario" placeholder="Ingrese el nombre">
+                <input type="text" id="txtComoActua" placeholder="Como actua?">
+            </div>
+        </div>
+    </div>
+
+  
+
+    
+    <br />
+    <br />
+    <br />
+
+    <table>
+        <tr>
+            <td>
+            </td>
+            <td>
+                <label class="text-danger" id="lblMensaje"></label>
+            </td>
+        </tr>
+        <tr>
+            <td width="30%">
+                <button id="btnDescargarCaratulaRegistro" style="display:none" name="btnDescargarCaratulaRegistro" class="btn-next" onclick="DescargarCaratulaRegistro()">Imprimir carátula</button>
+            </td>
+            <td width="30%">
+                <button class="btn-next" onclick="ImprimeConstancia()">Imprimir constancia</button>
+                &nbsp;
+            </td>
+            <td width="30%">
+                <button class="btn-next" onclick="ImprimeConstanciaConExoneracion()">Imprimir constancia con exoneración</button>
+            </td>
+        </tr>
+        <tr>
+            <td width="30%">
+            </td>
+            <td width="30%">
+            </td>
+            <td width="30%">
+                **Atención:  Esta constancia aplica únicamente para entidades Gubernamentales.
+            </td>
+
+        </tr>
+    </table>
+
+</div>
+
+
+
+

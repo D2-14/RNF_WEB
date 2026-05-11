@@ -1,0 +1,261 @@
+﻿@using RNF_Web.Models;
+@model RNF_Web.Models.Tbl_RNF_Registro
+@{
+    Layout = null;
+    db_RNFEntities db = new db_RNFEntities();
+
+    string ProcedenciaSistema = "";
+    bool ProcedenciaExterna = false;
+    EdicionRNFGrants objRNFGrants = (EdicionRNFGrants)Session[Constants.session_EdicionRNFGrants];
+
+    if (((bool)Model.Procedencia_PinpepNew) || ((bool)Model.Procedencia_PinpepOld))
+    {
+        ProcedenciaSistema = "PINPEP";
+        ProcedenciaExterna = true;
+    }
+
+    if ((bool)Model.Procedencia_Probosque)
+    {
+        ProcedenciaSistema = "PROBOSQUE";
+        ProcedenciaExterna = true;
+    }
+
+    if ((bool)Model.Procedencia_secorf)
+    {
+        ProcedenciaSistema = "SECORF";
+        ProcedenciaExterna = true;
+    }
+
+}
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+
+<script>
+    $(document).ready(function () {
+        validaEstadorRegistro('@Model.Estado_id');
+    });
+</script>
+
+<table class="table">
+    <tr>
+        <th>
+            Expediente
+        </th>
+        <td>
+            @Model.Expediente
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Estado Actual
+        </th>
+        <td>
+            @Model.Tbl_RNF_Registro_Estado.Descripcion
+        </td>
+    </tr>
+    @if (Model.Fecha_Inscripcion != null)
+    {
+        <tr>
+            <th>
+                Fecha de Inscripción
+            </th>
+            <td>
+                @(((DateTime)(Model.Fecha_Inscripcion)).ToString("dd/MM/yyyy"))
+            </td>
+        </tr>
+    }
+    @if (Model.Fecha_Actualizacion != null)
+    {
+        <tr>
+            <th>
+                Fecha de Actualización
+            </th>
+            <td>
+                @(((DateTime)(Model.Fecha_Actualizacion)).ToString("dd/MM/yyyy"))
+            </td>
+        </tr>
+    }
+    @if (Model.Fecha_De_Vencimiento != null)
+    {
+        <tr>
+            <th>
+                Fecha de Vencimiento
+            </th>
+            <td>
+                @(((DateTime)(Model.Fecha_De_Vencimiento)).ToString("dd/MM/yyyy"))
+            </td>
+        </tr>
+    }
+    @if (objRNFGrants.Editar)
+    {
+        DateTime swdateoneyear = new DateTime(year: DateTime.Now.AddYears(1).Year, month: 12, day: 31);
+        DateTime Fecha_De_Vencimiento = swdateoneyear;
+        if (Model.Fecha_De_Vencimiento != null)
+        {
+            Fecha_De_Vencimiento = (DateTime)(Model.Fecha_De_Vencimiento);
+        }
+        string strFecha_De_Vencimiento = String.Format("{0:yyyy-MM-dd}", Fecha_De_Vencimiento);
+
+        <tr>
+            <th>
+                <strong>Fecha de Vencimiento (Editar)</strong>
+            </th>
+            <td>
+                @Html.EditorFor(Obj => Obj.Fecha_De_Vencimiento, new { htmlAttributes = new { @class = "form-control", @type = "date", Value = strFecha_De_Vencimiento } })
+            </td>
+        </tr>
+    }
+    @if (Model.Fecha_Inactivacion != null)
+    {
+        <tr>
+            <th>
+                Fecha de Inactivación
+            </th>
+            <td>
+                @Model.Fecha_Inactivacion
+            </td>
+        </tr>
+    }
+    @if (Model.ResolucionInscripcion != null)
+    {
+        <tr>
+            <th>
+                Resolución de Inscripción
+            </th>
+            <td>
+                @Model.ResolucionInscripcion
+            </td>
+        </tr>
+    }
+    @if (Model.ResolucionInscripcionFecha != null)
+    {
+        <tr>
+            <th>
+                Fecha Resolución de Inscripción
+            </th>
+            <td>
+                @Model.ResolucionInscripcionFecha
+            </td>
+        </tr>
+    }
+    @if (Model.ResolucionUltimaActualizacion != null)
+    {
+        <tr>
+            <th>
+                Resolución de Actualización
+            </th>
+            <td>
+                @Model.ResolucionUltimaActualizacion
+            </td>
+        </tr>
+    }
+    @if (Model.ResolucionUltimaActualizacionFecha != null)
+    {
+        <tr>
+            <th>
+                Fecha de Resolución de Actualización
+            </th>
+            <td>
+                @Model.ResolucionUltimaActualizacionFecha
+            </td>
+        </tr>
+    }
+    @if (Model.ResolucionUltimaInactivacion != null)
+    {
+        <tr>
+            <th>
+                Resolución de Inactivación
+            </th>
+            <td>
+                @Model.ResolucionUltimaInactivacion
+            </td>
+        </tr>
+    }
+    @if (Model.ResolucionUltimaInactivacionFecha != null)
+    {
+        <tr>
+            <th>
+                Fecha de Resolución de Inactivación
+            </th>
+            <td>
+                @Model.ResolucionUltimaInactivacionFecha
+            </td>
+        </tr>
+    }
+    
+    @if (objRNFGrants.Editar)
+    {
+        <tr>
+            <th>
+            </th>
+            <td>
+                <input type="button" class="btn btn-primary" id="Btn_GuardarCambiosDatosRegistro" name="Btn_GuardarCambiosDatosRegistro" value="Guardar Cambios" onclick="actualizarFechaVencimiento()" />
+            </td>
+        </tr>
+    }
+</table>
+
+@if (ProcedenciaExterna)
+{
+    <h3 align="center">Expediente de Oficio</h3>
+}
+<table class="table">
+    @if (ProcedenciaSistema != "")
+    {
+        <tr>
+            <th>
+                Origen
+            </th>
+            <td>
+                @ProcedenciaSistema
+            </td>
+        </tr>
+    }
+    @if ((Model.Procedencia_Expediente != null) && (Model.Procedencia_Expediente.Trim() != ""))
+    {
+        <tr>
+            <th>
+                Expediente de Oficio
+            </th>
+            <td>
+                @Model.Procedencia_Expediente
+            </td>
+        </tr>
+    }
+    @if ((Model.Procedencia_Fase != null) && (Model.Procedencia_Fase.Trim() != ""))
+    {
+        <tr>
+            <th>
+                Fase
+            </th>
+            <td>
+                @Model.Procedencia_Fase
+            </td>
+        </tr>
+    }
+    @if ((Model.Procedencia_Modalidad != null) && (Model.Procedencia_Modalidad.Trim() != ""))
+    {
+        <tr>
+            <th>
+                Modalidad
+            </th>
+            <td>
+                @Model.Procedencia_Modalidad
+            </td>
+        </tr>
+    }
+    @if ((Model.Procedencia_TipoProyecto != null) && (Model.Procedencia_TipoProyecto.Trim() != ""))
+    {
+        <tr>
+            <th>
+                Tipo de Proyecto
+            </th>
+            <td>
+                @Model.Procedencia_TipoProyecto
+            </td>
+        </tr>
+    }
+</table>

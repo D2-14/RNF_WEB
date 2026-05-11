@@ -1,0 +1,70 @@
+﻿@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutMenuColaborador.cshtml";
+    ViewBag.Title = "Index";
+}
+
+
+<script>
+    function validarSuscripcionWhatsApp() {
+        var url = '@Url.Action("VerificarWhatsApp", "Home")';
+        var dataPOST = {
+
+        };
+
+        $.post(url, dataPOST).done(function (RespuestaJSON) {
+
+            var oJSON = RespuestaJSON;
+            console.log(oJSON);
+
+            var result = oJSON.result;
+            var message = oJSON.message;
+            var data = oJSON.data;
+            var details = (oJSON.details??false);
+
+            if (result != 1) {
+                alert(message);
+
+                if ((details == true) && (data != null)) {
+
+                    var confirmarEnvio = confirm('¿Desea enviar el mensaje ahora mismo?');
+
+                    if (confirmarEnvio) {
+                        window.open(data);
+                    }
+
+                } else {
+
+                    if (data != null) {
+                        window.open(data);
+                    }
+
+                }
+
+
+            }
+
+        }).fail(function (RespuestaJSON) {
+
+            var oJSON = RespuestaJSON;
+            console.log(oJSON);
+
+            alert('Ocurrió un error 500: ' + oJSON);
+
+        });
+
+    }
+
+    $(document).ready(function () {
+
+       // validarSuscripcionWhatsApp();
+
+
+    })
+</script>

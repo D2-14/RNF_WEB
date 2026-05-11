@@ -1,0 +1,3436 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{75016E0B-905A-40B5-8B5C-5D7749CECE08}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RNF_Web</RootNamespace>
+    <AssemblyName>RNF_Web</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44357</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>packages\Common.Logging.3.3.1\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Core, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.Serialization, Version=1.6.0.0, Culture=neutral, PublicKeyToken=441f200f827611e7, processorArchitecture=MSIL">
+      <HintPath>packages\DotSpatial.Serialization.1.6.0.0\lib\net40-Client\DotSpatial.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.Topology, Version=1.6.0.0, Culture=neutral, PublicKeyToken=a66b5e9434ca3671, processorArchitecture=MSIL">
+      <HintPath>packages\DotSpatial.Topology.1.6.0.0\lib\net40-Client\DotSpatial.Topology.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=5.7.5.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>packages\EPPlus.5.7.5\lib\net45\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>packages\ExcelDataReader.3.6.0\lib\net45\ExcelDataReader.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader.DataSet, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>packages\ExcelDataReader.DataSet.3.6.0\lib\net35\ExcelDataReader.DataSet.dll</HintPath>
+    </Reference>
+    <Reference Include="GemBox.Spreadsheet, Version=47.0.0.1398, Culture=neutral, PublicKeyToken=b1b72c69714d4847, processorArchitecture=MSIL">
+      <HintPath>packages\GemBox.Spreadsheet.47.0.1398\lib\net35\GemBox.Spreadsheet.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>packages\iTextSharp.5.5.13.2\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.IdentityModel.Abstractions, Version=6.28.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.IdentityModel.Abstractions.6.28.1\lib\net45\Microsoft.IdentityModel.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=6.28.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.IdentityModel.JsonWebTokens.6.28.1\lib\net45\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=6.28.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.IdentityModel.Logging.6.28.1\lib\net45\Microsoft.IdentityModel.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=6.28.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.IdentityModel.Tokens.6.28.1\lib\net45\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.IO.RecyclableMemoryStream.1.4.1\lib\net45\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=4.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Owin.4.2.2\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="QRCoder, Version=1.4.3.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
+      <HintPath>packages\QRCoder.1.4.3\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz, Version=2.4.0.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <HintPath>packages\Quartz.2.4.0\lib\net40\Quartz.dll</HintPath>
+    </Reference>
+    <Reference Include="ReachFramework" />
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\RestSharp.105.2.3\lib\net45\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.28.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\System.IdentityModel.Tokens.Jwt.6.28.1\lib\net45\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.Web.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.Cors.5.2.7\lib\net45\System.Web.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebApi.Cors.5.2.7\lib\net45\System.Web.Http.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ActividadController.cs" />
+    <Compile Include="Controllers\API_ProbosqueController.cs" />
+    <Compile Include="Controllers\App_Visita_CampoController.cs" />
+    <Compile Include="Controllers\Carga_AreaProtegidaController.cs" />
+    <Compile Include="Controllers\Carga_MunicipiosPorRegionController.cs" />
+    <Compile Include="Controllers\CasilleroElectronicoController.cs" />
+    <Compile Include="Controllers\ConsultaRegistroController.cs" />
+    <Compile Include="Controllers\CorreoController.cs" />
+    <Compile Include="Controllers\CORSController.cs" />
+    <Compile Include="Controllers\CultivoController.cs" />
+    <Compile Include="Controllers\EncResp_EncuestaConstanciaController.cs" />
+    <Compile Include="Controllers\EncResp_EncuestaController.cs" />
+    <Compile Include="Controllers\EncResp_EncuestaDocumentoController.cs" />
+    <Compile Include="Controllers\EncResp_EncuestaRespuestaController.cs" />
+    <Compile Include="Controllers\ExpedienteOficio_GestorController.cs" />
+    <Compile Include="Controllers\Expediente_SecorfController.cs" />
+    <Compile Include="Controllers\Form_FormularioController.cs" />
+    <Compile Include="Controllers\Form_FormularioDirectorRegionalController.cs" />
+    <Compile Include="Controllers\Form_FormularioDirectorRegionalMotoSierraController.cs" />
+    <Compile Include="Controllers\Form_FormularioJuridicoController.cs" />
+    <Compile Include="Controllers\Form_FormularioJuridicoOficioJuridico_EnmiendaController.cs" />
+    <Compile Include="Controllers\Form_FormularioRegionalOficioDenegacionController.cs" />
+    <Compile Include="Controllers\Form_FormularioSecretariaController.cs" />
+    <Compile Include="Controllers\Form_FormularioSecretariaInactivacionController.cs" />
+    <Compile Include="Controllers\Form_FormularioSolicitudInactivacionController.cs" />
+    <Compile Include="Controllers\Form_FormularioSubRegionalAudienciaTecnicoProfesionalController.cs" />
+    <Compile Include="Controllers\Form_FormularioSubRegionalController.cs" />
+    <Compile Include="Controllers\Form_FormularioSubRegionalInformeCircunstanciadoController.cs" />
+    <Compile Include="Controllers\Form_FormularioSubRegionalOficioEnmiendasController.cs" />
+    <Compile Include="Controllers\Form_FormularioSubRegionalOficioJuridicoCriticaController.cs" />
+    <Compile Include="Controllers\Form_FormularioSubRegionalOficioRechazoController.cs" />
+    <Compile Include="Controllers\Form_FormularioSubRegionalOficioTecnicoCriticaController.cs" />
+    <Compile Include="Controllers\Form_FormularioSubRegionalSolvenciaController.cs" />
+    <Compile Include="Controllers\Form_FormularioSubRegionalSolvenciaTecnicoProfesionalController.cs" />
+    <Compile Include="Controllers\Form_FormularioTecnicoDenegacionController.cs" />
+    <Compile Include="Controllers\Form_FormularioTecnicoInactivacionAprobacionController.cs" />
+    <Compile Include="Controllers\Form_FormularioTecnicoInactivacionController.cs" />
+    <Compile Include="Controllers\Form_FormularioTecnicoInactivacionDenegacionController.cs" />
+    <Compile Include="Controllers\Form_FormularioTecnicoLocationController.cs" />
+    <Compile Include="Controllers\Form_FormularioTecnicoOficioTecnico_EnmiendaController.cs" />
+    <Compile Include="Controllers\Form_FormularioTecnicoReporteAprobacionController.cs" />
+    <Compile Include="Controllers\Form_FormularioTecnicoAprobacionController.cs" />
+    <Compile Include="Controllers\Form_FormularioTecnicoController.cs" />
+    <Compile Include="Controllers\Form_FormularioTecnicoReporteDenegacionController.cs" />
+    <Compile Include="Controllers\Form_FormularioTecnico_InspeccionEmpresaController.cs" />
+    <Compile Include="Controllers\Gest_EtapaController.cs" />
+    <Compile Include="Controllers\Gest_EtapaRSSController.cs" />
+    <Compile Include="Controllers\Gest_EtapaRutaController.cs" />
+    <Compile Include="Controllers\Gest_EtapaSolicitudController.cs" />
+    <Compile Include="Controllers\Gest_EtapaSolicitud_DocumentoController.cs" />
+    <Compile Include="Controllers\Gest_Etapa_RespuestaController.cs" />
+    <Compile Include="Controllers\Gral_EspecieController.cs" />
+    <Compile Include="Controllers\Gral_MapasController.cs" />
+    <Compile Include="Controllers\Gral_Mapa_Bosques_NaturalesController.cs" />
+    <Compile Include="Controllers\Gral_Mapa_Vocacion_ForestalController.cs" />
+    <Compile Include="Controllers\Gral_ProfesionController.cs" />
+    <Compile Include="Controllers\Gral_RegionController.cs" />
+    <Compile Include="Controllers\Gral_SolicitudConfiguracionController.cs" />
+    <Compile Include="Controllers\Gral_SubRegionController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InactivacionController.cs" />
+    <Compile Include="Controllers\LocacionController.cs" />
+    <Compile Include="Controllers\LogController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MailShowController.cs" />
+    <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Controllers\Maquinaria_UtilizadaController.cs" />
+    <Compile Include="Controllers\Materia_PrimaController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\OficioTecnicoController.cs" />
+    <Compile Include="Controllers\ReportePVController.cs" />
+    <Compile Include="Controllers\ReportePV_RNFController.cs" />
+    <Compile Include="Controllers\ReportesController.cs" />
+    <Compile Include="Controllers\ResolucionesArchivoController.cs" />
+    <Compile Include="Controllers\RNF_ArrendatarioPersonaIndividualController.cs" />
+    <Compile Include="Controllers\RNF_ArrendatarioPersonaJuridicaController.cs" />
+    <Compile Include="Controllers\RNF_Empresa_EntidadController.cs" />
+    <Compile Include="Controllers\RNF_Empresa_Entidad_ActividadController.cs" />
+    <Compile Include="Controllers\RNF_Empresa_Entidad_MaquinariaUtilizadaController.cs" />
+    <Compile Include="Controllers\RNF_Empresa_Entidad_MateriaPrimaController.cs" />
+    <Compile Include="Controllers\RNF_Empresa_Entidad_ViveroForestalController.cs" />
+    <Compile Include="Controllers\RNF_FincaController.cs" />
+    <Compile Include="Controllers\RNF_Finca_ProcedenciaExternaController.cs" />
+    <Compile Include="Controllers\RNF_GestorController.cs" />
+    <Compile Include="Controllers\RNF_InventarioController.cs" />
+    <Compile Include="Controllers\RNF_LocacionController.cs" />
+    <Compile Include="Controllers\RNF_MotosierraController.cs" />
+    <Compile Include="Controllers\RNF_Motosierra_MarcaModeloController.cs" />
+    <Compile Include="Controllers\RNF_PropietarioPersonaIndividualController.cs" />
+    <Compile Include="Controllers\RNF_PropietarioPersonaJuridicaController.cs" />
+    <Compile Include="Controllers\RNF_RegistroConstanciaController.cs" />
+    <Compile Include="Controllers\RNF_RegistroController.cs" />
+    <Compile Include="Controllers\RNF_Registro_ReasignacionController.cs" />
+    <Compile Include="Controllers\RNF_RepresentanteLegalController.cs" />
+    <Compile Include="Controllers\RNF_RodalController.cs" />
+    <Compile Include="Controllers\RNF_Rodal_CultivoController.cs" />
+    <Compile Include="Controllers\RNF_Rodal_DasometricoController.cs" />
+    <Compile Include="Controllers\RNF_Rodal_Dasometrico_Especie_FormulaController.cs" />
+    <Compile Include="Controllers\RNF_Rodal_InventarioController.cs" />
+    <Compile Include="Controllers\RNF_TecnicoProfesionalController.cs" />
+    <Compile Include="Controllers\RNF_TipoRegistroController.cs" />
+    <Compile Include="Controllers\RNF_UploadFilesController.cs" />
+    <Compile Include="Controllers\Rpt_Seg_UsuariosPorRegionController.cs" />
+    <Compile Include="Controllers\Seg_PrivilegioController.cs" />
+    <Compile Include="Controllers\Seg_RolController.cs" />
+    <Compile Include="Controllers\Seg_UsuarioController.cs" />
+    <Compile Include="Controllers\Sol_ArrendatarioPersonaIndividualController.cs" />
+    <Compile Include="Controllers\Sol_ArrendatarioPersonaJuridicaController.cs" />
+    <Compile Include="Controllers\Sol_ComparativoController.cs" />
+    <Compile Include="Controllers\Sol_Empresa_EntidadController.cs" />
+    <Compile Include="Controllers\Sol_Empresa_Entidad_ActividadController.cs" />
+    <Compile Include="Controllers\Sol_Empresa_Entidad_MaquinariaUtilizadaController.cs" />
+    <Compile Include="Controllers\Sol_Empresa_Entidad_MateriaPrimaController.cs" />
+    <Compile Include="Controllers\Sol_Empresa_Entidad_TecnicoActividadController.cs" />
+    <Compile Include="Controllers\Sol_Empresa_Entidad_TecnicoMaquinaria_UtilizadaController.cs" />
+    <Compile Include="Controllers\Sol_Empresa_Entidad_TecnicoMateriaPrimaController.cs" />
+    <Compile Include="Controllers\Sol_Empresa_Entidad_TecnicoViveroForestalController.cs" />
+    <Compile Include="Controllers\Sol_Empresa_Entidad_ViveroForestalController.cs" />
+    <Compile Include="Controllers\Sol_FincaController.cs" />
+    <Compile Include="Controllers\Sol_Finca_ProcedenciaExternaController.cs" />
+    <Compile Include="Controllers\Sol_FormularioController.cs" />
+    <Compile Include="Controllers\Sol_MotosierraController.cs" />
+    <Compile Include="Controllers\Sol_Motosierra_MarcaModeloController.cs" />
+    <Compile Include="Controllers\Sol_PropietarioPersonaIndividualController.cs" />
+    <Compile Include="Controllers\Sol_PropietarioPersonaJuridicaController.cs" />
+    <Compile Include="Controllers\Sol_RegionSubRegionController.cs" />
+    <Compile Include="Controllers\Sol_RepresentanteLegalController.cs" />
+    <Compile Include="Controllers\Sol_RodalController.cs" />
+    <Compile Include="Controllers\Sol_Rodal_CategoriaSIGAPController.cs" />
+    <Compile Include="Controllers\Gral_CultivoController.cs" />
+    <Compile Include="Controllers\Sol_Rodal_CultivoController.cs" />
+    <Compile Include="Controllers\Sol_Rodal_CultivoTecnicoController.cs" />
+    <Compile Include="Controllers\Sol_Rodal_DasometricoController.cs" />
+    <Compile Include="Controllers\Sol_Rodal_Dasometrico_Especie_FormulaController.cs" />
+    <Compile Include="Controllers\Sol_Rodal_Dasometrico_Especie_Formula_Id_Controller.cs" />
+    <Compile Include="Controllers\Sol_Rodal_InventarioController.cs" />
+    <Compile Include="Controllers\Sol_SolicitudController.cs" />
+    <Compile Include="Controllers\Sol_Finca_FuenteSemilleraController.cs" />
+    <Compile Include="Controllers\Sol_Solicitud_InactivacionController.cs" />
+    <Compile Include="Controllers\Sol_TecnicoProfesionalController.cs" />
+    <Compile Include="Controllers\Sol_TipoRegistroController.cs" />
+    <Compile Include="Controllers\Tbl_RNF_RegistroController.cs" />
+    <Compile Include="Controllers\TemporalVistaController.cs" />
+    <Compile Include="Controllers\Tipo_IndustriaController.cs" />
+    <Compile Include="Controllers\UnificarController.cs" />
+    <Compile Include="Controllers\UploadFilesController.cs" />
+    <Compile Include="Controllers\UsuarioExternoController.cs" />
+    <Compile Include="Controllers\VisorDeDocumentosController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Jobs\JobCargaAreaProtegida.cs" />
+    <Compile Include="Models\AATbl_Gral_SolicitudConfiguracionTipo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\agrupacionterritorial.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\API_PinpepOld.cs" />
+    <Compile Include="Models\API_Probosque.cs" />
+    <Compile Include="Models\AppAudit.cs" />
+    <Compile Include="Models\App_PromedioDAP_Altura.cs" />
+    <Compile Include="Models\Borrar_fc_Seg_Sel_GetPrivilegio_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CasilleroElectronicoRequestResponse.cs" />
+    <Compile Include="Models\CasilleroElectronicoSender.cs" />
+    <Compile Include="Models\ClassResumenPV.cs" />
+    <Compile Include="Models\Constants.cs" />
+    <Compile Include="Models\ConversorFechas.cs" />
+    <Compile Include="Models\ConvertirGTMModel.cs" />
+    <Compile Include="Models\CrearBanner.cs" />
+    <Compile Include="Models\db_RNF.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db_RNF.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\db_RNF.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\db_RNF.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db_RNF.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\db_RNF_API.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db_RNF_API.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\db_RNF_API.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\db_RNF_API.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db_RNF_API.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\db_RNF_Intermedia.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db_RNF_Intermedia.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\db_RNF_Intermedia.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\db_RNF_Intermedia.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db_RNF_Intermedia.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\db_RNF_Survey.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db_RNF_Survey.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\db_RNF_Survey.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db_RNF_Survey.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\db_RNF_Survey.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db_RNF_Survey.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\db_Whatsapp.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db_Whatsapp.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\db_Whatsapp.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db_Whatsapp.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\db_Whatsapp.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db_Whatsapp.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DecimalMath.cs" />
+    <Compile Include="Models\EdicionRNFGrants.cs" />
+    <Compile Include="Models\EdicionSolicitudGrants.cs" />
+    <Compile Include="Models\estadoregistro.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_AAA_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_GetLongitudLatitud_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_GetRegistro_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_GetResumenFinca_DictamenTecnico_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_GetSolicitudDasometricoCentroParcela_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_GetSolicitudFinca_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_GetSolicitudRodal_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_GetSolicitud_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_PlantacionVoluntaria_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_RNF_SEINEF_NoParam_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_RNF_SEINEF_PropietarioXRegistro_NoParam_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_RNF_SEINEF_PropietarioXRegistro_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_RNF_SEINEF_Propietario_NoParam_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_RNF_SEINEF_Propietario_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_RNF_SEINEF_RegistroXPersonaJuridica_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_RNF_SEINEF_Registro_RegistroId_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_RNF_SEINEF_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_RNF_SEINEF_RNF_Vinculado_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_RNF_WS_RegistroII_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_RNF_WS_RegistroI_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_RodalDescuentoPoligono_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_RodalDescuento_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_Sol_Finca_Rodal_Planos_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_Sol_Sel_RodalAreProtegidaPoligono_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_Sol_Sel_RodalRegionPoligono_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_FS_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_PV_20221130_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_PV_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_API_Sol_Sel_Rodal_ValidacionesDiametrica_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Cas_CasillerosEntrampados_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Gest_Sel_Etapa_RespuestaDocumentoTipo_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Gest_Sel_Etapa_RespuestaFormulario_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Gest_Sel_Etapa_RespuestaRuta_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Gral_EspecieSol_Solicitud_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Gral_RNF_Configuracion_20230111_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Gral_RNF_Configuracion_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Gral_Sol_Configuracion_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Mail_History_Enviar_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Mail_History_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Fc_Meta_MensajesPendientesAutorizados_Result.cs">
+      <DependentUpon>db_Whatsapp.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Reporte_Auditorias_ArbolesNuevosAgrupados_PromedioDAP_y_Altura_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Reporte_Auditorias_ArbolesNuevos_PromedioDAP_y_Altura_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Reporte_Auditorias_Arboles_DiferenteAnio_Establecimiento_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Reporte_Auditorias_Arboles_DiferenteClase_y_EstadoFitosanitario_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Reporte_Auditorias_Arboles_DiferenteDAP_y_Altura_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Reporte_Auditorias_Arboles_DiferenteEspecie_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Reporte_Auditorias_Arboles_PromedioDAP_y_Altura_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Reporte_Auditorias_Descuento_RodalPoligonoPlano_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Reporte_Auditorias_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Reporte_Auditorias_Sel_FincaPoligonoPlano_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Reporte_Auditorias_Sel_RodalPoligonoPlanoTecnicoOUsuario_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_20221114_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_Local_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Reporte_Auditorias_Sel_RodalPoligonoPlano_Resumen_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Reporte_Auditorias_Sel_RodalPoligono_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Reports_Solicitud_Global_Parametrizado_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Report_BosquesNaturales_Bck_20230802_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Report_BosquesNaturales_Bck_20230804_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Report_BosquesNaturales_PropietarioUnificado_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Report_BosquesNaturales_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Report_ComercializadoraMotosierra_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Report_Coordenadas_PoligonoLineaPunto_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Report_EmpresaEntidad_PropietarioUnificado_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Report_EmpresaEntidad_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Report_Entidad_PropietarioUnificado_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Report_Entidad_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Report_Motosierra_20230725_K1_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Report_Motosierra_20230726_K1_Backup_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Report_Motosierra_PropietarioUnificado_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Report_Motosierra_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Report_PlantacionesForestales_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Report_Resumen_BosquesNaturales_PropietarioUnificado_EspecieUnificada_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Report_Resumen_BosquesNaturales_PropietarioUnificado_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Report_Tecnicos_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Report_UsuarioExterno_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Rep_Gest_TiempoPorEtapa_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Rerporte_Auditorias_Finca_Rodal_Planos_Result.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_RNF_Buscar_RegistroInscrito_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_RNF_DatosInscripcion_Cancelacion_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_RNF_DatosInscripcion_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_RNF_DocumentosRequeridos_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_RNF_EmpresasForestales_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_RNF_Finca_Rodal_Planos_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_RNF_Inscripcion_Vinculada_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_RNF_Rodal_RepresentanteMandatario_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_RNF_SEINEF_sp_Consulta_NotasDeEnvio_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_RNF_Sel_Direccion_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_RNF_Sel_Documentospropiedad_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_RNF_Sel_FincaPoligonoPlano_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_RNF_Sel_ListadoDeArrendatario_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_RNF_Sel_ListadoDePropietario_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_RNF_Sel_RevisionDocumentosNoSubidos_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_RNF_Sel_RevisionDocumentosSubidos_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_RNF_Sel_Revision_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_RNF_Sel_RodalAreProtegidaPoligono_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_RNF_Sel_RodalPoligonoPlano_20221213_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_RNF_Sel_RodalPoligonoPlano_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_RNF_Sel_RodalPoligono_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_RNF_Sel_RodalRegionPoligono_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_RNF_Sel_Rodal_ValidacionesDiametrica_PV_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_RNF_Sel_Rodal_ValidacionesDiametrica_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Rpt_BosquesCategorias_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Rpt_Filtro_Categoria_SubCategoria_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Rpt_Filtro_Region_SubRegion_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Seg_Privilegio_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Seg_Sel_RegionSubRegionUsuario_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Seg_Sel_RolUsuario_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Seg_Sel_UsuarioXRolyRegion_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_SolRNF_DatosInscripcion_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_DocumentosAnexoSecretaria_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_DocumentosAnexoTecnico_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_DocumentosRequeridos_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_DocumentosSubido_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_EmpresasForestales_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_Finca_Rodal_Planos_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_GestEtapa_CorrelativosAnterioresDetallado_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_GestEtapa_CorrelativosAnteriores_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_Rodal_RepresentanteMandatario_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_Sel_Direccion_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_Sel_FincaPoligonoPlano_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_Sel_ListadoDeArrendatario_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_Sel_ListadoDePropietario_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_Sel_RevisionDocumentosNoSubidos_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_Sel_RevisionDocumentosSubidos_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_Sel_Revision_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_Sel_RodalAreaProtegidaPoligonoEvaluar_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_Sel_RodalAreProtegidaPoligono_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_Sel_RodalDasometricoTecnico_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_Sel_RodalDasometrico_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_Sel_RodalPoligonoPlano_20221114_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_Sel_RodalPoligonoPlano_20221213_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_Sel_RodalPoligonoPlano_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_Sel_RodalPoligono_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_Sel_RodalRegionPoligonoEvaluar_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_Sel_RodalRegionPoligono_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_Sel_Rodal_ValidacionesDiametrica_FS_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_Sel_Rodal_ValidacionesDiametrica_PV_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fc_Sol_Sel_Rodal_ValidacionesDiametrica_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FirmarArchivosModel.cs" />
+    <Compile Include="Models\fn_FincaFolioLibroPorRegistro_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Gest_EtapaCamposObligatorios.cs" />
+    <Compile Include="Models\Gest_EtapaModel.cs" />
+    <Compile Include="Models\Gest_EtapaRutaCamposObligatorios.cs" />
+    <Compile Include="Models\Gest_EtapaSolicitudHistorial.cs" />
+    <Compile Include="Models\Gest_Etapa_Respuesta.cs" />
+    <Compile Include="Models\GlobalUtils.cs" />
+    <Compile Include="Models\Gral_RegionCamposObligatorios.cs" />
+    <Compile Include="Models\Gral_SubRegionCamposObligatorios.cs" />
+    <Compile Include="Models\IdentificadorOficialGestion.cs" />
+    <Compile Include="Models\LocacionArea_Longitud.cs" />
+    <Compile Include="Models\LocacionDatosRegistro.cs" />
+    <Compile Include="Models\LocacionDatosSolicitante.cs" />
+    <Compile Include="Models\LocacionDatosSolicitante_API.cs" />
+    <Compile Include="Models\Mailer.cs" />
+    <Compile Include="Models\MetaMensajeEnviarRequestResponse.cs" />
+    <Compile Include="Models\MetaMensajesRecibidoRequestResponse.cs" />
+    <Compile Include="Models\ModelMetadataType.cs" />
+    <Compile Include="Models\ObtenerConexion.cs" />
+    <Compile Include="Models\personajuridica.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\propietario.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\propietarioxregistro.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\region.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\registro.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Reply.cs" />
+    <Compile Include="Models\RequestUtil.cs" />
+    <Compile Include="Models\RespuestaValidaSesion.cs" />
+    <Compile Include="Models\ResultFromStoreProcedure.cs" />
+    <Compile Include="Models\ResultGrantQuery.cs" />
+    <Compile Include="Models\RNF_FincaCamposObligatorios.cs" />
+    <Compile Include="Models\RNF_Registro_Informacion.cs" />
+    <Compile Include="Models\Rootobject.cs" />
+    <Compile Include="Models\SecurEncryptDecrypt.cs" />
+    <Compile Include="Models\SeinefService.cs" /> 	
+    <Compile Include="Models\Seg_Usuario.cs" />
+    <Compile Include="Models\Seg_UsuarioExternoCamposObligatorios.cs" />
+    <Compile Include="Models\Solicitud_ListaFeedRSS.cs" />
+    <Compile Include="Models\Sol_Empresa_EntidadCamposObligatorios.cs" />
+    <Compile Include="Models\Sol_FincaCamposObligatorios.cs" />
+    <Compile Include="Models\Sol_Finca_Secorf_EspeciesForestalesCamposObligatorios.cs" />
+    <Compile Include="Models\Sol_MotosierraCamposObligatorios.cs" />
+    <Compile Include="Models\Sol_PropietarioPersonaIndividual.cs" />
+    <Compile Include="Models\Sol_PropietarioPersonaJuridica.cs" />
+    <Compile Include="Models\Sol_RepresentanteLegal.cs" />
+    <Compile Include="Models\Sol_Rodal_DasometricoCamposObligatorios.cs" />
+    <Compile Include="Models\Sol_SolicitudCamposObligatorios.cs" />
+    <Compile Include="Models\Sol_TipoRegistroCamposObligatorios.cs" />
+    <Compile Include="Models\SP_Cas_CasilleroElectronicoReiniciar_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_CorrelativoResolucionesArchivo_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Dasometricos_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_EncResp_Encuesta_PreguntaEspecifica_Result.cs">
+      <DependentUpon>db_RNF_Survey.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_EncResp_Encuesta_Pregunta_Result.cs">
+      <DependentUpon>db_RNF_Survey.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Enc_BajarPregunta_Result.cs">
+      <DependentUpon>db_RNF_Survey.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Enc_SubirPregunta_Result.cs">
+      <DependentUpon>db_RNF_Survey.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_GestEtapaSolicitud_ActualizaDocumentoFirmadoResolucionesArchivo_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_GestEtapaSolicitud_ActualizaDocumentoFirmado_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Gest_EtapaCasillero_EVO_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Gest_EtapaRespuestaJuridica_20221017_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Gest_EtapaRespuestaSecretaria_20220925_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Gest_EtapaRespuestaSubRegionalDicotomicaEnmienda_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Gest_EtapaRespuestaSubRegional_20221017_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Gest_EtapaRespuestaTecnico_20221017_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Gest_EtapaRespuesta_ResolArchivo_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Gest_EtapaRespuesta_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Gest_EtapaSolicitudReturnForzado_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Gest_EtapaSolicitudReturnIT_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_Gest_EtapaSolicitudReturn_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Gest_Ins_EtapaSolicitud_Formularios_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Gest_Ins_EtapaSolicitud_To_DoList_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Gest_MigraEtapa_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Gral_Baja_AreaProtegida_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Gral_Baja_AreaRegiones_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Gral_Ins_CargaDetalle_Poligono_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Gral_Ins_CargaDetalle_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Gral_Ins_Carga_AreaProgegida______Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Gral_Ins_Carga_AreaProtegida_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Gral_Ins_Carga_AreaRegiones_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Gral_Ins_Carga_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Gral_Ins_Carga_RNF_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Gral_Ins_MensajeEntreProcesos_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_InformacionProfesional_CONAP_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Limpiar_Etapa_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Limpiar_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Meta_ValidarTelefono_Result.cs">
+      <DependentUpon>db_Whatsapp.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_MigrarProbosque_Result.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_ReporteRegistro_Poa_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_RNF_Buscar_RegistroInscrito_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_RNF_Cambio_Titular_DPI_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_RNF_InsUpd_Registro_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_RNF_Registro_ActualizaDocumentoFirmado_ConstanciaNueva_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_RNF_Registro_Solicitud_Bck_20230707_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_RNF_Registro_Solicitud_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_RNF_TecnicoProfesional_replicarDatos_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_RNF_Upd_Rodal_Dasometrico_Especie_Formula_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_Rpt_Detail_BosquesCategorias_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_rpt_propietarios_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Secorf_ClonarSolicitud_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Seg_InsUpd_Privilegio_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Seg_InsUpd_UsuarioExterno_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Seg_InsUpd_UsuarioRegionSubRegion_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Seg_InsUpd_UsuarioRol_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Seg_PW_Temporal_UsuarioExterno_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Seg_Upd_UsuarioExternoActivarGuid_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Seg_Upd_UsuarioExternoActivar_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Seg_Upd_UsuarioExternoReenviarClave_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Seg_UsuarioExterno_ActualizaCasillero_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Seg_UsuarioExterno_EncriptarContraseña_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Seg_UsuarioExterno_UpdCorreo_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_SEINEF_RegistroEmpresa_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Sol_AsignarTecnico_ExpedienteOficio_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Sol_Enviar_Solicitud_20221209_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Sol_Enviar_Solicitud_20230627_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Sol_Enviar_Solicitud_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Sol_IdentificadorOficialGestion_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_Sol_InsMe_ArrendatarioRepresentate_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_Sol_InsMe_PropietarioRepresentate_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Sol_InsUpd_Solicitud_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Sol_Rodal_ResultadoFormula_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Sol_Sel_RevisionDocumentosNoSubidos_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Sol_Solicitud_Clonar_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_Sol_Solicitud_Registro_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_Sol_Upd_Rodal_Dasometrico_Especie_Formula_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_Sol_ValidacioneMotosierra_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagrams.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TAB_LOCATION.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Categoria_Intermedia.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_ExpedienteOficio_FasePermitida.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Gral_Especie.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_PinpepOld_EspeciesForestales.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_PinpepOld_Expediente.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_PinpepOld_Finca.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_PinpepOld_InformeTecnico.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_PinpepOld_Propietarios.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_PinpepOld_PropietariosGrupal.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_PinpepOld_Representante.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_PinpepOld_Rodales.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_PinpepOld_Rodales_Poligonos.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_PinpepOld_Rodales_PoligonosDescuento.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Probosque_EspeciesForestales.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Probosque_Expediente.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Probosque_Finca.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Probosque_FincaRegistroPropiedad.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Probosque_InformeTecnico.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Probosque_Propietario_PersonaIndividual.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Probosque_Propietario_PersonaJuridica.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Probosque_RepresentanteLegal.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Probosque_Rodales.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Probosque_Rodales_Documentos.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Probosque_Rodales_Poligonos.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Probosque_Rodales_PoligonosDescuento.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Sol_Finca.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Sol_Rodal.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Sol_Rodal_Dasometrico.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Sol_Rodal_Dasometrico_CentroParcela_Local.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Sol_Rodal_Dasometrico_Local.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Sol_Rodal_Dasometrico_Manual.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Sol_Rodal_Dasometrico_ValidacionesDiametrica_Local.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Sol_Rodal_Descuento.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Sol_Rodal_Descuento_Local.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Sol_Rodal_Descuento_Poligono.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Sol_Rodal_Descuento_Poligono_Local.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Sol_Rodal_Local.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Sol_Rodal_Poligono.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Sol_Rodal_Poligono_Local.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_API_Sol_Solicitud.cs">
+      <DependentUpon>db_RNF_API.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_BitacoraExcepciones.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Cas_CasilleroElectronicoCola.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Categoria.cs">
+      <DependentUpon>db_RNF_Intermedia.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_EncResp_Encuesta.cs">
+      <DependentUpon>db_RNF_Survey.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_EncResp_Encuesta_Documento.cs">
+      <DependentUpon>db_RNF_Survey.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_EncResp_Encuesta_Estado.cs">
+      <DependentUpon>db_RNF_Survey.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_EncResp_Encuesta_Pregunta.cs">
+      <DependentUpon>db_RNF_Survey.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_EncResp_Encuesta_PreguntaRespuesta.cs">
+      <DependentUpon>db_RNF_Survey.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Enc_Encuesta.cs">
+      <DependentUpon>db_RNF_Survey.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Enc_EncuestaXCategoria.cs">
+      <DependentUpon>db_RNF_Survey.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Enc_Encuesta_Pregunta.cs">
+      <DependentUpon>db_RNF_Survey.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Enc_Encuesta_Respuesta.cs">
+      <DependentUpon>db_RNF_Survey.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Enc_Tipo_Respuesta.cs">
+      <DependentUpon>db_RNF_Survey.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Form_Formulario.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Form_FormularioEstado.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Form_Formulario_DetalleEstado.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Form_Formulario_FirmaElectronica_Bitacora.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Form_Formulario_FirmaElectronica_Estado.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Form_Formulario_MotivoDenegacion.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Form_SecretariaImpresionConstancia.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_Etapa.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_gest_EtapaRSS.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_EtapaRuta.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_EtapaSolicitud.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_EtapaSolicitudEstado.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_EtapaSolicitudTest.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_EtapaSolicitud_Documento.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_EtapaSolicitud_Inactivacion_Enmiendas.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_EtapaSolicitud_Inactivacion_Parrafos.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_EtapaSolicitud_Inactivacion_Tipo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_EtapaSolicitud_InformeCircunstanciado.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_EtapaSolicitud_InformeCircunstanciado_Procedimientos.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_EtapaSolicitud_OficioJuridico_Enmienda.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_EtapaSolicitud_OficioSubRegional_Enmienda.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_EtapaSolicitud_OficioTecnico_Enmienda.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_EtapaSolicitud_Oficio_Registro_NoProcedente.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_EtapaSolicitud_Oficio_Registro_NoProcedente_Enmiendas.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_EtapaSolicitud_ResolucionTipo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_EtapaSolicitud_Resolucion_Parrafos.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_EtapaSolicitud_Resolucion_ParrafosBCK.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_EtapaSolicitud_Resolucion_Parrafos_Plantilla.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_EtapaSolicitud_RespuestaDocumentoTipo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_EtapaSolicitud_RespuestaFormulario.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_EtapaSolicitud_To_doList.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_Etapa_Respuesta.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_Etapa_RespuestaDocumentoTipo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_Etapa_RespuestaFormulario.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_Etapa_RespuestaFormulario_Tipo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_Etapa_RespuestaRuta.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gest_Etapa_To_doList.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_Actividad.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_AreaProtegida.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_AreaProtegida_Poligono.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_AreaRegion.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_AreaRegion_Poligono.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_Bitacora.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_Bitacora_Tipo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_Carga.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_CargaDetalle.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_CargaTipo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_Carga_Estatus.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_CodigoTelefonico.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_Cultivo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_Departamento.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_DepartamentoRegistro.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_DocumentoID_Tipo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_Empresa.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_ErroresDetectados.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_Especie.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_EvaluacionPonderacion.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_FuenteSemillera_Procedencia.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_FuenteSemillera_TipoEnsayo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_Mapa_Bosques_Naturales.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_Mapa_Vocacion_Forestal.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_Maquinaria_Utilizada.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_Materia_Prima.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_MenuXml.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_MenuXml_1.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_MenuXml_2.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_MenuXml_Backup.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_MenuXml_BCK.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_Municipio.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_Pais.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_ParametrosGenerales.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_ParametrosGeneralesCIAG.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_ParametrosGeneralesINAB.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_ParametrosGeneralesTemp.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_ParametrosGenerales_20211008.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_PerfilesRol.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_Profesion.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_PuebloPertenencia.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_Region.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_Secorf_TipoRegistro.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_Sexo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_SolicitudConfiguracion.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_SolicitudConfiguracionCategoria.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_SolicitudConfiguracionTipo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_SubRegion.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_SubRegionDepartamento.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_Tarifario_Sub_Categoria.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_Tipo_Industria.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_Tipo_Registro.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Gral_VersionesDocumetoISO.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Mail_History.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Meta_Mensajes.cs">
+      <DependentUpon>db_Whatsapp.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Meta_ParametrosGenerales.cs">
+      <DependentUpon>db_Whatsapp.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Meta_ValidarTelefono.cs">
+      <DependentUpon>db_Whatsapp.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_REPEJU_De.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_ArrendatarioPersonaIndividual.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_ArrendatarioPersonaIndividualHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_ArrendatarioPersonaJuridica.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_ArrendatarioPersonaJuridicaHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_DocumentoSubido.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_DocumentoSubidoHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Empresa_Entidad.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Empresa_EntidadHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Empresa_Entidad_Actividad.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Empresa_Entidad_ActividadHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Empresa_Entidad_Maquinaria_Utilizada.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Empresa_Entidad_Maquinaria_UtilizadaHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Empresa_Entidad_Materia_Prima.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Empresa_Entidad_Materia_PrimaHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Empresa_Entidad_Tipo_Registro.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Empresa_Entidad_Tipo_RegistroHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Empresa_Entidad_Vivero_Forestal.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Empresa_Entidad_Vivero_ForestalHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Finca.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_FincaHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Finca_PinpepOld_EspeciesForestales.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Finca_PinpepOld_EspeciesForestalesHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Finca_PinpepOld_EspeciesProteger.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Finca_PinpepOld_EspeciesProtegerHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Finca_Probosque_EspeciesForestales.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Finca_Probosque_EspeciesForestalesHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Finca_Secorf.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Finca_SecorfHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Finca_Secorf_EspeciesForestales.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Finca_Secorf_EspeciesForestalesHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Motosierra.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_MotosierraHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Motosierra_Marca_Modelo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Motosierra_Marca_ModeloHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_PropietarioPersonaIndividual.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_PropietarioPersonaIndividualHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_PropietarioPersonaJuridica.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_PropietarioPersonaJuridicaHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Registro.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_RegistroHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Registro_Bitacora.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Registro_BitacoraDocumento.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Registro_BitacoraHallazgo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Registro_Estado.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Registro_InactivacionTecnico_Tipo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Registro_InactivacionTiempo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Registro_Inactivacion_Tipo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Registro_Reasignacion.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_RepresentanteLegal.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_RepresentanteLegalHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Rep_Propietario.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Rep_Propietario_Selected.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Rodal.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_RodalHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Rodal_Cultivo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Rodal_CultivoHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Rodal_Dasometrico.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Rodal_DasometricoHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Rodal_Dasometrico_Especie_Formula.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Rodal_Dasometrico_Especie_FormulaHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Rodal_Dasometrico_ValidacionesDiametrica.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Rodal_Dasometrico_ValidacionesDiametricaHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Rodal_Descuento.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Rodal_DescuentoHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Rodal_Descuento_Poligono.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Rodal_Descuento_PoligonoHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Rodal_Inventario.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Rodal_InventarioHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Rodal_Poligono.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_Rodal_PoligonoHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_TecnicoProfesional.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RNF_TecnicoProfesionalHistory.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Rpt_Filtro_Categoria_SubCategoria.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Rpt_Filtro_Region_SubRegion.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_RSS_Usuario.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Seg_Modulo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Seg_Opcion.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Seg_OpcionBck.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Seg_OpcionTipo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Seg_Parametros.cs">
+      <DependentUpon>db_Whatsapp.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Seg_Privilegio.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Seg_Rol.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Seg_Usuario.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Seg_UsuarioDocumentacion.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Seg_UsuarioDocumentoTipo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Seg_UsuarioEstado.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Seg_UsuarioExterno.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Seg_UsuarioExternoBck.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Seg_UsuarioExterno_Dependiente.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Seg_UsuarioExterno_Dependiente_Perfil.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Seg_UsuarioExterno_Estado.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Seg_UsuarioRol.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Seg_UsuarioSubRegion.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_ArrendatarioPersonaIndividual.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_ArrendatarioPersonaJuridica.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_DocumentosSolicitar.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_DocumentosSolicitarAuxiliar.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_DocumentoSubido.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_DocumentoTipo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Empresa_Entidad.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Empresa_Entidad_Actividad.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Empresa_Entidad_Maquinaria_Utilizada.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Empresa_Entidad_Materia_Prima.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Empresa_Entidad_TecnicoActividad.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Empresa_Entidad_TecnicoMaquinaria_Utilizada.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Empresa_Entidad_TecnicoMateria_Prima.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Empresa_Entidad_TecnicoVivero_Forestal.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Empresa_Entidad_Tipo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Empresa_Entidad_Tipo_Registro.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Empresa_Entidad_Vivero_Forestal.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Finca.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_FincaConstanciaDePropiedad.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_FincaObjetivoDeLaPlantacion.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Finca_FuenteSemillera.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Finca_PinpepOld_EspeciesForestales.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Finca_PinpepOld_EspeciesProteger.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Finca_Probosque_EspeciesForestales.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Finca_Secorf.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Finca_Secorf_EspeciesForestales.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_IdentificadorOficial.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_IdentificadorOficialGestionTipo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Motosierra.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Motosierra_Marca_Modelo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_PersonaJuridicaTipo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_PropietarioPersonaIndividual.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_PropietarioPersonaJuridica.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_RepresentanteLegal.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_RepresentanteLegalTipo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_RepresentanteLegal_Estado.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Rodal.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Rodal_CategoriaSIGAP.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Rodal_Cultivo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Rodal_CultivoTecnico.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Rodal_Dasometrico.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Rodal_Dasometrico_CentroParcela.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Rodal_Dasometrico_Clase.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Rodal_Dasometrico_Especie_Formula.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Rodal_Dasometrico_Especie_Formula_Id.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Rodal_Dasometrico_Especie_Formula_Id_BCK.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Rodal_Dasometrico_EstadoFitosanitario.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Rodal_Dasometrico_PerimetroDimensional.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Rodal_Dasometrico_ValidacionesDiametrica.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Rodal_Dasometrico_VolumenCenso.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Rodal_Dasometrico_VolumenMuestreo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Rodal_Descuento.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Rodal_Descuento_Poligono.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Rodal_Inventario.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Rodal_Inventario_Clase.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Rodal_Poligono.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Rodal_Tipo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Secorf_TipoRegistro.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Solicitud.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Solicitud_Categoria.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Solicitud_CategoriaTipoRegistro.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Solicitud_Estado.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Solicitud_OficioDictamenJuridico.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Solicitud_Personeria.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Solicitud_Sub_Categoria.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_Solicitud_Sub_Sub_Categoria.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_TecnicoProfesional.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Sol_ValidacioneMotosierra.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Tecnico_Pregunta.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Tecnico_PreguntaRespuesta.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Tecnico_PreguntaRespuesta_Evaluacion.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Web_Formulario.cs">
+      <DependentUpon>db_RNF_Survey.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tbl_Whatsapp_Mensajes.cs">
+      <DependentUpon>db_Whatsapp.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\test_Result.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tiporegistro.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Models\VW_AreaProtegidaEstadistico.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VW_CategoriaSubySubSub.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VW_RNF_ConcuerdaCorrelativo.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_RNF_Propietario.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Vw_Seg_Sel_Rol.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Vw_Solicitud.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Vw_Sol_Rodal_CategoriaSIGAP.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Vw_Sol_Rodal_Dasometrico_Especie_Formula_Id.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Vw_UsuariosPermisos.cs">
+      <DependentUpon>db_RNF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Whatsapper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlServerTypes\Loader.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Archivos_ConFirmaElectronica\FirmaDigital\rubrica.png" />
+    <Content Include="Archivos_Machotes\Mapa\Bosques_Naturales_20220713_221421.png" />
+    <Content Include="Archivos_Machotes\Mapa\TierraVocacionForestal.jpg" />
+    <Content Include="Archivos_Machotes\Mapa\Vocacion_Forestal_20220713_200057.png" />
+    <Content Include="Archivos_Machotes\Mapa\Vocacion_Forestal_20220713_221809.png" />
+    <Content Include="Content\assets\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\assets\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\assets\css\bootstrap.min.css" />
+    <Content Include="Content\assets\css\buttons.bootstrap.min.css" />
+    <Content Include="Content\assets\css\Dark-NavBar-1.css" />
+    <Content Include="Content\assets\css\Dark-NavBar-2.css" />
+    <Content Include="Content\assets\css\Dark-NavBar.css" />
+    <Content Include="Content\assets\css\dataTables.bootstrap.min.css" />
+    <Content Include="Content\assets\css\font-awesome.min.css" />
+    <Content Include="Content\assets\css\Login-Form-Clean.css" />
+    <Content Include="Content\assets\css\menuvertical.css" />
+    <Content Include="Content\assets\css\Navigation-with-Button.css" />
+    <Content Include="Content\assets\css\styles.css" />
+    <Content Include="Content\assets\fonts\font-awesome.min.css" />
+    <Content Include="Content\assets\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\assets\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\assets\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\assets\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\assets\fonts\FontAwesome.otf" />
+    <Content Include="Content\assets\fonts\ionicons.eot" />
+    <Content Include="Content\assets\fonts\ionicons.min.css" />
+    <Content Include="Content\assets\fonts\ionicons.svg" />
+    <Content Include="Content\assets\fonts\ionicons.ttf" />
+    <Content Include="Content\assets\fonts\ionicons.woff" />
+    <Content Include="Content\assets\img\bg.jpg" />
+    <Content Include="Content\assets\img\fullsize\1.jpg" />
+    <Content Include="Content\assets\img\fullsize\2.jpg" />
+    <Content Include="Content\assets\img\fullsize\3.jpg" />
+    <Content Include="Content\assets\img\fullsize\4.jpg" />
+    <Content Include="Content\assets\img\fullsize\5.jpg" />
+    <Content Include="Content\assets\img\fullsize\6.jpg" />
+    <Content Include="Content\assets\img\header.jpg" />
+    <Content Include="Content\assets\img\icons\chevron-bar-down.svg" />
+    <Content Include="Content\assets\img\icons\clipboard-data.svg" />
+    <Content Include="Content\assets\img\icons\cloud-arrow-down.svg" />
+    <Content Include="Content\assets\img\icons\columns-gap.svg" />
+    <Content Include="Content\assets\img\icons\file-lock2.svg" />
+    <Content Include="Content\assets\img\icons\file-richtext.svg" />
+    <Content Include="Content\assets\img\icons\filter-square.svg" />
+    <Content Include="Content\assets\img\icons\gear.svg" />
+    <Content Include="Content\assets\img\icons\menu_icon.png" />
+    <Content Include="Content\assets\img\logo.png" />
+    <Content Include="Content\assets\img\logoCIAG_01.png" />
+    <Content Include="Content\assets\img\logo_00.png" />
+    <Content Include="Content\assets\img\logo_01.png" />
+    <Content Include="Content\assets\img\mini.png" />
+    <Content Include="Content\assets\img\thumbnails\1.jpg" />
+    <Content Include="Content\assets\img\thumbnails\2.jpg" />
+    <Content Include="Content\assets\img\thumbnails\3.jpg" />
+    <Content Include="Content\assets\img\thumbnails\4.jpg" />
+    <Content Include="Content\assets\img\thumbnails\5.jpg" />
+    <Content Include="Content\assets\img\thumbnails\6.jpg" />
+    <Content Include="Content\assets\js\bs-init.js" />
+    <Content Include="Content\assets\js\buttons.bootstrap.min.js" />
+    <Content Include="Content\assets\js\buttons.colVis.min.js" />
+    <Content Include="Content\assets\js\buttons.html5.min.js" />
+    <Content Include="Content\assets\js\buttons.print.min.js" />
+    <Content Include="Content\assets\js\creative.js" />
+    <Content Include="Content\assets\js\dataTables.bootstrap.min.js" />
+    <Content Include="Content\assets\js\dataTables.buttons.min.js" />
+    <Content Include="Content\assets\js\index.js" />
+    <Content Include="Content\assets\js\jquery-1.12.4.js" />
+    <Content Include="Content\assets\js\jquery.dataTables.min.js" />
+    <Content Include="Content\assets\js\jquery.min.js" />
+    <Content Include="Content\assets\js\jszip.min.js" />
+    <Content Include="Content\assets\js\pdfmake.min.js" />
+    <Content Include="Content\assets\js\vfs_fonts.js" />
+    <Content Include="Content\assets\js\xlsx.full.min.js" />
+    <Content Include="Content\assets_section\js\jquery-3.3.1.min.js" />
+    <Content Include="Content\assets_section\js\jquery.steps.js" />
+    <Content Include="Content\assets_section\js\main.js" />
+    <Content Include="Content\assets_section\style.css" />
+    <Content Include="Content\bootsnav.css" />
+    <Content Include="Content\bootsnav.js" />
+    <Content Include="Content\bootstrap-chosen.css" />
+    <Content Include="Content\bootstrap-datepicker.css" />
+    <Content Include="Content\bootstrap-datepicker.min.css" />
+    <Content Include="Content\bootstrap-datepicker.standalone.css" />
+    <Content Include="Content\bootstrap-datepicker.standalone.min.css" />
+    <Content Include="Content\bootstrap-datepicker3.css" />
+    <Content Include="Content\bootstrap-datepicker3.min.css" />
+    <Content Include="Content\bootstrap-datepicker3.standalone.css" />
+    <Content Include="Content\bootstrap-datepicker3.standalone.min.css" />
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-grid.rtl.css" />
+    <Content Include="Content\bootstrap-grid.rtl.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap-reboot.rtl.css" />
+    <Content Include="Content\bootstrap-reboot.rtl.min.css" />
+    <Content Include="Content\bootstrap-utilities.css" />
+    <Content Include="Content\bootstrap-utilities.min.css" />
+    <Content Include="Content\bootstrap-utilities.rtl.css" />
+    <Content Include="Content\bootstrap-utilities.rtl.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap.min.js" />
+    <Content Include="Content\bootstrap.rtl.css" />
+    <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\Bosques_Naturales_20220713_221421.png" />
+    <Content Include="Content\chosen-sprite%402x.png" />
+    <Content Include="Content\chosen-sprite.png" />
+    <Content Include="Content\confectionary.png" />
+    <Content Include="Content\icons\AccesoDenegado.png" />
+    <Content Include="Content\icons\add-empresa.png" />
+    <Content Include="Content\icons\add-Finca.png" />
+    <Content Include="Content\icons\add-icon.png" />
+    <Content Include="Content\icons\add-user-9-xxl.png" />
+    <Content Include="Content\icons\add-xxl.png" />
+    <Content Include="Content\add.svg" />
+    <Content Include="Content\icons\add.svg" />
+    <Content Include="Content\icons\addme.png" />
+    <Content Include="Content\icons\addme_II.png" />
+    <Content Include="Content\icons\add_simple.png" />
+    <Content Include="Content\icons\bandejaEntrada.png" />
+    <Content Include="Content\icons\btnSubirArchivo.png" />
+    <Content Include="Content\icons\cargadearchivos.png" />
+    <Content Include="Content\icons\Carne.png" />
+    <Content Include="Content\icons\click-gif-3.gif" />
+    <Content Include="Content\icons\click_hand.gif" />
+    <Content Include="Content\icons\click_hand.jfif" />
+    <Content Include="Content\icons\DocumentoConError.jpg" />
+    <Content Include="Content\icons\DocumentoEmpresa.jpg" />
+    <Content Include="Content\icons\DocumentoEnRevision.jpg" />
+    <Content Include="Content\icons\DocumentoEnRevisionTecnico.jpg" />
+    <Content Include="Content\icons\DocumentoEnviado.jpg" />
+    <Content Include="Content\icons\DocumentoPlano.jpg" />
+    <Content Include="Content\icons\DocumentoRecibirDocumentosPago.jpg" />
+    <Content Include="Content\icons\DocumentoRescindido.jpg" />
+    <Content Include="Content\icons\DPI.png" />
+    <Content Include="Content\icons\edit-9-xxl.png" />
+    <Content Include="Content\icons\edit-xxl.png" />
+    <Content Include="Content\icons\enviar.png" />
+    <Content Include="Content\icons\EnviarMail.png" />
+    <Content Include="Content\icons\Etapas.png" />
+    <Content Include="Content\icons\favicon.ico" />
+    <Content Include="Content\icons\firma.png" />
+    <Content Include="Content\icons\FlechaMapa.png" />
+    <Content Include="Content\icons\FlechaMapaAuditoria.png" />
+    <Content Include="Content\icons\FlechaMapaAuditoria001.png" />
+    <Content Include="Content\icons\FlechaMapaAuditoria002.png" />
+    <Content Include="Content\icons\FlechaMapaAuditoria003.png" />
+    <Content Include="Content\icons\FlechaMapaIndicacionesT.png" />
+    <Content Include="Content\icons\FlechaMapaIndicacionesT001.png" />
+    <Content Include="Content\icons\Flecha_Usuario.png" />
+    <Content Include="Content\icons\Flecha_Usuario01.png" />
+    <Content Include="Content\icons\gotouser.png" />
+    <Content Include="Content\icons\home.png" />
+    <Content Include="Content\icons\ImagenVacia.png" />
+    <Content Include="Content\icons\images.png" />
+    <Content Include="Content\icons\impresora.png" />
+    <Content Include="Content\icons\jsonpng.png" />
+    <Content Include="Content\icons\mail.png" />
+    <Content Include="Content\icons\mailrecibido.gif" />
+    <Content Include="Content\icons\mapabosquesnaturales.png" />
+    <Content Include="Content\icons\mapabosquesnaturalesSelected.png" />
+    <Content Include="Content\icons\mapabosquesnaturalesUnselected.png" />
+    <Content Include="Content\icons\mapas.png" />
+    <Content Include="Content\icons\mapatierrasvocacionforestal.png" />
+    <Content Include="Content\icons\mapatierrasvocacionforestalSelected.png" />
+    <Content Include="Content\icons\mapatierrasvocacionforestalUnselected.png" />
+    <Content Include="Content\icons\newmail.png" />
+    <Content Include="Content\icons\newMessage.gif" />
+    <Content Include="Content\icons\paper.gif" />
+    <Content Include="Content\icons\plus-xx-a.png" />
+    <Content Include="Content\icons\png_aceptar.png" />
+    <Content Include="Content\icons\png_denegar.png" />
+    <Content Include="Content\icons\png_documento.png" />
+    <Content Include="Content\icons\png_salir.png" />
+    <Content Include="Content\icons\refresh.png" />
+    <Content Include="Content\icons\regresar.png" />
+    <Content Include="Content\icons\Revision.png" />
+    <Content Include="Content\icons\ruta.png" />
+    <Content Include="Content\icons\Salir.png" />
+    <Content Include="Content\icons\SalirPng.png" />
+    <Content Include="Content\icons\seguridad.png" />
+    <Content Include="Content\icons\Semaforo_Amarillo.png" />
+    <Content Include="Content\icons\Semaforo_Rojo.png" />
+    <Content Include="Content\icons\Semaforo_Verde.png" />
+    <Content Include="Content\icons\si.png" />
+    <Content Include="Content\icons\Solicitudes.png" />
+    <Content Include="Content\icons\trash-4-xxl.png" />
+    <Content Include="Content\icons\trash_green.png" />
+    <Content Include="Content\icons\trespuntos.png" />
+    <Content Include="Content\icons\ubicacion iconos.txt" />
+    <Content Include="Content\icons\undo-2-xxl.png" />
+    <Content Include="Content\icons\undo-3-xxl.png" />
+    <Content Include="Content\icons\undo-4-xxl.png" />
+    <Content Include="Content\icons\undo-xxl.png" />
+    <Content Include="Content\icons\uploading.gif" />
+    <Content Include="Content\icons\ver.png" />
+    <Content Include="Content\icons\VideoTutoria.gif" />
+    <Content Include="Content\icons\workflow.png" />
+    <Content Include="Content\images\background.jpg" />
+    <Content Include="Content\images\background_modal.png" />
+    <Content Include="Content\images\banner - Copy.png" />
+    <Content Include="Content\images\banner.png" />
+    <Content Include="Content\images\bannerciag.png" />
+    <Content Include="Content\images\bannerlogo - Copy.png" />
+    <Content Include="Content\images\bannerlogo.png" />
+    <Content Include="Content\images\bannerMonitoreoFinalizado.png" />
+    <Content Include="Content\images\bannerregistro - Copy.png" />
+    <Content Include="Content\images\bannerregistro.png" />
+    <Content Include="Content\images\bannersello.png" />
+    <Content Include="Content\images\bannershort.png" />
+    <Content Include="Content\images\bannershortciag.png" />
+    <Content Include="Content\images\Carrousel_cuatro.png" />
+    <Content Include="Content\images\Carrousel_dos.png" />
+    <Content Include="Content\images\Carrousel_dos_.png" />
+    <Content Include="Content\images\Carrousel_tres.png" />
+    <Content Include="Content\images\Carrousel_uno.png" />
+    <Content Include="Content\images\continuar.gif" />
+    <Content Include="Content\images\dialogerror_92823.png" />
+    <Content Include="Content\images\enviar.png" />
+    <Content Include="Content\images\Error\ErrorFinca_001.png" />
+    <Content Include="Content\images\Error\ErrorFinca_002.png" />
+    <Content Include="Content\images\EscudoGuatemala.png" />
+    <Content Include="Content\images\gafete.png" />
+    <Content Include="Content\images\Guatemala.png" />
+    <Content Include="Content\images\IconWhatsapp.png" />
+    <Content Include="Content\images\ITTO-logo-es.png" />
+    <Content Include="Content\images\logoInab.png" />
+    <Content Include="Content\images\logoInabExcel.jpg" />
+    <Content Include="Content\images\logoInab_Vertical.png" />
+    <Content Include="Content\images\logoInab_VerticalSello.png" />
+    <Content Include="Content\images\logoInab_VerticalSello_.png" />
+    <Content Include="Content\images\logo_firma.png" />
+    <Content Include="Content\images\Logo_INABI_TTO_Login.png" />
+    <Content Include="Content\images\Marca de Agua INAB 2.jpg" />
+    <Content Include="Content\images\qr.png" />
+    <Content Include="Content\images\repitedimage.png" />
+    <Content Include="Content\images\smallwhatsapplogo.png" />
+    <Content Include="Content\images\under-construction-gif.gif" />
+    <Content Include="Content\images\wov.png" />
+    <Content Include="Content\images\wov_.png" />
+    <Content Include="Content\ImportadosManualmente\font-awesome.css" />
+    <Content Include="Content\ImportadosManualmente\Montserrat.css" />
+    <Content Include="Content\ImportadosManualmente\Titillium.css" />
+    <Content Include="Content\Layout.css" />
+    <Content Include="Content\Login.css" />
+    <Content Include="Content\Machotes\Archivo_CargaUsuarios.xlsx" />
+    <Content Include="Content\Machotes\Archivo_CargaUsuariosEjemplo.xlsx" />
+    <Content Include="Content\Machotes\AreaDeDescuento_Ejemplo.xlsx" />
+    <Content Include="Content\Machotes\AreaDeDescuento_En_Blanco.xlsx" />
+    <Content Include="Content\Machotes\DatosCentroParcela_Ejemplo.xlsx" />
+    <Content Include="Content\Machotes\DatosCentroParcela_Vacio.xlsx" />
+    <Content Include="Content\Machotes\DatosDasometricos_Ejemplo.xlsx" />
+    <Content Include="Content\Machotes\DatosDasometricos_Ejemplo_FuenteSemillera.xlsx" />
+    <Content Include="Content\Machotes\DatosDasometricos_En_Blanco.xlsx" />
+    <Content Include="Content\Machotes\DatosDasometricos_En_Blanco_FuenteSemillera.xlsx" />
+    <Content Include="Content\Machotes\DatosPoligono_EnBlanco.xlsx" />
+    <Content Include="Content\Machotes\DatosPoligono_EnBlancoAreaDescuento.xlsx" />
+    <Content Include="Content\Machotes\DatosPoligono_En_Blanco.xlsx" />
+    <Content Include="Content\Machotes\Datos_Poligono_Ejemplo.xlsx" />
+    <Content Include="Content\Machotes\Datos_Poligono_En_Blanco.xlsx" />
+    <Content Include="Content\Machotes\Datos_Poligono_y_Descuento.xlsx" />
+    <Content Include="Content\Machotes\DOCUMENTO NO ENCONTRADO.pdf" />
+    <Content Include="Content\Machotes\Inventario_Ejemplo.xlsx" />
+    <Content Include="Content\Machotes\RegistroVencido.pdf" />
+    <Content Include="Content\MenuColaborador.css" />
+    <Content Include="Content\modal.css" />
+    <Content Include="Content\Modal\css\style.css" />
+    <Content Include="Content\Modal\js\index.js" />
+    <Content Include="Content\model.js" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="Content\popper.min.js" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\SoporteAudioVisualUsuario\001_login.mp4" />
+    <Content Include="Content\SoporteAudioVisualUsuario\002_RegistroUsuario.mp4" />
+    <Content Include="Content\SoporteAudioVisualUsuario\003_PantallaPrincipal.mp4" />
+    <Content Include="Content\SoporteAudioVisualUsuario\004_CreacionSolicitud.mp4" />
+    <Content Include="Content\SoporteAudioVisualUsuario\005_Fincas.mp4" />
+    <Content Include="Content\SoporteAudioVisualUsuario\006_Poligonos.mp4" />
+    <Content Include="Content\SoporteAudioVisualUsuario\007_Propietario.mp4" />
+    <Content Include="Content\themes\base\accordion.css" />
+    <Content Include="Content\themes\base\all.css" />
+    <Content Include="Content\themes\base\autocomplete.css" />
+    <Content Include="Content\themes\base\base.css" />
+    <Content Include="Content\themes\base\button.css" />
+    <Content Include="Content\themes\base\core.css" />
+    <Content Include="Content\themes\base\datepicker.css" />
+    <Content Include="Content\themes\base\dialog.css" />
+    <Content Include="Content\themes\base\draggable.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\menu.css" />
+    <Content Include="Content\themes\base\progressbar.css" />
+    <Content Include="Content\themes\base\resizable.css" />
+    <Content Include="Content\themes\base\selectable.css" />
+    <Content Include="Content\themes\base\selectmenu.css" />
+    <Content Include="Content\themes\base\slider.css" />
+    <Content Include="Content\themes\base\sortable.css" />
+    <Content Include="Content\themes\base\spinner.css" />
+    <Content Include="Content\themes\base\tabs.css" />
+    <Content Include="Content\themes\base\theme.css" />
+    <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\Vocacion_Forestal_20220713_221809.png" />
+    <Content Include="favicon.ico" />
+    <Content Include="favicon.png" />
+    <Content Include="Global.asax" />
+    <Content Include="libman.json" />
+    <Content Include="Archivos_Tecnicos\Integración de las vistas.vsdx" />
+    <Content Include="Archivos_Machotes\Denegacion_De_Solicitud.xlsx" />
+    <Content Include="Archivos_Machotes\Boleta_de_desicion.pdf" />
+    <Content Include="Content\Modal\stylus\style.stylus" />
+    <Content Include="Archivos_Machotes\Boleta_de_desicion_arboles_frutales.pdf" />
+    <Content Include="Archivos_Machotes\Machote_OficioTecnico_Enmienda.docx" />
+    <Content Include="Content\bootstrap.rtl.min.css.map" />
+    <Content Include="Content\bootstrap.rtl.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-utilities.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-utilities.rtl.css.map" />
+    <Content Include="Content\bootstrap-utilities.min.css.map" />
+    <Content Include="Content\bootstrap-utilities.css.map" />
+    <Content Include="Content\bootstrap-reboot.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.rtl.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-grid.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-grid.rtl.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Archivos_Machotes\Machote_OficioSubRegional.docx" />
+    <Content Include="Archivos_Machotes\Machote_OficioSubRegional.xlsx" />
+    <Content Include="Archivos_Machotes\Machote_OficioTecnico.xlsx" />
+    <Content Include="Archivos_Machotes\Machote_OficioSubRegionalMotoSierra.xlsx" />
+    <Content Include="Content\Manuales Guias y Videos\Dicotómico.pptx" />
+    <Content Include="Content\ImportadosManualmente\anMUvcNT0H1YN4FII8wpr24bNCNEoFTpS2BTjF6FB5E%281%29.woff" />
+    <Content Include="Content\ImportadosManualmente\fontawesome-webfont %281%29.eot" />
+    <Content Include="Content\ImportadosManualmente\fontawesome-webfont.eot" />
+    <Content Include="Content\ImportadosManualmente\fontawesome-webfont.ttf" />
+    <Content Include="Content\ImportadosManualmente\fontawesome-webfont.woff" />
+    <Content Include="Content\bootstrap-chosen.scss" />
+    <Content Include="Content\bootstrap-chosen.less" />
+    <Content Include="Content\Machotes\NoValido.docx" />
+    <Content Include="Content\Machotes\NoValido.pdf" />
+    <Content Include="Content\Machotes\DatosPoligono_EnBlancoAreaDescuento_Tecnico.xlsx" />
+    <Content Include="Content\Machotes\DatosPoligono_EnBlanco_Tecnico.xlsx" />
+    <Content Include="Content\Machotes\AreaDeDescuento_Ejemplo_Interno.xlsx" />
+    <Content Include="Content\Machotes\AreaDeDescuento_En_Blanco_Interno.xlsx" />
+    <Content Include="Content\Machotes\DatosDasometricos_Ejemplo_Interno.xlsx" />
+    <Content Include="Content\Machotes\DatosDasometricos_En_Blanco_FuenteSemillera_Interno.xlsx" />
+    <Content Include="Content\Machotes\DatosDasometricos_En_Blanco_FuenteSemillera_Tecnico.xlsx" />
+    <Content Include="Content\Machotes\DatosDasometricos_En_Blanco_Interno.xlsx" />
+    <Content Include="Content\Machotes\DatosDasometricos_En_Blanco_Tecnico.xlsx" />
+    <Content Include="Content\Machotes\Datos_Poligono_En_Blanco_Interno.xlsx" />
+    <Content Include="Content\Machotes\Datos_Poligono_Ejemplo_Interno.xlsx" />
+    <Content Include="Content\Machotes\DatosDasometricos_Ejemplo_FuenteSemillera_Interno.xlsx" />
+    <Content Include="Archivos_Generados_Que_Pueden_Borrar\DatosPoligono_638766157359456000.xlsx" />
+    <Content Include="ClassDiagram1.cd" />
+    <None Include="job_scheduling_data_2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Models\db_RNF.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>db_RNF.edmx</DependentUpon>
+      <LastGenOutput>db_RNF.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\db_RNF.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>db_RNF.edmx</DependentUpon>
+      <LastGenOutput>db_RNF.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\db_RNF_API.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>db_RNF_API.edmx</DependentUpon>
+      <LastGenOutput>db_RNF_API.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\db_RNF_API.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>db_RNF_API.edmx</DependentUpon>
+      <LastGenOutput>db_RNF_API.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\db_RNF_Intermedia.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>db_RNF_Intermedia.edmx</DependentUpon>
+      <LastGenOutput>db_RNF_Intermedia.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\db_RNF_Intermedia.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>db_RNF_Intermedia.edmx</DependentUpon>
+      <LastGenOutput>db_RNF_Intermedia.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\db_RNF_Survey.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>db_RNF_Survey.edmx</DependentUpon>
+      <LastGenOutput>db_RNF_Survey.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\db_RNF_Survey.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>db_RNF_Survey.edmx</DependentUpon>
+      <LastGenOutput>db_RNF_Survey.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\db_Whatsapp.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>db_Whatsapp.edmx</DependentUpon>
+      <LastGenOutput>db_Whatsapp.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\db_Whatsapp.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>db_Whatsapp.edmx</DependentUpon>
+      <LastGenOutput>db_Whatsapp.cs</LastGenOutput>
+    </Content>
+    <Content Include="Scripts\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.esm.js" />
+    <Content Include="Scripts\bootstrap.esm.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.esm.min.js.map" />
+    <Content Include="Scripts\bootstrap.esm.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Scripts\bootstrap-datepicker.js" />
+    <Content Include="Scripts\bootstrap-datepicker.min.js" />
+    <Content Include="Scripts\bootstrap341.min.js" />
+    <Content Include="Scripts\bootstrap341min.min.css" />
+    <Content Include="Scripts\carrousel\bootstrap.min.css" />
+    <Content Include="Scripts\carrousel\bootstrap.min.js" />
+    <Content Include="Scripts\carrousel\jquery.min.js" />
+    <Content Include="Scripts\chosen.jquery.js" />
+    <Content Include="Scripts\chosen.jquery.min.js" />
+    <Content Include="Scripts\crypto-js.js" />
+    <Content Include="Scripts\FileSaver.js" />
+    <EntityDeploy Include="Models\db_RNF_Survey.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>db_RNF_Survey.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\db_RNF_Survey.edmx.diagram">
+      <DependentUpon>db_RNF_Survey.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\db_Whatsapp.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>db_Whatsapp.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\db_Whatsapp.edmx.diagram">
+      <DependentUpon>db_Whatsapp.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\db_RNF_API.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>db_RNF_API.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\db_RNF_API.edmx.diagram">
+      <DependentUpon>db_RNF_API.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\db_RNF.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>db_RNF.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\db_RNF.edmx.diagram">
+      <DependentUpon>db_RNF.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\db_RNF_Intermedia.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>db_RNF_Intermedia.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\db_RNF_Intermedia.edmx.diagram">
+      <DependentUpon>db_RNF_Intermedia.edmx</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\RNF_Release.pubxml" />
+    <None Include="Scripts\jquery-3.6.0.intellisense.js" />
+    <Content Include="Scripts\jquery-3.6.0.js" />
+    <Content Include="Scripts\jquery-3.6.0.min.js" />
+    <Content Include="Scripts\jquery-3.6.0.slim.js" />
+    <Content Include="Scripts\jquery-3.6.0.slim.min.js" />
+    <Content Include="Scripts\jquery-3.6.0.slim.min.map" />
+    <Content Include="Scripts\jquery-3.6.0.min.map" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jquery351.min.js" />
+    <Content Include="Scripts\leaflet.draw.js" />
+    <Content Include="Scripts\leaflet\images\layers-2x.png" />
+    <Content Include="Scripts\leaflet\images\layers.png" />
+    <Content Include="Scripts\leaflet\images\marker-icon-2x.png" />
+    <Content Include="Scripts\leaflet\images\marker-icon.png" />
+    <Content Include="Scripts\leaflet\images\marker-shadow.png" />
+    <Content Include="Scripts\leaflet\leaflet-src.esm.js" />
+    <Content Include="Scripts\leaflet\leaflet-src.js" />
+    <Content Include="Scripts\leaflet\leaflet.css" />
+    <Content Include="Scripts\leaflet\leaflet.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ar.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.az.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.bg.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.bs.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ca.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.cs.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.cy.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.da.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.de.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.el.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.en-GB.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.eo.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.es.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.et.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.eu.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.fa.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.fi.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.fo.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.fr-CH.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.fr.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.gl.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.he.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.hr.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.hu.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.hy.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.id.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.is.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.it-CH.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.it.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ja.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ka.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.kh.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.kk.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ko.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.kr.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.lt.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.lv.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.me.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.mk.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.mn.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ms.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.nb.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.nl-BE.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.nl.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.no.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.pl.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.pt-BR.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.pt.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ro.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.rs-latin.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.rs.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ru.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sk.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sl.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sq.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sr-latin.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sr.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sv.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sw.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.th.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.tr.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.uk.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.vi.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.zh-CN.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.zh-TW.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\qrcode.js" />
+    <Content Include="Scripts\qrcode.min.js" />
+    <Content Include="Scripts\simplyCountdown.min.js" />
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Sol_Comparativo\PropietarioSolicitud.cshtml" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\UsuarioExterno\Create.cshtml" />
+    <Content Include="Views\UsuarioExterno\Edit.cshtml" />
+    <Content Include="Views\UsuarioExterno\Index.cshtml" />
+    <Content Include="Views\UsuarioExterno\Confirmacion.cshtml" />
+    <Content Include="Views\Sol_PropietarioPersonaIndividual\Create.cshtml" />
+    <Content Include="Views\Sol_PropietarioPersonaIndividual\Index.cshtml" />
+    <Content Include="Views\Sol_Solicitud\Create.cshtml" />
+    <Content Include="Views\Sol_Solicitud\Delete.cshtml" />
+    <Content Include="Views\Sol_Solicitud\Index.cshtml" />
+    <Content Include="Views\Home\SolicitudInsertUpdate.cshtml" />
+    <Content Include="Views\Shared\_LayoutMenu.cshtml" />
+    <Content Include="Views\Sol_Solicitud\PersoneriaJuridica.cshtml" />
+    <Content Include="Views\Sol_PropietarioPersonaJuridica\Create.cshtml" />
+    <Content Include="Views\Sol_PropietarioPersonaJuridica\Delete.cshtml" />
+    <Content Include="Views\Sol_PropietarioPersonaJuridica\Details.cshtml" />
+    <Content Include="Views\Sol_PropietarioPersonaJuridica\Edit.cshtml" />
+    <Content Include="Views\Sol_PropietarioPersonaJuridica\Index.cshtml" />
+    <Content Include="Views\Sol_RepresentanteLegal\Create.cshtml" />
+    <Content Include="Views\Sol_RepresentanteLegal\Delete.cshtml" />
+    <Content Include="Views\Sol_RepresentanteLegal\Details.cshtml" />
+    <Content Include="Views\Sol_RepresentanteLegal\Edit.cshtml" />
+    <Content Include="Views\Sol_RepresentanteLegal\Index.cshtml" />
+    <Content Include="Views\Home\SolicitudInsertUpdateTest.cshtml" />
+    <Content Include="Views\Shared\_LayoutBanner.cshtml" />
+    <Content Include="Views\UploadFiles\UploadedFiles.cshtml" />
+    <Content Include="Views\UploadFiles\UploadFile.cshtml" />
+    <Content Include="Views\Sol_Solicitud\IndexPropietario.cshtml" />
+    <Content Include="Views\Sol_PropietarioPersonaIndividual\RegistroAgregado.cshtml" />
+    <Content Include="Views\Sol_PropietarioPersonaJuridica\RegistroAgregado.cshtml" />
+    <Content Include="Views\Sol_RepresentanteLegal\RegistroAgregado.cshtml" />
+    <Content Include="Views\Home\RegistroAgregado.cshtml" />
+    <Content Include="Views\Shared\_LayoutSimple.cshtml" />
+    <Content Include="Views\Sol_Finca\Create.cshtml" />
+    <Content Include="Views\Sol_Finca\Index.cshtml" />
+    <Content Include="Scripts\leaflet\leaflet-src.esm.js.map" />
+    <Content Include="Scripts\leaflet\leaflet-src.js.map" />
+    <Content Include="Scripts\leaflet\leaflet.js.map" />
+    <Content Include="Views\Locacion\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutDefault_.cshtml" />
+    <Content Include="Views\UsuarioExterno\ReenviarContrasenia.cshtml" />
+    <Content Include="Views\Sol_PropietarioPersonaIndividual\Edit.cshtml" />
+    <Content Include="Views\Home\RegistroActualizado.cshtml" />
+    <Content Include="Views\Home\RegistroEliminado.cshtml" />
+    <Content Include="Views\Sol_Rodal\Create.cshtml" />
+    <Content Include="Views\Sol_Rodal\Index.cshtml" />
+    <Content Include="Views\Sol_Rodal\Edit.cshtml" />
+    <Content Include="Views\Sol_Rodal\UploadExcelAreas.cshtml" />
+    <Content Include="Views\Sol_Finca\IndexFincaRodalDasometricos.cshtml" />
+    <Content Include="Views\Sol_Rodal_Dasometrico\Create.cshtml" />
+    <Content Include="Views\Sol_Rodal_Dasometrico\Delete.cshtml" />
+    <Content Include="Views\Sol_Rodal_Dasometrico\Details.cshtml" />
+    <Content Include="Views\Sol_Rodal_Dasometrico\Edit.cshtml" />
+    <Content Include="Views\Sol_Rodal_Dasometrico\Index.cshtml" />
+    <Content Include="Views\Locacion\IndexRodal.cshtml" />
+    <Content Include="Views\Locacion\IndexRodalGoogleMaps.cshtml" />
+    <Content Include="Views\Carga_AreaProtegida\Carga.cshtml" />
+    <Content Include="Views\Sol_Motosierra\Create.cshtml" />
+    <Content Include="Views\UploadFiles\Index.cshtml" />
+    <Content Include="Views\Home\Seguimiento.cshtml" />
+    <Content Include="Views\Carga_MunicipiosPorRegion\Carga.cshtml" />
+    <Content Include="Views\Gest_EtapaSolicitud\Edit.cshtml" />
+    <Content Include="Views\Sol_Solicitud\CreateConRegion.cshtml" />
+    <Content Include="Views\Gest_EtapaRuta\Index.cshtml" />
+    <Content Include="Views\Gest_Etapa\Index.cshtml" />
+    <Content Include="Views\Gest_Etapa\ConfigurarEtapa.cshtml" />
+    <Content Include="Views\Gest_Etapa\Create.cshtml" />
+    <Content Include="Views\Gest_Etapa_Respuesta\Index.cshtml" />
+    <Content Include="Views\Gest_Etapa_Respuesta\Create.cshtml" />
+    <Content Include="Views\Login\AccesoColaborador.cshtml" />
+    <Content Include="Views\Main\Index.cshtml" />
+    <Content Include="Views\Home\AccesoDenegado.cshtml" />
+    <Content Include="Views\Shared\_LayoutMenuColaborador.cshtml" />
+    <Content Include="Views\Seg_Rol\Create.cshtml" />
+    <Content Include="Views\Seg_Rol\Edit.cshtml" />
+    <Content Include="Views\Seg_Rol\Index.cshtml" />
+    <Content Include="Views\Seg_Usuario\Create.cshtml" />
+    <Content Include="Views\Seg_Usuario\Edit.cshtml" />
+    <Content Include="Views\Seg_Usuario\Index.cshtml" />
+    <Content Include="Views\Seg_Usuario\UsuarioPermisos.cshtml" />
+    <Content Include="Views\Seg_Usuario\UsuarioPermisosRegion.cshtml" />
+    <Content Include="Views\Shared\_PartialPageEncabezado.cshtml" />
+    <Content Include="Views\Shared\_PartialPageEncabezadoCierre.cshtml" />
+    <Content Include="Views\Shared\_PartialPageEncabezadodetails.cshtml" />
+    <Content Include="Views\Gest_Etapa_Respuesta\Edit.cshtml" />
+    <Content Include="Views\Gest_Etapa_Respuesta\ConfigurarEtapaRespuesta.cshtml" />
+    <Content Include="Views\Gest_Etapa\TodoList.cshtml" />
+    <Content Include="Views\Gest_Etapa_Respuesta\ListadoEtapas.cshtml" />
+    <Content Include="Views\Gest_Etapa_Respuesta\ListadoDocumentos.cshtml" />
+    <Content Include="Views\Carga_AreaProtegida\CargaContador.cshtml" />
+    <Content Include="Views\Carga_MunicipiosPorRegion\CargaContador.cshtml" />
+    <Content Include="Views\Sol_Empresa_Entidad\Create.cshtml" />
+    <Content Include="Views\Gest_EtapaSolicitud\Index.cshtml" />
+    <Content Include="Views\Home\RegistroNoAgregado.cshtml" />
+    <Content Include="Views\UsuarioExterno\EditProfesional.cshtml" />
+    <Content Include="Views\UploadFiles\IndexEspecifico.cshtml" />
+    <Content Include="Views\UsuarioExterno\Mapa.cshtml" />
+    <Content Include="Views\UsuarioExterno\VisualizarMapa.cshtml" />
+    <Content Include="Views\Gral_Region\Index.cshtml" />
+    <Content Include="Views\Gral_Region\Edit.cshtml" />
+    <Content Include="Views\Gral_SubRegion\Create.cshtml" />
+    <Content Include="Views\Gral_SubRegion\Index.cshtml" />
+    <Content Include="Views\Gral_SubRegion\Edit.cshtml" />
+    <Content Include="Views\UploadFiles\RetunKMZ.cshtml" />
+    <Content Include="Views\Gral_Profesion\Index.cshtml" />
+    <Content Include="Views\Gral_Profesion\Create.cshtml" />
+    <Content Include="Views\Gral_Profesion\Edit.cshtml" />
+    <Content Include="Views\Home\SolicitudEtapaView.cshtml" />
+    <Content Include="Views\Shared\_LayoutSimpleSolicitud.cshtml" />
+    <Content Include="Views\UsuarioExterno\UsuarioExView.cshtml" />
+    <Content Include="Views\Gest_EtapaSolicitud\EtapaSolicitud_To_DoList.cshtml" />
+    <Content Include="Views\Gest_EtapaSolicitud\IndexHistorico.cshtml" />
+    <Content Include="Views\Home\TestFirmaElectronica.cshtml" />
+    <Content Include="Views\Gest_Etapa_Respuesta\ListadoFormularios.cshtml" />
+    <Content Include="Views\Gest_EtapaSolicitud\EtapaSolicitud_Formularios.cshtml" />
+    <Content Include="Views\CORS\Index.cshtml" />
+    <Content Include="Views\Form_Formulario\EditarFormulario.cshtml" />
+    <Content Include="Views\Form_Formulario\Formulario_DenegarSolicitud.cshtml" />
+    <Content Include="Views\Form_Formulario\Formulario_MotivoDenegacion.cshtml" />
+    <Content Include="Views\Home\FirmaElectronicaConProblemas.cshtml" />
+    <Content Include="Views\Home\carrousel.cshtml" />
+    <Content Include="Views\Sol_Rodal_Dasometrico_Especie_Formula_Id_\Index.cshtml" />
+    <Content Include="Views\Sol_Rodal_Dasometrico_Especie_Formula_Id_\Create.cshtml" />
+    <Content Include="Views\Sol_Rodal_Dasometrico_Especie_Formula_Id_\Edit.cshtml" />
+    <Content Include="Views\Sol_Rodal_CategoriaSIGAP\Index.cshtml" />
+    <Content Include="Views\Sol_Rodal_CategoriaSIGAP\Create.cshtml" />
+    <Content Include="Views\Sol_Rodal_CategoriaSIGAP\Edit.cshtml" />
+    <Content Include="Views\Gral_Cultivo\Index.cshtml" />
+    <Content Include="Views\Gral_Cultivo\Create.cshtml" />
+    <Content Include="Views\Gral_Cultivo\Edit.cshtml" />
+    <Content Include="Views\Sol_Rodal_Inventario\Index.cshtml" />
+    <Content Include="Views\Sol_Rodal_Inventario\Create.cshtml" />
+    <Content Include="Views\Sol_Rodal_Inventario\Edit.cshtml" />
+    <Content Include="Views\Home\RegistroNoActualizado.cshtml" />
+    <Content Include="Views\Sol_Rodal_Inventario\Borrar.cshtml" />
+    <Content Include="Views\Sol_Rodal_Inventario\BorradoFallido.cshtml" />
+    <Content Include="Views\Sol_Finca\Edit.cshtml" />
+    <Content Include="Views\Home\RegistroRodalNoEliminado.cshtml" />
+    <Content Include="Views\Sol_Rodal_Dasometrico_Especie_Formula\Index.cshtml" />
+    <Content Include="Views\Sol_Rodal_Dasometrico_Especie_Formula\Create.cshtml" />
+    <Content Include="Views\Sol_Rodal_Dasometrico_Especie_Formula\Edit.cshtml" />
+    <Content Include="Views\Sol_Rodal_Dasometrico_Especie_Formula\Borrar.cshtml" />
+    <Content Include="Views\Sol_Rodal\Borrar.cshtml" />
+    <Content Include="Views\Home\EliminarSolicitud.cshtml" />
+    <Content Include="Views\Home\EliminarSolicitudProcesada.cshtml" />
+    <Content Include="Views\Seg_Privilegio\Index.cshtml" />
+    <Content Include="Views\Sol_Solicitud\IndexPropietarioRepresentante.cshtml" />
+    <Content Include="Views\Home\NoPuedeAgregarRodal.cshtml" />
+    <Content Include="Views\Home\EdicionPropietarioDenegada.cshtml" />
+    <Content Include="Views\UsuarioExterno\ListadoUsuarios.cshtml" />
+    <Content Include="Views\Home\EnviarSolicitud.cshtml" />
+    <Content Include="Views\Home\EnviarSolicitudProcesada.cshtml" />
+    <Content Include="Views\Home\CorreccionesRequeridas.cshtml" />
+    <Content Include="Views\Gest_EtapaSolicitud\EstatusActual.cshtml" />
+    <Content Include="Views\Gral_Especie\Index.cshtml" />
+    <Content Include="Views\Gral_Especie\Create.cshtml" />
+    <Content Include="Views\Gral_Especie\Edit.cshtml" />
+    <Content Include="Views\Sol_Solicitud\visualizar.cshtml" />
+    <Content Include="Views\Sol_Rodal\Evaluacion.cshtml" />
+    <Content Include="Views\Sol_Rodal\UploadExcelAreasDescuento.cshtml" />
+    <Content Include="Views\Sol_Rodal\UploadExcel.cshtml" />
+    <Content Include="Views\Sol_Rodal\UploadDatosDasometricos.cshtml" />
+    <Content Include="Views\Locacion\IndexRodalPlanoVertical.cshtml" />
+    <Content Include="Views\Locacion\IndexFincaPlano.cshtml" />
+    <Content Include="Views\Sol_RepresentanteLegal\IndexMandatario.cshtml" />
+    <Content Include="Views\Sol_RepresentanteLegal\CreateM.cshtml" />
+    <Content Include="Views\Form_FormularioSecretaria\Index.cshtml" />
+    <Content Include="Views\Form_FormularioSecretaria\IndexEspecificoGUID.cshtml" />
+    <Content Include="Views\Sol_Rodal\IndexDescuento.cshtml" />
+    <Content Include="Views\ReportePV\EstimacionVolumen.cshtml" />
+    <Content Include="Views\ReportePV\Fincas.cshtml" />
+    <Content Include="Views\ReportePV\Index.cshtml" />
+    <Content Include="Views\Form_FormularioSecretaria\DocumentosRecibidos.cshtml" />
+    <Content Include="Views\Form_FormularioSecretaria\IndexEspecificoRecepcionGUID.cshtml" />
+    <Content Include="Views\Form_FormularioSecretaria\ImpresionConstancia.cshtml" />
+    <Content Include="Views\Gest_EtapaSolicitud\emptyView.cshtml" />
+    <Content Include="Views\Gest_EtapaSolicitud\email.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegional\AsignacionTecnico_AsignacionJuridica.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegional\AsignacionTecnico_AsignacionTecnica.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegional\AsignacionJuridica.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegional\AsignacionTecnica.cshtml" />
+    <Content Include="Views\Form_FormularioTecnico\GenerarPreguntas.cshtml" />
+    <Content Include="Views\Form_FormularioTecnico\GenerarRespuestas.cshtml" />
+    <Content Include="Views\Form_FormularioTecnico\Index.cshtml" />
+    <Content Include="Views\Form_FormularioJuridico\Index.cshtml" />
+    <Content Include="Views\Form_FormularioJuridico\IndexEspecificoGUID.cshtml" />
+    <Content Include="Views\Form_FormularioJuridico\CreacionOficio.cshtml" />
+    <Content Include="Views\Form_FormularioJuridico\CreacionDictamen.cshtml" />
+    <Content Include="Views\Gral_Mapa_Bosques_Naturales\AgregarMapa.cshtml" />
+    <Content Include="Views\Gral_Mapa_Bosques_Naturales\VerMapa.cshtml" />
+    <Content Include="Views\Gral_Mapa_Vocacion_Forestal\AgregarMapa.cshtml" />
+    <Content Include="Views\Gral_Mapa_Vocacion_Forestal\VerMapa.cshtml" />
+    <Content Include="Views\Gral_Mapas\Index.cshtml" />
+    <Content Include="Views\Sol_Rodal_Dasometrico\DatosDasometricosCargados.cshtml" />
+    <Content Include="Views\Gral_Cultivo\Test.cshtml" />
+    <Content Include="Views\Sol_Rodal_Cultivo\Index.cshtml" />
+    <Content Include="Views\Sol_Rodal_Cultivo\Create.cshtml" />
+    <Content Include="Views\Sol_Rodal_Cultivo\EmptyView.cshtml" />
+    <Content Include="Views\Form_FormularioDirectorRegional\SolicitudAutorizar.cshtml" />
+    <Content Include="Views\Seg_Usuario\FirmaDigital.cshtml" />
+    <Content Include="Views\Home\test.cshtml" />
+    <Content Include="Views\Form_FormularioSecretaria\IndexRespuesta.cshtml" />
+    <Content Include="Views\Home\FeedRSS.cshtml" />
+    <Content Include="Views\Form_FormularioSecretaria\ImpresionConstanciaRespuesta.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegional\AsignacionJuridicaRespuesta.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegional\AsignacionTecnicaRespuesta.cshtml" />
+    <Content Include="Views\App_Visita_Campo\ArbolesDiferenteDAPyAltura.cshtml" />
+    <Content Include="Views\App_Visita_Campo\ArbolesDiferenteEspecie.cshtml" />
+    <Content Include="Views\App_Visita_Campo\AreasDeDescuentoNuevas.cshtml" />
+    <Content Include="Views\App_Visita_Campo\Auditoria.cshtml" />
+    <Content Include="Views\App_Visita_Campo\EspeciesAgrupadas.cshtml" />
+    <Content Include="Views\App_Visita_Campo\EspeciesNuevasAgregadas.cshtml" />
+    <Content Include="Views\App_Visita_Campo\EspeciesNuevasAgrupadas.cshtml" />
+    <Content Include="Views\App_Visita_Campo\Historial.cshtml" />
+    <Content Include="Views\App_Visita_Campo\Index.cshtml" />
+    <Content Include="Views\App_Visita_Campo\PermitirCambios.cshtml" />
+    <Content Include="Views\App_Visita_Campo\PoligonoDescuentoFinca.cshtml" />
+    <Content Include="Views\App_Visita_Campo\PonderacionDasometricos.cshtml" />
+    <Content Include="Views\App_Visita_Campo\PonderacionDescuento.cshtml" />
+    <Content Include="Views\App_Visita_Campo\Promedio_DAP_Altura.cshtml" />
+    <Content Include="Views\Form_FormularioTecnico\UploadDatosDasometricosTecnico.cshtml" />
+    <Content Include="Views\Gral_Especie\ListadoEspecies.cshtml" />
+    <Content Include="Views\Form_FormularioTecnico\EvaluacionTecnicaFormularioRodalDasometricos.cshtml" />
+    <Content Include="Views\Form_FormularioTecnico\PonderacionEvaluacionTecnico.cshtml" />
+    <Content Include="Views\UploadFiles\UploadedAnexos.cshtml" />
+    <Content Include="Views\UploadFiles\IndexEspecificoAnexo.cshtml" />
+    <Content Include="Views\Form_FormularioTecnico\AnalisisRodal.cshtml" />
+    <Content Include="Views\Form_FormularioTecnico\PonderacionEvaluacionArea.cshtml" />
+    <Content Include="Views\Unificar\Index.cshtml" />
+    <Content Include="Views\Unificar\Unificar.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalReporteAprobacion\GenerarAprobacion.cshtml" />
+    <Content Include="Views\Form_FormularioTecnico\EvaluacionTecnicaFormularioRodalDasometricosRespuesta.cshtml" />
+    <Content Include="Views\Form_FormularioTecnicoAprobacion\GestionarAprobacion.cshtml" />
+    <Content Include="Views\OficioTecnico\Create.cshtml" />
+    <Content Include="Views\OficioTecnico\Edit.cshtml" />
+    <Content Include="Views\OficioTecnico\Index.cshtml" />
+    <Content Include="Views\OficioTecnico\ListaEnmiendasOficioTecnico.cshtml" />
+    <Content Include="Views\Home\FalloFirmaElectronica.cshtml" />
+    <Content Include="Views\Home\FeedHistoryRSS.cshtml" />
+    <Content Include="Views\Gest_EtapaSolicitud\Historial.cshtml" />
+    <Content Include="Views\Gest_EtapaSolicitud\IndexHistorial.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalOficioTecnicoCritica\Create.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalOficioTecnicoCritica\Index.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalOficioTecnicoCritica\ListaCriticasOficioTecnico.cshtml" />
+    <Content Include="Views\Form_FormularioTecnicoOficioTecnico_Enmienda\Create.cshtml" />
+    <Content Include="Views\Form_FormularioTecnicoOficioTecnico_Enmienda\Edit.cshtml" />
+    <Content Include="Views\Form_FormularioTecnicoOficioTecnico_Enmienda\Index.cshtml" />
+    <Content Include="Views\Form_FormularioTecnicoOficioTecnico_Enmienda\ListaEnmiendasOficioTecnico_Enmienda.cshtml" />
+    <Content Include="Views\Form_FormularioTecnicoDenegacion\GestionarDenegacion.cshtml" />
+    <Content Include="Views\Form_FormularioTecnicoAprobacion\GestionarAprobacionRespuesta.cshtml" />
+    <Content Include="Views\Form_FormularioTecnicoDenegacion\GestionarDenegacionRespuesta.cshtml" />
+    <Content Include="Views\Form_FormularioJuridicoOficioJuridico_Enmienda\Create.cshtml" />
+    <Content Include="Views\Form_FormularioJuridicoOficioJuridico_Enmienda\Edit.cshtml" />
+    <Content Include="Views\Form_FormularioJuridicoOficioJuridico_Enmienda\Index.cshtml" />
+    <Content Include="Views\Form_FormularioJuridicoOficioJuridico_Enmienda\ListaEnmiendasOficioJuridico_Enmienda.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalOficioJuridicoCritica\Create.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalOficioJuridicoCritica\Index.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalOficioJuridicoCritica\ListaCriticasOficioJuridico.cshtml" />
+    <Content Include="Views\UploadFiles\UploadedEnmiendas.cshtml" />
+    <Content Include="Views\Form_FormularioSecretaria\SubirEnmiendas.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegional\ResolucionInscripcion.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegional\ResolucionSubRegional.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegional\ResolucionInscripcionRespuesta.cshtml" />
+    <Content Include="Views\Form_FormularioSecretaria\DocumentosRecibidosRespuesta.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalOficioEnmiendas\Create.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalOficioEnmiendas\CreateEnmienda.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalOficioEnmiendas\Index.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalOficioEnmiendas\ListaCriticasOficioTecnico.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalOficioEnmiendas\ListaEnmiendasJuridico.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalOficioEnmiendas\ListaEnmiendasOficioSubRegional.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalOficioEnmiendas\ListaEnmiendasTecnico.cshtml" />
+    <Content Include="Views\App_Visita_Campo\PanelAsignacion.cshtml" />
+    <Content Include="Views\Sol_Empresa_Entidad_Actividad\Create.cshtml" />
+    <Content Include="Views\Sol_Empresa_Entidad_Actividad\Index.cshtml" />
+    <Content Include="Views\Sol_Empresa_Entidad_MaquinariaUtilizada\Create.cshtml" />
+    <Content Include="Views\Sol_Empresa_Entidad_MaquinariaUtilizada\Index.cshtml" />
+    <Content Include="Views\Sol_Empresa_Entidad_MateriaPrima\Create.cshtml" />
+    <Content Include="Views\Sol_Empresa_Entidad_MateriaPrima\Index.cshtml" />
+    <Content Include="Views\Sol_Empresa_Entidad_ViveroForestal\Create.cshtml" />
+    <Content Include="Views\Sol_Empresa_Entidad_ViveroForestal\Index.cshtml" />
+    <Content Include="Views\Gest_EtapaSolicitud\BuscarSolicitud.cshtml" />
+    <Content Include="Views\Gest_EtapaSolicitud\BuscarSolicitudParametros.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegional\GestionDeEnmiendas.cshtml" />
+    <Content Include="Views\Form_FormularioTecnico\UploadDatosPoligonoTecnico.cshtml" />
+    <Content Include="Views\Gral_SolicitudConfiguracion\Index.cshtml" />
+    <Content Include="Views\Gral_SolicitudConfiguracion\PermisosAsignados.cshtml" />
+    <Content Include="Views\Sol_Comparativo\Empresa_Entidad.cshtml" />
+    <Content Include="Views\Sol_Comparativo\Finca.cshtml" />
+    <Content Include="Views\Sol_Comparativo\Index.cshtml" />
+    <Content Include="Views\Sol_Comparativo\MotoSierra.cshtml" />
+    <Content Include="Views\Sol_Comparativo\PropietarioPersonaIndividual.cshtml" />
+    <Content Include="Views\Sol_Comparativo\PropietarioPersonaJuridica.cshtml" />
+    <Content Include="Views\Sol_Comparativo\RepresentanteLegal.cshtml" />
+    <Content Include="Views\Actividad\Create.cshtml" />
+    <Content Include="Views\Actividad\Edit.cshtml" />
+    <Content Include="Views\Actividad\Index.cshtml" />
+    <Content Include="Views\Cultivo\Create.cshtml" />
+    <Content Include="Views\Cultivo\Edit.cshtml" />
+    <Content Include="Views\Cultivo\Index.cshtml" />
+    <Content Include="Views\Maquinaria_Utilizada\Create.cshtml" />
+    <Content Include="Views\Maquinaria_Utilizada\Edit.cshtml" />
+    <Content Include="Views\Maquinaria_Utilizada\Index.cshtml" />
+    <Content Include="Views\Materia_Prima\Create.cshtml" />
+    <Content Include="Views\Materia_Prima\Edit.cshtml" />
+    <Content Include="Views\Materia_Prima\Index.cshtml" />
+    <Content Include="Views\Sol_TipoRegistro\Create.cshtml" />
+    <Content Include="Views\Tipo_Industria\Create.cshtml" />
+    <Content Include="Views\Tipo_Industria\Edit.cshtml" />
+    <Content Include="Views\Tipo_Industria\Index.cshtml" />
+    <Content Include="Views\UploadFiles\UploadedEnmiendasRespuesta.cshtml" />
+    <Content Include="Views\Form_FormularioTecnico\Revisar.cshtml" />
+    <Content Include="Views\Form_FormularioTecnicoLocation\IndexRodalPlano.cshtml" />
+    <Content Include="Views\RNF_Empresa_Entidad\Create.cshtml" />
+    <Content Include="Views\RNF_Finca\Index.cshtml" />
+    <Content Include="Views\RNF_Finca\IndexFincaRodalDasometricos.cshtml" />
+    <Content Include="Views\RNF_Inventario\EstimacionVolumen.cshtml" />
+    <Content Include="Views\RNF_Inventario\Fincas.cshtml" />
+    <Content Include="Views\RNF_Inventario\Index.cshtml" />
+    <Content Include="Views\RNF_Locacion\IndexFincaPlano.cshtml" />
+    <Content Include="Views\RNF_Locacion\IndexRodal.cshtml" />
+    <Content Include="Views\RNF_Locacion\IndexRodalGoogleMaps.cshtml" />
+    <Content Include="Views\RNF_Locacion\IndexRodalPlano.cshtml" />
+    <Content Include="Views\RNF_Motosierra\Create.cshtml" />
+    <Content Include="Views\RNF_Registro\Create.cshtml" />
+    <Content Include="Views\RNF_Registro\CreateConRegion.cshtml" />
+    <Content Include="Views\RNF_Registro\Index.cshtml" />
+    <Content Include="Views\RNF_Registro\IndexPropietario.cshtml" />
+    <Content Include="Views\RNF_Registro\IndexPropietarioRepresentante.cshtml" />
+    <Content Include="Views\RNF_Registro\ListaRegistros.cshtml" />
+    <Content Include="Views\RNF_Registro\RegistroView.cshtml" />
+    <Content Include="Views\RNF_Registro\VerRegistro.cshtml" />
+    <Content Include="Views\RNF_Registro\visualizar.cshtml" />
+    <Content Include="Views\RNF_RepresentanteLegal\Index.cshtml" />
+    <Content Include="Views\RNF_RepresentanteLegal\IndexMandatario.cshtml" />
+    <Content Include="Views\RNF_Rodal\Index.cshtml" />
+    <Content Include="Views\RNF_Rodal\IndexDescuento.cshtml" />
+    <Content Include="Views\RNF_Rodal_Cultivo\Index.cshtml" />
+    <Content Include="Views\RNF_Rodal_Dasometrico\DatosDasometricosCargados.cshtml" />
+    <Content Include="Views\RNF_Rodal_Dasometrico\Index.cshtml" />
+    <Content Include="Views\RNF_Rodal_Dasometrico_Especie_Formula\Index.cshtml" />
+    <Content Include="Views\RNF_Rodal_Inventario\Index.cshtml" />
+    <Content Include="Views\RNF_UploadFiles\IndexEspecifico.cshtml" />
+    <Content Include="Views\RNF_UploadFiles\UploadedFiles.cshtml" />
+    <Content Include="Views\Shared\_LayoutMoreSimple.cshtml" />
+    <Content Include="Views\Sol_Finca_FuenteSemillera\Edit_DatosFuenteSemillera.cshtml" />
+    <Content Include="Views\Sol_Solicitud\IndexArrendatario.cshtml" />
+    <Content Include="Views\Sol_ArrendatarioPersonaIndividual\Create.cshtml" />
+    <Content Include="Views\Sol_ArrendatarioPersonaIndividual\Edit.cshtml" />
+    <Content Include="Views\Sol_ArrendatarioPersonaIndividual\Index.cshtml" />
+    <Content Include="Views\Sol_ArrendatarioPersonaIndividual\RegistroAgregado.cshtml" />
+    <Content Include="Views\Sol_ArrendatarioPersonaJuridica\Create.cshtml" />
+    <Content Include="Views\Sol_ArrendatarioPersonaJuridica\Details.cshtml" />
+    <Content Include="Views\Sol_ArrendatarioPersonaJuridica\Edit.cshtml" />
+    <Content Include="Views\Sol_ArrendatarioPersonaJuridica\Index.cshtml" />
+    <Content Include="Views\Sol_ArrendatarioPersonaJuridica\RegistroAgregado.cshtml" />
+    <Content Include="Views\ReportePV\Dasometricos_Clase.cshtml" />
+    <Content Include="Views\ReportePV\Dasometricos_Rodales.cshtml" />
+    <Content Include="Views\UsuarioExterno\ConfirmacionGuid.cshtml" />
+    <Content Include="Views\RNF_Registro_Reasignacion\CambiarTitular.cshtml" />
+    <Content Include="Views\RNF_Registro_Reasignacion\Index.cshtml" />
+    <Content Include="Views\RNF_Registro_Reasignacion\Lista_Registros.cshtml" />
+    <Content Include="Views\App_Visita_Campo\Arboles_x_Clase.cshtml" />
+    <Content Include="Views\Gest_EtapaSolicitud\HistorialSolicitud.cshtml" />
+    <Content Include="Views\Gest_EtapaSolicitud\HistorialSolicitudDetalle.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalOficioEnmiendas\EnmiendasSubRegionalSolicitud.cshtml" />
+    <Content Include="Views\Gral_SolicitudConfiguracion\PermisosRecibidos.cshtml" />
+    <Content Include="Views\Sol_Comparativo\Index_Comparativo.cshtml" />
+    <Content Include="Views\Sol_Comparativo\Index_RNF.cshtml" />
+    <Content Include="Views\Sol_Comparativo\ArrendatarioPersonaJuridica.cshtml" />
+    <Content Include="Views\Sol_Comparativo\ArrendatarioPersonaIndividual.cshtml" />
+    <Content Include="Views\Form_FormularioDirectorRegional\SolicitudAutorizarMotosierra.cshtml" />
+    <Content Include="Views\Sol_Solicitud_Inactivacion\Index.cshtml" />
+    <Content Include="Views\Gest_EtapaRSS\Index.cshtml" />
+    <Content Include="Views\Sol_Motosierra_MarcaModelo\Create.cshtml" />
+    <Content Include="Views\Sol_Motosierra_MarcaModelo\Index.cshtml" />
+    <Content Include="Views\Home\SolicitudNoCreada.cshtml" />
+    <Content Include="Views\RNF_ArrendatarioPersonaIndividual\Create.cshtml" />
+    <Content Include="Views\RNF_ArrendatarioPersonaIndividual\Edit.cshtml" />
+    <Content Include="Views\RNF_ArrendatarioPersonaJuridica\Create.cshtml" />
+    <Content Include="Views\RNF_ArrendatarioPersonaJuridica\Edit.cshtml" />
+    <Content Include="Views\RNF_Empresa_Entidad_Actividad\Create.cshtml" />
+    <Content Include="Views\RNF_Empresa_Entidad_Actividad\Index.cshtml" />
+    <Content Include="Views\RNF_Empresa_Entidad_MaquinariaUtilizada\Create.cshtml" />
+    <Content Include="Views\RNF_Empresa_Entidad_MaquinariaUtilizada\Index.cshtml" />
+    <Content Include="Views\RNF_Empresa_Entidad_MateriaPrima\Create.cshtml" />
+    <Content Include="Views\RNF_Empresa_Entidad_MateriaPrima\Index.cshtml" />
+    <Content Include="Views\RNF_Empresa_Entidad_ViveroForestal\Create.cshtml" />
+    <Content Include="Views\RNF_Empresa_Entidad_ViveroForestal\Index.cshtml" />
+    <Content Include="Views\RNF_Empresa_Entidad_ViveroForestal\ListaVivero.cshtml" />
+    <Content Include="Views\RNF_Gestor\Create.cshtml" />
+    <Content Include="Views\RNF_Gestor\Index.cshtml" />
+    <Content Include="Views\RNF_Motosierra_MarcaModelo\Create.cshtml" />
+    <Content Include="Views\RNF_Motosierra_MarcaModelo\Index.cshtml" />
+    <Content Include="Views\RNF_PropietarioPersonaIndividual\Create.cshtml" />
+    <Content Include="Views\RNF_PropietarioPersonaIndividual\Edit.cshtml" />
+    <Content Include="Views\RNF_PropietarioPersonaJuridica\Create.cshtml" />
+    <Content Include="Views\RNF_PropietarioPersonaJuridica\Edit.cshtml" />
+    <Content Include="Views\RNF_TipoRegistro\Create.cshtml" />
+    <Content Include="Views\RNF_Rodal_Inventario\Borrar.cshtml" />
+    <Content Include="Views\RNF_Rodal_Inventario\Create.cshtml" />
+    <Content Include="Views\RNF_Rodal_Inventario\Edit.cshtml" />
+    <Content Include="Views\RNF_Rodal_Dasometrico_Especie_Formula\Create.cshtml" />
+    <Content Include="Views\RNF_Rodal_Dasometrico_Especie_Formula\Edit.cshtml" />
+    <Content Include="Views\RNF_Rodal_Cultivo\Create.cshtml" />
+    <Content Include="Views\RNF_Rodal\UploadDatosDasometricos.cshtml" />
+    <Content Include="Views\RNF_Rodal\UploadExcel.cshtml" />
+    <Content Include="Views\RNF_Rodal\UploadExcelAreas.cshtml" />
+    <Content Include="Views\RNF_Rodal\UploadExcelAreasDescuento.cshtml" />
+    <Content Include="Views\RNF_RepresentanteLegal\Create.cshtml" />
+    <Content Include="Views\RNF_RepresentanteLegal\CreateM.cshtml" />
+    <Content Include="Views\RNF_RepresentanteLegal\Edit.cshtml" />
+    <Content Include="Views\RNF_Registro\Buscar.cshtml" />
+    <Content Include="Views\RNF_Registro\BuscarParams.cshtml" />
+    <Content Include="Views\RNF_Registro\IndexArrendatario.cshtml" />
+    <Content Include="Views\RNF_Registro\RegistroEdit.cshtml" />
+    <Content Include="Views\RNF_Finca\Create.cshtml" />
+    <Content Include="Views\RNF_Finca\Edit.cshtml" />
+    <Content Include="Views\Sol_Finca\SubRegionNoAsignada.cshtml" />
+    <Content Include="Views\RNF_Inventario\Dasometricos_Rodales.cshtml" />
+    <Content Include="Views\RNF_Inventario\Dasometricos_Clase.cshtml" />
+    <Content Include="Views\App_Visita_Campo\ArbolesDiferenteAnioEstablecimiento.cshtml" />
+    <Content Include="Views\TemporalVista\Index.cshtml" />
+    <Content Include="Views\Form_FormularioJuridico\IndexRespuesta.cshtml" />
+    <Content Include="Views\Sol_RegionSubRegion\IndexEmpresaEntidad.cshtml" />
+    <Content Include="Views\Form_FormularioRegionalOficioDenegacion\GenerarEnmiendas.cshtml" />
+    <Content Include="Views\Form_FormularioRegionalOficioDenegacion\Index.cshtml" />
+    <Content Include="Views\Form_FormularioRegionalOficioDenegacion\ListarEnmiendas.cshtml" />
+    <Content Include="Views\Form_FormularioRegionalOficioDenegacion\Oficio_Registro_NoProcedente.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalOficioRechazo\Index.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalOficioRechazo\ResolucionRechazo.cshtml" />
+    <Content Include="Views\Seg_Usuario\ActualizarMiContraseña.cshtml" />
+    <Content Include="Views\Seg_Usuario\ActualizarMiPalabraClave.cshtml" />
+    <Content Include="Views\Gral_SolicitudConfiguracion\Edit.cshtml" />
+    <Content Include="Views\Sol_Rodal\UploadCentroDeParcela.cshtml" />
+    <Content Include="Views\Sol_TecnicoProfesional\EditProfesional.cshtml" />
+    <Content Include="Views\Form_FormularioSolicitudInactivacion\InactivacionTipo001.cshtml" />
+    <Content Include="Views\API_Probosque\BuscarPinpepOld.cshtml" />
+    <Content Include="Views\API_Probosque\BuscarProbosque.cshtml" />
+    <Content Include="Views\API_Probosque\ResultadoPinpepOld.cshtml" />
+    <Content Include="Views\API_Probosque\ResultadoProbosque.cshtml" />
+    <Content Include="Views\Home\GuiaEmpresa.cshtml" />
+    <Content Include="Views\VisorDeDocumentos\Index.cshtml" />
+    <Content Include="Views\VisorDeDocumentos\DocumentoOficial.cshtml" />
+    <Content Include="Views\Home\RegistroFincaNoEliminado.cshtml" />
+    <Content Include="Views\Home\BorrarFincasPosteriores.cshtml" />
+    <Content Include="Views\Sol_Solicitud\ConversorGR.cshtml" />
+    <Content Include="Views\Sol_Solicitud\ConversorGTM.cshtml" />
+    <Content Include="Views\RNF_Locacion\IndexRodalPlanoVertical.cshtml" />
+    <Content Include="Views\Form_FormularioTecnico\DescargarCentroParcela.cshtml" />
+    <Content Include="Views\Form_FormularioTecnico\NoAplicaEvaluacionTecnicaFormularioRodalDasometricos.cshtml" />
+    <Content Include="Views\RNF_TecnicoProfesional\EditProfesional.cshtml" />
+    <Content Include="Views\Form_FormularioTecnico\AnalisisEmpresa.cshtml" />
+    <Content Include="Views\Sol_Empresa_Entidad\CreateTecnico.cshtml" />
+    <Content Include="Views\Form_FormularioTecnico\EvaluacionTecnicaFormularioEmpresa.cshtml" />
+    <Content Include="Views\Sol_TipoRegistro\CreateTecnico.cshtml" />
+    <Content Include="Views\Sol_Empresa_Entidad_Actividad\CreateTecnico.cshtml" />
+    <Content Include="Views\Form_FormularioTecnico\EvaluacionTecnicaFormularioEmpresaRespuesta.cshtml" />
+    <Content Include="Views\API_Probosque\CreateConRegion.cshtml" />
+    <Content Include="Views\Shared\_LayoutMoreSimpleSinWait.cshtml" />
+    <Content Include="Views\ReportePV\EstimacionVolumen_FuenteSemillera.cshtml" />
+    <Content Include="Views\Sol_Empresa_Entidad_TecnicoActividad\Index.cshtml" />
+    <Content Include="Views\Sol_Empresa_Entidad_TecnicoActividad\Create.cshtml" />
+    <Content Include="Views\Sol_Empresa_Entidad_TecnicoMaquinariaUtilizada\Index.cshtml" />
+    <Content Include="Views\Sol_Empresa_Entidad_TecnicoMaquinariaUtilizada\Create.cshtml" />
+    <Content Include="Views\Sol_Empresa_Entidad_TecnicoMateriaPrima\Index.cshtml" />
+    <Content Include="Views\Sol_Empresa_Entidad_TecnicoMateriaPrima\Create.cshtml" />
+    <Content Include="Views\Sol_Empresa_Entidad_TecnicoViveroForestal\Index.cshtml" />
+    <Content Include="Views\Sol_Empresa_Entidad_TecnicoViveroForestal\Create.cshtml" />
+    <Content Include="Views\RNF_Inventario\EstimacionVolumen_FuenteSemillera.cshtml" />
+    <Content Include="Views\Sol_Rodal\CentroParcela.cshtml" />
+    <Content Include="Views\App_Visita_Campo\Fincas_API.cshtml" />
+    <Content Include="Views\App_Visita_Campo\EstimacionVolumen_Tecnico.cshtml" />
+    <Content Include="Views\App_Visita_Campo\ResumenPV_FS.cshtml" />
+    <Content Include="Views\Expediente_Secorf\Index.cshtml" />
+    <Content Include="Views\Expediente_Secorf\BuscarSolicitudParametros.cshtml" />
+    <Content Include="Views\Expediente_Secorf\Crear.cshtml" />
+    <Content Include="Views\Sol_Finca_ProcedenciaExterna\Probosque_EspeciesForestales.cshtml" />
+    <Content Include="Views\Sol_Finca_ProcedenciaExterna\PinpepOld_EspeciesForestales.cshtml" />
+    <Content Include="Views\API_Probosque\CreateConRegionPinpepOld.cshtml" />
+    <Content Include="Views\API_Probosque\CreateConRegionProbosque.cshtml" />
+    <Content Include="Views\API_Probosque\ListarPinpep.cshtml" />
+    <Content Include="Views\API_Probosque\ListarProbosque.cshtml" />
+    <Content Include="Views\API_Probosque\ListarSolicitud.cshtml" />
+    <Content Include="Views\Sol_Finca_ProcedenciaExterna\Secorf_Editar.cshtml" />
+    <Content Include="Views\Sol_Finca_ProcedenciaExterna\Secorf_EspeciesForestales.cshtml" />
+    <Content Include="Views\Sol_Finca_ProcedenciaExterna\Secorf_EspeciesForestales_Agregar.cshtml" />
+    <Content Include="Views\Sol_Finca_ProcedenciaExterna\Secorf_EspeciesForestales_Create.cshtml" />
+    <Content Include="Views\Sol_Finca_ProcedenciaExterna\Secorf_Rodal.cshtml" />
+    <Content Include="Views\RNF_Finca_ProcedenciaExterna\PinpepOld_EspeciesForestales.cshtml" />
+    <Content Include="Views\RNF_Finca_ProcedenciaExterna\Probosque_EspeciesForestales.cshtml" />
+    <Content Include="Views\Sol_Finca_ProcedenciaExterna\PinpepOld_EspeciesForestales_Agregar.cshtml" />
+    <Content Include="Views\Sol_Finca_ProcedenciaExterna\PinpepOld_EspeciesProteger.cshtml" />
+    <Content Include="Views\Sol_Finca_ProcedenciaExterna\PinpepOld_EspeciesProteger_Agregar.cshtml" />
+    <Content Include="Views\Sol_Finca_ProcedenciaExterna\Probosque_EspeciesForestalesAgregar.cshtml" />
+    <Content Include="Views\RNF_Registro_Reasignacion\CambiarEstado.cshtml" />
+    <Content Include="Views\RNF_Registro_Reasignacion\HabilitarEdicion_RNF.cshtml" />
+    <Content Include="Views\RNF_Registro_Reasignacion\RNF_Bitacora.cshtml" />
+    <Content Include="Views\RNF_Finca_ProcedenciaExterna\PinpepOld_EspeciesProteger.cshtml" />
+    <Content Include="Views\RNF_Finca_ProcedenciaExterna\Secorf_EspeciesForestales.cshtml" />
+    <Content Include="Views\RNF_Registro_Reasignacion\DocumentosCambioEstado.cshtml" />
+    <Content Include="Views\RNF_Registro_Reasignacion\GenerarNuevaConstancia.cshtml" />
+    <Content Include="Views\Form_FormularioTecnicoInactivacion\AgregarHallazgo.cshtml" />
+    <Content Include="Views\Form_FormularioTecnicoInactivacion\DocumentosCambioEstado.cshtml" />
+    <Content Include="Views\RNF_Gestor\InactivarRegistro.cshtml" />
+    <Content Include="Views\RNF_Registro\DatosRegistro.cshtml" />
+    <Content Include="Views\RNF_Registro_Reasignacion\AgregarHallazgo.cshtml" />
+    <Content Include="Views\RNF_Registro_Reasignacion\HallazgoBitacora.cshtml" />
+    <Content Include="Views\Sol_Rodal_CultivoTecnico\Index.cshtml" />
+    <Content Include="Views\Sol_Rodal_CultivoTecnico\EmptyView.cshtml" />
+    <Content Include="Views\Sol_Rodal_CultivoTecnico\Create.cshtml" />
+    <Content Include="Views\Form_FormularioSolicitudInactivacion\InactivacionTipo002.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalAudienciaTecnicoProfesional\AvisoDeAudiencia.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalInformeCircunstanciado\Enmiendas_Create.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalInformeCircunstanciado\InformeCircunstanciado_Generar.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalInformeCircunstanciado\Procedimientos_Create.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalInformeCircunstanciado\Procedimientos_Lista.cshtml" />
+    <Content Include="Views\Gest_EtapaSolicitud_Documento\DocumentoCreate.cshtml" />
+    <Content Include="Views\Gest_EtapaSolicitud_Documento\DocumentoEtapaSolicitud.cshtml" />
+    <Content Include="Views\Gest_EtapaSolicitud_Documento\DocumentoLista.cshtml" />
+    <Content Include="Views\Sol_Rodal\UploadExcelDasometrico.cshtml" />
+    <Content Include="Views\Form_FormularioTecnico\UploadDatosCentroParcelaTecnico.cshtml" />
+    <Content Include="Views\Form_FormularioTecnico\AnalisisCentroParcela.cshtml" />
+    <Content Include="Views\Form_FormularioTecnico\CentroParcelaTecnico.cshtml" />
+    <Content Include="Views\Home\ListarSolicitudUsuario.cshtml" />
+    <Content Include="Views\Home\FeedRSS_Solicitud.cshtml" />
+    <Content Include="Views\Gest_EtapaSolicitud\IndexParams.cshtml" />
+    <Content Include="Views\Gest_EtapaSolicitud\IndexReturn.cshtml" />
+    <Content Include="Views\Gest_EtapaSolicitud\IndexReturnParams.cshtml" />
+    <Content Include="Views\RNF_Registro_Reasignacion\HistoricoRNF.cshtml" />
+    <Content Include="Views\Form_FormularioSecretariaInactivacion\AgregarHallazgo.cshtml" />
+    <Content Include="Views\Form_FormularioSecretariaInactivacion\DocumentosCambioEstado.cshtml" />
+    <Content Include="Views\Inactivacion\AgregarTipo.cshtml" />
+    <Content Include="Views\Inactivacion\Categoria.cshtml" />
+    <Content Include="Views\Inactivacion\Index.cshtml" />
+    <Content Include="Views\EncResp_Encuesta\Index.cshtml" />
+    <Content Include="Views\EncResp_Encuesta\Create.cshtml" />
+    <Content Include="Views\EncResp_EncuestaRespuesta\PreguntaActual.cshtml" />
+    <Content Include="Views\EncResp_EncuestaRespuesta\EncuestaFinalizada.cshtml" />
+    <Content Include="Views\EncResp_EncuestaConstancia\FirmarEncuesta.cshtml" />
+    <Content Include="Views\EncResp_EncuestaDocumento\ArchivosSubidos.cshtml" />
+    <Content Include="Views\EncResp_EncuestaDocumento\ArchivosSubir.cshtml" />
+    <Content Include="Views\EncResp_EncuestaRespuesta\Index.cshtml" />
+    <Content Include="Views\Reportes\Index.cshtml" />
+    <Content Include="Views\RNF_Gestor\ActivarRegistro.cshtml" />
+    <Content Include="Views\Form_FormularioTecnico\DownloadDatosPoligonoTecnico.cshtml" />
+    <Content Include="Views\Form_FormularioTecnico\UploadDatosPoligonoDescuentoTecnico.cshtml" />
+    <Content Include="Views\Correo\visualizar.cshtml" />
+    <Content Include="Views\Seg_Usuario\Carga.cshtml" />
+    <Content Include="Views\Form_FormularioTecnicoLocation\IndexRodalPlanoTecnico.cshtml" />
+    <Content Include="Views\Form_FormularioTecnicoLocation\IndexRodalPlanoUsuario.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalInformeCircunstanciado\InformeCircunstanciado.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalInformeCircunstanciado\Procedimientos_Edit.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalSolvenciaTecnicoProfesional\SolvenciaTecnicoProfesional_Generar.cshtml" />
+    <Content Include="Views\Form_FormularioSubRegionalSolvencia\Solvencia_Generar.cshtml" />
+    <Content Include="Views\Form_FormularioSolicitudInactivacion\AgregarHallazgo.cshtml" />
+    <Content Include="Views\Form_FormularioSolicitudInactivacion\OficioDeTraslado.cshtml" />
+    <Content Include="Views\Home\RegistroInexistente.cshtml" />
+    <Content Include="Views\Home\RegistroActivoNoGenerado.cshtml" />
+    <Content Include="Views\Home\RegistroInactivoNoGenerado.cshtml" />
+    <Content Include="Views\CasilleroElectronico\RegistroCasillero.cshtml" />
+    <Content Include="Views\Sol_Finca\listadoFincas.cshtml" />
+    <Content Include="Views\ReportePV_RNF\VerReporte.cshtml" />
+    <Content Include="Views\Form_FormularioTecnicoInactivacionAprobacion\GestionarAprobacion.cshtml" />
+    <Content Include="Views\Form_FormularioTecnicoInactivacionAprobacion\GestionarAprobacionRespuesta.cshtml" />
+    <Content Include="Views\Form_FormularioTecnicoInactivacionDenegacion\GestionarDenegacion.cshtml" />
+    <Content Include="Views\Form_FormularioTecnicoInactivacionDenegacion\GestionarDenegacionRespuesta.cshtml" />
+    <Content Include="Views\CasilleroElectronico\ActualizarCasillero.cshtml" />
+    <Content Include="Views\ExpedienteOficio_Gestor\Expediente_PinpepOld_Listar.cshtml" />
+    <Content Include="Views\ExpedienteOficio_Gestor\Expediente_Probosque_Listar.cshtml" />
+    <Content Include="Views\Log\Gral_Carga.cshtml" />
+    <Content Include="Views\Log\Gral_CargaDetalle.cshtml" />
+    <Content Include="Views\Gest_EtapaSolicitud\Solicitud_Reasignacion.cshtml" />
+    <Content Include="Views\ExpedienteOficio_Gestor\Index.cshtml" />
+    <Content Include="Views\VisorDeDocumentos\IndexFirmados.cshtml" />
+    <Content Include="Views\CasilleroElectronico\CasillerosEntrampados.cshtml" />
+    <Content Include="Views\Maquinaria_Utilizada\Editar.cshtml" />
+    <Content Include="Views\ResolucionesArchivo\Index.cshtml" />
+    <Content Include="Views\ResolucionesArchivo\ResolucionesArchivo.cshtml" />
+    <Content Include="Views\Tbl_RNF_Registro\Create.cshtml" />
+    <Content Include="Views\Tbl_RNF_Registro\Delete.cshtml" />
+    <Content Include="Views\Tbl_RNF_Registro\Details.cshtml" />
+    <Content Include="Views\Tbl_RNF_Registro\Edit.cshtml" />
+    <Content Include="Views\Tbl_RNF_Registro\Index.cshtml" />
+    <Content Include="Views\ConsultaRegistro\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Archivos_ConFirmaElectronica\2022\" />
+    <Folder Include="Archivos_Subidos\" />
+    <Folder Include="Documentos\" />
+    <Folder Include="Encuesta\" />
+    <Folder Include="FileCargaAreaProgida\" />
+    <Folder Include="Gest_EtapaSolicitud_Documento\" />
+    <Folder Include="Reportes\" />
+    <Folder Include="Views\Capacidad_Instalada\" />
+    <Folder Include="Views\Form_FormularioDirectorRegionalMotoSierra\" />
+    <Folder Include="Views\Form_FormularioTecnicoReporteDenegacion\" />
+    <Folder Include="Views\Form_FormularioTecnico_InspeccionEmpresa\" />
+    <Folder Include="Views\MailShow\" />
+    <Folder Include="Views\Menu\" />
+    <Folder Include="Views\Rpt_Seg_UsuariosPorRegion\" />
+    <Folder Include="Views\Sol_Empresa_Entidad_DepositoForestal\" />
+    <Folder Include="Views\Sol_Empresa_Entidad_TecnicoMaquinaria_Utilizada\" />
+    <Folder Include="Views\Sol_Formulario\" />
+    <Folder Include="Views\Sol_Rodal_CultivoSAF\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>61244</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:61244/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

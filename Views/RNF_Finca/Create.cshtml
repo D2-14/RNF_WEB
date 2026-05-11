@@ -1,0 +1,820 @@
+﻿@model RNF_Web.Models.Tbl_RNF_Finca
+@using RNF_Web.Models;
+@using System.Data.SqlClient;
+
+@using RNF_Web.Models;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+
+@{
+    string No_Registro = ViewBag.No_Registro;
+    db_RNFEntities db = new db_RNFEntities();
+
+    Tbl_RNF_Registro tbl_RNF_Registro = db.Tbl_RNF_Registro.Where(Obj => Obj.No_Registro == No_Registro).FirstOrDefault();
+
+    //Tbl_Sol_Solicitud tbl_sol_solicitud = db.Tbl_Sol_Solicitud.Find(Session[Constants.session_Solicitud]);
+
+
+    int intCategoria = db.Tbl_Sol_Solicitud_Categoria.Where(Obj => Obj.Categoria_id == tbl_RNF_Registro.Categoria_id && (Obj.Descripcion.Contains("Sistemas agroforestales") || Obj.Descripcion.Contains("Plantaciones forestales"))).Count();
+
+    long MinFinca;
+
+    try
+    {
+        MinFinca = db.Tbl_RNF_Finca.Where(Obj => Obj.No_Registro == tbl_RNF_Registro.No_Registro).OrderBy(P => P.Finca_Id).First().Finca_Id;
+        MinFinca++;
+
+    }
+    catch
+    {
+        MinFinca = 0;
+    }
+
+    ViewBag.MinFinca = MinFinca;
+
+
+
+
+    if ((intCategoria > 0))
+    {
+        ViewBag.intCategoria = 1;
+    }
+    else
+    {
+        ViewBag.intCategoria = 0;
+    }
+
+    Layout = "~/Views/Shared/_LayoutSimple.cshtml";
+
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+    fc_Gral_RNF_Configuracion_Result permisos = db.fc_Gral_RNF_Configuracion(tbl_RNF_Registro.No_Registro, objUs.intUsuario_id, boolEsInterno).FirstOrDefault();
+    EdicionRNFGrants objRNFGrants = (EdicionRNFGrants)Session[Constants.session_EdicionRNFGrants];
+}
+
+
+<script src="~/Scripts/jquery-3.6.0.js"></script>
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+
+        const tmArea_SIGAP = document.querySelector('#Area_SIGAP');
+        const tmNo_Sigap = document.querySelector('#No_Sigap');
+
+        if (tmArea_SIGAP.checked) {
+            var TdHiddeA = document.getElementById("No_Sigap");
+            TdHiddeA.checked = false
+        }
+        else {
+            var TdHiddeA = document.getElementById("No_Sigap");
+            TdHiddeA.checked = true
+
+        }
+
+
+
+        $(document).on('change', '#Area_SIGAP', function () {
+            const AreaSIGAP = document.querySelector('#Area_SIGAP');
+            if (AreaSIGAP.checked) {
+                document.querySelector('#No_Sigap').checked = false;
+                var TdHiddeA = document.getElementById("CategoriaSIGAP");
+                TdHiddeA.style.display = "block";
+            }
+            else {
+                document.querySelector('#No_Sigap').checked = true;
+                var TdHiddeA = document.getElementById("CategoriaSIGAP");
+                TdHiddeA.style.display = "none";
+            }
+
+
+        });
+
+        $(document).on('change', '#No_Sigap', function () {
+            const NoAreaSIGAP = document.querySelector('#No_Sigap');
+            if (NoAreaSIGAP.checked) {
+                document.querySelector('#Area_SIGAP').checked = false;
+                var TdHiddeA = document.getElementById("CategoriaSIGAP");
+                TdHiddeA.style.display = "none";
+            }
+            else {
+                document.querySelector('#Area_SIGAP').checked = true;
+                document.querySelector('#No_Sigap').checked = false;
+                var TdHiddeA = document.getElementById("CategoriaSIGAP");
+                TdHiddeA.style.display = "block";
+            }
+
+        });
+
+
+
+        $(document).on('change', '#OtrosRegistrosRNF', function () {
+            const OtrosRegistrosRNF = document.querySelector('#OtrosRegistrosRNF');
+            if (OtrosRegistrosRNF.checked)
+            {
+                document.querySelector('#NoOtrosRegistrosRNF').checked = false;
+                var TdHiddeA = document.getElementById("tdOtroRegistroRNF");
+                TdHiddeA.style.display = "block";
+
+            }
+            else
+            {
+                document.querySelector('#NoOtrosRegistrosRNF').checked = true;
+                var TdHiddeA = document.getElementById("tdOtroRegistroRNF");
+                TdHiddeA.style.display = "none";
+            }
+
+        }); // -----Fin de Change Grado_Academico_Tecnico
+
+
+        $(document).on('change', '#NoOtrosRegistrosRNF', function () {
+            const OtrosRegistrosRNF = document.querySelector('#NoOtrosRegistrosRNF');
+            if (OtrosRegistrosRNF.checked) {
+                document.querySelector('#OtrosRegistrosRNF').checked = false;
+                var TdHiddeA = document.getElementById("tdOtroRegistroRNF");
+                TdHiddeA.style.display = "none";
+
+            }
+            else {
+                document.querySelector('#OtrosRegistrosRNF').checked = true;
+                var TdHiddeA = document.getElementById("tdOtroRegistroRNF");
+                TdHiddeA.style.display = "block";
+            }
+
+        }); // -----Fin de Change Grado_Academico_Tecnico
+
+
+
+
+
+        $("#ActaNotarialDeEscrituraPublica_Fecha").datepicker({
+            dateFormat: "dd/mm/yy",
+            yearRange: "-100:+0",
+
+            changeMonth: true,
+            changeYear: true
+        });
+
+
+       /* const constGrado_Academico_Tecnico = document.querySelector('#Grado_Academico_Tecnico');*/
+
+        $(document).on('change', '#DepartamentoFinca_Id', function () {
+
+            var url = "@Url.Action("GetMunicipios", "Sol_Solicitud")";
+            var Departamento = $('#DepartamentoFinca_Id').val();
+            var data = { Departamento: Departamento};
+
+            $.post(url, data).done(function (Listdata) {
+                //  here inicio
+
+                var select = $("#MunicipioFinca_Id");
+                select.empty();
+
+                //ListData  get the SelectList from GetMunicipios
+
+                $.each(Listdata, function (index, municipio) {
+                    select.append($('<option/>', {
+                        value: municipio.Value,
+                        text: municipio.Text
+                    }));
+
+                });
+
+
+            }).fail(manejarErrorAjax).always(function () {
+            });
+
+
+        }); // -----Fin de Change ddlDepartamento
+
+
+
+        $(document).on('change', '#ConstanciaDePropiedad_id', function () {
+            var Constancia = $('#ConstanciaDePropiedad_id').val();
+
+            if ((Constancia == 1) || (Constancia == 6))
+            {
+
+                var TdToShowA = document.getElementById("Registro_DeLaPropiedad");
+                TdToShowA.style.display = "block";
+
+
+                var TdToShowR = document.getElementById("RegistroDeLaPropiedadDepartamento");
+                if (Constancia == 6)
+                {
+                    TdToShowR.style.display = "none";
+                }
+                else
+                {
+                    TdToShowR.style.display = "block";
+                }
+
+
+
+                var TdToHideB = document.getElementById("OtroDocumento");
+                TdToHideB.style.display = "none";
+
+
+                var TdToShowA = document.getElementById("ActaNotarialDeDeclaracionJurada");
+                TdToShowA.style.display = "none";
+
+                var TdToShowA = document.getElementById("ActaNotarialDeDeclaracionJuradaconCertificacion");
+                TdToShowA.style.display = "none";
+
+                var TdToShowA = document.getElementById("ActaNotarialDeEscrituraPublica");
+                TdToShowA.style.display = "none";
+
+
+
+            }
+
+            if (Constancia == 2) {
+
+                var TdToShowA = document.getElementById("ActaNotarialDeDeclaracionJurada");
+                TdToShowA.style.display = "block";
+
+                var TdToShowA = document.getElementById("ActaNotarialDeDeclaracionJuradaconCertificacion");
+                TdToShowA.style.display = "none";
+
+                var TdToShowB = document.getElementById("Registro_DeLaPropiedad");
+                TdToShowB.style.display = "none";
+
+                var TdToHideC = document.getElementById("OtroDocumento");
+                TdToHideC.style.display = "none";
+
+                var TdToHideA = document.getElementById("OtroDocumento");
+                TdToHideA.style.display = "none";
+
+                var TdToShowA = document.getElementById("ActaNotarialDeEscrituraPublica");
+                TdToShowA.style.display = "none";
+
+
+            }
+
+            if (Constancia == 3) {
+
+                var TdToShowA = document.getElementById("ActaNotarialDeDeclaracionJurada");
+                TdToShowA.style.display = "block";
+
+                var TdToShowA = document.getElementById("ActaNotarialDeDeclaracionJuradaconCertificacion");
+                TdToShowA.style.display = "block";
+
+                var TdToShowB = document.getElementById("Registro_DeLaPropiedad");
+                TdToShowB.style.display = "none";
+
+                var TdToHideC = document.getElementById("OtroDocumento");
+                TdToHideC.style.display = "none";
+
+                var TdToHideA = document.getElementById("OtroDocumento");
+                TdToHideA.style.display = "none";
+
+                var TdToShowA = document.getElementById("ActaNotarialDeEscrituraPublica");
+                TdToShowA.style.display = "none";
+
+
+            }
+
+            if (Constancia == 4) {
+
+
+                var TdToShowA = document.getElementById("ActaNotarialDeEscrituraPublica");
+                TdToShowA.style.display = "block";
+
+                var TdToShowA = document.getElementById("ActaNotarialDeDeclaracionJurada");
+                TdToShowA.style.display = "block";
+
+                var TdToShowA = document.getElementById("ActaNotarialDeDeclaracionJuradaconCertificacion");
+                TdToShowA.style.display = "none";
+
+                var TdToShowB = document.getElementById("Registro_DeLaPropiedad");
+                TdToShowB.style.display = "none";
+
+                var TdToHideC = document.getElementById("OtroDocumento");
+                TdToHideC.style.display = "none";
+
+            }
+
+            if ((Constancia == 5) || (Constancia == 7))
+            {
+
+
+                var TdToShowA = document.getElementById("ActaNotarialDeEscrituraPublica");
+                TdToShowA.style.display = "block";
+
+                var TdToShowA = document.getElementById("ActaNotarialDeDeclaracionJurada");
+                TdToShowA.style.display = "block";
+
+                var TdToShowA = document.getElementById("ActaNotarialDeDeclaracionJuradaconCertificacion");
+                TdToShowA.style.display = "none";
+
+                var TdToShowB = document.getElementById("Registro_DeLaPropiedad");
+                TdToShowB.style.display = "none";
+
+                var TdToHideA = document.getElementById("OtroDocumento");
+                TdToHideA.style.display = "block";
+
+            }
+
+        }); // -----Fin de Change ddlDepartamento
+
+
+
+        var Constancia = $('#ConstanciaDePropiedad_id').val();
+
+        if ((Constancia == 1) || (Constancia == 6)) {
+
+            var TdToShowA = document.getElementById("Registro_DeLaPropiedad");
+            TdToShowA.style.display = "block";
+
+            var TdToHideB = document.getElementById("OtroDocumento");
+            TdToHideB.style.display = "none";
+
+
+            var TdToShowA = document.getElementById("ActaNotarialDeDeclaracionJurada");
+            TdToShowA.style.display = "none";
+
+            var TdToShowA = document.getElementById("ActaNotarialDeDeclaracionJuradaconCertificacion");
+            TdToShowA.style.display = "none";
+
+            var TdToShowA = document.getElementById("ActaNotarialDeEscrituraPublica");
+            TdToShowA.style.display = "none";
+
+
+
+        }
+
+        if (Constancia == 2) {
+
+            var TdToShowA = document.getElementById("ActaNotarialDeDeclaracionJurada");
+            TdToShowA.style.display = "block";
+
+            var TdToShowA = document.getElementById("ActaNotarialDeDeclaracionJuradaconCertificacion");
+            TdToShowA.style.display = "none";
+
+            var TdToShowB = document.getElementById("Registro_DeLaPropiedad");
+            TdToShowB.style.display = "none";
+
+            var TdToHideC = document.getElementById("OtroDocumento");
+            TdToHideC.style.display = "none";
+
+            var TdToHideA = document.getElementById("OtroDocumento");
+            TdToHideA.style.display = "none";
+
+            var TdToShowA = document.getElementById("ActaNotarialDeEscrituraPublica");
+            TdToShowA.style.display = "none";
+
+
+        }
+
+        if (Constancia == 3) {
+
+            var TdToShowA = document.getElementById("ActaNotarialDeDeclaracionJurada");
+            TdToShowA.style.display = "block";
+
+            var TdToShowA = document.getElementById("ActaNotarialDeDeclaracionJuradaconCertificacion");
+            TdToShowA.style.display = "block";
+
+            var TdToShowB = document.getElementById("Registro_DeLaPropiedad");
+            TdToShowB.style.display = "none";
+
+            var TdToHideC = document.getElementById("OtroDocumento");
+            TdToHideC.style.display = "none";
+
+            var TdToHideA = document.getElementById("OtroDocumento");
+            TdToHideA.style.display = "none";
+
+            var TdToShowA = document.getElementById("ActaNotarialDeEscrituraPublica");
+            TdToShowA.style.display = "none";
+
+
+        }
+
+        if (Constancia == 4) {
+
+
+            var TdToShowA = document.getElementById("ActaNotarialDeEscrituraPublica");
+            TdToShowA.style.display = "block";
+
+            var TdToShowA = document.getElementById("ActaNotarialDeDeclaracionJurada");
+            TdToShowA.style.display = "block";
+
+            var TdToShowA = document.getElementById("ActaNotarialDeDeclaracionJuradaconCertificacion");
+            TdToShowA.style.display = "none";
+
+            var TdToShowB = document.getElementById("Registro_DeLaPropiedad");
+            TdToShowB.style.display = "none";
+
+            var TdToHideC = document.getElementById("OtroDocumento");
+            TdToHideC.style.display = "none";
+
+        }
+
+        if ((Constancia == 5) || (Constancia == 6)) {
+
+
+            var TdToShowA = document.getElementById("ActaNotarialDeEscrituraPublica");
+            TdToShowA.style.display = "block";
+
+            var TdToShowA = document.getElementById("ActaNotarialDeDeclaracionJurada");
+            TdToShowA.style.display = "block";
+
+            var TdToShowA = document.getElementById("ActaNotarialDeDeclaracionJuradaconCertificacion");
+            TdToShowA.style.display = "none";
+
+            var TdToShowB = document.getElementById("Registro_DeLaPropiedad");
+            TdToShowB.style.display = "none";
+
+            var TdToHideA = document.getElementById("OtroDocumento");
+            TdToHideA.style.display = "block";
+
+        }
+
+    });
+
+</script>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+<div class="container">
+    <div style='height: 25px; width: 100%; background-color: #66bb6a; color: white; '>
+        <h3>Datos de la finca</h3>
+    </div>
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.HiddenFor(model => model.No_Registro)
+    @Html.HiddenFor(model => model.No_RegistroLiteral)
+    @Html.HiddenFor(model => model.No_RegistroCorrelativo)
+    @Html.HiddenFor(model => model.Solicitud_id)
+    @Html.HiddenFor(model => model.Finca_Id)
+    @Html.HiddenFor(model => model.swcreatedby)
+    @Html.HiddenFor(model => model.swdatecreated)
+    @Html.HiddenFor(model => model.swcreatedbyinterno)
+    @Html.HiddenFor(model => model.swcreatedbyinterno)
+    @Html.HiddenFor(model => model.swcreatedbyinterno)
+
+    @Html.HiddenFor(model => model.GTMX)
+    @Html.HiddenFor(model => model.GTMY)
+
+
+    @Html.HiddenFor(model => model.swdateupdated)
+    @Html.HiddenFor(model => model.swupdatedby)
+    @Html.HiddenFor(model => model.swupdatedbyinterno)
+
+    <table class="table table-condensed">
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                @Html.LabelFor(model => model.NombreFinca, htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NombreFinca, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NombreFinca, "", new { @class = "text-danger" })
+                </div>
+            </td>
+            <td>
+                @Html.LabelFor(model => model.ConstanciaDePropiedad_id, htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    @Html.DropDownList("ConstanciaDePropiedad_id", null, htmlAttributes: new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.ConstanciaDePropiedad_id, "", new { @class = "text-danger" })
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <div class="container-fluid" id="OtroDocumento" style="display:none">
+
+        <table width="100%">
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.ConstanciaPropiedadDescripcion, "Describa el documento que respalda la adquisición", htmlAttributes: new { @class = "control-label col-md-12" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.EditorFor(model => model.ConstanciaPropiedadDescripcion, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ConstanciaPropiedadDescripcion, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+        </table>
+        <br />
+    </div>
+
+
+    <table class="table table-condensed" id="Registro_DeLaPropiedad" style="display:none">
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.RegNumero, "No. Finca", htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.RegNumero, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.RegNumero, "", new { @class = "text-danger" })
+                </div>
+            </td>
+            <td>
+                @Html.LabelFor(model => model.RegFolio, "No.Folio", htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.RegFolio, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.RegFolio, "", new { @class = "text-danger" })
+                </div>
+
+            </td>
+            <td>
+                @Html.LabelFor(model => model.RegLibro, "No.Libro", htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.RegLibro, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.RegLibro, "", new { @class = "text-danger" })
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td id="RegistroDeLaPropiedadDepartamento" colspan="3">
+                @Html.LabelFor(model => model.RegDepartamento_id, htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    @Html.DropDownList("RegDepartamento_id", null, htmlAttributes: new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.RegDepartamento_id, "", new { @class = "text-danger" })
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <div id="ActaNotarialDeDeclaracionJurada" style="display:none" width="100%">
+
+        <table width="100%">
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.ActaNotarial_Notario, "Nombre del Notario", htmlAttributes: new { @class = "control-label col-md-12" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.EditorFor(model => model.ActaNotarial_Notario, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ActaNotarial_Notario, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <div id="ActaNotarialDeDeclaracionJuradaconCertificacion" style="display:none" width="100%">
+        <table width="100%">
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.ActaNotarialConCertificacion_NombreDeCertificador, "Nombre de quien certifica", htmlAttributes: new { @class = "control-label col-md-12" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.EditorFor(model => model.ActaNotarialConCertificacion_NombreDeCertificador, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ActaNotarialConCertificacion_NombreDeCertificador, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+
+    <div id="ActaNotarialDeEscrituraPublica" style="display:none" width="100%">
+
+        <table width="100%">
+            <tr>
+                <td width="50%">
+                    @Html.LabelFor(model => model.ActaNotarialDeEscrituraPublica_Numero, "Número de escritura", htmlAttributes: new { @class = "control-label col-md-12" })
+                </td>
+                <td width="50%">
+                    @Html.LabelFor(model => model.ActaNotarialDeEscrituraPublica_Fecha, "Fecha de la escritura", htmlAttributes: new { @class = "control-label col-md-12" })
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    @Html.EditorFor(model => model.ActaNotarialDeEscrituraPublica_Numero, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ActaNotarialDeEscrituraPublica_Numero, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.ActaNotarialDeEscrituraPublica_Fecha, "{0:dd-MM-yyyy}", new { @class = "dateInput", @placeholder = "dd/mm/yyyy", data_val = false })
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <table class="table table-condensed">
+
+        <tr>
+            <td colspan="3">
+                @Html.LabelFor(model => model.Area_SIGAP, "Pertenece a área SIGAP ?", htmlAttributes: new { @class = "control-label col-md-12" })
+                @*<div class="checkbox">
+                        SI
+                        @Html.EditorFor(model => model.Area_SIGAP)
+                        @Html.ValidationMessageFor(model => model.Area_SIGAP, "", new { @class = "text-danger" })
+                        NO
+                        <input type="checkbox" id="No_Sigap" name="No_Sigap" value="No_Sigap">
+                    </div>*@
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                SI
+                @Html.EditorFor(model => model.Area_SIGAP)
+                @Html.ValidationMessageFor(model => model.Area_SIGAP, "", new { @class = "text-danger" })
+            </td>
+            <td>
+                NO
+                <input type="checkbox" id="No_Sigap" name="No_Sigap" value="No_Sigap">
+
+            </td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td id="CategoriaSIGAP" style="display:none">
+                @Html.LabelFor(model => model.CategoriaSIGAP_Id, "Categoría SIGAP", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-10">
+                    @Html.DropDownList("CategoriaSIGAP_Id", null, htmlAttributes: new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.CategoriaSIGAP_Id, "", new { @class = "text-danger" })
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="3">
+                <div style='height: 30px; width: 100%; background-color: #66bb6a; color: white; '>
+                    <h4>Datos de ubicación de la finca</h4>
+                </div>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.DepartamentoFinca_Id, htmlAttributes: new { @class = "control-label col-md-12" })
+
+            </td>
+            <td>
+                @Html.LabelFor(model => model.MunicipioFinca_Id, htmlAttributes: new { @class = "control-label col-md-12" })
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="col-md-10">
+                    @Html.DropDownList("DepartamentoFinca_Id", null, htmlAttributes: new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.DepartamentoFinca_Id, "", new { @class = "text-danger" })
+                </div>
+
+            </td>
+            <td>
+                <div class="col-md-10">
+                    @Html.DropDownList("MunicipioFinca_Id", null, htmlAttributes: new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.MunicipioFinca_Id, "", new { @class = "text-danger" })
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Ubicacion, htmlAttributes: new { @class = "control-label col-md-12" })
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.Ubicacion, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Ubicacion, "", new { @class = "text-danger" })
+                </div>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.AreaTotal, htmlAttributes: new { @class = "control-label col-md-12" })
+
+            </td>
+            <td>
+                @Html.LabelFor(model => model.AreaARegistrar, htmlAttributes: new { @class = "control-label col-md-12" })
+
+            </td>
+        </tr>
+        <tr>
+
+            <td>
+                <div class="form-group">
+
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.AreaTotal, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.AreaTotal, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.AreaARegistrar, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.AreaARegistrar, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td>
+                @if (ViewBag.intCategoria > 0)
+                {
+                    @Html.LabelFor(model => model.ObjetivoDeLaPlantacion, "Objetivo de la plantación", htmlAttributes: new { @class = "control-label col-md-4" })
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td>
+                @if (ViewBag.intCategoria > 0)
+                {
+                    <div class="col-md-10">
+                        @Html.DropDownList("ObjetivoDeLaPlantacion", null, htmlAttributes: new { @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.ObjetivoDeLaPlantacion, "", new { @class = "text-danger" })
+                    </div>
+
+
+                }
+                else
+                {
+                    @Html.HiddenFor(model => model.ObjetivoDeLaPlantacion)
+
+                }
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table>
+                    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                    <tr><td></td><td colspan="5">@Html.LabelFor(model => model.OtrosRegistrosRNF, "¿Existe otro registro (RNF) en la misma finca?", htmlAttributes: new { @class = "control-label col-md-12" })</td></tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.OtrosRegistrosRNF)
+                                @Html.ValidationMessageFor(model => model.OtrosRegistrosRNF, "", new { @class = "text-danger" })
+                            </div>
+                        </td>
+                        <td>Si</td>
+                        <td>
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.NoOtrosRegistrosRNF)
+                                @Html.ValidationMessageFor(model => model.NoOtrosRegistrosRNF, "", new { @class = "text-danger" })
+                            </div>
+                        </td>
+                        <td>No</td>
+                    </tr>
+                </table>
+            </td>
+            <td colspan="2" id="tdOtroRegistroRNF" style="display:none;">
+                @Html.LabelFor(model => model.Registros, "Registro(s): ", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Registros, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Registros, "", new { @class = "text-danger" })
+                </div>
+
+            </td>
+        </tr>
+    </table>
+
+    <div class="col-sm-12 col-md-12" align="right">
+        <span class="label warning">@ViewBag.Mensaje</span>
+        @if (objRNFGrants.Agregar)
+        {
+            <input type="submit" value="Grabar e ingresar datos de la siguiente finca" class="btn btn-default" />
+        }
+    </div>
+</div>
+}
+

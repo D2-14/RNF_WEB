@@ -1,0 +1,65 @@
+﻿@using RNF_Web.Models;
+@using System.Data.SqlClient;
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    <h3>@this.Url.Action()</h3>
+}
+
+@{
+    db_RNFEntities db = new db_RNFEntities();
+    string No_Registro = ViewBag.No_Registro;
+
+    Tbl_RNF_Registro tbl_RNF_Registro = db.Tbl_RNF_Registro.Where(Obj => Obj.No_Registro == No_Registro).FirstOrDefault();
+    Layout = null;
+
+    EdicionRNFGrants objRNFGrants = (EdicionRNFGrants)Session[Constants.session_EdicionRNFGrants];
+
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+
+}
+
+<script>
+
+    function partialRefreshEmpresaEntidadViveroForestal() {
+        $('#section_ViveroForestal').load('/RNF_Empresa_Entidad_ViveroForestal/ListaVivero?No_Registro=@No_Registro');
+    }
+
+    function BorrarViveroForestal(No_Registro, ViveroForestalId)
+    {
+        var url = "@Url.Action("EliminaViveroForestal", "RNF_Empresa_Entidad_ViveroForestal")";
+
+        var data = {
+            No_Registro: No_Registro,
+            ViveroForestalId: ViveroForestalId
+        };
+
+        $.post(url, data).done(function (jsonRespuesta) {
+
+            var objJSON = JSON.parse(jsonRespuesta);
+            var Cod_Respuesta = objJSON.CodRespuesta;
+            var Texto_Respuesta = objJSON.strRespuesta;
+            partialRefreshEmpresaEntidadViveroForestal();
+
+        }).fail(function (jsonRespuesta) {
+            partialRefreshEmpresaEntidadViveroForestal();
+        });
+
+
+    }
+
+
+    $(document).ready(function () {
+        partialRefreshEmpresaEntidadViveroForestal();
+    });
+
+
+
+</script>
+<div id="section_ViveroForestal"></div>
+

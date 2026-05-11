@@ -1,0 +1,249 @@
+﻿@using RNF_Web.Models;
+@model Tbl_RNF_Registro
+
+@if (Constants.VisualizarInformacionDesarrollo == 1)
+{
+    @Html.Raw(this.Url.Action())
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutMoreSimple.cshtml";
+    db_RNFEntities db = new db_RNFEntities();
+    Usuario objUs = (Usuario)Session["User"];
+    bool boolEsInterno = false;
+    if (objUs.EsInterno == 1)
+    {
+        boolEsInterno = true;
+    }
+
+    string tipoid = ViewBag.Tipo;
+
+
+}
+
+
+
+<script>
+
+    function iniciarGestEtapaSolicitudInactivacion(solicitud) {
+        var Solicitud_id = solicitud;
+        var data = {
+            Solicitud_id: Solicitud_id,
+            Solicitante: 'objUs.intUsuario_id'
+        };
+
+        var url = '@Url.Action("IniciarGestEstapaSolicitud", "RNF_Registro")';
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            var oJSON = RespuestaJSON;
+            var CodRespuesta = oJSON.CodRespuesta;
+            var StrMensaje = oJSON.StrMensaje;
+            if (CodRespuesta == 1) {
+                var etapa_id = oJSON.etapa_id;
+                var etaparuta_id = oJSON.etaparuta_id;
+                var correlativoetapa_id = oJSON.correlativoetapa_id;
+                var Solicitud = oJSON.Solicitud;
+                var firma = oJSON.firma;
+                //alert("Proceso de inactivación iniciada para el expediente: " + NE);
+                location.href = '/Gest_EtapaSolicitud/Edit?solicitud_id=' + Solicitud + '&etapa_id=' + etapa_id + '&etaparuta_id=' + etaparuta_id + '&correlativoetapa_id=' + correlativoetapa_id;
+
+            } else {
+                alert(StrMensaje);
+            }
+        }).fail(function (Error) {
+
+        });
+
+    }
+
+    function ActivacionRegistro(noregistroliteral, noregistrocorrelativo, categoriaid) {
+        var No_RegistroLiteral = noregistroliteral;
+        var No_RegistroCorrelativo = noregistrocorrelativo;
+        var Categoria_id = categoriaid;
+        var SolicitudTipoID = '@tipoid';
+        var data = {
+            No_RegistroLiteral: No_RegistroLiteral,
+            No_RegistroCorrelativo: No_RegistroCorrelativo,
+            Categoria_id: Categoria_id,
+            SolicitudTipoID: SolicitudTipoID
+        };
+
+        var url = "@Url.Action("SolicitudActivacionInterno", "RNF_Registro")";
+
+        $.post(url, data).done(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+            var CodRespuesta = oJSON.CodRespuesta;
+            if (CodRespuesta == 1) {
+                var NT = oJSON.NumeroTemporal;
+                var NE = oJSON.NumeroExpediente;
+                var solicitud = oJSON.Solicitud;
+                var firma = oJSON.firma;
+                iniciarGestEtapaSolicitudInactivacion(solicitud);
+                //alert("Proceso de inactivación iniciada para el expediente: " + NE);
+                //location.href = '/Home/SolicitudEtapaView?guid_id=' + firma + '&etapaid=1&etaparutaid=1&correlativo=1';
+                //location.replace("/Home/SolicitudTap/" + solicitud + "?firma=" + firma);
+            } else {
+                var StrMensaje = oJSON.StrMensaje;
+                alert(StrMensaje);
+            }
+        }).fail(function (jsonRespuesta) {
+            var oJSON = JSON.parse(jsonRespuesta);
+            loaderPantalla(false);
+            alert("Algo salió mal");
+        });
+
+
+    }
+
+    function IniciarActivacion() {
+        var No_Registro = '@Model.No_Registro';
+        var Motivo = document.getElementById("Motivo").value;
+        if ((Motivo == null) || (Motivo.trim() == '')) {
+            alert("El motivo de la activación no puede estar en blanco");
+            return;
+        }
+
+        var data = {
+            No_Registro: No_Registro,
+            Motivo: Motivo,
+        }
+
+        var url = '@Url.Action("GeneraActivacion", "RNF_Gestor")';
+
+        $.post(url, data).done(function (RespuestaJSON) {
+            var oJSON = RespuestaJSON;
+            var CodRespuesta = oJSON.CodRespuesta;
+            var StrRespuesta = oJSON.StrRespuesta;
+
+            if (CodRespuesta == 1) {
+                var Estado_id = '@Model.Estado_id';
+                var InactivacionTemporal = false;
+                var InactivacionDefinitiva = false;
+
+                url = '@Url.Action("CambiarEstadoRegistro", "RNF_Registro_Reasignacion")'
+                var data2 = {
+                    No_Registro: No_Registro,
+                    Estado_id: Estado_id,
+                    Motivo: Motivo,
+                    InactivacionTemporal: false,
+                    InactivacionDefinitiva: false,
+                    TiempoInactivacion: 0
+                }
+
+                $.post(url, data2).done(function (Respuesta2) {
+                    var oJSON2 = Respuesta2;
+                    var Result = oJSON2.Result;
+                    var Mensaje = oJSON.Mensaje;
+
+                    if (Result == 1) {
+                        ActivacionRegistro('@Model.No_RegistroLiteral', '@Model.No_RegistroCorrelativo', '@Model.Categoria_id');
+                        //location.replace('@Url.Action("RegistroAgregado","Home")')
+                    } else {
+                        alert(Mensaje);
+                    }
+
+                }).fail(function (Error2) {
+                    console.log(Error2);
+                    alert('Error: ' + Error2);
+                })
+
+
+
+            } else {
+                alert(StrRespuesta);
+            }
+
+        }).fail(function (RespuestaJSON) {
+            console.log(RespuestaJSON);
+            alert('Error: ' + RespuestaJSON);
+
+        })
+
+
+
+    }
+
+    function activarDiasInactivacion() {
+
+        var cb_InactivacionTecnico_Tipo = document.getElementById('InactivacionTecnico_Tipo');
+        var cb_TiempoInactivacion = document.getElementById('TiempoInactivacion');
+        var InactivacionTecnico_Tipo = cb_InactivacionTecnico_Tipo.value;
+        var TiempoInactivacion = cb_TiempoInactivacion.value;
+
+        console.log(InactivacionTecnico_Tipo);
+        console.log(TiempoInactivacion);
+
+        if (InactivacionTecnico_Tipo == 2) {
+            cb_TiempoInactivacion.style.display = "none";
+        } else {
+            cb_TiempoInactivacion.style.visibility = "inline";
+        }
+
+    }
+
+    function validarVistaTipo() {
+        var tr_tipo = document.getElementById('tr_tipo');
+        var SolicitudTipoID = '@tipoid';
+
+
+    }
+
+    $(document).ready(function () {
+
+        validarVistaTipo();
+
+        activarDiasInactivacion();
+
+        $(document).on('change', '#InactivacionTecnico_Tipo', function () {
+
+            activarDiasInactivacion();
+
+
+        }); // -----Fin de cambio de InactivacionTecnicoTipo
+
+    });
+
+</script>
+
+
+<table width="100%">
+    <tr>
+        <td width="50%"></td>
+        <td width="30%">
+        </td>
+        <td width="10%">
+            <button rel="tooltip" title="Regresar" onclick="location.href='@Url.Action("", "RNF_Gestor", new { No_Registro = Model.No_Registro })'">
+                <i><img src="~/Content/icons/regresar.png" style="border-radius: 30%; width: 40px; height: auto" /></i>
+                <div class="ripple-container"></div>
+                Regresar
+            </button>
+        </td>
+        <td width="10%"></td>
+    </tr>
+</table>
+
+
+<div align="center">
+    <strong style="color:red;">El acceso a esta gestión generará una nueva solicitud de Activación</strong>
+</div>
+<table class="table">
+    <tr>
+        <th>
+            Motivo
+        </th>
+        <td colspan="2">
+            <textarea class="form-control" rows="5" id="Motivo" name="Motivo" placeholder="Razón de activación"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+            <input type="button" class="btn btn-success" value="Solicitar Activacion" onclick="IniciarActivacion()" />
+        </td>
+    </tr>
+</table>
+
+
