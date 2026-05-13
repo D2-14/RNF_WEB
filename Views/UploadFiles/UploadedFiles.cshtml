@@ -51,7 +51,6 @@
         // boolEsInterno me permite habilitar la opciones para subir documentos
         boolEsInterno = true;
     }
-    fc_Gral_Sol_Configuracion_Result permisos = db.fc_Gral_Sol_Configuracion(tbl_sol_solicitud.Solicitud_id, controllerName, boolEsInterno).FirstOrDefault();
 
     decimal truncsolicitudtipoid = Math.Truncate(tbl_sol_solicitud.SolicitudTipo_id);
     decimal solicitudtipoid = tbl_sol_solicitud.SolicitudTipo_id - truncsolicitudtipoid;

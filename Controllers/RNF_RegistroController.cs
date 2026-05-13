@@ -1646,11 +1646,13 @@ namespace RNF_Web.Controllers
                                          select d).FirstOrDefault();
                     jsonRespuesta.CodRespuesta = 1;
                     jsonRespuesta.StrMensaje = "Solicitud de Inactivación iniciada con éxito";
-
-                    jsonRespuesta.NumeroTemporal = tbl_Sol_Solicitud.Solicitud_NumeroTemporal ?? "";
-                    jsonRespuesta.NumeroExpediente = tbl_Sol_Solicitud.Solicitud_NumeroExpediente ?? "";
-                    jsonRespuesta.Solicitud = tbl_Sol_Solicitud.Solicitud_id;
-                    jsonRespuesta.firma = tbl_Sol_Solicitud.Guid_id;
+                   
+                        jsonRespuesta.NumeroTemporal = tbl_Sol_Solicitud.Solicitud_NumeroTemporal ?? "";
+                        jsonRespuesta.NumeroExpediente = tbl_Sol_Solicitud.Solicitud_NumeroExpediente ?? "";
+                        jsonRespuesta.Solicitud = tbl_Sol_Solicitud.Solicitud_id;
+                        jsonRespuesta.firma = tbl_Sol_Solicitud.Guid_id;
+                    
+                  
                 }
                 else
                 {
